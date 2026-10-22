@@ -23,3 +23,6 @@ chroma_db/
 
 # Your global gitignore excludes CLAUDE.md; this project wants it committed.
 !CLAUDE.md
+
+# Personal planning notes, not for the public repo
+Receipted_build_brief.md

@@ -1,0 +1,5999 @@
+[
+ {
+  "id": "validation_000",
+  "image_path": "data/images/validation/validation_000.png",
+  "width": 864,
+  "height": 1296,
+  "items": [
+   {
+    "name": "REAL GANACHE",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 16500,
+    "discount": null,
+    "is_sub_item": false
+   },
+   {
+    "name": "EGG TART",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 13000,
+    "discount": null,
+    "is_sub_item": false
+   },
+   {
+    "name": "PIZZA TOAST",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 16000,
+    "discount": null,
+    "is_sub_item": false
+   }
+  ],
+  "subtotal": null,
+  "tax": null,
+  "service": null,
+  "discount": null,
+  "total": 45500,
+  "checks": {
+   "lines_match_subtotal": null,
+   "lines_match_total": true,
+   "subtotal_tax_service_match_total": null
+  },
+  "raw": {
+   "menu": [
+    {
+     "nm": "REAL GANACHE",
+     "cnt": "1",
+     "price": "16,500"
+    },
+    {
+     "nm": "EGG TART",
+     "cnt": "1",
+     "price": "13,000"
+    },
+    {
+     "nm": "PIZZA TOAST",
+     "cnt": "1",
+     "price": "16,000"
+    }
+   ],
+   "total": {
+    "total_price": "45,500",
+    "cashprice": "50,000",
+    "changeprice": "4,500"
+   }
+  }
+ },
+ {
+  "id": "validation_001",
+  "image_path": "data/images/validation/validation_001.png",
+  "width": 1108,
+  "height": 1478,
+  "items": [
+   {
+    "name": "Kopi Susu Kolonel",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 23000,
+    "discount": null,
+    "is_sub_item": false
+   }
+  ],
+  "subtotal": null,
+  "tax": null,
+  "service": null,
+  "discount": null,
+  "total": 23000,
+  "checks": {
+   "lines_match_subtotal": null,
+   "lines_match_total": true,
+   "subtotal_tax_service_match_total": null
+  },
+  "raw": {
+   "menu": {
+    "nm": "Kopi Susu Kolonel",
+    "cnt": "1",
+    "price": "23.000"
+   },
+   "total": {
+    "total_price": "23.000",
+    "cashprice": "50.000",
+    "changeprice": "27.000"
+   }
+  }
+ },
+ {
+  "id": "validation_002",
+  "image_path": "data/images/validation/validation_002.png",
+  "width": 418,
+  "height": 740,
+  "items": [
+   {
+    "name": "S-Ovaltine 50%",
+    "qty": 1,
+    "unit_price": 20000,
+    "line_total": 20000,
+    "discount": null,
+    "is_sub_item": false
+   }
+  ],
+  "subtotal": 18181,
+  "tax": 1818,
+  "service": null,
+  "discount": null,
+  "total": 20000,
+  "checks": {
+   "lines_match_subtotal": false,
+   "lines_match_total": true,
+   "subtotal_tax_service_match_total": true
+  },
+  "raw": {
+   "menu": {
+    "nm": "S-Ovaltine 50%",
+    "unitprice": "20,000",
+    "cnt": "1",
+    "price": "20,000",
+    "vatyn": "10% Tax Included"
+   },
+   "sub_total": {
+    "subtotal_price": "18,181",
+    "tax_price": "1,818"
+   },
+   "total": {
+    "total_price": "20,000",
+    "cashprice": "100,000",
+    "changeprice": "80,000"
+   }
+  }
+ },
+ {
+  "id": "validation_003",
+  "image_path": "data/images/validation/validation_003.png",
+  "width": 2304,
+  "height": 4096,
+  "items": [
+   {
+    "name": "M-Caramel Black Tea",
+    "qty": 1,
+    "unit_price": 28000,
+    "line_total": 28000,
+    "discount": null,
+    "is_sub_item": false
+   }
+  ],
+  "subtotal": 28000,
+  "tax": 0,
+  "service": null,
+  "discount": null,
+  "total": 28000,
+  "checks": {
+   "lines_match_subtotal": true,
+   "lines_match_total": true,
+   "subtotal_tax_service_match_total": true
+  },
+  "raw": {
+   "menu": {
+    "nm": "M-Caramel Black Tea",
+    "unitprice": "@28,000",
+    "cnt": "1X",
+    "price": "28,000",
+    "sub": [
+     {
+      "nm": "70%"
+     },
+     {
+      "nm": "Less Ice"
+     }
+    ]
+   },
+   "sub_total": {
+    "subtotal_price": "28,000",
+    "tax_price": "0"
+   },
+   "total": {
+    "total_price": "28,000",
+    "cashprice": "28,000",
+    "changeprice": "0"
+   }
+  }
+ },
+ {
+  "id": "validation_004",
+  "image_path": "data/images/validation/validation_004.png",
+  "width": 576,
+  "height": 864,
+  "items": [
+   {
+    "name": "BBQ Chicken",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 41000,
+    "discount": null,
+    "is_sub_item": false
+   }
+  ],
+  "subtotal": 41000,
+  "tax": null,
+  "service": null,
+  "discount": null,
+  "total": 41000,
+  "checks": {
+   "lines_match_subtotal": true,
+   "lines_match_total": true,
+   "subtotal_tax_service_match_total": true
+  },
+  "raw": {
+   "menu": {
+    "nm": "BBQ Chicken",
+    "cnt": "1",
+    "price": "41,000",
+    "sub": {
+     "nm": "Sedang",
+     "cnt": "1",
+     "price": "0"
+    }
+   },
+   "sub_total": {
+    "subtotal_price": "41,000"
+   },
+   "total": {
+    "total_price": "41,000",
+    "cashprice": "50.000",
+    "changeprice": ":9,000",
+    "menuqty_cnt": "1"
+   }
+  }
+ },
+ {
+  "id": "validation_005",
+  "image_path": "data/images/validation/validation_005.png",
+  "width": 960,
+  "height": 1280,
+  "items": [
+   {
+    "name": "LE MINERAL",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 8000,
+    "discount": null,
+    "is_sub_item": false
+   }
+  ],
+  "subtotal": 7273,
+  "tax": 727,
+  "service": null,
+  "discount": null,
+  "total": 8000,
+  "checks": {
+   "lines_match_subtotal": false,
+   "lines_match_total": true,
+   "subtotal_tax_service_match_total": true
+  },
+  "raw": {
+   "menu": {
+    "nm": "LE MINERAL",
+    "cnt": "1.00",
+    "price": "8,000"
+   },
+   "sub_total": {
+    "subtotal_price": "7,273",
+    "tax_price": "727"
+   },
+   "total": {
+    "total_price": "8,000",
+    "cashprice": "8,000"
+   }
+  }
+ },
+ {
+  "id": "validation_006",
+  "image_path": "data/images/validation/validation_006.png",
+  "width": 864,
+  "height": 1296,
+  "items": [
+   {
+    "name": "POTATO SAUSAGE BREAD",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 19000,
+    "discount": null,
+    "is_sub_item": false
+   },
+   {
+    "name": "OREO GREEN TEA SPREAD",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 52000,
+    "discount": null,
+    "is_sub_item": false
+   },
+   {
+    "name": "WHITE CHOCO BANANA SPREAD",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 52000,
+    "discount": null,
+    "is_sub_item": false
+   }
+  ],
+  "subtotal": null,
+  "tax": null,
+  "service": null,
+  "discount": null,
+  "total": 123000,
+  "checks": {
+   "lines_match_subtotal": null,
+   "lines_match_total": true,
+   "subtotal_tax_service_match_total": null
+  },
+  "raw": {
+   "menu": [
+    {
+     "nm": "POTATO SAUSAGE BREAD",
+     "cnt": "1",
+     "price": "19,000"
+    },
+    {
+     "nm": "OREO GREEN TEA SPREAD",
+     "cnt": "1",
+     "price": "52,000"
+    },
+    {
+     "nm": "WHITE CHOCO BANANA SPREAD",
+     "cnt": "1",
+     "price": "52,000"
+    }
+   ],
+   "total": {
+    "total_price": "123,000",
+    "creditcardprice": "123,000"
+   }
+  }
+ },
+ {
+  "id": "validation_007",
+  "image_path": "data/images/validation/validation_007.png",
+  "width": 576,
+  "height": 864,
+  "items": [
+   {
+    "name": "Choco Devil",
+    "qty": 4,
+    "unit_price": null,
+    "line_total": 63636,
+    "discount": -9545,
+    "is_sub_item": false
+   }
+  ],
+  "subtotal": 63636,
+  "tax": 5409,
+  "service": null,
+  "discount": -9545,
+  "total": 59500,
+  "checks": {
+   "lines_match_subtotal": true,
+   "lines_match_total": false,
+   "subtotal_tax_service_match_total": false
+  },
+  "raw": {
+   "menu": {
+    "nm": "Choco Devil",
+    "cnt": "4",
+    "discountprice": "-9,545",
+    "price": "63,636"
+   },
+   "sub_total": {
+    "subtotal_price": "63,636",
+    "discount_price": "-9,545",
+    "tax_price": "5,409"
+   },
+   "total": {
+    "total_price": "59,500",
+    "cashprice": "100,000",
+    "changeprice": "40,500"
+   }
+  }
+ },
+ {
+  "id": "validation_008",
+  "image_path": "data/images/validation/validation_008.png",
+  "width": 576,
+  "height": 864,
+  "items": [
+   {
+    "name": "TALAM UNGU",
+    "qty": 3,
+    "unit_price": 6500,
+    "line_total": 19500,
+    "discount": -7800,
+    "is_sub_item": false
+   },
+   {
+    "name": "MIKA KECIL",
+    "qty": 1,
+    "unit_price": 0,
+    "line_total": 0,
+    "discount": null,
+    "is_sub_item": false
+   }
+  ],
+  "subtotal": 11700,
+  "tax": null,
+  "service": null,
+  "discount": null,
+  "total": 11700,
+  "checks": {
+   "lines_match_subtotal": false,
+   "lines_match_total": false,
+   "subtotal_tax_service_match_total": true
+  },
+  "raw": {
+   "menu": [
+    {
+     "nm": "TALAM UNGU",
+     "unitprice": "@6500",
+     "cnt": "3X",
+     "discountprice": "-7,800",
+     "price": "19,500"
+    },
+    {
+     "nm": "MIKA KECIL",
+     "unitprice": "@0",
+     "cnt": "1X",
+     "price": "0"
+    }
+   ],
+   "sub_total": {
+    "subtotal_price": "11,700"
+   },
+   "total": {
+    "total_price": "11,700",
+    "cashprice": "20,000",
+    "changeprice": "8,300",
+    "menuqty_cnt": "4.00xITEMs"
+   }
+  }
+ },
+ {
+  "id": "validation_009",
+  "image_path": "data/images/validation/validation_009.png",
+  "width": 1152,
+  "height": 1728,
+  "items": [
+   {
+    "name": "Tahu Ikan Oma Giok",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 20000,
+    "discount": null,
+    "is_sub_item": false
+   }
+  ],
+  "subtotal": null,
+  "tax": null,
+  "service": null,
+  "discount": null,
+  "total": 20000,
+  "checks": {
+   "lines_match_subtotal": null,
+   "lines_match_total": true,
+   "subtotal_tax_service_match_total": null
+  },
+  "raw": {
+   "menu": {
+    "nm": "Tahu Ikan Oma Giok",
+    "cnt": "1",
+    "price": "20,000"
+   },
+   "total": {
+    "total_price": "20,000",
+    "cashprice": "20,000",
+    "changeprice": "0"
+   }
+  }
+ },
+ {
+  "id": "validation_010",
+  "image_path": "data/images/validation/validation_010.png",
+  "width": 864,
+  "height": 1296,
+  "items": [
+   {
+    "name": "Serbu 1",
+    "qty": 2,
+    "unit_price": null,
+    "line_total": 40000,
+    "discount": null,
+    "is_sub_item": false
+   },
+   {
+    "name": "Choco Peanut Bread",
+    "qty": 2,
+    "unit_price": null,
+    "line_total": 20000,
+    "discount": null,
+    "is_sub_item": false
+   }
+  ],
+  "subtotal": null,
+  "tax": null,
+  "service": null,
+  "discount": null,
+  "total": 60000,
+  "checks": {
+   "lines_match_subtotal": null,
+   "lines_match_total": true,
+   "subtotal_tax_service_match_total": null
+  },
+  "raw": {
+   "menu": [
+    {
+     "nm": "Serbu 1",
+     "cnt": "2",
+     "price": "40.000"
+    },
+    {
+     "nm": "Choco Peanut Bread",
+     "cnt": "2",
+     "price": "20.000"
+    }
+   ],
+   "total": {
+    "total_price": "60.000",
+    "cashprice": "60.000",
+    "changeprice": "0"
+   }
+  }
+ },
+ {
+  "id": "validation_011",
+  "image_path": "data/images/validation/validation_011.png",
+  "width": 907,
+  "height": 1280,
+  "items": [
+   {
+    "name": "Se'I Sapi Sambal Matah ( R )",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 20000,
+    "discount": null,
+    "is_sub_item": false
+   },
+   {
+    "name": "Se'I Sapi Lada Hitam (J)",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 35000,
+    "discount": null,
+    "is_sub_item": false
+   },
+   {
+    "name": "Nasi Putih",
+    "qty": 2,
+    "unit_price": null,
+    "line_total": 10000,
+    "discount": null,
+    "is_sub_item": false
+   },
+   {
+    "name": "Milk Shake Coklat",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 16000,
+    "discount": null,
+    "is_sub_item": false
+   }
+  ],
+  "subtotal": 81000,
+  "tax": 8100,
+  "service": null,
+  "discount": null,
+  "total": 89100,
+  "checks": {
+   "lines_match_subtotal": true,
+   "lines_match_total": false,
+   "subtotal_tax_service_match_total": true
+  },
+  "raw": {
+   "menu": [
+    {
+     "nm": "Se'I Sapi Sambal Matah ( R )",
+     "cnt": "1",
+     "price": "20.000"
+    },
+    {
+     "nm": "Se'I Sapi Lada Hitam (J)",
+     "cnt": "1",
+     "price": "35.000"
+    },
+    {
+     "nm": "Nasi Putih",
+     "cnt": "2",
+     "price": "10.000"
+    },
+    {
+     "nm": "Milk Shake Coklat",
+     "cnt": "1",
+     "price": "16.000"
+    }
+   ],
+   "sub_total": {
+    "subtotal_price": "81.000",
+    "tax_price": "8.100"
+   },
+   "total": {
+    "total_price": "89.100",
+    "changeprice": "0",
+    "creditcardprice": "89.100"
+   }
+  }
+ },
+ {
+  "id": "validation_012",
+  "image_path": "data/images/validation/validation_012.png",
+  "width": 1108,
+  "height": 1478,
+  "items": [
+   {
+    "name": "ES KOPI SUSU",
+    "qty": 4,
+    "unit_price": null,
+    "line_total": 72000,
+    "discount": null,
+    "is_sub_item": false
+   }
+  ],
+  "subtotal": null,
+  "tax": null,
+  "service": null,
+  "discount": null,
+  "total": 72000,
+  "checks": {
+   "lines_match_subtotal": null,
+   "lines_match_total": true,
+   "subtotal_tax_service_match_total": null
+  },
+  "raw": {
+   "menu": {
+    "nm": "ES KOPI SUSU",
+    "cnt": "4",
+    "price": "72.000"
+   },
+   "total": {
+    "total_price": "72.000",
+    "changeprice": "0",
+    "emoneyprice": "72.000"
+   }
+  }
+ },
+ {
+  "id": "validation_013",
+  "image_path": "data/images/validation/validation_013.png",
+  "width": 1108,
+  "height": 1478,
+  "items": [
+   {
+    "name": "MINERAL 600 ML",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 7727,
+    "discount": null,
+    "is_sub_item": false
+   },
+   {
+    "name": "BULGOGI RICE R",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 33636,
+    "discount": null,
+    "is_sub_item": false
+   }
+  ],
+  "subtotal": 41364,
+  "tax": 4136,
+  "service": null,
+  "discount": null,
+  "total": 45500,
+  "checks": {
+   "lines_match_subtotal": true,
+   "lines_match_total": false,
+   "subtotal_tax_service_match_total": true
+  },
+  "raw": {
+   "menu": [
+    {
+     "nm": "MINERAL 600 ML",
+     "cnt": "1",
+     "price": "7,727"
+    },
+    {
+     "nm": "BULGOGI RICE R",
+     "cnt": "1",
+     "price": "33,636"
+    }
+   ],
+   "sub_total": {
+    "subtotal_price": "41,364",
+    "tax_price": "4,136"
+   },
+   "total": {
+    "total_price": "45,500",
+    "cashprice": "50,000",
+    "changeprice": "-4,500"
+   }
+  }
+ },
+ {
+  "id": "validation_014",
+  "image_path": "data/images/validation/validation_014.png",
+  "width": 605,
+  "height": 1280,
+  "items": [
+   {
+    "name": "Arem Arem",
+    "qty": 2,
+    "unit_price": 12000,
+    "line_total": 24000,
+    "discount": null,
+    "is_sub_item": false
+   },
+   {
+    "name": "Kroket",
+    "qty": 1,
+    "unit_price": 12000,
+    "line_total": 12000,
+    "discount": null,
+    "is_sub_item": false
+   }
+  ],
+  "subtotal": 36000,
+  "tax": 3600,
+  "service": null,
+  "discount": null,
+  "total": 39600,
+  "checks": {
+   "lines_match_subtotal": true,
+   "lines_match_total": false,
+   "subtotal_tax_service_match_total": true
+  },
+  "raw": {
+   "menu": [
+    {
+     "nm": "Arem Arem",
+     "unitprice": "@ 12.000",
+     "cnt": "2 x",
+     "price": "24.000"
+    },
+    {
+     "nm": "Kroket",
+     "unitprice": "@ 12.000",
+     "cnt": "1 x",
+     "price": "12.000"
+    }
+   ],
+   "sub_total": {
+    "subtotal_price": "Rp 36.000",
+    "tax_price": "Rp 3.600"
+   },
+   "total": {
+    "total_price": "Rp 39.600",
+    "emoneyprice": "Rp 39.600"
+   }
+  }
+ },
+ {
+  "id": "validation_015",
+  "image_path": "data/images/validation/validation_015.png",
+  "width": 1108,
+  "height": 1478,
+  "items": [
+   {
+    "name": "Arem Arem",
+    "qty": 2,
+    "unit_price": 12000,
+    "line_total": 24000,
+    "discount": null,
+    "is_sub_item": false
+   },
+   {
+    "name": "Pepenero Pastel",
+    "qty": 2,
+    "unit_price": 15000,
+    "line_total": 30000,
+    "discount": null,
+    "is_sub_item": false
+   }
+  ],
+  "subtotal": 54000,
+  "tax": 5400,
+  "service": null,
+  "discount": null,
+  "total": 59400,
+  "checks": {
+   "lines_match_subtotal": true,
+   "lines_match_total": false,
+   "subtotal_tax_service_match_total": true
+  },
+  "raw": {
+   "menu": [
+    {
+     "nm": "Arem Arem",
+     "unitprice": "12.000",
+     "cnt": "2",
+     "price": "24.000"
+    },
+    {
+     "nm": "Pepenero Pastel",
+     "unitprice": "15.000",
+     "cnt": "2",
+     "price": "30.000"
+    }
+   ],
+   "sub_total": {
+    "subtotal_price": "Rp 54.000",
+    "tax_price": "Rp 5.400"
+   },
+   "total": {
+    "total_price": "Rp 59.400",
+    "cashprice": "Rp 100.000",
+    "changeprice": "Rp 40.600"
+   }
+  }
+ },
+ {
+  "id": "validation_016",
+  "image_path": "data/images/validation/validation_016.png",
+  "width": 2376,
+  "height": 4224,
+  "items": [
+   {
+    "name": "TT",
+    "qty": 1,
+    "unit_price": 20000,
+    "line_total": 20000,
+    "discount": null,
+    "is_sub_item": false
+   }
+  ],
+  "subtotal": null,
+  "tax": null,
+  "service": null,
+  "discount": null,
+  "total": 20000,
+  "checks": {
+   "lines_match_subtotal": null,
+   "lines_match_total": true,
+   "subtotal_tax_service_match_total": null
+  },
+  "raw": {
+   "menu": {
+    "nm": "TT",
+    "unitprice": "20,000",
+    "cnt": "1",
+    "price": "20,000"
+   },
+   "total": {
+    "total_price": "20,000",
+    "cashprice": "100,000",
+    "changeprice": "80,000"
+   }
+  }
+ },
+ {
+  "id": "validation_017",
+  "image_path": "data/images/validation/validation_017.png",
+  "width": 576,
+  "height": 864,
+  "items": [
+   {
+    "name": "LEMONADE 16OZ",
+    "qty": 1,
+    "unit_price": 20000,
+    "line_total": 20000,
+    "discount": null,
+    "is_sub_item": false
+   }
+  ],
+  "subtotal": 20000,
+  "tax": null,
+  "service": null,
+  "discount": null,
+  "total": 20000,
+  "checks": {
+   "lines_match_subtotal": true,
+   "lines_match_total": true,
+   "subtotal_tax_service_match_total": true
+  },
+  "raw": {
+   "menu": {
+    "nm": "LEMONADE 16OZ",
+    "unitprice": "20,000",
+    "cnt": "1",
+    "price": "20,000"
+   },
+   "sub_total": {
+    "subtotal_price": "20,000"
+   },
+   "total": {
+    "total_price": "20,000",
+    "cashprice": "100,000",
+    "changeprice": "80.000"
+   }
+  }
+ },
+ {
+  "id": "validation_018",
+  "image_path": "data/images/validation/validation_018.png",
+  "width": 576,
+  "height": 864,
+  "items": [
+   {
+    "name": "beef C roll 3pcs",
+    "qty": 1,
+    "unit_price": 10000,
+    "line_total": 10000,
+    "discount": null,
+    "is_sub_item": false
+   },
+   {
+    "name": "kaya bred",
+    "qty": 1,
+    "unit_price": 15000,
+    "line_total": 15000,
+    "discount": null,
+    "is_sub_item": false
+   }
+  ],
+  "subtotal": null,
+  "tax": null,
+  "service": null,
+  "discount": null,
+  "total": 25000,
+  "checks": {
+   "lines_match_subtotal": null,
+   "lines_match_total": true,
+   "subtotal_tax_service_match_total": null
+  },
+  "raw": {
+   "menu": [
+    {
+     "nm": "beef C roll 3pcs",
+     "unitprice": "10,000",
+     "cnt": "1",
+     "price": "10,000"
+    },
+    {
+     "nm": "kaya bred",
+     "unitprice": "15,000",
+     "cnt": "1",
+     "price": "15,000"
+    }
+   ],
+   "total": {
+    "total_price": "25,000",
+    "cashprice": "100,000",
+    "changeprice": "75,000",
+    "menuqty_cnt": "2"
+   }
+  }
+ },
+ {
+  "id": "validation_019",
+  "image_path": "data/images/validation/validation_019.png",
+  "width": 864,
+  "height": 1296,
+  "items": [
+   {
+    "name": "FUTAMI 17 GREEN TEA (CLAS",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 12500,
+    "discount": null,
+    "is_sub_item": false
+   },
+   {
+    "name": "EGG TART",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 13000,
+    "discount": null,
+    "is_sub_item": false
+   },
+   {
+    "name": "GRAIN CROQUE MONSIEUR",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 17000,
+    "discount": null,
+    "is_sub_item": false
+   }
+  ],
+  "subtotal": null,
+  "tax": null,
+  "service": null,
+  "discount": null,
+  "total": 42500,
+  "checks": {
+   "lines_match_subtotal": null,
+   "lines_match_total": true,
+   "subtotal_tax_service_match_total": null
+  },
+  "raw": {
+   "menu": [
+    {
+     "nm": "FUTAMI 17 GREEN TEA (CLAS",
+     "cnt": "1",
+     "price": "12,500"
+    },
+    {
+     "nm": "EGG TART",
+     "cnt": "1",
+     "price": "13,000"
+    },
+    {
+     "nm": "GRAIN CROQUE MONSIEUR",
+     "cnt": "1",
+     "price": "17,000"
+    }
+   ],
+   "total": {
+    "total_price": "42,500",
+    "cashprice": "50,000",
+    "changeprice": "7,500"
+   }
+  }
+ },
+ {
+  "id": "validation_020",
+  "image_path": "data/images/validation/validation_020.png",
+  "width": 1836,
+  "height": 3264,
+  "items": [
+   {
+    "name": "JAMUR",
+    "qty": 2,
+    "unit_price": null,
+    "line_total": 10000,
+    "discount": null,
+    "is_sub_item": false
+   },
+   {
+    "name": "TAHU",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 5000,
+    "discount": null,
+    "is_sub_item": false
+   }
+  ],
+  "subtotal": 15000,
+  "tax": 1500,
+  "service": null,
+  "discount": null,
+  "total": 16500,
+  "checks": {
+   "lines_match_subtotal": true,
+   "lines_match_total": false,
+   "subtotal_tax_service_match_total": true
+  },
+  "raw": {
+   "menu": [
+    {
+     "nm": "JAMUR",
+     "cnt": "2",
+     "price": "10,000"
+    },
+    {
+     "nm": "TAHU",
+     "cnt": "1",
+     "price": "5,000"
+    }
+   ],
+   "sub_total": {
+    "subtotal_price": "15,000",
+    "tax_price": "1,500"
+   },
+   "total": {
+    "total_price": "16,500",
+    "cashprice": "20,000",
+    "changeprice": "3,500"
+   }
+  }
+ },
+ {
+  "id": "validation_021",
+  "image_path": "data/images/validation/validation_021.png",
+  "width": 864,
+  "height": 1296,
+  "items": [
+   {
+    "name": "Mango Lemon Tea",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 29090,
+    "discount": null,
+    "is_sub_item": false
+   },
+   {
+    "name": "Sliders Set",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 113636,
+    "discount": null,
+    "is_sub_item": false
+   },
+   {
+    "name": "Chicken Vege Rice Bowl",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 86363,
+    "discount": null,
+    "is_sub_item": false
+   },
+   {
+    "name": "Discount BCA 15%",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": -34363,
+    "discount": null,
+    "is_sub_item": false
+   }
+  ],
+  "subtotal": 194726,
+  "tax": 20446,
+  "service": 9736,
+  "discount": null,
+  "total": 224908,
+  "checks": {
+   "lines_match_subtotal": true,
+   "lines_match_total": false,
+   "subtotal_tax_service_match_total": true
+  },
+  "raw": {
+   "menu": [
+    {
+     "nm": "Mango Lemon Tea",
+     "cnt": "1",
+     "price": "Rp 29,090"
+    },
+    {
+     "nm": "Sliders Set",
+     "cnt": "1",
+     "price": "Rp 113,636"
+    },
+    {
+     "nm": "Chicken Vege Rice Bowl",
+     "cnt": "1",
+     "price": "Rp 86,363"
+    },
+    {
+     "nm": "Discount BCA 15%",
+     "cnt": "1",
+     "price": "-Rp 34,363"
+    }
+   ],
+   "sub_total": {
+    "subtotal_price": "Rp 194,726",
+    "service_price": "Rp 9,736",
+    "tax_price": "Rp 20,446"
+   },
+   "total": {
+    "total_price": "Rp 224,908",
+    "creditcardprice": "Rp 224,908"
+   }
+  }
+ },
+ {
+  "id": "validation_022",
+  "image_path": "data/images/validation/validation_022.png",
+  "width": 576,
+  "height": 864,
+  "items": [
+   {
+    "name": "RedVelvet Nutella",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 280000,
+    "discount": null,
+    "is_sub_item": false
+   }
+  ],
+  "subtotal": 280000,
+  "tax": 28000,
+  "service": null,
+  "discount": null,
+  "total": 308000,
+  "checks": {
+   "lines_match_subtotal": true,
+   "lines_match_total": false,
+   "subtotal_tax_service_match_total": true
+  },
+  "raw": {
+   "menu": {
+    "nm": "RedVelvet Nutella",
+    "cnt": "1",
+    "price": "280,000",
+    "sub": [
+     {
+      "nm": "Free Mini Candle",
+      "cnt": ".5"
+     },
+     {
+      "nm": "Large Box",
+      "cnt": "1"
+     }
+    ]
+   },
+   "sub_total": {
+    "subtotal_price": "280,000",
+    "tax_price": "28,000"
+   },
+   "total": {
+    "total_price": "308,000",
+    "creditcardprice": "308,000"
+   }
+  }
+ },
+ {
+  "id": "validation_023",
+  "image_path": "data/images/validation/validation_023.png",
+  "width": 576,
+  "height": 864,
+  "items": [
+   {
+    "name": "BUBBLE GUM",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 18182,
+    "discount": null,
+    "is_sub_item": false
+   }
+  ],
+  "subtotal": 18182,
+  "tax": 1818,
+  "service": null,
+  "discount": null,
+  "total": 20000,
+  "checks": {
+   "lines_match_subtotal": true,
+   "lines_match_total": false,
+   "subtotal_tax_service_match_total": true
+  },
+  "raw": {
+   "menu": {
+    "nm": "BUBBLE GUM",
+    "cnt": "1",
+    "price": "18,182"
+   },
+   "sub_total": {
+    "subtotal_price": "18,182",
+    "tax_price": "1,818"
+   },
+   "total": {
+    "total_price": "20.000",
+    "cashprice": "20.000",
+    "menuqty_cnt": "1"
+   }
+  }
+ },
+ {
+  "id": "validation_024",
+  "image_path": "data/images/validation/validation_024.png",
+  "width": 1080,
+  "height": 1920,
+  "items": [
+   {
+    "name": "PAIN AU CHOCOLATE",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 11000,
+    "discount": null,
+    "is_sub_item": false
+   },
+   {
+    "name": "CHOCO CUSTARD PASTRY",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 12000,
+    "discount": null,
+    "is_sub_item": false
+   },
+   {
+    "name": "MILK PASTRY ROLL",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 9000,
+    "discount": null,
+    "is_sub_item": false
+   },
+   {
+    "name": "REAL CHEESE INSIDE BREAD",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 13500,
+    "discount": null,
+    "is_sub_item": false
+   },
+   {
+    "name": "SAUSAGE BREAD",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 15000,
+    "discount": null,
+    "is_sub_item": false
+   },
+   {
+    "name": "HAM CHEESE FLAT BREAD",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 20000,
+    "discount": null,
+    "is_sub_item": false
+   }
+  ],
+  "subtotal": null,
+  "tax": null,
+  "service": null,
+  "discount": null,
+  "total": 80500,
+  "checks": {
+   "lines_match_subtotal": null,
+   "lines_match_total": true,
+   "subtotal_tax_service_match_total": null
+  },
+  "raw": {
+   "menu": [
+    {
+     "nm": "PAIN AU CHOCOLATE",
+     "cnt": "1",
+     "price": "11,000"
+    },
+    {
+     "nm": "CHOCO CUSTARD PASTRY",
+     "cnt": "1",
+     "price": "12,000"
+    },
+    {
+     "nm": "MILK PASTRY ROLL",
+     "cnt": "1",
+     "price": "9,000"
+    },
+    {
+     "nm": "REAL CHEESE INSIDE BREAD",
+     "cnt": "1",
+     "price": "13,500"
+    },
+    {
+     "nm": "SAUSAGE BREAD",
+     "cnt": "1",
+     "price": "15,000"
+    },
+    {
+     "nm": "HAM CHEESE FLAT BREAD",
+     "cnt": "1",
+     "price": "20,000"
+    }
+   ],
+   "total": {
+    "total_price": "80,500",
+    "cashprice": "100,000",
+    "changeprice": "19,500"
+   }
+  }
+ },
+ {
+  "id": "validation_025",
+  "image_path": "data/images/validation/validation_025.png",
+  "width": 2304,
+  "height": 4096,
+  "items": [
+   {
+    "name": "Sop Sui Jiao",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 33000,
+    "discount": null,
+    "is_sub_item": false
+   },
+   {
+    "name": "Ha Kaou Udng",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 28000,
+    "discount": null,
+    "is_sub_item": false
+   },
+   {
+    "name": "Sio May Kpting",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 23500,
+    "discount": null,
+    "is_sub_item": false
+   },
+   {
+    "name": "Siomay Kmbinasi",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 23000,
+    "discount": null,
+    "is_sub_item": false
+   },
+   {
+    "name": "Leng Hong Kien",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 30000,
+    "discount": null,
+    "is_sub_item": false
+   },
+   {
+    "name": "Mie Trsi Kgkung",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 35500,
+    "discount": null,
+    "is_sub_item": false
+   },
+   {
+    "name": "Es Teh Tawar",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 7000,
+    "discount": null,
+    "is_sub_item": false
+   }
+  ],
+  "subtotal": 180000,
+  "tax": 18900,
+  "service": 9000,
+  "discount": null,
+  "total": 207900,
+  "checks": {
+   "lines_match_subtotal": true,
+   "lines_match_total": false,
+   "subtotal_tax_service_match_total": true
+  },
+  "raw": {
+   "menu": [
+    {
+     "nm": "Sop Sui Jiao",
+     "cnt": "1Prs",
+     "price": "33,000"
+    },
+    {
+     "nm": "Ha Kaou Udng",
+     "cnt": "1Prs",
+     "price": "28,000"
+    },
+    {
+     "nm": "Sio May Kpting",
+     "cnt": "1Prs",
+     "price": "23,500"
+    },
+    {
+     "nm": "Siomay Kmbinasi",
+     "cnt": "1Prs",
+     "price": "23,000"
+    },
+    {
+     "nm": "Leng Hong Kien",
+     "cnt": "1Prs",
+     "price": "30,000"
+    },
+    {
+     "nm": "Mie Trsi Kgkung",
+     "cnt": "1Prs",
+     "price": "35,500"
+    },
+    {
+     "nm": "Es Teh Tawar",
+     "cnt": "1Gls",
+     "price": "7,000"
+    }
+   ],
+   "sub_total": {
+    "subtotal_price": "180,000",
+    "service_price": "9,000",
+    "tax_price": "18,900"
+   },
+   "total": {
+    "total_price": "207,900",
+    "menutype_cnt": "7",
+    "menuqty_cnt": "7"
+   }
+  }
+ },
+ {
+  "id": "validation_026",
+  "image_path": "data/images/validation/validation_026.png",
+  "width": 1108,
+  "height": 1478,
+  "items": [
+   {
+    "name": "NASI MERAH/PUTIH",
+    "qty": 1,
+    "unit_price": 5000,
+    "line_total": 5000,
+    "discount": null,
+    "is_sub_item": false
+   },
+   {
+    "name": "SAYUR",
+    "qty": 2,
+    "unit_price": 4000,
+    "line_total": 8000,
+    "discount": null,
+    "is_sub_item": false
+   },
+   {
+    "name": "KERUPUK/SAMBEL",
+    "qty": 1,
+    "unit_price": 2000,
+    "line_total": 2000,
+    "discount": null,
+    "is_sub_item": false
+   },
+   {
+    "name": "AYAM",
+    "qty": 1,
+    "unit_price": 14000,
+    "line_total": 14000,
+    "discount": null,
+    "is_sub_item": false
+   },
+   {
+    "name": "MINUMAN KEMASAN/REFILL",
+    "qty": 1,
+    "unit_price": 6000,
+    "line_total": 6000,
+    "discount": null,
+    "is_sub_item": false
+   }
+  ],
+  "subtotal": null,
+  "tax": null,
+  "service": null,
+  "discount": null,
+  "total": 35000,
+  "checks": {
+   "lines_match_subtotal": null,
+   "lines_match_total": true,
+   "subtotal_tax_service_match_total": null
+  },
+  "raw": {
+   "menu": [
+    {
+     "nm": "NASI MERAH/PUTIH",
+     "unitprice": "5.000",
+     "cnt": "1x",
+     "price": "5.000"
+    },
+    {
+     "nm": "SAYUR",
+     "unitprice": "4.000",
+     "cnt": "2x",
+     "price": "8.000"
+    },
+    {
+     "nm": "KERUPUK/SAMBEL",
+     "unitprice": "2.000",
+     "cnt": "1x",
+     "price": "2.000"
+    },
+    {
+     "nm": "AYAM",
+     "unitprice": "14.000",
+     "cnt": "1x",
+     "price": "14.000"
+    },
+    {
+     "nm": "MINUMAN KEMASAN/REFILL",
+     "unitprice": "6.000",
+     "cnt": "1x",
+     "price": "6.000"
+    }
+   ],
+   "total": {
+    "total_price": "Rp. 35.000"
+   }
+  }
+ },
+ {
+  "id": "validation_027",
+  "image_path": "data/images/validation/validation_027.png",
+  "width": 2304,
+  "height": 4096,
+  "items": [
+   {
+    "name": "THAI ICED TEA (L)",
+    "qty": 1,
+    "unit_price": 16363,
+    "line_total": 16363,
+    "discount": null,
+    "is_sub_item": false
+   }
+  ],
+  "subtotal": 16363,
+  "tax": 1636,
+  "service": null,
+  "discount": null,
+  "total": 17999,
+  "checks": {
+   "lines_match_subtotal": true,
+   "lines_match_total": false,
+   "subtotal_tax_service_match_total": true
+  },
+  "raw": {
+   "menu": {
+    "nm": "THAI ICED TEA (L)",
+    "unitprice": "16,363",
+    "cnt": "1",
+    "price": "16.363"
+   },
+   "sub_total": {
+    "subtotal_price": "16,363",
+    "tax_price": "1,636"
+   },
+   "total": {
+    "total_price": "17,999",
+    "menuqty_cnt": "1"
+   }
+  }
+ },
+ {
+  "id": "validation_028",
+  "image_path": "data/images/validation/validation_028.png",
+  "width": 864,
+  "height": 1296,
+  "items": [
+   {
+    "name": "ELEPHANT READ BEAN",
+    "qty": 1,
+    "unit_price": 12000,
+    "line_total": 12000,
+    "discount": null,
+    "is_sub_item": false
+   },
+   {
+    "name": "chapsal twister donnut",
+    "qty": 1,
+    "unit_price": 10000,
+    "line_total": 10000,
+    "discount": null,
+    "is_sub_item": false
+   }
+  ],
+  "subtotal": null,
+  "tax": null,
+  "service": null,
+  "discount": null,
+  "total": 22000,
+  "checks": {
+   "lines_match_subtotal": null,
+   "lines_match_total": true,
+   "subtotal_tax_service_match_total": null
+  },
+  "raw": {
+   "menu": [
+    {
+     "nm": "ELEPHANT READ BEAN",
+     "unitprice": "12,000",
+     "cnt": "1",
+     "price": "12,000"
+    },
+    {
+     "nm": "chapsal twister donnut",
+     "unitprice": "10,000",
+     "cnt": "1",
+     "price": "10,000"
+    }
+   ],
+   "total": {
+    "total_price": "22,000",
+    "cashprice": "22,000",
+    "changeprice": "0",
+    "menuqty_cnt": "2"
+   }
+  }
+ },
+ {
+  "id": "validation_029",
+  "image_path": "data/images/validation/validation_029.png",
+  "width": 576,
+  "height": 864,
+  "items": [
+   {
+    "name": "Sabun Beras",
+    "qty": 1,
+    "unit_price": 30000,
+    "line_total": 30000,
+    "discount": null,
+    "is_sub_item": false
+   }
+  ],
+  "subtotal": 30000,
+  "tax": null,
+  "service": null,
+  "discount": 0,
+  "total": null,
+  "checks": {
+   "lines_match_subtotal": true,
+   "lines_match_total": null,
+   "subtotal_tax_service_match_total": null
+  },
+  "raw": {
+   "menu": {
+    "nm": "Sabun Beras",
+    "unitprice": "30000",
+    "cnt": "1",
+    "price": "30000"
+   },
+   "sub_total": {
+    "subtotal_price": "30000",
+    "discount_price": "Discount(0%)"
+   },
+   "total": {
+    "cashprice": "50000",
+    "changeprice": "20000"
+   }
+  }
+ },
+ {
+  "id": "validation_030",
+  "image_path": "data/images/validation/validation_030.png",
+  "width": 2304,
+  "height": 4096,
+  "items": [
+   {
+    "name": "REDBEAN BRE/D",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 9000,
+    "discount": null,
+    "is_sub_item": false
+   },
+   {
+    "name": "FRANKFRUT S/USAGE ROLL",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 12000,
+    "discount": null,
+    "is_sub_item": false
+   }
+  ],
+  "subtotal": null,
+  "tax": null,
+  "service": null,
+  "discount": null,
+  "total": 21000,
+  "checks": {
+   "lines_match_subtotal": null,
+   "lines_match_total": true,
+   "subtotal_tax_service_match_total": null
+  },
+  "raw": {
+   "menu": [
+    {
+     "nm": "REDBEAN BRE/D",
+     "cnt": "1",
+     "price": "9,000"
+    },
+    {
+     "nm": "FRANKFRUT S/USAGE ROLL",
+     "cnt": "1",
+     "price": "12,000"
+    }
+   ],
+   "total": {
+    "total_price": "21,000",
+    "cashprice": "50,000",
+    "changeprice": "29,000"
+   }
+  }
+ },
+ {
+  "id": "validation_031",
+  "image_path": "data/images/validation/validation_031.png",
+  "width": 864,
+  "height": 1296,
+  "items": [
+   {
+    "name": "PREMIUM TOAST PAN BREAD",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 24000,
+    "discount": null,
+    "is_sub_item": false
+   }
+  ],
+  "subtotal": null,
+  "tax": null,
+  "service": null,
+  "discount": null,
+  "total": 24000,
+  "checks": {
+   "lines_match_subtotal": null,
+   "lines_match_total": true,
+   "subtotal_tax_service_match_total": null
+  },
+  "raw": {
+   "menu": {
+    "nm": "PREMIUM TOAST PAN BREAD",
+    "cnt": "1",
+    "price": "24,000"
+   },
+   "total": {
+    "total_price": "24,000",
+    "cashprice": "24,000",
+    "changeprice": "0"
+   }
+  }
+ },
+ {
+  "id": "validation_032",
+  "image_path": "data/images/validation/validation_032.png",
+  "width": 960,
+  "height": 1280,
+  "items": [
+   {
+    "name": "Nasi (MLY)",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 6000,
+    "discount": null,
+    "is_sub_item": false
+   }
+  ],
+  "subtotal": 6000,
+  "tax": null,
+  "service": null,
+  "discount": null,
+  "total": 6000,
+  "checks": {
+   "lines_match_subtotal": true,
+   "lines_match_total": true,
+   "subtotal_tax_service_match_total": true
+  },
+  "raw": {
+   "menu": {
+    "nm": "Nasi (MLY)",
+    "cnt": "1",
+    "price": "6.000"
+   },
+   "sub_total": {
+    "subtotal_price": "6.000"
+   },
+   "total": {
+    "total_price": "6.000",
+    "emoneyprice": "6.000"
+   }
+  }
+ },
+ {
+  "id": "validation_033",
+  "image_path": "data/images/validation/validation_033.png",
+  "width": 576,
+  "height": 864,
+  "items": [
+   {
+    "name": "GRAINS PAN BREAD",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 20500,
+    "discount": null,
+    "is_sub_item": false
+   },
+   {
+    "name": "ICED HIBISCUS LYCHEE TEA",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 37000,
+    "discount": null,
+    "is_sub_item": false
+   }
+  ],
+  "subtotal": null,
+  "tax": null,
+  "service": null,
+  "discount": null,
+  "total": 57500,
+  "checks": {
+   "lines_match_subtotal": null,
+   "lines_match_total": true,
+   "subtotal_tax_service_match_total": null
+  },
+  "raw": {
+   "menu": [
+    {
+     "nm": "GRAINS PAN BREAD",
+     "cnt": "1",
+     "price": "20,500"
+    },
+    {
+     "nm": "ICED HIBISCUS LYCHEE TEA",
+     "cnt": "1",
+     "price": "37,000"
+    }
+   ],
+   "total": {
+    "total_price": "57,500",
+    "total_etc": "50,000",
+    "cashprice": "7,500",
+    "changeprice": "0"
+   }
+  }
+ },
+ {
+  "id": "validation_034",
+  "image_path": "data/images/validation/validation_034.png",
+  "width": 576,
+  "height": 864,
+  "items": [
+   {
+    "name": "GRILLED BABY POTATO (R",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 50500,
+    "discount": null,
+    "is_sub_item": false
+   },
+   {
+    "name": "TRUFFLE CREAM",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 76000,
+    "discount": null,
+    "is_sub_item": false
+   },
+   {
+    "name": "CARBONARA",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 70500,
+    "discount": null,
+    "is_sub_item": false
+   },
+   {
+    "name": "ORIGINAL BREWED TEA",
+    "qty": 2,
+    "unit_price": null,
+    "line_total": 46000,
+    "discount": null,
+    "is_sub_item": false
+   }
+  ],
+  "subtotal": 243000,
+  "tax": 25758,
+  "service": 14580,
+  "discount": null,
+  "total": 283338,
+  "checks": {
+   "lines_match_subtotal": true,
+   "lines_match_total": false,
+   "subtotal_tax_service_match_total": true
+  },
+  "raw": {
+   "menu": [
+    {
+     "nm": "GRILLED BABY POTATO (R",
+     "cnt": "1",
+     "price": "50,500"
+    },
+    {
+     "nm": "TRUFFLE CREAM",
+     "cnt": "1",
+     "price": "76,000"
+    },
+    {
+     "nm": "CARBONARA",
+     "cnt": "1",
+     "price": "70,500"
+    },
+    {
+     "nm": "ORIGINAL BREWED TEA",
+     "cnt": "2",
+     "price": "46,000"
+    }
+   ],
+   "sub_total": {
+    "subtotal_price": "243,000",
+    "service_price": "14,580",
+    "tax_price": "25,758"
+   },
+   "total": {
+    "total_price": "283,338",
+    "creditcardprice": [
+     "283,338",
+     "5962"
+    ]
+   }
+  }
+ },
+ {
+  "id": "validation_035",
+  "image_path": "data/images/validation/validation_035.png",
+  "width": 2304,
+  "height": 4096,
+  "items": [
+   {
+    "name": "BLACK PEPPER MEATBALL",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 76500,
+    "discount": null,
+    "is_sub_item": false
+   },
+   {
+    "name": "QUARTO FORMANGGI PASTA",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 82500,
+    "discount": null,
+    "is_sub_item": false
+   },
+   {
+    "name": "GREEN TEA WITH CRUMBLE",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 56000,
+    "discount": null,
+    "is_sub_item": false
+   },
+   {
+    "name": "ORIGINAL BREWED TEA",
+    "qty": 2,
+    "unit_price": null,
+    "line_total": 46000,
+    "discount": null,
+    "is_sub_item": false
+   }
+  ],
+  "subtotal": 261000,
+  "tax": 27666,
+  "service": 15660,
+  "discount": null,
+  "total": 304326,
+  "checks": {
+   "lines_match_subtotal": true,
+   "lines_match_total": false,
+   "subtotal_tax_service_match_total": true
+  },
+  "raw": {
+   "menu": [
+    {
+     "nm": "BLACK PEPPER MEATBALL",
+     "cnt": "1",
+     "price": "76,500"
+    },
+    {
+     "nm": "QUARTO FORMANGGI PASTA",
+     "cnt": "1",
+     "price": "82,500"
+    },
+    {
+     "nm": "GREEN TEA WITH CRUMBLE",
+     "cnt": "1",
+     "price": "56,000"
+    },
+    {
+     "nm": "ORIGINAL BREWED TEA",
+     "cnt": "2",
+     "price": "46,000"
+    }
+   ],
+   "sub_total": {
+    "subtotal_price": "261,000",
+    "service_price": "15,660",
+    "tax_price": "27,666"
+   },
+   "total": {
+    "total_price": "304,326"
+   }
+  }
+ },
+ {
+  "id": "validation_036",
+  "image_path": "data/images/validation/validation_036.png",
+  "width": 864,
+  "height": 1296,
+  "items": [
+   {
+    "name": "Soft Ori 3 Top",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 17272,
+    "discount": null,
+    "is_sub_item": false
+   }
+  ],
+  "subtotal": 17272,
+  "tax": 1727,
+  "service": null,
+  "discount": null,
+  "total": 18999,
+  "checks": {
+   "lines_match_subtotal": true,
+   "lines_match_total": false,
+   "subtotal_tax_service_match_total": true
+  },
+  "raw": {
+   "menu": {
+    "nm": "Soft Ori 3 Top",
+    "cnt": "1",
+    "price": "17,272",
+    "sub": [
+     {
+      "nm": "Top Oreo",
+      "price": "0"
+     },
+     {
+      "nm": "Top Oreo",
+      "price": "0"
+     },
+     {
+      "nm": "Top Banana",
+      "price": "0"
+     }
+    ]
+   },
+   "sub_total": {
+    "subtotal_price": "17,272",
+    "tax_price": "1,727"
+   },
+   "total": {
+    "total_price": "18,999",
+    "cashprice": "18,999"
+   }
+  }
+ },
+ {
+  "id": "validation_037",
+  "image_path": "data/images/validation/validation_037.png",
+  "width": 1108,
+  "height": 1478,
+  "items": [
+   {
+    "name": "Ice Lemon Tea",
+    "qty": null,
+    "unit_price": null,
+    "line_total": 13636,
+    "discount": null,
+    "is_sub_item": false
+   },
+   {
+    "name": "- Gyro Platter Regular",
+    "qty": null,
+    "unit_price": null,
+    "line_total": 50000,
+    "discount": null,
+    "is_sub_item": false
+   }
+  ],
+  "subtotal": 63636,
+  "tax": 6364,
+  "service": null,
+  "discount": null,
+  "total": 70000,
+  "checks": {
+   "lines_match_subtotal": true,
+   "lines_match_total": false,
+   "subtotal_tax_service_match_total": true
+  },
+  "raw": {
+   "menu": [
+    {
+     "nm": "Ice Lemon Tea",
+     "price": "13,636"
+    },
+    {
+     "nm": [
+      "-",
+      "Gyro Platter Regular"
+     ],
+     "price": "50,000"
+    }
+   ],
+   "sub_total": {
+    "subtotal_price": "63,636",
+    "tax_price": "6,364"
+   },
+   "total": {
+    "total_price": "70,000",
+    "cashprice": "70,000"
+   }
+  }
+ },
+ {
+  "id": "validation_038",
+  "image_path": "data/images/validation/validation_038.png",
+  "width": 2376,
+  "height": 4224,
+  "items": [
+   {
+    "name": "TT",
+    "qty": 1,
+    "unit_price": 20000,
+    "line_total": 20000,
+    "discount": null,
+    "is_sub_item": false
+   }
+  ],
+  "subtotal": null,
+  "tax": null,
+  "service": null,
+  "discount": null,
+  "total": 20000,
+  "checks": {
+   "lines_match_subtotal": null,
+   "lines_match_total": true,
+   "subtotal_tax_service_match_total": null
+  },
+  "raw": {
+   "menu": {
+    "nm": "TT",
+    "unitprice": "20,000",
+    "cnt": "1",
+    "price": "20,000"
+   },
+   "total": {
+    "total_price": "20,000",
+    "cashprice": "100,000",
+    "changeprice": "80,000"
+   }
+  }
+ },
+ {
+  "id": "validation_039",
+  "image_path": "data/images/validation/validation_039.png",
+  "width": 2304,
+  "height": 4096,
+  "items": [
+   {
+    "name": "PKT TELOR/PERKEDEL",
+    "qty": null,
+    "unit_price": null,
+    "line_total": 26000,
+    "discount": null,
+    "is_sub_item": false
+   },
+   {
+    "name": "TERONG",
+    "qty": null,
+    "unit_price": null,
+    "line_total": 12000,
+    "discount": null,
+    "is_sub_item": false
+   },
+   {
+    "name": "PARU",
+    "qty": null,
+    "unit_price": null,
+    "line_total": 23000,
+    "discount": null,
+    "is_sub_item": false
+   },
+   {
+    "name": "SBL GR ATI/AMPLA",
+    "qty": null,
+    "unit_price": null,
+    "line_total": 20000,
+    "discount": null,
+    "is_sub_item": false
+   },
+   {
+    "name": "NESTLE 330 ML",
+    "qty": null,
+    "unit_price": null,
+    "line_total": 8000,
+    "discount": null,
+    "is_sub_item": false
+   }
+  ],
+  "subtotal": 89000,
+  "tax": 8900,
+  "service": null,
+  "discount": null,
+  "total": 97900,
+  "checks": {
+   "lines_match_subtotal": true,
+   "lines_match_total": false,
+   "subtotal_tax_service_match_total": true
+  },
+  "raw": {
+   "menu": [
+    {
+     "nm": "PKT TELOR/PERKEDEL",
+     "price": "26,000"
+    },
+    {
+     "nm": "TERONG",
+     "price": "12,000"
+    },
+    {
+     "nm": "PARU",
+     "price": "23,000"
+    },
+    {
+     "nm": "SBL GR ATI/AMPLA",
+     "price": "20,000"
+    },
+    {
+     "nm": "NESTLE 330 ML",
+     "price": "8,000"
+    }
+   ],
+   "sub_total": {
+    "subtotal_price": "89,000",
+    "tax_price": "8,900"
+   },
+   "total": {
+    "total_price": "97,900",
+    "cashprice": "100,000",
+    "changeprice": "2,100",
+    "menuqty_cnt": "5.00"
+   }
+  }
+ },
+ {
+  "id": "validation_040",
+  "image_path": "data/images/validation/validation_040.png",
+  "width": 1108,
+  "height": 1478,
+  "items": [
+   {
+    "name": "Gojek Chicken Chilli Sauce H",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 95000,
+    "discount": null,
+    "is_sub_item": false
+   },
+   {
+    "name": "Gojek Chicken Soy Sauce F",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 180000,
+    "discount": null,
+    "is_sub_item": false
+   },
+   {
+    "name": "Gojek French Fries",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 70000,
+    "discount": null,
+    "is_sub_item": false
+   }
+  ],
+  "subtotal": 345000,
+  "tax": 34500,
+  "service": 0,
+  "discount": 0,
+  "total": 379500,
+  "checks": {
+   "lines_match_subtotal": true,
+   "lines_match_total": false,
+   "subtotal_tax_service_match_total": true
+  },
+  "raw": {
+   "menu": [
+    {
+     "nm": "Gojek Chicken Chilli Sauce H",
+     "cnt": "1",
+     "price": "95,000"
+    },
+    {
+     "nm": "Gojek Chicken Soy Sauce F",
+     "cnt": "1",
+     "price": "180,000"
+    },
+    {
+     "nm": "Gojek French Fries",
+     "cnt": "1",
+     "price": "70,000"
+    }
+   ],
+   "sub_total": {
+    "subtotal_price": "345,000",
+    "discount_price": "0",
+    "service_price": "0",
+    "tax_price": "34,500"
+   },
+   "total": {
+    "total_price": "379,500"
+   }
+  }
+ },
+ {
+  "id": "validation_041",
+  "image_path": "data/images/validation/validation_041.png",
+  "width": 493,
+  "height": 1040,
+  "items": [
+   {
+    "name": "SOGOGI JAPCHAE",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 150000,
+    "discount": null,
+    "is_sub_item": false
+   },
+   {
+    "name": "GONG GIBAB",
+    "qty": 7,
+    "unit_price": null,
+    "line_total": 105000,
+    "discount": null,
+    "is_sub_item": false
+   },
+   {
+    "name": "CHULPAN CHEESE DAK GALBI",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 230000,
+    "discount": null,
+    "is_sub_item": false
+   },
+   {
+    "name": "CREAM TEOK PO KI",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 95000,
+    "discount": null,
+    "is_sub_item": false
+   },
+   {
+    "name": "EL KEUN HWANGTAE",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 120000,
+    "discount": null,
+    "is_sub_item": false
+   },
+   {
+    "name": "SUNDUBU(TUKBEGI) CHAM KKOT SAL",
+    "qty": 2,
+    "unit_price": null,
+    "line_total": 620000,
+    "discount": null,
+    "is_sub_item": false
+   },
+   {
+    "name": "U SAM GYEOP",
+    "qty": 2,
+    "unit_price": null,
+    "line_total": 290000,
+    "discount": null,
+    "is_sub_item": false
+   },
+   {
+    "name": "U SEOL",
+    "qty": 2,
+    "unit_price": null,
+    "line_total": 390000,
+    "discount": null,
+    "is_sub_item": false
+   },
+   {
+    "name": "U SAM GYEOP",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 0,
+    "discount": null,
+    "is_sub_item": false
+   },
+   {
+    "name": "ICE COFFE MIX",
+    "qty": 3,
+    "unit_price": null,
+    "line_total": 0,
+    "discount": null,
+    "is_sub_item": false
+   },
+   {
+    "name": "ICE BLACK COFFE",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 0,
+    "discount": null,
+    "is_sub_item": false
+   }
+  ],
+  "subtotal": 2000000,
+  "tax": 212460,
+  "service": 140000,
+  "discount": 0,
+  "total": 2352460,
+  "checks": {
+   "lines_match_subtotal": true,
+   "lines_match_total": false,
+   "subtotal_tax_service_match_total": true
+  },
+  "raw": {
+   "menu": [
+    {
+     "nm": "SOGOGI JAPCHAE",
+     "cnt": "1",
+     "price": "150,000"
+    },
+    {
+     "nm": "GONG GIBAB",
+     "cnt": "7",
+     "price": "105,000"
+    },
+    {
+     "nm": "CHULPAN CHEESE DAK GALBI",
+     "cnt": "1",
+     "price": "230,000"
+    },
+    {
+     "nm": "CREAM TEOK PO KI",
+     "cnt": "1",
+     "price": "95,000"
+    },
+    {
+     "nm": "EL KEUN HWANGTAE",
+     "cnt": "1",
+     "price": "120,000"
+    },
+    {
+     "nm": "SUNDUBU(TUKBEGI) CHAM KKOT SAL",
+     "cnt": "2",
+     "price": "620,000"
+    },
+    {
+     "nm": "U SAM GYEOP",
+     "cnt": "2",
+     "price": "290,000"
+    },
+    {
+     "nm": "U SEOL",
+     "cnt": "2",
+     "price": "390,000"
+    },
+    {
+     "nm": "U SAM GYEOP",
+     "cnt": "1",
+     "price": "0"
+    },
+    {
+     "nm": "ICE COFFE MIX",
+     "cnt": "3",
+     "price": "0"
+    },
+    {
+     "nm": "ICE BLACK COFFE",
+     "cnt": "1",
+     "price": "0"
+    }
+   ],
+   "sub_total": {
+    "subtotal_price": "2,000,000",
+    "discount_price": "0",
+    "service_price": "140,000",
+    "tax_price": "212,460"
+   },
+   "total": {
+    "total_price": "2,352,460",
+    "changeprice": "0",
+    "creditcardprice": "2,352,460"
+   }
+  }
+ },
+ {
+  "id": "validation_042",
+  "image_path": "data/images/validation/validation_042.png",
+  "width": 576,
+  "height": 864,
+  "items": [
+   {
+    "name": "STIX CINNAMON",
+    "qty": 1,
+    "unit_price": 19000,
+    "line_total": 19000,
+    "discount": null,
+    "is_sub_item": false
+   },
+   {
+    "name": "CINNAMON SUGAR",
+    "qty": 1,
+    "unit_price": 17000,
+    "line_total": 17000,
+    "discount": null,
+    "is_sub_item": false
+   },
+   {
+    "name": "TRIPPLE CHEESE",
+    "qty": 1,
+    "unit_price": 17000,
+    "line_total": 17000,
+    "discount": null,
+    "is_sub_item": false
+   }
+  ],
+  "subtotal": 53000,
+  "tax": null,
+  "service": null,
+  "discount": null,
+  "total": 53000,
+  "checks": {
+   "lines_match_subtotal": true,
+   "lines_match_total": true,
+   "subtotal_tax_service_match_total": true
+  },
+  "raw": {
+   "menu": [
+    {
+     "nm": "STIX CINNAMON",
+     "unitprice": "19,000",
+     "cnt": "1",
+     "price": "19,000"
+    },
+    {
+     "nm": "CINNAMON SUGAR",
+     "unitprice": "17,000",
+     "cnt": "1",
+     "price": "17,000"
+    },
+    {
+     "nm": "TRIPPLE CHEESE",
+     "unitprice": "17,000",
+     "cnt": "1",
+     "price": "17,000"
+    }
+   ],
+   "sub_total": {
+    "subtotal_price": "53,000"
+   },
+   "total": {
+    "total_price": "53,000",
+    "changeprice": "0",
+    "creditcardprice": "53,000"
+   }
+  }
+ },
+ {
+  "id": "validation_043",
+  "image_path": "data/images/validation/validation_043.png",
+  "width": 960,
+  "height": 1280,
+  "items": [
+   {
+    "name": "ROTI UNYIL",
+    "qty": 170,
+    "unit_price": null,
+    "line_total": 272000,
+    "discount": null,
+    "is_sub_item": false
+   },
+   {
+    "name": "PAPER BAG BESAR",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 6000,
+    "discount": null,
+    "is_sub_item": false
+   }
+  ],
+  "subtotal": null,
+  "tax": null,
+  "service": null,
+  "discount": null,
+  "total": 278000,
+  "checks": {
+   "lines_match_subtotal": null,
+   "lines_match_total": true,
+   "subtotal_tax_service_match_total": null
+  },
+  "raw": {
+   "menu": [
+    {
+     "nm": "ROTI UNYIL",
+     "cnt": "170",
+     "price": "272.000"
+    },
+    {
+     "nm": "PAPER BAG BESAR",
+     "cnt": "1",
+     "price": "6.000"
+    }
+   ],
+   "total": {
+    "total_price": "278.000",
+    "cashprice": "300.000",
+    "changeprice": "22.000",
+    "menuqty_cnt": "171"
+   }
+  }
+ },
+ {
+  "id": "validation_044",
+  "image_path": "data/images/validation/validation_044.png",
+  "width": 2304,
+  "height": 4096,
+  "items": [
+   {
+    "name": "THAI ICED TEA (L)",
+    "qty": 1,
+    "unit_price": 16363,
+    "line_total": 16363,
+    "discount": null,
+    "is_sub_item": false
+   }
+  ],
+  "subtotal": 16363,
+  "tax": 1636,
+  "service": null,
+  "discount": null,
+  "total": 17999,
+  "checks": {
+   "lines_match_subtotal": true,
+   "lines_match_total": false,
+   "subtotal_tax_service_match_total": true
+  },
+  "raw": {
+   "menu": {
+    "nm": "THAI ICED TEA (L)",
+    "unitprice": "16,363",
+    "cnt": "1",
+    "price": "16.363"
+   },
+   "sub_total": {
+    "subtotal_price": "16.363",
+    "tax_price": "1,636"
+   },
+   "total": {
+    "total_price": "17,999",
+    "menuqty_cnt": "1"
+   }
+  }
+ },
+ {
+  "id": "validation_045",
+  "image_path": "data/images/validation/validation_045.png",
+  "width": 864,
+  "height": 1296,
+  "items": [
+   {
+    "name": "AOP Seafood",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 85000,
+    "discount": null,
+    "is_sub_item": false
+   },
+   {
+    "name": "Omurice Katsu Curry",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 95000,
+    "discount": null,
+    "is_sub_item": false
+   },
+   {
+    "name": "Earl Gray Tea",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 35000,
+    "discount": null,
+    "is_sub_item": false
+   },
+   {
+    "name": "Hot Tea",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 25000,
+    "discount": null,
+    "is_sub_item": false
+   }
+  ],
+  "subtotal": 240000,
+  "tax": 26160,
+  "service": 21600,
+  "discount": null,
+  "total": 287760,
+  "checks": {
+   "lines_match_subtotal": true,
+   "lines_match_total": false,
+   "subtotal_tax_service_match_total": true
+  },
+  "raw": {
+   "menu": [
+    {
+     "nm": "AOP Seafood",
+     "cnt": "1",
+     "price": "85,000"
+    },
+    {
+     "nm": "Omurice Katsu Curry",
+     "cnt": "1",
+     "price": "95,000"
+    },
+    {
+     "nm": "Earl Gray Tea",
+     "cnt": "1",
+     "price": "35,000"
+    },
+    {
+     "nm": "Hot Tea",
+     "cnt": "1",
+     "price": "25,000"
+    }
+   ],
+   "sub_total": {
+    "subtotal_price": "240,000",
+    "service_price": "21,600",
+    "tax_price": "26,160"
+   },
+   "total": {
+    "total_price": "287,760"
+   }
+  }
+ },
+ {
+  "id": "validation_046",
+  "image_path": "data/images/validation/validation_046.png",
+  "width": 576,
+  "height": 864,
+  "items": [
+   {
+    "name": "MARBLE CASTELA",
+    "qty": 1,
+    "unit_price": 22000,
+    "line_total": 22000,
+    "discount": null,
+    "is_sub_item": false
+   }
+  ],
+  "subtotal": null,
+  "tax": null,
+  "service": null,
+  "discount": null,
+  "total": 22000,
+  "checks": {
+   "lines_match_subtotal": null,
+   "lines_match_total": true,
+   "subtotal_tax_service_match_total": null
+  },
+  "raw": {
+   "menu": {
+    "nm": "MARBLE CASTELA",
+    "unitprice": "22,000",
+    "cnt": "1",
+    "price": "22,000"
+   },
+   "total": {
+    "total_price": "22,000",
+    "cashprice": "22,000",
+    "changeprice": "0",
+    "menuqty_cnt": "1"
+   }
+  }
+ },
+ {
+  "id": "validation_047",
+  "image_path": "data/images/validation/validation_047.png",
+  "width": 864,
+  "height": 1296,
+  "items": [
+   {
+    "name": "Seaweed Chicken",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 42000,
+    "discount": null,
+    "is_sub_item": false
+   }
+  ],
+  "subtotal": 42000,
+  "tax": null,
+  "service": null,
+  "discount": null,
+  "total": 42000,
+  "checks": {
+   "lines_match_subtotal": true,
+   "lines_match_total": true,
+   "subtotal_tax_service_match_total": true
+  },
+  "raw": {
+   "menu": {
+    "nm": "Seaweed Chicken",
+    "cnt": "1",
+    "price": "42,000",
+    "sub": {
+     "nm": "- Sedang",
+     "cnt": "1",
+     "price": "0"
+    }
+   },
+   "sub_total": {
+    "subtotal_price": "42,000"
+   },
+   "total": {
+    "total_price": "42,000",
+    "cashprice": "50,000",
+    "changeprice": "8,000",
+    "menuqty_cnt": "1"
+   }
+  }
+ },
+ {
+  "id": "validation_048",
+  "image_path": "data/images/validation/validation_048.png",
+  "width": 864,
+  "height": 1296,
+  "items": [
+   {
+    "name": "SB 1 OR",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 28636,
+    "discount": null,
+    "is_sub_item": false
+   },
+   {
+    "name": "Chokocha Flt",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 13636,
+    "discount": null,
+    "is_sub_item": false
+   },
+   {
+    "name": "Bbq Bento",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 13636,
+    "discount": null,
+    "is_sub_item": false
+   }
+  ],
+  "subtotal": 55908,
+  "tax": 5592,
+  "service": null,
+  "discount": null,
+  "total": 61500,
+  "checks": {
+   "lines_match_subtotal": true,
+   "lines_match_total": false,
+   "subtotal_tax_service_match_total": true
+  },
+  "raw": {
+   "menu": [
+    {
+     "nm": "SB 1 OR",
+     "cnt": "1",
+     "price": "28,636"
+    },
+    {
+     "nm": "Chokocha Flt",
+     "cnt": "1",
+     "price": "13,636"
+    },
+    {
+     "nm": "Bbq Bento",
+     "cnt": "1",
+     "price": "13,636"
+    }
+   ],
+   "sub_total": {
+    "subtotal_price": "55,908",
+    "tax_price": "5,592"
+   },
+   "total": {
+    "total_price": "61,500",
+    "cashprice": "70,000",
+    "changeprice": "8,500",
+    "menuqty_cnt": "3"
+   }
+  }
+ },
+ {
+  "id": "validation_049",
+  "image_path": "data/images/validation/validation_049.png",
+  "width": 1108,
+  "height": 1478,
+  "items": [
+   {
+    "name": "Nasi CampurBali",
+    "qty": 1,
+    "unit_price": 52000,
+    "line_total": 52000,
+    "discount": null,
+    "is_sub_item": false
+   },
+   {
+    "name": "Lemon",
+    "qty": 1,
+    "unit_price": 22000,
+    "line_total": 22000,
+    "discount": null,
+    "is_sub_item": false
+   }
+  ],
+  "subtotal": 74000,
+  "tax": 7400,
+  "service": null,
+  "discount": null,
+  "total": null,
+  "checks": {
+   "lines_match_subtotal": true,
+   "lines_match_total": null,
+   "subtotal_tax_service_match_total": null
+  },
+  "raw": {
+   "menu": [
+    {
+     "nm": "Nasi CampurBali",
+     "unitprice": "52.000",
+     "cnt": "1x",
+     "price": "52.000"
+    },
+    {
+     "nm": "Lemon",
+     "unitprice": "22.000",
+     "cnt": "1x",
+     "price": "22.000"
+    }
+   ],
+   "sub_total": {
+    "subtotal_price": "74.000",
+    "tax_price": "7.400"
+   },
+   "total": {
+    "cashprice": "81.400"
+   }
+  }
+ },
+ {
+  "id": "validation_050",
+  "image_path": "data/images/validation/validation_050.png",
+  "width": 576,
+  "height": 864,
+  "items": [
+   {
+    "name": "CHOCOLATE ECLAIR",
+    "qty": 2,
+    "unit_price": null,
+    "line_total": 26000,
+    "discount": null,
+    "is_sub_item": false
+   }
+  ],
+  "subtotal": null,
+  "tax": null,
+  "service": null,
+  "discount": null,
+  "total": 26000,
+  "checks": {
+   "lines_match_subtotal": null,
+   "lines_match_total": true,
+   "subtotal_tax_service_match_total": null
+  },
+  "raw": {
+   "menu": {
+    "nm": "CHOCOLATE ECLAIR",
+    "cnt": "2",
+    "price": "26,000"
+   },
+   "total": {
+    "total_price": "26,000",
+    "cashprice": "26,000",
+    "changeprice": "0"
+   }
+  }
+ },
+ {
+  "id": "validation_051",
+  "image_path": "data/images/validation/validation_051.png",
+  "width": 960,
+  "height": 1280,
+  "items": [
+   {
+    "name": "Round Wagyu (1gr)",
+    "qty": 118,
+    "unit_price": null,
+    "line_total": 47200,
+    "discount": null,
+    "is_sub_item": false
+   },
+   {
+    "name": "Wagyu Rice Box",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 10000,
+    "discount": null,
+    "is_sub_item": false
+   }
+  ],
+  "subtotal": 57200,
+  "tax": null,
+  "service": null,
+  "discount": null,
+  "total": 57200,
+  "checks": {
+   "lines_match_subtotal": true,
+   "lines_match_total": true,
+   "subtotal_tax_service_match_total": true
+  },
+  "raw": {
+   "menu": [
+    {
+     "nm": "Round Wagyu (1gr)",
+     "cnt": "118",
+     "price": "47.200"
+    },
+    {
+     "nm": "Wagyu Rice Box",
+     "cnt": "1",
+     "price": "10.000"
+    }
+   ],
+   "sub_total": {
+    "subtotal_price": "57.200"
+   },
+   "total": {
+    "total_price": "57.200",
+    "creditcardprice": "57.200"
+   }
+  }
+ },
+ {
+  "id": "validation_052",
+  "image_path": "data/images/validation/validation_052.png",
+  "width": 1108,
+  "height": 1478,
+  "items": [
+   {
+    "name": "KENTHIR 2",
+    "qty": 2,
+    "unit_price": null,
+    "line_total": 42000,
+    "discount": null,
+    "is_sub_item": false
+   },
+   {
+    "name": "KOL GORENG",
+    "qty": 2,
+    "unit_price": null,
+    "line_total": 6000,
+    "discount": null,
+    "is_sub_item": false
+   },
+   {
+    "name": "TEH MANIS",
+    "qty": 2,
+    "unit_price": null,
+    "line_total": 8000,
+    "discount": null,
+    "is_sub_item": false
+   }
+  ],
+  "subtotal": 56000,
+  "tax": null,
+  "service": null,
+  "discount": null,
+  "total": 56000,
+  "checks": {
+   "lines_match_subtotal": true,
+   "lines_match_total": true,
+   "subtotal_tax_service_match_total": true
+  },
+  "raw": {
+   "menu": [
+    {
+     "nm": "KENTHIR 2",
+     "cnt": "2",
+     "price": "42.000"
+    },
+    {
+     "nm": "KOL GORENG",
+     "cnt": "2",
+     "price": "6.000"
+    },
+    {
+     "nm": "TEH MANIS",
+     "cnt": "2",
+     "price": "8.000"
+    }
+   ],
+   "sub_total": {
+    "subtotal_price": "56.000"
+   },
+   "total": {
+    "total_price": "56.000",
+    "cashprice": "56.000",
+    "changeprice": "0"
+   }
+  }
+ },
+ {
+  "id": "validation_053",
+  "image_path": "data/images/validation/validation_053.png",
+  "width": 576,
+  "height": 864,
+  "items": [
+   {
+    "name": "Large 1",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 11000,
+    "discount": null,
+    "is_sub_item": false
+   },
+   {
+    "name": "Pastry Keju",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 20000,
+    "discount": null,
+    "is_sub_item": false
+   }
+  ],
+  "subtotal": null,
+  "tax": null,
+  "service": null,
+  "discount": null,
+  "total": 31000,
+  "checks": {
+   "lines_match_subtotal": null,
+   "lines_match_total": true,
+   "subtotal_tax_service_match_total": null
+  },
+  "raw": {
+   "menu": [
+    {
+     "nm": "Large 1",
+     "cnt": "1",
+     "price": "11.000",
+     "sub": {
+      "nm": "*Rhum",
+      "cnt": "1",
+      "price": "0"
+     }
+    },
+    {
+     "nm": "Pastry Keju",
+     "cnt": "1",
+     "price": "20.000",
+     "sub": {
+      "nm": "*Plastik kcl",
+      "cnt": "1",
+      "price": "0"
+     }
+    }
+   ],
+   "total": {
+    "total_price": "31.000",
+    "cashprice": "40.000",
+    "changeprice": "9.000",
+    "menuqty_cnt": "4"
+   }
+  }
+ },
+ {
+  "id": "validation_054",
+  "image_path": "data/images/validation/validation_054.png",
+  "width": 576,
+  "height": 864,
+  "items": [
+   {
+    "name": "4003-Blueberry Fuji",
+    "qty": 1,
+    "unit_price": 40000,
+    "line_total": 40000,
+    "discount": null,
+    "is_sub_item": false
+   },
+   {
+    "name": "6001-Plastic Bag Small",
+    "qty": 1,
+    "unit_price": 0,
+    "line_total": 0,
+    "discount": null,
+    "is_sub_item": false
+   }
+  ],
+  "subtotal": null,
+  "tax": null,
+  "service": null,
+  "discount": null,
+  "total": 40000,
+  "checks": {
+   "lines_match_subtotal": null,
+   "lines_match_total": true,
+   "subtotal_tax_service_match_total": null
+  },
+  "raw": {
+   "menu": [
+    {
+     "nm": "4003-Blueberry Fuji",
+     "unitprice": "40.000",
+     "cnt": "x1",
+     "price": "40.000"
+    },
+    {
+     "nm": "6001-Plastic Bag Small",
+     "unitprice": "0",
+     "cnt": "x1",
+     "price": "0"
+    }
+   ],
+   "total": {
+    "total_price": "40.000",
+    "cashprice": "50.000",
+    "changeprice": "10.000",
+    "menuqty_cnt": "2"
+   }
+  }
+ },
+ {
+  "id": "validation_055",
+  "image_path": "data/images/validation/validation_055.png",
+  "width": 864,
+  "height": 1296,
+  "items": [
+   {
+    "name": "Cha Keaw L...",
+    "qty": 2,
+    "unit_price": null,
+    "line_total": 60000,
+    "discount": null,
+    "is_sub_item": false
+   },
+   {
+    "name": "Cha Keaw L...",
+    "qty": 2,
+    "unit_price": null,
+    "line_total": 60000,
+    "discount": 60000,
+    "is_sub_item": false
+   }
+  ],
+  "subtotal": null,
+  "tax": null,
+  "service": null,
+  "discount": null,
+  "total": 60000,
+  "checks": {
+   "lines_match_subtotal": null,
+   "lines_match_total": false,
+   "subtotal_tax_service_match_total": null
+  },
+  "raw": {
+   "menu": [
+    {
+     "nm": "Cha Keaw L...",
+     "cnt": "x2",
+     "price": "60.000"
+    },
+    {
+     "nm": "Cha Keaw L...",
+     "cnt": "x2",
+     "discountprice": "60.000)",
+     "price": "60.000"
+    }
+   ],
+   "total": {
+    "total_price": "60.000",
+    "creditcardprice": "60.000"
+   }
+  }
+ },
+ {
+  "id": "validation_056",
+  "image_path": "data/images/validation/validation_056.png",
+  "width": 576,
+  "height": 864,
+  "items": [
+   {
+    "name": "Thai Iced T. .x1",
+    "qty": null,
+    "unit_price": null,
+    "line_total": 20000,
+    "discount": null,
+    "is_sub_item": false
+   }
+  ],
+  "subtotal": 20000,
+  "tax": null,
+  "service": null,
+  "discount": null,
+  "total": 20000,
+  "checks": {
+   "lines_match_subtotal": true,
+   "lines_match_total": true,
+   "subtotal_tax_service_match_total": true
+  },
+  "raw": {
+   "menu": {
+    "nm": "Thai Iced T. .x1",
+    "price": "20.000"
+   },
+   "sub_total": {
+    "subtotal_price": "20.000"
+   },
+   "total": {
+    "total_price": "20.000",
+    "cashprice": "20.000",
+    "changeprice": "0"
+   }
+  }
+ },
+ {
+  "id": "validation_057",
+  "image_path": "data/images/validation/validation_057.png",
+  "width": 864,
+  "height": 1296,
+  "items": [
+   {
+    "name": "SEAFOOD MARINARA",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 85000,
+    "discount": null,
+    "is_sub_item": false
+   },
+   {
+    "name": "CREAMY MARINARA SALMON",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 85500,
+    "discount": null,
+    "is_sub_item": false
+   },
+   {
+    "name": "LYCHEE ICE TEA",
+    "qty": 2,
+    "unit_price": null,
+    "line_total": 77000,
+    "discount": null,
+    "is_sub_item": false
+   }
+  ],
+  "subtotal": 247500,
+  "tax": 26235,
+  "service": 14850,
+  "discount": null,
+  "total": 288585,
+  "checks": {
+   "lines_match_subtotal": true,
+   "lines_match_total": false,
+   "subtotal_tax_service_match_total": true
+  },
+  "raw": {
+   "menu": [
+    {
+     "nm": "SEAFOOD MARINARA",
+     "cnt": "1",
+     "price": "85,000"
+    },
+    {
+     "nm": "CREAMY MARINARA SALMON",
+     "cnt": "1",
+     "price": "85.500"
+    },
+    {
+     "nm": "LYCHEE ICE TEA",
+     "cnt": "2",
+     "price": "77,000"
+    }
+   ],
+   "sub_total": {
+    "subtotal_price": "247,500",
+    "service_price": "14,850",
+    "tax_price": "26,235"
+   },
+   "total": {
+    "total_price": "288,585"
+   }
+  }
+ },
+ {
+  "id": "validation_058",
+  "image_path": "data/images/validation/validation_058.png",
+  "width": 432,
+  "height": 648,
+  "items": [
+   {
+    "name": "Viet Milk Coffee",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 25000,
+    "discount": null,
+    "is_sub_item": false
+   }
+  ],
+  "subtotal": 25000,
+  "tax": null,
+  "service": null,
+  "discount": null,
+  "total": 25000,
+  "checks": {
+   "lines_match_subtotal": true,
+   "lines_match_total": true,
+   "subtotal_tax_service_match_total": true
+  },
+  "raw": {
+   "menu": {
+    "nm": "Viet Milk Coffee",
+    "cnt": "1",
+    "price": "25.000",
+    "sub": [
+     {
+      "nm": "+Hot"
+     },
+     {
+      "nm": "+M"
+     }
+    ]
+   },
+   "sub_total": {
+    "subtotal_price": "25.000"
+   },
+   "total": {
+    "total_price": "25.000",
+    "cashprice": "25.000",
+    "changeprice": "0"
+   }
+  }
+ },
+ {
+  "id": "validation_059",
+  "image_path": "data/images/validation/validation_059.png",
+  "width": 2304,
+  "height": 4096,
+  "items": [
+   {
+    "name": "XLB Org Pork 10x",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 78000,
+    "discount": null,
+    "is_sub_item": false
+   },
+   {
+    "name": "Sicito Babi",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 65000,
+    "discount": null,
+    "is_sub_item": false
+   },
+   {
+    "name": "Hotplate Tahu",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 58000,
+    "discount": null,
+    "is_sub_item": false
+   },
+   {
+    "name": "DF Fish Fillet Garlc",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 108000,
+    "discount": null,
+    "is_sub_item": false
+   },
+   {
+    "name": "LM Pork Belly",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 88000,
+    "discount": null,
+    "is_sub_item": false
+   },
+   {
+    "name": "Siew Mai",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 38800,
+    "discount": null,
+    "is_sub_item": false
+   },
+   {
+    "name": "Kwan Yin Cup",
+    "qty": 5,
+    "unit_price": null,
+    "line_total": 50000,
+    "discount": null,
+    "is_sub_item": false
+   },
+   {
+    "name": "Herbal Jelly",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 38000,
+    "discount": null,
+    "is_sub_item": false
+   },
+   {
+    "name": "Onde-Onde",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 38000,
+    "discount": null,
+    "is_sub_item": false
+   }
+  ],
+  "subtotal": 561800,
+  "tax": 60394,
+  "service": 42135,
+  "discount": null,
+  "total": 664329,
+  "checks": {
+   "lines_match_subtotal": true,
+   "lines_match_total": false,
+   "subtotal_tax_service_match_total": true
+  },
+  "raw": {
+   "menu": [
+    {
+     "nm": "XLB Org Pork 10x",
+     "cnt": "1",
+     "price": "78,000"
+    },
+    {
+     "nm": "Sicito Babi",
+     "cnt": "1",
+     "price": "65,000"
+    },
+    {
+     "nm": "Hotplate Tahu",
+     "cnt": "1",
+     "price": "58,000"
+    },
+    {
+     "nm": "DF Fish Fillet Garlc",
+     "cnt": "1",
+     "price": "108,000"
+    },
+    {
+     "nm": "LM Pork Belly",
+     "cnt": "1",
+     "price": "88,000"
+    },
+    {
+     "nm": "Siew Mai",
+     "cnt": "1",
+     "price": "38,800"
+    },
+    {
+     "nm": "Kwan Yin Cup",
+     "cnt": "5",
+     "price": "50,000"
+    },
+    {
+     "nm": "Herbal Jelly",
+     "cnt": "1",
+     "price": "38,000"
+    },
+    {
+     "nm": "Onde-Onde",
+     "cnt": "1",
+     "price": "38,000"
+    }
+   ],
+   "sub_total": {
+    "subtotal_price": "561,800",
+    "service_price": "42,135",
+    "tax_price": "60,394"
+   },
+   "total": {
+    "total_price": "664,329",
+    "menuqty_cnt": "13"
+   }
+  }
+ },
+ {
+  "id": "validation_060",
+  "image_path": "data/images/validation/validation_060.png",
+  "width": 864,
+  "height": 1296,
+  "items": [
+   {
+    "name": "VANILLA CHOCO HEART CAKE",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 180000,
+    "discount": null,
+    "is_sub_item": false
+   }
+  ],
+  "subtotal": null,
+  "tax": null,
+  "service": null,
+  "discount": null,
+  "total": 180000,
+  "checks": {
+   "lines_match_subtotal": null,
+   "lines_match_total": true,
+   "subtotal_tax_service_match_total": null
+  },
+  "raw": {
+   "menu": {
+    "nm": "VANILLA CHOCO HEART CAKE",
+    "cnt": "1",
+    "price": "180,000"
+   },
+   "total": {
+    "total_price": "180,000",
+    "creditcardprice": "180,000"
+   }
+  }
+ },
+ {
+  "id": "validation_061",
+  "image_path": "data/images/validation/validation_061.png",
+  "width": 1356,
+  "height": 2315,
+  "items": [
+   {
+    "name": "Populaire Chocolate",
+    "qty": 1,
+    "unit_price": 4500,
+    "line_total": 4500,
+    "discount": null,
+    "is_sub_item": false
+   },
+   {
+    "name": "Paddle Pop Choco Magma",
+    "qty": 1,
+    "unit_price": 3000,
+    "line_total": 3000,
+    "discount": null,
+    "is_sub_item": false
+   }
+  ],
+  "subtotal": 7500,
+  "tax": 750,
+  "service": null,
+  "discount": null,
+  "total": 8250,
+  "checks": {
+   "lines_match_subtotal": true,
+   "lines_match_total": false,
+   "subtotal_tax_service_match_total": true
+  },
+  "raw": {
+   "menu": [
+    {
+     "nm": "Populaire Chocolate",
+     "unitprice": "4,500",
+     "cnt": "1",
+     "price": "4,500"
+    },
+    {
+     "nm": "Paddle Pop Choco Magma",
+     "unitprice": "3,000",
+     "cnt": "1",
+     "price": "3,000"
+    }
+   ],
+   "sub_total": {
+    "subtotal_price": "7,500",
+    "tax_price": "750"
+   },
+   "total": {
+    "total_price": "8,250",
+    "total_etc": "50",
+    "cashprice": "10,000",
+    "changeprice": "1,800"
+   }
+  }
+ },
+ {
+  "id": "validation_062",
+  "image_path": "data/images/validation/validation_062.png",
+  "width": 1108,
+  "height": 1478,
+  "items": [
+   {
+    "name": "French Fries",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 10909,
+    "discount": null,
+    "is_sub_item": false
+   },
+   {
+    "name": "Cheese Burger",
+    "qty": 2,
+    "unit_price": null,
+    "line_total": 36364,
+    "discount": null,
+    "is_sub_item": false
+   },
+   {
+    "name": "Milo",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 9091,
+    "discount": null,
+    "is_sub_item": false
+   }
+  ],
+  "subtotal": 56364,
+  "tax": 5636,
+  "service": null,
+  "discount": null,
+  "total": 62000,
+  "checks": {
+   "lines_match_subtotal": true,
+   "lines_match_total": false,
+   "subtotal_tax_service_match_total": true
+  },
+  "raw": {
+   "menu": [
+    {
+     "nm": "French Fries",
+     "cnt": "1",
+     "price": "10,909"
+    },
+    {
+     "nm": "Cheese Burger",
+     "cnt": "2",
+     "price": "36,364"
+    },
+    {
+     "nm": "Milo",
+     "cnt": "1",
+     "price": "9.091"
+    }
+   ],
+   "sub_total": {
+    "subtotal_price": "56,364",
+    "tax_price": "5,636"
+   },
+   "total": {
+    "total_price": "62,000",
+    "cashprice": "100,000",
+    "changeprice": "38,000"
+   }
+  }
+ },
+ {
+  "id": "validation_063",
+  "image_path": "data/images/validation/validation_063.png",
+  "width": 864,
+  "height": 1296,
+  "items": [
+   {
+    "name": "ISI CAMPUR",
+    "qty": 1,
+    "unit_price": 43636,
+    "line_total": 43636,
+    "discount": null,
+    "is_sub_item": false
+   },
+   {
+    "name": "A.MINERAL BOTOL",
+    "qty": 1,
+    "unit_price": 8000,
+    "line_total": 8000,
+    "discount": null,
+    "is_sub_item": false
+   }
+  ],
+  "subtotal": 51636,
+  "tax": 5164,
+  "service": null,
+  "discount": null,
+  "total": 56800,
+  "checks": {
+   "lines_match_subtotal": true,
+   "lines_match_total": false,
+   "subtotal_tax_service_match_total": true
+  },
+  "raw": {
+   "menu": [
+    {
+     "nm": "ISI CAMPUR",
+     "unitprice": "43,636",
+     "cnt": "1",
+     "price": "43.636"
+    },
+    {
+     "nm": "A.MINERAL BOTOL",
+     "unitprice": "8.000",
+     "cnt": "1",
+     "price": "8.000"
+    }
+   ],
+   "sub_total": {
+    "subtotal_price": "51,636",
+    "tax_price": "5,164"
+   },
+   "total": {
+    "total_price": "56,800",
+    "cashprice": "110,000",
+    "changeprice": "53.200"
+   }
+  }
+ },
+ {
+  "id": "validation_064",
+  "image_path": "data/images/validation/validation_064.png",
+  "width": 432,
+  "height": 648,
+  "items": [
+   {
+    "name": "WHOLE WHEAT PAN BREAD",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 20000,
+    "discount": null,
+    "is_sub_item": false
+   }
+  ],
+  "subtotal": null,
+  "tax": null,
+  "service": null,
+  "discount": null,
+  "total": 20000,
+  "checks": {
+   "lines_match_subtotal": null,
+   "lines_match_total": true,
+   "subtotal_tax_service_match_total": null
+  },
+  "raw": {
+   "menu": {
+    "nm": "WHOLE WHEAT PAN BREAD",
+    "cnt": "1",
+    "price": "20,000"
+   },
+   "total": {
+    "total_price": "20,000",
+    "cashprice": "100,000",
+    "changeprice": "80,000"
+   }
+  }
+ },
+ {
+  "id": "validation_065",
+  "image_path": "data/images/validation/validation_065.png",
+  "width": 1836,
+  "height": 3264,
+  "items": [
+   {
+    "name": "BASO TAHU",
+    "qty": 1,
+    "unit_price": 43636,
+    "line_total": 43636,
+    "discount": null,
+    "is_sub_item": false
+   },
+   {
+    "name": "NASI PUTIH",
+    "qty": 1,
+    "unit_price": 6000,
+    "line_total": 6000,
+    "discount": null,
+    "is_sub_item": false
+   }
+  ],
+  "subtotal": 49636,
+  "tax": 4964,
+  "service": null,
+  "discount": null,
+  "total": 54600,
+  "checks": {
+   "lines_match_subtotal": true,
+   "lines_match_total": false,
+   "subtotal_tax_service_match_total": true
+  },
+  "raw": {
+   "menu": [
+    {
+     "nm": "BASO TAHU",
+     "unitprice": "43.636",
+     "cnt": "1",
+     "price": "43.636"
+    },
+    {
+     "nm": "NASI PUTIH",
+     "unitprice": "6.000",
+     "cnt": "1",
+     "price": "6.000"
+    }
+   ],
+   "sub_total": {
+    "subtotal_price": "49.636",
+    "tax_price": "4.964"
+   },
+   "total": {
+    "total_price": "54.600",
+    "cashprice": "60.100",
+    "changeprice": "5.500"
+   }
+  }
+ },
+ {
+  "id": "validation_066",
+  "image_path": "data/images/validation/validation_066.png",
+  "width": 576,
+  "height": 864,
+  "items": [
+   {
+    "name": "AIR MINERAL",
+    "qty": null,
+    "unit_price": null,
+    "line_total": 7000,
+    "discount": null,
+    "is_sub_item": false
+   }
+  ],
+  "subtotal": null,
+  "tax": null,
+  "service": null,
+  "discount": null,
+  "total": 7000,
+  "checks": {
+   "lines_match_subtotal": null,
+   "lines_match_total": true,
+   "subtotal_tax_service_match_total": null
+  },
+  "raw": {
+   "menu": {
+    "nm": "AIR MINERAL",
+    "price": "7,000"
+   },
+   "total": {
+    "total_price": "7,000",
+    "cashprice": "7,000"
+   }
+  }
+ },
+ {
+  "id": "validation_067",
+  "image_path": "data/images/validation/validation_067.png",
+  "width": 864,
+  "height": 1296,
+  "items": [
+   {
+    "name": "PAKET BER2",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 69091,
+    "discount": null,
+    "is_sub_item": false
+   }
+  ],
+  "subtotal": 69091,
+  "tax": 6909,
+  "service": null,
+  "discount": null,
+  "total": 76000,
+  "checks": {
+   "lines_match_subtotal": true,
+   "lines_match_total": false,
+   "subtotal_tax_service_match_total": true
+  },
+  "raw": {
+   "menu": {
+    "nm": "PAKET BER2",
+    "cnt": "1",
+    "price": "69,091",
+    "sub": [
+     {
+      "nm": "BREAD N CHEESE DEL",
+      "cnt": "1"
+     },
+     {
+      "nm": "MAC N CHEESE DEL",
+      "cnt": "1"
+     },
+     {
+      "nm": "PEPSI DEL",
+      "cnt": "1"
+     },
+     {
+      "nm": "P/P THUOSAND ISL DEL",
+      "cnt": "1"
+     },
+     {
+      "nm": "LIPTON ICE TEA DEL",
+      "cnt": "1"
+     }
+    ]
+   },
+   "sub_total": {
+    "subtotal_price": "69,091",
+    "tax_price": "6,909"
+   },
+   "total": {
+    "total_price": "76,000"
+   }
+  }
+ },
+ {
+  "id": "validation_068",
+  "image_path": "data/images/validation/validation_068.png",
+  "width": 864,
+  "height": 1296,
+  "items": [
+   {
+    "name": "Honey Mandarin",
+    "qty": 2,
+    "unit_price": 13000,
+    "line_total": 26000,
+    "discount": null,
+    "is_sub_item": false
+   }
+  ],
+  "subtotal": null,
+  "tax": null,
+  "service": null,
+  "discount": null,
+  "total": 26000,
+  "checks": {
+   "lines_match_subtotal": null,
+   "lines_match_total": true,
+   "subtotal_tax_service_match_total": null
+  },
+  "raw": {
+   "menu": {
+    "nm": "Honey Mandarin",
+    "unitprice": "13,000",
+    "cnt": "2 X",
+    "price": "26,000"
+   },
+   "total": {
+    "total_price": "26,000",
+    "cashprice": "30,000",
+    "changeprice": "4,000"
+   }
+  }
+ },
+ {
+  "id": "validation_069",
+  "image_path": "data/images/validation/validation_069.png",
+  "width": 864,
+  "height": 1296,
+  "items": [
+   {
+    "name": "SOTO MEDAN+NASI",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 59500,
+    "discount": null,
+    "is_sub_item": false
+   },
+   {
+    "name": "GADO-GADO",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 34500,
+    "discount": null,
+    "is_sub_item": false
+   },
+   {
+    "name": "SOTO BETAWI + NASI",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 57500,
+    "discount": null,
+    "is_sub_item": false
+   }
+  ],
+  "subtotal": 151500,
+  "tax": 15908,
+  "service": 7575,
+  "discount": null,
+  "total": 174983,
+  "checks": {
+   "lines_match_subtotal": true,
+   "lines_match_total": false,
+   "subtotal_tax_service_match_total": true
+  },
+  "raw": {
+   "menu": [
+    {
+     "nm": "SOTO MEDAN+NASI",
+     "cnt": "1",
+     "price": "59.500"
+    },
+    {
+     "nm": "GADO-GADO",
+     "cnt": "1",
+     "price": "34.500"
+    },
+    {
+     "nm": "SOTO BETAWI + NASI",
+     "cnt": "1",
+     "price": "57.500"
+    }
+   ],
+   "sub_total": {
+    "subtotal_price": "151.500",
+    "service_price": "7.575",
+    "tax_price": "15.908"
+   },
+   "total": {
+    "total_price": "174.983"
+   }
+  }
+ },
+ {
+  "id": "validation_070",
+  "image_path": "data/images/validation/validation_070.png",
+  "width": 864,
+  "height": 1296,
+  "items": [
+   {
+    "name": "KaraageCurryTeishoku",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 69000,
+    "discount": null,
+    "is_sub_item": false
+   },
+   {
+    "name": "Lemon Plate",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 19000,
+    "discount": null,
+    "is_sub_item": false
+   },
+   {
+    "name": "Ocha Hot",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 15000,
+    "discount": null,
+    "is_sub_item": false
+   }
+  ],
+  "subtotal": 103000,
+  "tax": 11073,
+  "service": 7725,
+  "discount": null,
+  "total": 121798,
+  "checks": {
+   "lines_match_subtotal": true,
+   "lines_match_total": false,
+   "subtotal_tax_service_match_total": true
+  },
+  "raw": {
+   "menu": [
+    {
+     "nm": "KaraageCurryTeishoku",
+     "cnt": "1",
+     "price": "69,000"
+    },
+    {
+     "nm": "Lemon Plate",
+     "cnt": "1",
+     "price": "19,000"
+    },
+    {
+     "nm": "Ocha Hot",
+     "cnt": "1",
+     "price": "15,000"
+    }
+   ],
+   "sub_total": {
+    "subtotal_price": "103,000",
+    "service_price": "7,725",
+    "tax_price": "11,073"
+   },
+   "total": {
+    "total_price": "121,798",
+    "menutype_cnt": "3",
+    "menuqty_cnt": "3"
+   }
+  }
+ },
+ {
+  "id": "validation_071",
+  "image_path": "data/images/validation/validation_071.png",
+  "width": 960,
+  "height": 1280,
+  "items": [
+   {
+    "name": "Dum Dum Thai Coffee",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 19000,
+    "discount": null,
+    "is_sub_item": false
+   }
+  ],
+  "subtotal": 20000,
+  "tax": null,
+  "service": null,
+  "discount": null,
+  "total": 20000,
+  "checks": {
+   "lines_match_subtotal": false,
+   "lines_match_total": false,
+   "subtotal_tax_service_match_total": true
+  },
+  "raw": {
+   "menu": {
+    "nm": "Dum Dum Thai Coffee",
+    "cnt": "1",
+    "price": "19.000",
+    "sub": {
+     "nm": "Ice",
+     "cnt": "1",
+     "price": "1.000"
+    }
+   },
+   "sub_total": {
+    "subtotal_price": "20.000"
+   },
+   "total": {
+    "total_price": "20.000",
+    "cashprice": "50.000",
+    "changeprice": "30.000"
+   }
+  }
+ },
+ {
+  "id": "validation_072",
+  "image_path": "data/images/validation/validation_072.png",
+  "width": 576,
+  "height": 864,
+  "items": [
+   {
+    "name": "STIX CINNAMON",
+    "qty": 1,
+    "unit_price": 19000,
+    "line_total": 19000,
+    "discount": null,
+    "is_sub_item": false
+   },
+   {
+    "name": "TRIPPLE CHEESE",
+    "qty": 1,
+    "unit_price": 17000,
+    "line_total": 17000,
+    "discount": null,
+    "is_sub_item": false
+   }
+  ],
+  "subtotal": 36000,
+  "tax": null,
+  "service": null,
+  "discount": null,
+  "total": 36000,
+  "checks": {
+   "lines_match_subtotal": true,
+   "lines_match_total": true,
+   "subtotal_tax_service_match_total": true
+  },
+  "raw": {
+   "menu": [
+    {
+     "nm": "STIX CINNAMON",
+     "unitprice": "19,000",
+     "cnt": "1 x",
+     "price": "19,000"
+    },
+    {
+     "nm": "TRIPPLE CHEESE",
+     "unitprice": "17,000",
+     "cnt": "1 x",
+     "price": "17,000"
+    }
+   ],
+   "sub_total": {
+    "subtotal_price": "36,000"
+   },
+   "total": {
+    "total_price": "36,000",
+    "changeprice": "0",
+    "creditcardprice": "36,000"
+   }
+  }
+ },
+ {
+  "id": "validation_073",
+  "image_path": "data/images/validation/validation_073.png",
+  "width": 864,
+  "height": 1296,
+  "items": [
+   {
+    "name": "ICED TT",
+    "qty": null,
+    "unit_price": null,
+    "line_total": 20000,
+    "discount": null,
+    "is_sub_item": false
+   }
+  ],
+  "subtotal": null,
+  "tax": null,
+  "service": null,
+  "discount": null,
+  "total": 20000,
+  "checks": {
+   "lines_match_subtotal": null,
+   "lines_match_total": true,
+   "subtotal_tax_service_match_total": null
+  },
+  "raw": {
+   "menu": {
+    "nm": "ICED TT",
+    "price": "20,000"
+   },
+   "total": {
+    "total_price": "20,000",
+    "cashprice": "50,000",
+    "changeprice": "30,000"
+   }
+  }
+ },
+ {
+  "id": "validation_074",
+  "image_path": "data/images/validation/validation_074.png",
+  "width": 864,
+  "height": 1296,
+  "items": [
+   {
+    "name": "THAI ICED TEA",
+    "qty": 1,
+    "unit_price": 20000,
+    "line_total": 20000,
+    "discount": null,
+    "is_sub_item": false
+   }
+  ],
+  "subtotal": 20000,
+  "tax": null,
+  "service": null,
+  "discount": null,
+  "total": 20000,
+  "checks": {
+   "lines_match_subtotal": true,
+   "lines_match_total": true,
+   "subtotal_tax_service_match_total": true
+  },
+  "raw": {
+   "menu": {
+    "nm": "THAI ICED TEA",
+    "unitprice": "@20.000",
+    "cnt": "1",
+    "price": "20.000"
+   },
+   "sub_total": {
+    "subtotal_price": "20.000"
+   },
+   "total": {
+    "total_price": "20.000",
+    "cashprice": "20.000",
+    "changeprice": "0"
+   }
+  }
+ },
+ {
+  "id": "validation_075",
+  "image_path": "data/images/validation/validation_075.png",
+  "width": 864,
+  "height": 1296,
+  "items": [
+   {
+    "name": "KFC Winger HC",
+    "qty": 2,
+    "unit_price": null,
+    "line_total": 40000,
+    "discount": null,
+    "is_sub_item": false
+   },
+   {
+    "name": "Ori Bento",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 13636,
+    "discount": null,
+    "is_sub_item": false
+   },
+   {
+    "name": "Mango Float",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 5909,
+    "discount": null,
+    "is_sub_item": false
+   },
+   {
+    "name": "F.Wngr GES-HC",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 0,
+    "discount": null,
+    "is_sub_item": false
+   },
+   {
+    "name": "CHARGE TA",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 909,
+    "discount": null,
+    "is_sub_item": false
+   }
+  ],
+  "subtotal": 60454,
+  "tax": 6046,
+  "service": null,
+  "discount": null,
+  "total": 66500,
+  "checks": {
+   "lines_match_subtotal": true,
+   "lines_match_total": false,
+   "subtotal_tax_service_match_total": true
+  },
+  "raw": {
+   "menu": [
+    {
+     "nm": "KFC Winger HC",
+     "cnt": "2",
+     "price": "40,000"
+    },
+    {
+     "nm": "Ori Bento",
+     "cnt": "1",
+     "price": "13,636"
+    },
+    {
+     "nm": "Mango Float",
+     "cnt": "1",
+     "price": "5,909"
+    },
+    {
+     "nm": "F.Wngr GES-HC",
+     "cnt": "1",
+     "price": "0"
+    },
+    {
+     "nm": "CHARGE TA",
+     "cnt": "1",
+     "price": "909"
+    }
+   ],
+   "sub_total": {
+    "subtotal_price": "60,454",
+    "tax_price": "6,046"
+   },
+   "total": {
+    "total_price": "66,500",
+    "cashprice": "100,000",
+    "changeprice": "33,500",
+    "menuqty_cnt": "6"
+   }
+  }
+ },
+ {
+  "id": "validation_076",
+  "image_path": "data/images/validation/validation_076.png",
+  "width": 1108,
+  "height": 1478,
+  "items": [
+   {
+    "name": "Enting2 Dua Bandeng Ori",
+    "qty": 1,
+    "unit_price": 31000,
+    "line_total": 31000,
+    "discount": null,
+    "is_sub_item": false
+   },
+   {
+    "name": "TAHU BAKSO Grg Ayam VC [biji",
+    "qty": 10,
+    "unit_price": 6800,
+    "line_total": 68000,
+    "discount": null,
+    "is_sub_item": false
+   }
+  ],
+  "subtotal": null,
+  "tax": null,
+  "service": null,
+  "discount": null,
+  "total": 99000,
+  "checks": {
+   "lines_match_subtotal": null,
+   "lines_match_total": true,
+   "subtotal_tax_service_match_total": null
+  },
+  "raw": {
+   "menu": [
+    {
+     "nm": "Enting2 Dua Bandeng Ori",
+     "num": "01069",
+     "unitprice": "31.000",
+     "cnt": "1",
+     "price": "31.000"
+    },
+    {
+     "nm": "TAHU BAKSO Grg Ayam VC [biji",
+     "num": "07165",
+     "unitprice": "6.800",
+     "cnt": "10",
+     "price": "68.000"
+    }
+   ],
+   "total": {
+    "total_price": "99.000",
+    "creditcardprice": "99.000",
+    "menutype_cnt": "2",
+    "menuqty_cnt": "11"
+   }
+  }
+ },
+ {
+  "id": "validation_077",
+  "image_path": "data/images/validation/validation_077.png",
+  "width": 864,
+  "height": 1296,
+  "items": [
+   {
+    "name": "Cheese Tart",
+    "qty": 2,
+    "unit_price": null,
+    "line_total": 58000,
+    "discount": null,
+    "is_sub_item": false
+   }
+  ],
+  "subtotal": 58000,
+  "tax": 5272.73,
+  "service": null,
+  "discount": null,
+  "total": 58000,
+  "checks": {
+   "lines_match_subtotal": true,
+   "lines_match_total": true,
+   "subtotal_tax_service_match_total": false
+  },
+  "raw": {
+   "menu": {
+    "nm": "Cheese Tart",
+    "cnt": "*2",
+    "price": "Rp 58000.00",
+    "sub": [
+     {
+      "nm": "Bag-S"
+     },
+     {
+      "nm": "PS Carrier"
+     }
+    ]
+   },
+   "sub_total": {
+    "subtotal_price": "Rp 58000.00",
+    "tax_price": "Rp 5272.73"
+   },
+   "total": {
+    "total_price": "Rp 58000.00",
+    "cashprice": "Rp 100000.00",
+    "changeprice": "Rp 42000.00"
+   }
+  }
+ },
+ {
+  "id": "validation_078",
+  "image_path": "data/images/validation/validation_078.png",
+  "width": 864,
+  "height": 1296,
+  "items": [
+   {
+    "name": "Mineral Water",
+    "qty": 2,
+    "unit_price": null,
+    "line_total": 18000,
+    "discount": null,
+    "is_sub_item": false
+   },
+   {
+    "name": "Teh Tawar Dingin",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 11000,
+    "discount": null,
+    "is_sub_item": false
+   },
+   {
+    "name": "Soto Betawi",
+    "qty": 2,
+    "unit_price": null,
+    "line_total": 116000,
+    "discount": null,
+    "is_sub_item": false
+   },
+   {
+    "name": "NASI PUTIH",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 9000,
+    "discount": null,
+    "is_sub_item": false
+   }
+  ],
+  "subtotal": 154000,
+  "tax": 16170,
+  "service": 7700,
+  "discount": null,
+  "total": 177870,
+  "checks": {
+   "lines_match_subtotal": true,
+   "lines_match_total": false,
+   "subtotal_tax_service_match_total": true
+  },
+  "raw": {
+   "menu": [
+    {
+     "nm": "Mineral Water",
+     "cnt": "2",
+     "price": "18 000"
+    },
+    {
+     "nm": "Teh Tawar Dingin",
+     "cnt": "1",
+     "price": "11.000"
+    },
+    {
+     "nm": "Soto Betawi",
+     "cnt": "2",
+     "price": "116.000"
+    },
+    {
+     "nm": "NASI PUTIH",
+     "cnt": "1",
+     "price": "9.000"
+    }
+   ],
+   "sub_total": {
+    "subtotal_price": "154 000",
+    "service_price": "7 700",
+    "tax_price": "16 170"
+   },
+   "total": {
+    "total_price": "177.870",
+    "menuqty_cnt": "6"
+   }
+  }
+ },
+ {
+  "id": "validation_079",
+  "image_path": "data/images/validation/validation_079.png",
+  "width": 960,
+  "height": 1280,
+  "items": [
+   {
+    "name": "Crab Stick",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 9000,
+    "discount": null,
+    "is_sub_item": false
+   },
+   {
+    "name": "Bakso Lobster",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 10000,
+    "discount": null,
+    "is_sub_item": false
+   },
+   {
+    "name": "Sawi Putih",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 7000,
+    "discount": null,
+    "is_sub_item": false
+   },
+   {
+    "name": "Jamur Enoki",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 8000,
+    "discount": null,
+    "is_sub_item": false
+   },
+   {
+    "name": "Jamur Kuping",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 8000,
+    "discount": null,
+    "is_sub_item": false
+   },
+   {
+    "name": "Maling",
+    "qty": 2,
+    "unit_price": 12000,
+    "line_total": 24000,
+    "discount": null,
+    "is_sub_item": false
+   },
+   {
+    "name": "Nasi (MLY)",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 6000,
+    "discount": null,
+    "is_sub_item": false
+   }
+  ],
+  "subtotal": 72000,
+  "tax": null,
+  "service": null,
+  "discount": null,
+  "total": 72000,
+  "checks": {
+   "lines_match_subtotal": true,
+   "lines_match_total": true,
+   "subtotal_tax_service_match_total": true
+  },
+  "raw": {
+   "menu": [
+    {
+     "nm": "Crab Stick",
+     "cnt": "1",
+     "price": "9.000"
+    },
+    {
+     "nm": "Bakso Lobster",
+     "cnt": "1",
+     "price": "10.000"
+    },
+    {
+     "nm": "Sawi Putih",
+     "cnt": "1",
+     "price": "7.000"
+    },
+    {
+     "nm": "Jamur Enoki",
+     "cnt": "1",
+     "price": "8.000"
+    },
+    {
+     "nm": "Jamur Kuping",
+     "cnt": "1",
+     "price": "8.000"
+    },
+    {
+     "nm": "Maling",
+     "unitprice": "12000",
+     "cnt": "2",
+     "price": "24.000"
+    },
+    {
+     "nm": "Nasi (MLY)",
+     "cnt": "1",
+     "price": "6.000"
+    }
+   ],
+   "sub_total": {
+    "subtotal_price": "72.000"
+   },
+   "total": {
+    "total_price": "72.000",
+    "creditcardprice": "72.000"
+   }
+  }
+ },
+ {
+  "id": "validation_080",
+  "image_path": "data/images/validation/validation_080.png",
+  "width": 1108,
+  "height": 1478,
+  "items": [
+   {
+    "name": "Sate Padang",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 25000,
+    "discount": null,
+    "is_sub_item": false
+   }
+  ],
+  "subtotal": null,
+  "tax": null,
+  "service": null,
+  "discount": null,
+  "total": 25000,
+  "checks": {
+   "lines_match_subtotal": null,
+   "lines_match_total": true,
+   "subtotal_tax_service_match_total": null
+  },
+  "raw": {
+   "menu": {
+    "nm": "Sate Padang",
+    "cnt": "1",
+    "price": "25.000"
+   },
+   "total": {
+    "total_price": "25.000",
+    "cashprice": "25.000",
+    "menuqty_cnt": "1"
+   }
+  }
+ },
+ {
+  "id": "validation_081",
+  "image_path": "data/images/validation/validation_081.png",
+  "width": 864,
+  "height": 1296,
+  "items": [
+   {
+    "name": "SURIMI",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 29091,
+    "discount": null,
+    "is_sub_item": false
+   },
+   {
+    "name": "CREAMY CHK CLS FTC",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 42727,
+    "discount": null,
+    "is_sub_item": false
+   },
+   {
+    "name": "MIX 4FUN CHOCOLATE",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 19091,
+    "discount": null,
+    "is_sub_item": false
+   },
+   {
+    "name": "GREEN ITSODA PITCHER",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 60909,
+    "discount": null,
+    "is_sub_item": false
+   },
+   {
+    "name": "SC/R GRILLED STEAK",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 99091,
+    "discount": null,
+    "is_sub_item": false
+   }
+  ],
+  "subtotal": 250909,
+  "tax": 25091,
+  "service": null,
+  "discount": null,
+  "total": 276000,
+  "checks": {
+   "lines_match_subtotal": true,
+   "lines_match_total": false,
+   "subtotal_tax_service_match_total": true
+  },
+  "raw": {
+   "menu": [
+    {
+     "nm": "SURIMI",
+     "cnt": "1",
+     "price": "29,091"
+    },
+    {
+     "nm": "CREAMY CHK CLS FTC",
+     "cnt": "1",
+     "price": "42,727"
+    },
+    {
+     "nm": "MIX 4FUN CHOCOLATE",
+     "cnt": "1",
+     "price": "19,091"
+    },
+    {
+     "nm": "GREEN ITSODA PITCHER",
+     "cnt": "1",
+     "price": "60,909"
+    },
+    {
+     "nm": "SC/R GRILLED STEAK",
+     "cnt": "1",
+     "price": "99,091"
+    }
+   ],
+   "sub_total": {
+    "subtotal_price": "250,909",
+    "tax_price": "25,091"
+   },
+   "total": {
+    "total_price": "276,000"
+   }
+  }
+ },
+ {
+  "id": "validation_082",
+  "image_path": "data/images/validation/validation_082.png",
+  "width": 576,
+  "height": 1152,
+  "items": [
+   {
+    "name": "PEARL CHOCO TEA",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 17000,
+    "discount": null,
+    "is_sub_item": false
+   },
+   {
+    "name": "GREEN TEA LYCHEE",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 18000,
+    "discount": null,
+    "is_sub_item": false
+   },
+   {
+    "name": "TUTUP SEAL",
+    "qty": 2,
+    "unit_price": null,
+    "line_total": 0,
+    "discount": null,
+    "is_sub_item": false
+   },
+   {
+    "name": "CUP 14 OZ",
+    "qty": 2,
+    "unit_price": null,
+    "line_total": 0,
+    "discount": null,
+    "is_sub_item": false
+   }
+  ],
+  "subtotal": 35000,
+  "tax": null,
+  "service": null,
+  "discount": null,
+  "total": 35000,
+  "checks": {
+   "lines_match_subtotal": true,
+   "lines_match_total": true,
+   "subtotal_tax_service_match_total": true
+  },
+  "raw": {
+   "menu": [
+    {
+     "nm": "PEARL CHOCO TEA",
+     "cnt": "1",
+     "price": "17.000"
+    },
+    {
+     "nm": "GREEN TEA LYCHEE",
+     "cnt": "1",
+     "price": "18.000"
+    },
+    {
+     "nm": "TUTUP SEAL",
+     "cnt": "2",
+     "price": "0"
+    },
+    {
+     "nm": "CUP 14 OZ",
+     "cnt": "2",
+     "price": "0"
+    }
+   ],
+   "sub_total": {
+    "subtotal_price": "35.000"
+   },
+   "total": {
+    "total_price": "35.000",
+    "cashprice": "100.000",
+    "changeprice": "65.000",
+    "menuqty_cnt": "6"
+   }
+  }
+ },
+ {
+  "id": "validation_083",
+  "image_path": "data/images/validation/validation_083.png",
+  "width": 576,
+  "height": 864,
+  "items": [
+   {
+    "name": "S-Milk tea",
+    "qty": 1,
+    "unit_price": 17000,
+    "line_total": 17000,
+    "discount": null,
+    "is_sub_item": false
+   }
+  ],
+  "subtotal": 17000,
+  "tax": 0,
+  "service": null,
+  "discount": null,
+  "total": 17000,
+  "checks": {
+   "lines_match_subtotal": true,
+   "lines_match_total": true,
+   "subtotal_tax_service_match_total": true
+  },
+  "raw": {
+   "menu": {
+    "nm": "S-Milk tea",
+    "unitprice": "@17,000",
+    "cnt": "1X",
+    "price": "17,000",
+    "sub": {
+     "nm": "100%"
+    }
+   },
+   "sub_total": {
+    "subtotal_price": "17,000",
+    "tax_price": "0"
+   },
+   "total": {
+    "total_price": "17,000",
+    "cashprice": "17,000",
+    "changeprice": "0"
+   }
+  }
+ },
+ {
+  "id": "validation_084",
+  "image_path": "data/images/validation/validation_084.png",
+  "width": 1152,
+  "height": 1728,
+  "items": [
+   {
+    "name": "HAZELNUT CHOCO MT (R)",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 24000,
+    "discount": null,
+    "is_sub_item": false
+   },
+   {
+    "name": "HAZELNUT CHOCO MT (R)",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 24000,
+    "discount": null,
+    "is_sub_item": false
+   }
+  ],
+  "subtotal": 52000,
+  "tax": null,
+  "service": null,
+  "discount": null,
+  "total": 52000,
+  "checks": {
+   "lines_match_subtotal": false,
+   "lines_match_total": false,
+   "subtotal_tax_service_match_total": true
+  },
+  "raw": {
+   "menu": [
+    {
+     "nm": "HAZELNUT CHOCO MT (R)",
+     "cnt": "1 x",
+     "price": "24,000",
+     "sub": {
+      "nm": "PEARL (R)",
+      "price": "4,000"
+     }
+    },
+    {
+     "nm": "HAZELNUT CHOCO MT (R)",
+     "cnt": "1 x",
+     "price": "24,000"
+    }
+   ],
+   "sub_total": {
+    "subtotal_price": "52,000"
+   },
+   "total": {
+    "total_price": "52,000",
+    "creditcardprice": "52,000",
+    "menuqty_cnt": "2"
+   }
+  }
+ },
+ {
+  "id": "validation_085",
+  "image_path": "data/images/validation/validation_085.png",
+  "width": 2304,
+  "height": 4096,
+  "items": [
+   {
+    "name": "Peanut & Cheese",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 13636,
+    "discount": null,
+    "is_sub_item": false
+   }
+  ],
+  "subtotal": 13636,
+  "tax": 1364,
+  "service": null,
+  "discount": null,
+  "total": 15000,
+  "checks": {
+   "lines_match_subtotal": true,
+   "lines_match_total": false,
+   "subtotal_tax_service_match_total": true
+  },
+  "raw": {
+   "menu": {
+    "nm": "Peanut & Cheese",
+    "cnt": "1",
+    "price": "13,636"
+   },
+   "sub_total": {
+    "subtotal_price": "13,636",
+    "tax_price": "1,364"
+   },
+   "total": {
+    "total_price": "15,000",
+    "cashprice": "20,000",
+    "changeprice": "5,000"
+   }
+  }
+ },
+ {
+  "id": "validation_086",
+  "image_path": "data/images/validation/validation_086.png",
+  "width": 864,
+  "height": 1296,
+  "items": [
+   {
+    "name": "LEMONADE22OZ",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 26000,
+    "discount": null,
+    "is_sub_item": false
+   }
+  ],
+  "subtotal": 26000,
+  "tax": null,
+  "service": null,
+  "discount": null,
+  "total": 26000,
+  "checks": {
+   "lines_match_subtotal": true,
+   "lines_match_total": true,
+   "subtotal_tax_service_match_total": true
+  },
+  "raw": {
+   "menu": {
+    "nm": "LEMONADE22OZ",
+    "cnt": "1",
+    "price": "26,000",
+    "sub": {
+     "price": "26,000"
+    }
+   },
+   "sub_total": {
+    "subtotal_price": "26,000"
+   },
+   "total": {
+    "total_price": "26,000",
+    "changeprice": "0",
+    "emoneyprice": "26,000"
+   }
+  }
+ },
+ {
+  "id": "validation_087",
+  "image_path": "data/images/validation/validation_087.png",
+  "width": 864,
+  "height": 1296,
+  "items": [
+   {
+    "name": "M-Passion Fruit Mac",
+    "qty": 1,
+    "unit_price": 29000,
+    "line_total": 29000,
+    "discount": null,
+    "is_sub_item": false
+   }
+  ],
+  "subtotal": 29000,
+  "tax": 0,
+  "service": null,
+  "discount": null,
+  "total": 29000,
+  "checks": {
+   "lines_match_subtotal": true,
+   "lines_match_total": true,
+   "subtotal_tax_service_match_total": true
+  },
+  "raw": {
+   "menu": {
+    "nm": "M-Passion Fruit Mac",
+    "unitprice": "@29,000",
+    "cnt": "1X",
+    "price": "29,000",
+    "sub": [
+     {
+      "nm": "25%"
+     },
+     {
+      "nm": "Less Ice"
+     }
+    ]
+   },
+   "sub_total": {
+    "subtotal_price": "29,000",
+    "tax_price": "0"
+   },
+   "total": {
+    "total_price": "29,000",
+    "cashprice": "30,000",
+    "changeprice": "1,000"
+   }
+  }
+ },
+ {
+  "id": "validation_088",
+  "image_path": "data/images/validation/validation_088.png",
+  "width": 864,
+  "height": 1296,
+  "items": [
+   {
+    "name": "PAKET BER4 UP3",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 154545,
+    "discount": null,
+    "is_sub_item": false
+   }
+  ],
+  "subtotal": 154545,
+  "tax": 15455,
+  "service": null,
+  "discount": null,
+  "total": 170000,
+  "checks": {
+   "lines_match_subtotal": true,
+   "lines_match_total": false,
+   "subtotal_tax_service_match_total": true
+  },
+  "raw": {
+   "menu": {
+    "nm": "PAKET BER4 UP3",
+    "cnt": "1",
+    "price": "154,545",
+    "sub": [
+     {
+      "nm": "BREAD N CHEESE DEL",
+      "cnt": "1"
+     },
+     {
+      "nm": "TUNA DEL",
+      "cnt": "1"
+     },
+     {
+      "nm": "CRABSTICK FUSILLI DEL",
+      "cnt": "1"
+     },
+     {
+      "nm": "LEMON TEA HANGAT DEL",
+      "cnt": "1"
+     },
+     {
+      "nm": "BLACKCURRANT DEL",
+      "cnt": "1"
+     },
+     {
+      "nm": "SC/P THOUSAND IS DEL",
+      "cnt": "1"
+     },
+     {
+      "nm": "SCSC/P BBQ BEEF DEL",
+      "cnt": "1"
+     },
+     {
+      "nm": "CR/P BEEF MAYO DEL",
+      "cnt": "1"
+     },
+     {
+      "nm": "SUNRISE ITALIAN SODA",
+      "cnt": "1"
+     },
+     {
+      "nm": "SUNRISE ITALIAN SODA",
+      "cnt": "1"
+     }
+    ]
+   },
+   "sub_total": {
+    "subtotal_price": "154,545",
+    "tax_price": "15,455"
+   },
+   "total": {
+    "total_price": "170,000"
+   }
+  }
+ },
+ {
+  "id": "validation_089",
+  "image_path": "data/images/validation/validation_089.png",
+  "width": 432,
+  "height": 648,
+  "items": [
+   {
+    "name": "Chocochip & Walnut",
+    "qty": 1,
+    "unit_price": 29000,
+    "line_total": 29000,
+    "discount": null,
+    "is_sub_item": false
+   },
+   {
+    "name": "Plastic Bag Small",
+    "qty": 1,
+    "unit_price": 0,
+    "line_total": 0,
+    "discount": null,
+    "is_sub_item": false
+   }
+  ],
+  "subtotal": null,
+  "tax": null,
+  "service": null,
+  "discount": null,
+  "total": 29000,
+  "checks": {
+   "lines_match_subtotal": null,
+   "lines_match_total": true,
+   "subtotal_tax_service_match_total": null
+  },
+  "raw": {
+   "menu": [
+    {
+     "nm": "Chocochip & Walnut",
+     "num": "1023-",
+     "unitprice": "29.000",
+     "cnt": "x1",
+     "price": "29.000"
+    },
+    {
+     "nm": "Plastic Bag Small",
+     "num": "6001-",
+     "unitprice": "0",
+     "cnt": "x1",
+     "price": "0"
+    }
+   ],
+   "total": {
+    "total_price": "29.000",
+    "cashprice": "100.000",
+    "changeprice": "71.000",
+    "menuqty_cnt": "2"
+   }
+  }
+ },
+ {
+  "id": "validation_090",
+  "image_path": "data/images/validation/validation_090.png",
+  "width": 576,
+  "height": 864,
+  "items": [
+   {
+    "name": "REGULAR",
+    "qty": 2,
+    "unit_price": 35000,
+    "line_total": 70000,
+    "discount": null,
+    "is_sub_item": false
+   }
+  ],
+  "subtotal": null,
+  "tax": null,
+  "service": null,
+  "discount": null,
+  "total": 70000,
+  "checks": {
+   "lines_match_subtotal": null,
+   "lines_match_total": true,
+   "subtotal_tax_service_match_total": null
+  },
+  "raw": {
+   "menu": {
+    "nm": "REGULAR",
+    "unitprice": "35000.00",
+    "cnt": "2",
+    "price": "70000.00"
+   },
+   "total": {
+    "total_price": "70000.00",
+    "total_etc": "70000.00",
+    "changeprice": "0.00"
+   }
+  }
+ },
+ {
+  "id": "validation_091",
+  "image_path": "data/images/validation/validation_091.png",
+  "width": 576,
+  "height": 864,
+  "items": [
+   {
+    "name": "K7 1217",
+    "qty": null,
+    "unit_price": null,
+    "line_total": 39091,
+    "discount": null,
+    "is_sub_item": false
+   }
+  ],
+  "subtotal": 40000,
+  "tax": 4000,
+  "service": null,
+  "discount": null,
+  "total": 44000,
+  "checks": {
+   "lines_match_subtotal": false,
+   "lines_match_total": false,
+   "subtotal_tax_service_match_total": true
+  },
+  "raw": {
+   "menu": {
+    "nm": "K7 1217",
+    "price": "39,091",
+    "sub": {
+     "nm": "ADD CHICKEN BOX",
+     "price": "909"
+    }
+   },
+   "sub_total": {
+    "subtotal_price": "40,000",
+    "tax_price": "4,000"
+   },
+   "total": {
+    "total_price": "44,000",
+    "cashprice": "Rp. 50,000",
+    "changeprice": "Rp. 6,000"
+   }
+  }
+ },
+ {
+  "id": "validation_092",
+  "image_path": "data/images/validation/validation_092.png",
+  "width": 1836,
+  "height": 3264,
+  "items": [
+   {
+    "name": "<FC Winger HC",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 20000,
+    "discount": null,
+    "is_sub_item": false
+   },
+   {
+    "name": "CHARGE TA",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 909,
+    "discount": null,
+    "is_sub_item": false
+   }
+  ],
+  "subtotal": 20909,
+  "tax": 2091,
+  "service": null,
+  "discount": null,
+  "total": 23000,
+  "checks": {
+   "lines_match_subtotal": true,
+   "lines_match_total": false,
+   "subtotal_tax_service_match_total": true
+  },
+  "raw": {
+   "menu": [
+    {
+     "nm": "<FC Winger HC",
+     "cnt": "1",
+     "price": "20,000"
+    },
+    {
+     "nm": "CHARGE TA",
+     "cnt": "1",
+     "price": "909"
+    }
+   ],
+   "sub_total": {
+    "subtotal_price": "20,909",
+    "tax_price": "2,091"
+   },
+   "total": {
+    "total_price": "23,000",
+    "cashprice": "25,000",
+    "changeprice": "2,000",
+    "menuqty_cnt": "2"
+   }
+  }
+ },
+ {
+  "id": "validation_093",
+  "image_path": "data/images/validation/validation_093.png",
+  "width": 864,
+  "height": 1296,
+  "items": [
+   {
+    "name": "PAKET BER4",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 138182,
+    "discount": null,
+    "is_sub_item": false
+   },
+   {
+    "name": "50% CHICKEN ROYAL",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 18182,
+    "discount": null,
+    "is_sub_item": false
+   }
+  ],
+  "subtotal": 156364,
+  "tax": 15636,
+  "service": null,
+  "discount": null,
+  "total": 172000,
+  "checks": {
+   "lines_match_subtotal": true,
+   "lines_match_total": false,
+   "subtotal_tax_service_match_total": true
+  },
+  "raw": {
+   "menu": [
+    {
+     "nm": "PAKET BER4",
+     "cnt": "1",
+     "price": "138,182",
+     "sub": [
+      {
+       "nm": "BREAD N CHEESE DEL",
+       "cnt": "1"
+      },
+      {
+       "nm": "BREAD N CHEESE DEL",
+       "cnt": "1"
+      },
+      {
+       "nm": "CRABSTICK FUSILLI DEL",
+       "cnt": "1"
+      },
+      {
+       "nm": "LIME SQUASH DEL",
+       "cnt": "1"
+      },
+      {
+       "nm": "LIME SQUASH DEL",
+       "cnt": "1"
+      },
+      {
+       "nm": "P/P SPICY TUNA DEL",
+       "cnt": "1"
+      },
+      {
+       "nm": "P/P THUOSAND ISL DEL",
+       "cnt": "1"
+      },
+      {
+       "nm": "P/P BEEF CORN",
+       "cnt": "1"
+      },
+      {
+       "nm": "SUNRISE ITALIAN SODA",
+       "cnt": "1"
+      },
+      {
+       "nm": "LIPTON ICE TEA DEL",
+       "cnt": "1"
+      }
+     ]
+    },
+    {
+     "nm": "50% CHICKEN ROYAL",
+     "cnt": "1",
+     "price": "18,182"
+    }
+   ],
+   "sub_total": {
+    "subtotal_price": "156,364",
+    "tax_price": "15,636"
+   },
+   "total": {
+    "total_price": "172,000"
+   }
+  }
+ },
+ {
+  "id": "validation_094",
+  "image_path": "data/images/validation/validation_094.png",
+  "width": 864,
+  "height": 1296,
+  "items": [
+   {
+    "name": "Emily's Shrimp Scampi Fettucine",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 69000,
+    "discount": null,
+    "is_sub_item": false
+   }
+  ],
+  "subtotal": 69000,
+  "tax": null,
+  "service": 3795,
+  "discount": 0,
+  "total": 80100,
+  "checks": {
+   "lines_match_subtotal": true,
+   "lines_match_total": false,
+   "subtotal_tax_service_match_total": false
+  },
+  "raw": {
+   "menu": {
+    "nm": "Emily's Shrimp Scampi Fettucine",
+    "cnt": "1",
+    "price": "69.000"
+   },
+   "sub_total": {
+    "subtotal_price": "69.000",
+    "discount_price": "0",
+    "service_price": "3.795",
+    "etc": [
+     "7.280",
+     "+25"
+    ]
+   },
+   "total": {
+    "total_price": "80.100",
+    "total_etc": "80.100",
+    "changeprice": "0"
+   }
+  }
+ },
+ {
+  "id": "validation_095",
+  "image_path": "data/images/validation/validation_095.png",
+  "width": 720,
+  "height": 1280,
+  "items": [
+   {
+    "name": "SAYAP",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 13636,
+    "discount": null,
+    "is_sub_item": false
+   },
+   {
+    "name": "PAHA BAWAH",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 13636,
+    "discount": null,
+    "is_sub_item": false
+   }
+  ],
+  "subtotal": 27272,
+  "tax": 2700,
+  "service": null,
+  "discount": null,
+  "total": 30000,
+  "checks": {
+   "lines_match_subtotal": true,
+   "lines_match_total": false,
+   "subtotal_tax_service_match_total": false
+  },
+  "raw": {
+   "menu": [
+    {
+     "nm": "SAYAP",
+     "cnt": "1",
+     "price": "13,636"
+    },
+    {
+     "nm": "PAHA BAWAH",
+     "cnt": "1",
+     "price": "13,636"
+    }
+   ],
+   "sub_total": {
+    "subtotal_price": "27,272",
+    "tax_price": "2,700"
+   },
+   "total": {
+    "total_price": "30,000",
+    "cashprice": "50,000",
+    "changeprice": "20,000",
+    "menuqty_cnt": "2"
+   }
+  }
+ },
+ {
+  "id": "validation_096",
+  "image_path": "data/images/validation/validation_096.png",
+  "width": 864,
+  "height": 1296,
+  "items": [
+   {
+    "name": "Choco Cheese",
+    "qty": 1,
+    "unit_price": 13636,
+    "line_total": null,
+    "discount": -2045,
+    "is_sub_item": false
+   }
+  ],
+  "subtotal": 13636,
+  "tax": 1159,
+  "service": null,
+  "discount": -2045,
+  "total": 12750,
+  "checks": {
+   "lines_match_subtotal": null,
+   "lines_match_total": null,
+   "subtotal_tax_service_match_total": false
+  },
+  "raw": {
+   "menu": {
+    "nm": "Choco Cheese",
+    "unitprice": "13,636",
+    "cnt": "1",
+    "discountprice": "-2,045"
+   },
+   "sub_total": {
+    "subtotal_price": "13,636",
+    "discount_price": "-2,045",
+    "tax_price": "1,159"
+   },
+   "total": {
+    "total_price": "12,750",
+    "cashprice": "12,750"
+   }
+  }
+ },
+ {
+  "id": "validation_097",
+  "image_path": "data/images/validation/validation_097.png",
+  "width": 864,
+  "height": 1296,
+  "items": [
+   {
+    "name": "Lemon Tea (L)",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 25000,
+    "discount": null,
+    "is_sub_item": false
+   }
+  ],
+  "subtotal": null,
+  "tax": null,
+  "service": null,
+  "discount": null,
+  "total": 25000,
+  "checks": {
+   "lines_match_subtotal": null,
+   "lines_match_total": true,
+   "subtotal_tax_service_match_total": null
+  },
+  "raw": {
+   "menu": {
+    "nm": "Lemon Tea (L)",
+    "cnt": "1",
+    "price": "25.000"
+   },
+   "total": {
+    "total_price": "25.000",
+    "cashprice": "30.000",
+    "changeprice": "5.000"
+   }
+  }
+ },
+ {
+  "id": "validation_098",
+  "image_path": "data/images/validation/validation_098.png",
+  "width": 576,
+  "height": 864,
+  "items": [
+   {
+    "name": "Hulk Topper Package",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 100000,
+    "discount": null,
+    "is_sub_item": false
+   }
+  ],
+  "subtotal": null,
+  "tax": null,
+  "service": null,
+  "discount": null,
+  "total": 100000,
+  "checks": {
+   "lines_match_subtotal": null,
+   "lines_match_total": true,
+   "subtotal_tax_service_match_total": null
+  },
+  "raw": {
+   "menu": {
+    "nm": "Hulk Topper Package",
+    "cnt": "1",
+    "price": "100.000"
+   },
+   "total": {
+    "total_price": "100.000",
+    "cashprice": "100.000",
+    "changeprice": "0"
+   }
+  }
+ },
+ {
+  "id": "validation_099",
+  "image_path": "data/images/validation/validation_099.png",
+  "width": 864,
+  "height": 1296,
+  "items": [
+   {
+    "name": "Giant Squid",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 39000,
+    "discount": null,
+    "is_sub_item": false
+   }
+  ],
+  "subtotal": 39000,
+  "tax": null,
+  "service": null,
+  "discount": null,
+  "total": 39000,
+  "checks": {
+   "lines_match_subtotal": true,
+   "lines_match_total": true,
+   "subtotal_tax_service_match_total": true
+  },
+  "raw": {
+   "menu": {
+    "nm": "Giant Squid",
+    "cnt": "x1",
+    "price": "Rp. 39.000",
+    "sub": [
+     {
+      "nm": "C.Finishing - Cut",
+      "price": "Rp. 0"
+     },
+     {
+      "nm": "B.Spicy Level - Extreme Hot",
+      "price": "Rp. 0"
+     },
+     {
+      "nm": "A.Flavour- Salt & Pepper",
+      "price": "Rp. 0"
+     }
+    ]
+   },
+   "sub_total": {
+    "subtotal_price": "Rp. 39.000"
+   },
+   "total": {
+    "total_price": "Rp. 39.000",
+    "cashprice": "Rp. 50.000",
+    "changeprice": "Rp. 11.000"
+   }
+  }
+ }
+]
