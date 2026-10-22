@@ -71,3 +71,24 @@
 - *Could the model still cite a real clause for a wrong reason?* Yes. The verifier checks that evidence exists, not that the reasoning is right. That residual risk is what the Phase 5 false-alarm rate measures, and why medium-severity issues route to a human.
 
 **Trade-off.** Whole-claim rules (approval thresholds, over-claims) have no single receipt line to cite, so two anchor tokens, `RECEIPT_TOTAL` and `CLAIM_AMOUNT`, are allowed as the cited line. It keeps the "every issue cites a line" rule honest without forcing the model to invent a line.
+
+## Phase 4: The agent graph
+
+**What we built.** `graph.py` wires the steps into a LangGraph state graph: extract → maths_check → retrieve → rule_check → verify → decide → draft, with one branch after extract. `draft.py` writes the message. `run.py` is the CLI (`python -m receipted.run --sample SAMPLE-002`). Every node is wrapped so the trace records its time, a one-line summary, and tokens and cost for the LLM nodes.
+
+**What makes this "agentic".** The system is not one prompt that answers a question. It is a sequence of specialised steps, some of them model calls and some plain code, that share state, and a routing decision that depends on what an earlier step found: if the receipt can't be read, the checks are skipped and the claim goes to a human. The model's job at each step is narrow (read this image; apply these clauses to these lines; write this message), and code decides what happens next.
+
+**Why a graph instead of one big prompt.**
+- Each step can use the right tool: an image model for reading, Python for arithmetic, a vector store for lookup, a text model for writing.
+- Each step can be tested and measured on its own. Phase 5 reports extraction accuracy separately from rule-check recall.
+- The verifier sits *between* the rule check and the decision, so a hallucinated flag is removed before it can affect anything.
+- A trace of every node's output and timing makes failures explainable: you can see which step went wrong and what it cost.
+- Routing is explicit code (`route_after_extract`, `decide`), not something the model is trusted to do.
+
+**The human-review route.** Three things send a claim to a person instead of an automatic answer: the extraction failed validation twice, the model declared the image unreadable, or no issues were found but the model said parts were hard to read. Verified with a blurred noise image: the graph went extract → decide → draft, no checks were run, and the draft asked for a clearer photo. Conservative by design: the cost of a wrong automatic approval is higher than the cost of a treasurer glancing at one more claim.
+
+**Likely interview questions.**
+- *Isn't LangGraph overkill for seven steps in a line?* For a straight line, yes, a loop of function calls would do. The value shows up with the branch, the shared typed state, the per-node trace, and the fact that adding a step (say, a duplicate-receipt check) is one node and one edge rather than a prompt rewrite.
+- *What does the draft model know that the user doesn't?* Nothing. It only receives the verified issues with their evidence and the decision, and is told to add no facts. The LLM-as-judge in Phase 5 scores whether it stayed within that.
+
+**Trade-off.** The maths check and the rule check can report the same problem twice, once with numbers and once with the clause. Rather than merge them with fragile matching code, the decision uses the maximum severity (so duplicates change nothing) and the draft prompt is told to present each distinct problem once. Simple, and the duplication stays visible in the trace for debugging.

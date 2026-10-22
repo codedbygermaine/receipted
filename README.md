@@ -10,6 +10,27 @@ Receipt images and ground-truth line items come from **CORD v2** (`naver-clova-i
 
 The claim records, price list, policy document and planted errors used for evaluation are **synthetic test fixtures** created for this project, built on top of the real CORD receipt images. They are labelled as synthetic wherever they appear.
 
+## How it works
+
+```mermaid
+flowchart LR
+    A[Receipt image + claim] --> B[extract<br/>multimodal LLM → JSON schema]
+    B -->|unreadable or<br/>failed validation| F
+    B --> C[maths_check<br/>Python arithmetic + claim matching]
+    C --> D[retrieve<br/>Chroma: policy clauses + price rows]
+    D --> E[rule_check<br/>LLM, must cite clause + receipt line]
+    E --> V[verify<br/>Python drops issues without real evidence]
+    V --> F[decide<br/>approve / needs_review / reject]
+    F --> G[draft<br/>message to submitter]
+```
+
+Run one claim from the command line:
+
+```bash
+python -m receipted.run --sample SAMPLE-002
+python -m receipted.run --image path/to/receipt.jpg --claim path/to/claim.json --model claude-opus-5-5
+```
+
 ## Status
 
-Phase 0: project setup. More to come.
+Phases 0–4 done: data, extraction, checks, agent graph and CLI. Evaluation, demo and full README to come.
