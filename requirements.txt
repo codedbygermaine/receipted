@@ -1,0 +1,19 @@
+# Core
+anthropic>=0.70
+python-dotenv>=1.0
+pydantic>=2.7
+
+# Agent graph + retrieval
+langgraph>=0.4
+chromadb>=1.0
+
+# Data
+datasets>=3.0
+pillow>=10.0
+pandas>=2.2
+rapidfuzz>=3.9
+
+# Demo, tests, charts
+streamlit>=1.40
+pytest>=8.0
+matplotlib>=3.9

@@ -1,0 +1,25 @@
+# Secrets — never commit
+.env
+.streamlit/secrets.toml
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+*.egg-info/
+
+# Data and caches (large, regenerable)
+data/raw/
+data/cache/
+data/images/
+.cache/
+chroma_db/
+
+# OS / editor
+.DS_Store
+.vscode/
+.idea/
+
+# Your global gitignore excludes CLAUDE.md; this project wants it committed.
+!CLAUDE.md
