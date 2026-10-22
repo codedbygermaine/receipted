@@ -1,0 +1,129 @@
+# SYNTHETIC price list for testing Receipted. Built from item names and prices in the CORD v2 train split
+# (CC BY 4.0). agreed_max_unit_price = median observed price x 1.10, rounded up. Currency: IDR.
+item,agreed_max_unit_price,typical_price_seen,times_seen_in_train
+nasi putih,11000,9900,26
+1001-choco bun,24500,22000,11
+mineral water,9000,8000,11
+twist donut,10000,9000,11
+redbean bread,10000,9000,10
+hot tea,13500,12000,9
+iced tea,13500,12000,9
+original hugarian ku,22000,20000,8
+almond cream cheese,31000,28000,7
+bbq chicken,45500,41000,7
+cheese tart,32000,29000,7
+cold ocha,12000,10909,7
+es teh manis,8500,7273,7
+nutella cheese,30000,27272,7
+tripple cheese,19000,17000,7
+4005-maple glazed,28000,25000,6
+choco custard pastry,13500,12000,6
+cinnamon sugar,19000,17000,6
+es teh tawar,7500,6591,6
+mineral water (s),14000,12500,6
+nasi goreng,33000,29545,6
+potato sausage bread,21000,19000,6
+air mineral,8500,7727,5
+chinese te,15500,14000,5
+gong gibab,22000,20000,5
+hot ocha,12000,10909,5
+popcorn salt (m),44000,40000,5
+viet milk coffee,28000,25000,5
+agsio th pc jmr,135000,122500,4
+almond choco cream cheese,31000,28000,4
+ambush chs burger,12500,11000,4
+ambush dbl chs burg,18500,16500,4
+apple pie,12500,11000,4
+arem arem,13500,12000,4
+baso tahu,48000,43636,4
+bihun goreng jj,96000,87000,4
+caramel medium,56000,50000,4
+chocolate twist,18000,16000,4
+combo 1,33000,30000,4
+cumi gr junjan,166000,150500,4
+ebi tempura,15000,13636,4
+es kopi susu,20000,18000,4
+haemul denjang jjigae,94000,85000,4
+iced tt,22000,20000,4
+kfc winger hc,22000,20000,4
+lemon tea (l).,28000,25000,4
+manuka honey,424000,385000,4
+ocha,10000,9000,4
+pain au chocolate,12500,11000,4
+perkedel,6500,5909,4
+pkt ayam,36500,33000,4
+premium milk pan bread,19500,17500,4
+s-ovaltine macchiat,24500,22000,4
+sausage donut,15000,13500,4
+sb 1 hc,30500,27727,4
+seaweed chicken,46500,42000,4
+thai iced tea,24500,22000,4
+thai iced tea (l),18000,16363,4
+twist orange choco donut,11000,10000,4
+2005-cheese john,10500,9500,3
+3002-kyoto choco mochi,15500,14000,3
+[riche] black sakura,64000,57273,3
+a.mineral botol,9000,8000,3
+apple creamcheese pastry,14500,13000,3
+aqua,12500,11000,3
+aqua botol,10000,9000,3
+ayam,11000,10000,3
+baso kuah,48000,43636,3
+baso tahu bihun,48000,43636,3
+bo ssam,352000,320000,3
+caramel pastry,13500,12000,3
+caramel small,42000,38000,3
+caramelalmond,25500,23000,3
+charge ta,1000,909,3
+cheese john,10500,9500,3
+choco almond,20500,18182,3
+coke (l),28000,25000,3
+crispy choco,15500,14000,3
+custard brioche,10000,9000,3
+dept01,24500,22000,3
+es jeruk,14500,13000,3
+es teh,6500,5455,3
+extra jelly lychee,5500,5000,3
+ganache mousse piece,36000,32500,3
+ice lemon tea,20000,18000,3
+ice t grentea,24500,22000,3
+ikan gurame med sop ikan,174000,158000,3
+jamur kuping,9000,8000,3
+jap chae,116000,105000,3
+kaya bun,10500,9500,3
+king deal fish,28000,25000,3
+large 1,12500,11000,3
+lemon tea (l),28000,25000,3
+lychee tea,16500,15000,3
+milk pastry roll,10000,9000,3
+new beef spaghetti,42500,38182,3
+niku udon,54500,49091,3
+ocha dingin,13500,12000,3
+original,13500,12000,3
+original brewed tea,25500,23000,3
+original no salt,13500,12000,3
+paket happy hour,30500,27273,3
+pizza toast,18000,16000,3
+plastic bag,1000,500,3
+popcorn salt (s).,22000,20000,3
+real chocolate roll,18000,16000,3
+rice,7500,6364,3
+rice organik,7500,6818,3
+roti,5500,5000,3
+round wagyu (1gr),500,400,3
+royal cheese tart,18000,16000,3
+s-fresh lemon lime,15500,14000,3
+salmon pesto,95000,85500,3
+samgyopsal,107000,97000,3
+sate padang,38500,35000,3
+skewered tofu roll,14000,12727,3
+smokebeef + nutea,24000,21818,3
+soondubu chige,83000,75000,3
+take away charge,1500,1000,3
+teh tawar,6000,5454,3
+tiramisu cin,15500,14000,3
+tlj croquette,19000,17000,3
+toblerone bancheese,31500,28182,3
+tt,22000,20000,3
+xxi java tea spc,28000,25000,3
+yang yum gui,107000,97000,3

@@ -1,0 +1,41 @@
+[
+  {
+    "claim_id": "SAMPLE-001",
+    "receipt_id": "validation_000",
+    "submitter": "A. Student",
+    "purpose": "Snacks for freshman orientation booth",
+    "amount": 45500,
+    "currency": "IDR",
+    "items": [
+      {"name": "Real Ganache", "qty": 1, "line_total": 16500},
+      {"name": "Egg Tart", "qty": 1, "line_total": 13000},
+      {"name": "Pizza Toast", "qty": 1, "line_total": 16000}
+    ],
+    "note": "SYNTHETIC clean claim: should pass"
+  },
+  {
+    "claim_id": "SAMPLE-002",
+    "receipt_id": "validation_025",
+    "submitter": "B. Treasurer",
+    "purpose": "Committee dinner, 4 people",
+    "amount": 250000,
+    "currency": "IDR",
+    "items": [
+      {"name": "Sop Sui Jiao", "qty": 1, "line_total": 33000},
+      {"name": "Ha Kaou Udang", "qty": 1, "line_total": 28000},
+      {"name": "Siomay Kombinasi", "qty": 2, "line_total": 46000},
+      {"name": "Bir Bintang", "qty": 2, "line_total": 70000}
+    ],
+    "note": "SYNTHETIC bad claim: inflated amount (receipt 207,900), qty 2 claimed for a qty 1 item, alcohol not on receipt"
+  },
+  {
+    "claim_id": "SAMPLE-003",
+    "receipt_id": "validation_045",
+    "submitter": "C. Member",
+    "purpose": "Refreshments for committee meeting, 6 people",
+    "amount": 287760,
+    "currency": "IDR",
+    "items": [],
+    "note": "SYNTHETIC: amount matches, but Hot Tea at 25,000 is above the agreed max of 13,500"
+  }
+]
