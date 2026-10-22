@@ -33,3 +33,21 @@
 - *What surprised you in the data?* Ground truth is not perfect: a few item names are in a different word order from the receipt, about 10% of receipts with a subtotal don't add up, and 20% of images are larger than the model's 1568-pixel limit, which matters for Phase 2's upload size.
 
 **Trade-off.** Sub-items (toppings, modifiers) are flattened into the item list with an `is_sub_item` flag rather than nested, because they carry their own price on the receipt and must count towards the subtotal.
+
+## Phase 2: Extraction with the AI
+
+**What we built.** `src/receipted/schemas.py` (the Pydantic shape of a receipt), `src/receipted/llm.py` (client, model names, prices, disk cache), `src/receipted/extract.py` (image prep, the API call, one retry, caching), and `scripts/compare_extraction.py` to eyeball extracted vs ground truth.
+
+**How image input works.** The image file is read as bytes, base64-encoded, and sent as an `image` content block alongside the text instruction in one user message. The model sees pixels, not OCR text, so it can use layout (columns, alignment) the way a person does. We resize to a 1568-pixel long edge and JPEG-encode first: the API downsizes anything larger anyway, so sending a 4096-pixel photo only slows the upload. Cost is driven by pixel area; a typical receipt is about 1,500 to 3,000 input tokens.
+
+**Why structured output plus validation.** We pass the Pydantic class to the API's structured-output mode, which constrains the model to emit JSON of exactly that shape, and Pydantic validates the reply on our side. Two layers: the schema stops free-text drift, the validator catches anything that still slips (wrong type, missing field). If validation fails we retry once with a nudge; if it fails again we raise `ExtractionError`, which the graph in Phase 4 will route to human review instead of guessing.
+
+**Why caching.** Every call costs money and 2 to 5 seconds. The cache key is a hash of the resized image bytes, the prompt version, the system prompt text and the model name. Change any of those and you get a fresh call; change nothing and the re-run is free and reproducible. Each cache entry also stores token counts, latency and cost, so Phase 5 can report them without re-running.
+
+**What the first 5 receipts showed.** Prompt v1 got every item and total right but listed unpriced modifier lines ("Less Ice", "70%") as items. Prompt v2 says lines with no price are modifiers and should be left out, and that fixed it. One remaining "difference" is a label problem, not a model error: CORD calls the "ITEMS: 1 41,000" line a subtotal, and skipped a printed "- Sedang 0" line that the model correctly extracted. Expect some of the measured error in Phase 5 to be label noise.
+
+**Likely interview questions.**
+- *Why not use a traditional OCR engine?* OCR gives you characters, not meaning; you'd still need to pair quantities, names and prices across columns on a crumpled photo. A multimodal model does both steps at once and returns typed fields. The trade-off is cost and latency per call, which caching and a small model keep low.
+- *How do you know the model didn't make numbers up?* We tell it to report only printed values and use null otherwise, and Phase 3's maths checks and Phase 5's comparison against ground truth measure how often that holds. The `readability` field lets it declare uncertainty instead of guessing.
+
+**Trade-off.** Effort is set to "medium" for both models so the small-vs-large comparison is fair. Lower effort would be cheaper and faster; we can test that on the validation split later.
