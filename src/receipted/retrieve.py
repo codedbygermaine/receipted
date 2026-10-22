@@ -91,7 +91,8 @@ def retrieve_for(receipt: dict, claim: dict, k_policy_per_item: int = 2, k_polic
                 seen.add(h["id"])
                 clause_hits.append(h)
 
-    claim_text = f"claim of {claim.get('amount')} for {claim.get('purpose', '')}. items: " + \
+    purpose = (claim.get("purpose") or "").strip() or "NOT STATED (purpose missing)"
+    claim_text = f"expense claim, purpose: {purpose}. amount {claim.get('amount')}. items: " + \
                  ", ".join(ci["name"] for ci in claim.get("items") or [])
     add(retrieve_policy(claim_text, k_policy_claim))
     price_hits = {}

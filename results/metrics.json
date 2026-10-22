@@ -1,0 +1,178 @@
+{
+ "split": "validation",
+ "generated_at": "2026-10-23T04:08:48",
+ "extraction": {
+  "claude-haiku-5-5": {
+   "split": "validation",
+   "model": "claude-haiku-5-5",
+   "n_receipts": 10,
+   "total_accuracy": 1.0,
+   "subtotal_accuracy": 0.9,
+   "tax_accuracy": 1.0,
+   "item_precision": 0.8824,
+   "item_recall": 1.0,
+   "item_f1": 0.9375,
+   "item_name_only_precision": 0.8824,
+   "item_name_only_recall": 1.0,
+   "item_name_only_f1": 0.9375,
+   "n_gt_items": 15,
+   "n_extracted_items": 17,
+   "mean_latency_s": 3.43,
+   "median_latency_s": 3.9,
+   "mean_cost_usd": 0.00049,
+   "total_cost_usd": 0.0049,
+   "extraction_errors": 0,
+   "retries": 0,
+   "readability_counts": {
+    "clear": 8,
+    "partly unclear": 2,
+    "unreadable": 0
+   }
+  }
+ },
+ "checks": {
+  "split": "validation",
+  "model": "claude-haiku-5-5",
+  "n_claims": 10,
+  "decision_accuracy": 1.0,
+  "confusion_expected_to_predicted": {
+   "approve->approve": 3,
+   "needs_review->needs_review": 4,
+   "reject->reject": 3
+  },
+  "planted": {
+   "inflated_amount": {
+    "n": 1,
+    "caught": 1,
+    "recall": 1.0,
+    "decision_not_approve": 1
+   },
+   "wrong_quantity": {
+    "n": 2,
+    "caught": 2,
+    "recall": 1.0,
+    "decision_not_approve": 2
+   },
+   "item_not_on_receipt": {
+    "n": 0,
+    "caught": 0,
+    "recall": null,
+    "decision_not_approve": 0
+   },
+   "totals_mismatch": {
+    "n": 0,
+    "caught": 0,
+    "recall": null,
+    "decision_not_approve": 0
+   },
+   "policy_breach": {
+    "n": 2,
+    "caught": 2,
+    "recall": 1.0,
+    "decision_not_approve": 2
+   }
+  },
+  "natural": {
+   "price_above_list": {
+    "n": 0,
+    "caught": 0,
+    "recall": null
+   },
+   "alcohol_on_receipt": {
+    "n": 0,
+    "caught": 0,
+    "recall": null
+   },
+   "above_500k": {
+    "n": 0,
+    "caught": 0,
+    "recall": null
+   },
+   "packaging_over_5000": {
+    "n": 0,
+    "caught": 0,
+    "recall": null
+   },
+   "receipt_inconsistent": {
+    "n": 2,
+    "caught": 2,
+    "recall": 1.0
+   }
+  },
+  "false_alarms": {
+   "n_clean_claims": 3,
+   "flagged_with_an_issue": 0,
+   "held_for_readability_only": 0,
+   "false_alarm_rate_issues": 0.0,
+   "false_alarm_rate_any": 0.0,
+   "false_alarm_issue_types": {}
+  },
+  "verifier": {
+   "rule_issues_raised": 8,
+   "dropped": 0,
+   "drop_reasons": {}
+  },
+  "mean_cost_usd_per_claim": 0.00119,
+  "total_cost_usd": 0.0119,
+  "mean_seconds_per_claim_uncached": 5.14,
+  "readability_counts": {
+   "clear": 8,
+   "partly unclear": 2
+  }
+ },
+ "drafts": {
+  "split": "validation",
+  "agent_model": "claude-haiku-5-5",
+  "judge_model": "claude-opus-5-5",
+  "n_drafts": 10,
+  "mean_accuracy": 5,
+  "mean_evidence": 4.9,
+  "mean_clarity": 5,
+  "mean_tone": 5,
+  "dist_accuracy": {
+   "1": 0,
+   "2": 0,
+   "3": 0,
+   "4": 0,
+   "5": 10
+  },
+  "dist_evidence": {
+   "1": 0,
+   "2": 0,
+   "3": 0,
+   "4": 1,
+   "5": 9
+  },
+  "dist_clarity": {
+   "1": 0,
+   "2": 0,
+   "3": 0,
+   "4": 0,
+   "5": 10
+  },
+  "dist_tone": {
+   "1": 0,
+   "2": 0,
+   "3": 0,
+   "4": 0,
+   "5": 10
+  },
+  "n_accuracy_below_4": 0,
+  "judge_total_cost_usd": 0.1189,
+  "human_sample": [
+   "VAL-004",
+   "VAL-009",
+   "VAL-003",
+   "VAL-008",
+   "VAL-002",
+   "VAL-001",
+   "VAL-005",
+   "VAL-000",
+   "VAL-006",
+   "VAL-007"
+  ],
+  "human_vs_judge_agreement": {
+   "status": "human_scores not filled in yet"
+  }
+ }
+}

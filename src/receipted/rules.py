@@ -11,7 +11,7 @@ from pydantic import BaseModel, Field
 
 from receipted import llm
 
-PROMPT_VERSION = "v1"
+PROMPT_VERSION = "v3"
 
 ANCHORS = ("RECEIPT_TOTAL", "CLAIM_AMOUNT")  # allowed receipt_line values for whole-claim rules
 
@@ -39,11 +39,17 @@ Raise an issue ONLY when a given clause or price row clearly applies to a specif
   when the rule is about the whole claim (e.g. approval thresholds).
 - Prices on the receipt are unit prices only when a unit price column is printed; otherwise compare line_total / qty.
 - Do not restate the arithmetic issues already listed; they are recorded. You may add a policy issue that follows from one.
+- Also check the claim itself against the clauses: its stated purpose (or lack of one), the number of people for a meal,
+  and the claimed amount against any approval threshold. Cite CLAIM_AMOUNT as the line for those.
+- severity follows the clause wording: "high" when the clause says the claim or item is rejected or never
+  reimbursable; "medium" when it says the claim is held for review or needs approval; "low" for anything softer.
 - If nothing applies, return an empty list. Never invent clauses, prices or lines."""
 
 
 def _format_facts(receipt: dict, claim: dict, maths_issues: list[dict], retrieved: dict) -> str:
     lines = []
+    purpose = (claim.get("purpose") or "").strip()
+    lines.append(f"CLAIM PURPOSE: {purpose if purpose else '(not stated)'}")
     lines.append("CLAIM:\n" + json.dumps(claim, ensure_ascii=False, indent=1))
     lines.append("RECEIPT LINES (copy raw_line exactly when citing):")
     for it in receipt["items"]:

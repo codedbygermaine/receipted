@@ -1,0 +1,3153 @@
+[
+ {
+  "claim_id": "TES-000",
+  "receipt_id": "test_000",
+  "image_path": "data/images/test/test_000.png",
+  "submitter": "Member 000",
+  "purpose": "Refreshments for meeting, 5 people",
+  "amount": 60000,
+  "currency": "IDR",
+  "items": [
+   {
+    "name": "-TICKET CP",
+    "qty": 2,
+    "line_total": 60000
+   }
+  ],
+  "labels": {
+   "planted_error": null,
+   "planted_detail": null,
+   "natural_flags": [],
+   "expected_decision": "approve"
+  }
+ },
+ {
+  "claim_id": "TES-001",
+  "receipt_id": "test_001",
+  "image_path": "data/images/test/test_001.png",
+  "submitter": "Member 001",
+  "purpose": "Supplies for workshop",
+  "amount": 137000,
+  "currency": "IDR",
+  "items": [
+   {
+    "name": "J.STB PROMO",
+    "qty": 1,
+    "line_total": 17500
+   },
+   {
+    "name": "Y.B.BAT",
+    "qty": 2,
+    "line_total": 92000
+   },
+   {
+    "name": "Y.BASO PROM",
+    "qty": 1,
+    "line_total": 27500
+   }
+  ],
+  "labels": {
+   "planted_error": "wrong_quantity",
+   "planted_detail": {
+    "item": "Y.B.BAT",
+    "extra_qty": 1
+   },
+   "natural_flags": [],
+   "expected_decision": "reject"
+  }
+ },
+ {
+  "claim_id": "TES-002",
+  "receipt_id": "test_002",
+  "image_path": "data/images/test/test_002.png",
+  "submitter": "Member 002",
+  "purpose": "Supplies for workshop",
+  "amount": 76000,
+  "currency": "IDR",
+  "items": [
+   {
+    "name": "JASMINE MT ( L )",
+    "qty": 3,
+    "line_total": 72000
+   }
+  ],
+  "labels": {
+   "planted_error": "wrong_quantity",
+   "planted_detail": {
+    "item": "JASMINE MT ( L )",
+    "extra_qty": 2
+   },
+   "natural_flags": [
+    "receipt_inconsistent"
+   ],
+   "expected_decision": "reject"
+  }
+ },
+ {
+  "claim_id": "TES-003",
+  "receipt_id": "test_003",
+  "image_path": "data/images/test/test_003.png",
+  "submitter": "Member 003",
+  "purpose": "Snacks for event booth, 3 people",
+  "amount": 11000,
+  "currency": "IDR",
+  "items": [
+   {
+    "name": "DONAT GULA",
+    "qty": 1,
+    "line_total": 11000
+   }
+  ],
+  "labels": {
+   "planted_error": null,
+   "planted_detail": null,
+   "natural_flags": [],
+   "expected_decision": "approve"
+  }
+ },
+ {
+  "claim_id": "TES-004",
+  "receipt_id": "test_004",
+  "image_path": "data/images/test/test_004.png",
+  "submitter": "Member 004",
+  "purpose": "Committee dinner, 5 people",
+  "amount": 174600,
+  "currency": "IDR",
+  "items": [
+   {
+    "name": "ICE BLACKCOFFE",
+    "qty": 2,
+    "line_total": 82000
+   },
+   {
+    "name": "AVOCADO COFFEE",
+    "qty": 1,
+    "line_total": 61000
+   },
+   {
+    "name": "CHIKEN KATSU FF",
+    "qty": 1,
+    "line_total": 51000
+   }
+  ],
+  "labels": {
+   "planted_error": null,
+   "planted_detail": null,
+   "natural_flags": [],
+   "expected_decision": "approve"
+  }
+ },
+ {
+  "claim_id": "TES-005",
+  "receipt_id": "test_005",
+  "image_path": "data/images/test/test_005.png",
+  "submitter": "Member 005",
+  "purpose": "",
+  "amount": 31000,
+  "currency": "IDR",
+  "items": [
+   {
+    "name": "TRAD KY TOAST CARTE",
+    "qty": 1,
+    "line_total": 28182
+   }
+  ],
+  "labels": {
+   "planted_error": "policy_breach",
+   "planted_detail": {
+    "clause": "C1",
+    "detail": "no purpose stated"
+   },
+   "natural_flags": [],
+   "expected_decision": "needs_review"
+  }
+ },
+ {
+  "claim_id": "TES-006",
+  "receipt_id": "test_006",
+  "image_path": "data/images/test/test_006.png",
+  "submitter": "Member 006",
+  "purpose": "Supplies for workshop",
+  "amount": 58000,
+  "currency": "IDR",
+  "items": [
+   {
+    "name": "EGG TART",
+    "qty": 1,
+    "line_total": 13000
+   },
+   {
+    "name": "CHOCO CUS ARD PASTRY",
+    "qty": 2,
+    "line_total": 36000
+   },
+   {
+    "name": "REDBEAN BREAD",
+    "qty": 1,
+    "line_total": 9000
+   }
+  ],
+  "labels": {
+   "planted_error": "inflated_amount",
+   "planted_detail": {
+    "delta": 12000
+   },
+   "natural_flags": [],
+   "expected_decision": "reject"
+  }
+ },
+ {
+  "claim_id": "TES-007",
+  "receipt_id": "test_007",
+  "image_path": "data/images/test/test_007.png",
+  "submitter": "Member 007",
+  "purpose": "Team lunch, 3 people",
+  "amount": 111000,
+  "currency": "IDR",
+  "items": [
+   {
+    "name": "Kupon 15",
+    "qty": 1,
+    "line_total": 100000
+   }
+  ],
+  "labels": {
+   "planted_error": null,
+   "planted_detail": null,
+   "natural_flags": [
+    "receipt_inconsistent"
+   ],
+   "expected_decision": "needs_review"
+  }
+ },
+ {
+  "claim_id": "TES-008",
+  "receipt_id": "test_008",
+  "image_path": "data/images/test/test_008.png",
+  "submitter": "Member 008",
+  "purpose": "Team lunch, 6 people",
+  "amount": 50000,
+  "currency": "IDR",
+  "items": [
+   {
+    "name": "[REG] BLACK SAKURA",
+    "qty": 1,
+    "line_total": 45455
+   }
+  ],
+  "labels": {
+   "planted_error": null,
+   "planted_detail": null,
+   "natural_flags": [],
+   "expected_decision": "approve"
+  }
+ },
+ {
+  "claim_id": "TES-009",
+  "receipt_id": "test_009",
+  "image_path": "data/images/test/test_009.png",
+  "submitter": "Member 009",
+  "purpose": "",
+  "amount": 36000,
+  "currency": "IDR",
+  "items": [
+   {
+    "name": "Bumbu Kaldu Ayam 1",
+    "qty": 1,
+    "line_total": 36000
+   }
+  ],
+  "labels": {
+   "planted_error": "policy_breach",
+   "planted_detail": {
+    "clause": "C1",
+    "detail": "no purpose stated"
+   },
+   "natural_flags": [],
+   "expected_decision": "needs_review"
+  }
+ },
+ {
+  "claim_id": "TES-010",
+  "receipt_id": "test_010",
+  "image_path": "data/images/test/test_010.png",
+  "submitter": "Member 010",
+  "purpose": "Committee dinner, 4 people",
+  "amount": 17000,
+  "currency": "IDR",
+  "items": [
+   {
+    "name": "CINNAMON SUGAR",
+    "qty": 1,
+    "line_total": 17000
+   }
+  ],
+  "labels": {
+   "planted_error": null,
+   "planted_detail": null,
+   "natural_flags": [],
+   "expected_decision": "approve"
+  }
+ },
+ {
+  "claim_id": "TES-011",
+  "receipt_id": "test_011",
+  "image_path": "data/images/test/test_011.png",
+  "submitter": "Member 011",
+  "purpose": "Team lunch, 3 people",
+  "amount": 230000,
+  "currency": "IDR",
+  "items": [
+   {
+    "name": "BANABERRY FRESH CREAM CAK",
+    "qty": 1,
+    "line_total": 230000
+   }
+  ],
+  "labels": {
+   "planted_error": null,
+   "planted_detail": null,
+   "natural_flags": [],
+   "expected_decision": "approve"
+  }
+ },
+ {
+  "claim_id": "TES-012",
+  "receipt_id": "test_012",
+  "image_path": "data/images/test/test_012.png",
+  "submitter": "Member 012",
+  "purpose": "Food for volunteers, 6 people",
+  "amount": 120000,
+  "currency": "IDR",
+  "items": [],
+  "labels": {
+   "planted_error": null,
+   "planted_detail": null,
+   "natural_flags": [],
+   "expected_decision": "approve"
+  }
+ },
+ {
+  "claim_id": "TES-013",
+  "receipt_id": "test_013",
+  "image_path": "data/images/test/test_013.png",
+  "submitter": "Member 013",
+  "purpose": "Committee dinner, 4 people",
+  "amount": 51300,
+  "currency": "IDR",
+  "items": [
+   {
+    "name": "BASO KUAH",
+    "qty": 1,
+    "line_total": 43636
+   },
+   {
+    "name": "A.MINERAL GELAS",
+    "qty": 1,
+    "line_total": 3000
+   }
+  ],
+  "labels": {
+   "planted_error": null,
+   "planted_detail": null,
+   "natural_flags": [],
+   "expected_decision": "approve"
+  }
+ },
+ {
+  "claim_id": "TES-014",
+  "receipt_id": "test_014",
+  "image_path": "data/images/test/test_014.png",
+  "submitter": "Member 014",
+  "purpose": "Refreshments for meeting, 3 people",
+  "amount": 281435,
+  "currency": "IDR",
+  "items": [
+   {
+    "name": "RedVelvet Cheese Slc",
+    "qty": 1,
+    "line_total": 38000
+   },
+   {
+    "name": "Chicken Baked Rice",
+    "qty": 1,
+    "line_total": 55000
+   },
+   {
+    "name": "Fish n Chips",
+    "qty": 1,
+    "line_total": 65000
+   },
+   {
+    "name": "Mushroom Soup",
+    "qty": 1,
+    "line_total": 35000
+   },
+   {
+    "name": "Chamomile",
+    "qty": 1,
+    "line_total": 25000
+   },
+   {
+    "name": "Iced Tea",
+    "qty": 1,
+    "line_total": 20000
+   }
+  ],
+  "labels": {
+   "planted_error": null,
+   "planted_detail": null,
+   "natural_flags": [
+    "price_above_list"
+   ],
+   "expected_decision": "needs_review"
+  }
+ },
+ {
+  "claim_id": "TES-015",
+  "receipt_id": "test_015",
+  "image_path": "data/images/test/test_015.png",
+  "submitter": "Member 015",
+  "purpose": "Snacks for event booth, 5 people",
+  "amount": 63000,
+  "currency": "IDR",
+  "items": [
+   {
+    "name": "Lemon Tea (L)",
+    "qty": 1,
+    "line_total": 25000
+   },
+   {
+    "name": "Caramel Small",
+    "qty": 1,
+    "line_total": 38000
+   }
+  ],
+  "labels": {
+   "planted_error": null,
+   "planted_detail": null,
+   "natural_flags": [],
+   "expected_decision": "approve"
+  }
+ },
+ {
+  "claim_id": "TES-016",
+  "receipt_id": "test_016",
+  "image_path": "data/images/test/test_016.png",
+  "submitter": "Member 016",
+  "purpose": "Team lunch, 6 people",
+  "amount": 88000,
+  "currency": "IDR",
+  "items": [
+   {
+    "name": "[LG] BLACK SAKURA",
+    "qty": 1,
+    "line_total": 59091
+   },
+   {
+    "name": "IVINERAL WATER (bundling) 5k",
+    "qty": 1,
+    "line_total": 4545
+   },
+   {
+    "name": "NASI 2SAYUR TELR",
+    "qty": 1,
+    "line_total": 18000
+   }
+  ],
+  "labels": {
+   "planted_error": "item_not_on_receipt",
+   "planted_detail": {
+    "item": "NASI 2SAYUR TELR",
+    "price": 18000
+   },
+   "natural_flags": [],
+   "expected_decision": "reject"
+  }
+ },
+ {
+  "claim_id": "TES-017",
+  "receipt_id": "test_017",
+  "image_path": "data/images/test/test_017.png",
+  "submitter": "Member 017",
+  "purpose": "Snacks for event booth, 3 people",
+  "amount": 91000,
+  "currency": "IDR",
+  "items": [
+   {
+    "name": "Goblin's Mace",
+    "qty": 1,
+    "line_total": 25000
+   },
+   {
+    "name": "Mozarella Hot Dog",
+    "qty": 2,
+    "line_total": 38000
+   },
+   {
+    "name": "Chili Pepper Croquette",
+    "qty": 1,
+    "line_total": 19000
+   },
+   {
+    "name": "Cheese Croquette",
+    "qty": 1,
+    "line_total": 14000
+   },
+   {
+    "name": "Plastik Amook",
+    "qty": 1,
+    "line_total": 0
+   },
+   {
+    "name": "Plastik Putih Take Away",
+    "qty": 1,
+    "line_total": 0
+   }
+  ],
+  "labels": {
+   "planted_error": "totals_mismatch",
+   "planted_detail": {
+    "item": "Chili Pepper Croquette",
+    "delta": 5000
+   },
+   "natural_flags": [],
+   "expected_decision": "needs_review"
+  }
+ },
+ {
+  "claim_id": "TES-018",
+  "receipt_id": "test_018",
+  "image_path": "data/images/test/test_018.png",
+  "submitter": "Member 018",
+  "purpose": "Team lunch, 6 people",
+  "amount": 201000,
+  "currency": "IDR",
+  "items": [
+   {
+    "name": "Propolis Cair",
+    "qty": 1,
+    "line_total": 201000
+   }
+  ],
+  "labels": {
+   "planted_error": "inflated_amount",
+   "planted_detail": {
+    "delta": 45000
+   },
+   "natural_flags": [],
+   "expected_decision": "reject"
+  }
+ },
+ {
+  "claim_id": "TES-019",
+  "receipt_id": "test_019",
+  "image_path": "data/images/test/test_019.png",
+  "submitter": "Member 019",
+  "purpose": "Refreshments for meeting, 5 people",
+  "amount": 176000,
+  "currency": "IDR",
+  "items": [
+   {
+    "name": "AMBUSH DBL CHS",
+    "qty": 4,
+    "line_total": 60000
+   },
+   {
+    "name": "AMBUSH CHS BUR",
+    "qty": 10,
+    "line_total": 100000
+   }
+  ],
+  "labels": {
+   "planted_error": null,
+   "planted_detail": null,
+   "natural_flags": [],
+   "expected_decision": "approve"
+  }
+ },
+ {
+  "claim_id": "TES-020",
+  "receipt_id": "test_020",
+  "image_path": "data/images/test/test_020.png",
+  "submitter": "Member 020",
+  "purpose": "Team lunch, 2 people",
+  "amount": 377859,
+  "currency": "IDR",
+  "items": [
+   {
+    "name": "cashew nuts chkn",
+    "qty": 1,
+    "line_total": 64500
+   },
+   {
+    "name": "garlic pepper beef",
+    "qty": 1,
+    "line_total": 79500
+   },
+   {
+    "name": "red curry beef",
+    "qty": 1,
+    "line_total": 69500
+   },
+   {
+    "name": "phad thai",
+    "qty": 1,
+    "line_total": 64500
+   },
+   {
+    "name": "steamed rice",
+    "qty": 4,
+    "line_total": 47600
+   }
+  ],
+  "labels": {
+   "planted_error": null,
+   "planted_detail": null,
+   "natural_flags": [],
+   "expected_decision": "approve"
+  }
+ },
+ {
+  "claim_id": "TES-021",
+  "receipt_id": "test_021",
+  "image_path": "data/images/test/test_021.png",
+  "submitter": "Member 021",
+  "purpose": "Welfare pack items",
+  "amount": 38000,
+  "currency": "IDR",
+  "items": [
+   {
+    "name": "NASI GOR SFD TLR",
+    "qty": 1,
+    "line_total": 35000
+   },
+   {
+    "name": "ES TEH TAWAR",
+    "qty": 1,
+    "line_total": 3000
+   }
+  ],
+  "labels": {
+   "planted_error": null,
+   "planted_detail": null,
+   "natural_flags": [],
+   "expected_decision": "approve"
+  }
+ },
+ {
+  "claim_id": "TES-022",
+  "receipt_id": "test_022",
+  "image_path": "data/images/test/test_022.png",
+  "submitter": "Member 022",
+  "purpose": "Supplies for workshop",
+  "amount": 40000,
+  "currency": "IDR",
+  "items": [
+   {
+    "name": "[MD] SOFT STEAMED CHEESEC",
+    "qty": 2,
+    "line_total": 20000
+   },
+   {
+    "name": "[MD] SOFT STEAMED CHOCOCA",
+    "qty": 2,
+    "line_total": 20000
+   }
+  ],
+  "labels": {
+   "planted_error": null,
+   "planted_detail": null,
+   "natural_flags": [],
+   "expected_decision": "approve"
+  }
+ },
+ {
+  "claim_id": "TES-023",
+  "receipt_id": "test_023",
+  "image_path": "data/images/test/test_023.png",
+  "submitter": "Member 023",
+  "purpose": "Team lunch, 4 people",
+  "amount": 63000,
+  "currency": "IDR",
+  "items": [
+   {
+    "name": "TWIST DONUT",
+    "qty": 6,
+    "line_total": 54000
+   },
+   {
+    "name": "REDBEAN BREAD",
+    "qty": 1,
+    "line_total": 9000
+   }
+  ],
+  "labels": {
+   "planted_error": null,
+   "planted_detail": null,
+   "natural_flags": [],
+   "expected_decision": "approve"
+  }
+ },
+ {
+  "claim_id": "TES-024",
+  "receipt_id": "test_024",
+  "image_path": "data/images/test/test_024.png",
+  "submitter": "Member 024",
+  "purpose": "Refreshments for meeting, 4 people",
+  "amount": 118000,
+  "currency": "IDR",
+  "items": [
+   {
+    "name": "5001-Corn Flakes Cookies",
+    "qty": 1,
+    "line_total": 56000
+   },
+   {
+    "name": "5003-Chokoreto Cookies",
+    "qty": 1,
+    "line_total": 62000
+   },
+   {
+    "name": "6002-Plastic Bag Medium",
+    "qty": 1,
+    "line_total": 0
+   }
+  ],
+  "labels": {
+   "planted_error": null,
+   "planted_detail": null,
+   "natural_flags": [],
+   "expected_decision": "approve"
+  }
+ },
+ {
+  "claim_id": "TES-025",
+  "receipt_id": "test_025",
+  "image_path": "data/images/test/test_025.png",
+  "submitter": "Member 025",
+  "purpose": "Food for volunteers, 6 people",
+  "amount": 65000,
+  "currency": "IDR",
+  "items": [
+   {
+    "name": "TWIST STRAWBERRY DONUT",
+    "qty": 1,
+    "line_total": 10000
+   },
+   {
+    "name": "TLJ CROQUETTE",
+    "qty": 1,
+    "line_total": 17000
+   },
+   {
+    "name": "POTATO PEPPER BAGEL",
+    "qty": 1,
+    "line_total": 16000
+   },
+   {
+    "name": "A.MINERAL BOTOL",
+    "qty": 1,
+    "line_total": 22000
+   }
+  ],
+  "labels": {
+   "planted_error": "item_not_on_receipt",
+   "planted_detail": {
+    "item": "A.MINERAL BOTOL",
+    "price": 22000
+   },
+   "natural_flags": [
+    "packaging_over_5000"
+   ],
+   "expected_decision": "reject"
+  }
+ },
+ {
+  "claim_id": "TES-026",
+  "receipt_id": "test_026",
+  "image_path": "data/images/test/test_026.png",
+  "submitter": "Member 026",
+  "purpose": "Supplies for workshop",
+  "amount": 150000,
+  "currency": "IDR",
+  "items": [
+   {
+    "name": "Nasi Cap Cay Porsi B esar",
+    "qty": 1,
+    "line_total": 65000
+   },
+   {
+    "name": "Fu Yung Hai",
+    "qty": 1,
+    "line_total": 65000
+   },
+   {
+    "name": "OYONG 3 TELOR",
+    "qty": 1,
+    "line_total": 12000
+   }
+  ],
+  "labels": {
+   "planted_error": "item_not_on_receipt",
+   "planted_detail": {
+    "item": "OYONG 3 TELOR",
+    "price": 12000
+   },
+   "natural_flags": [
+    "receipt_inconsistent"
+   ],
+   "expected_decision": "reject"
+  }
+ },
+ {
+  "claim_id": "TES-027",
+  "receipt_id": "test_027",
+  "image_path": "data/images/test/test_027.png",
+  "submitter": "Member 027",
+  "purpose": "Refreshments for meeting, 4 people",
+  "amount": 61600,
+  "currency": "IDR",
+  "items": [
+   {
+    "name": "PKT AYAM",
+    "qty": 1,
+    "line_total": 33000
+   },
+   {
+    "name": "GULAI OTAK",
+    "qty": 1,
+    "line_total": 23000
+   }
+  ],
+  "labels": {
+   "planted_error": null,
+   "planted_detail": null,
+   "natural_flags": [],
+   "expected_decision": "approve"
+  }
+ },
+ {
+  "claim_id": "TES-028",
+  "receipt_id": "test_028",
+  "image_path": "data/images/test/test_028.png",
+  "submitter": "Member 028",
+  "purpose": "Food for volunteers, 2 people",
+  "amount": 426195,
+  "currency": "IDR",
+  "items": [
+   {
+    "name": "SAMGYOPSAL",
+    "qty": 2,
+    "line_total": 194000
+   },
+   {
+    "name": "SUL LUNG TANG",
+    "qty": 1,
+    "line_total": 101000
+   },
+   {
+    "name": "MAKOLI",
+    "qty": 1,
+    "line_total": 100000
+   }
+  ],
+  "labels": {
+   "planted_error": "totals_mismatch",
+   "planted_detail": {
+    "item": "SUL LUNG TANG",
+    "delta": 26000
+   },
+   "natural_flags": [],
+   "expected_decision": "needs_review"
+  }
+ },
+ {
+  "claim_id": "TES-029",
+  "receipt_id": "test_029",
+  "image_path": "data/images/test/test_029.png",
+  "submitter": "Member 029",
+  "purpose": "Team lunch, 4 people",
+  "amount": 145900,
+  "currency": "IDR",
+  "items": [
+   {
+    "name": "COLD OCHA",
+    "qty": 1,
+    "line_total": 10909
+   },
+   {
+    "name": "BCA PROMO",
+    "qty": 1,
+    "line_total": 54455
+   },
+   {
+    "name": "SKEWERED SHUMAI",
+    "qty": 1,
+    "line_total": 12727
+   },
+   {
+    "name": "SKEWERED TOFU ROLL",
+    "qty": 1,
+    "line_total": 12727
+   },
+   {
+    "name": "EBI TEMPURA",
+    "qty": 1,
+    "line_total": 13636
+   },
+   {
+    "name": "KITSUNE UDON (KIDS)",
+    "qty": 1,
+    "line_total": 28182
+   }
+  ],
+  "labels": {
+   "planted_error": null,
+   "planted_detail": null,
+   "natural_flags": [],
+   "expected_decision": "approve"
+  }
+ },
+ {
+  "claim_id": "TES-030",
+  "receipt_id": "test_030",
+  "image_path": "data/images/test/test_030.png",
+  "submitter": "Member 030",
+  "purpose": "",
+  "amount": 31500,
+  "currency": "IDR",
+  "items": [
+   {
+    "name": "Kupon 3",
+    "qty": 1,
+    "line_total": 28636
+   }
+  ],
+  "labels": {
+   "planted_error": "policy_breach",
+   "planted_detail": {
+    "clause": "C1",
+    "detail": "no purpose stated"
+   },
+   "natural_flags": [],
+   "expected_decision": "needs_review"
+  }
+ },
+ {
+  "claim_id": "TES-031",
+  "receipt_id": "test_031",
+  "image_path": "data/images/test/test_031.png",
+  "submitter": "Member 031",
+  "purpose": "Committee dinner, 3 people",
+  "amount": 113886,
+  "currency": "IDR",
+  "items": [
+   {
+    "name": "SALMON PESTO",
+    "qty": 1,
+    "line_total": 85500
+   },
+   {
+    "name": "SALMON PESTO",
+    "qty": 1,
+    "line_total": 85500
+   }
+  ],
+  "labels": {
+   "planted_error": null,
+   "planted_detail": null,
+   "natural_flags": [
+    "receipt_inconsistent"
+   ],
+   "expected_decision": "needs_review"
+  }
+ },
+ {
+  "claim_id": "TES-032",
+  "receipt_id": "test_032",
+  "image_path": "data/images/test/test_032.png",
+  "submitter": "Member 032",
+  "purpose": "",
+  "amount": 24000,
+  "currency": "IDR",
+  "items": [
+   {
+    "name": "THAI ICED GREEN TEA",
+    "qty": 1,
+    "line_total": 24000
+   }
+  ],
+  "labels": {
+   "planted_error": "policy_breach",
+   "planted_detail": {
+    "clause": "C1",
+    "detail": "no purpose stated"
+   },
+   "natural_flags": [],
+   "expected_decision": "needs_review"
+  }
+ },
+ {
+  "claim_id": "TES-033",
+  "receipt_id": "test_033",
+  "image_path": "data/images/test/test_033.png",
+  "submitter": "Member 033",
+  "purpose": "Snacks for event booth, 3 people",
+  "amount": 148127,
+  "currency": "IDR",
+  "items": [
+   {
+    "name": "GRILLED BABY POTATO (R",
+    "qty": 1,
+    "line_total": 50500
+   },
+   {
+    "name": "HOT TUNA",
+    "qty": 1,
+    "line_total": 67000
+   },
+   {
+    "name": "HOT TUNA",
+    "qty": 1,
+    "line_total": 103000
+   }
+  ],
+  "labels": {
+   "planted_error": "totals_mismatch",
+   "planted_detail": {
+    "item": "HOT TUNA",
+    "delta": 36000
+   },
+   "natural_flags": [
+    "receipt_inconsistent"
+   ],
+   "expected_decision": "needs_review"
+  }
+ },
+ {
+  "claim_id": "TES-034",
+  "receipt_id": "test_034",
+  "image_path": "data/images/test/test_034.png",
+  "submitter": "Member 034",
+  "purpose": "Welfare pack items",
+  "amount": 93500,
+  "currency": "IDR",
+  "items": [
+   {
+    "name": "Ash Chick Sambal Matah",
+    "qty": 5,
+    "line_total": 75000
+   },
+   {
+    "name": "Jamur Goreng",
+    "qty": 2,
+    "line_total": 10000
+   }
+  ],
+  "labels": {
+   "planted_error": null,
+   "planted_detail": null,
+   "natural_flags": [],
+   "expected_decision": "approve"
+  }
+ },
+ {
+  "claim_id": "TES-035",
+  "receipt_id": "test_035",
+  "image_path": "data/images/test/test_035.png",
+  "submitter": "Member 035",
+  "purpose": "Team lunch, 3 people",
+  "amount": 54000,
+  "currency": "IDR",
+  "items": [
+   {
+    "name": "TWIST DONUT",
+    "qty": 2,
+    "line_total": 18000
+   },
+   {
+    "name": "BANANA DONUT",
+    "qty": 1,
+    "line_total": 11000
+   },
+   {
+    "name": "CREAMCHEESE BREAD",
+    "qty": 1,
+    "line_total": 13000
+   },
+   {
+    "name": "FRANKFRUT SAUSAGE ROLL",
+    "qty": 1,
+    "line_total": 12000
+   }
+  ],
+  "labels": {
+   "planted_error": null,
+   "planted_detail": null,
+   "natural_flags": [],
+   "expected_decision": "approve"
+  }
+ },
+ {
+  "claim_id": "TES-036",
+  "receipt_id": "test_036",
+  "image_path": "data/images/test/test_036.png",
+  "submitter": "Member 036",
+  "purpose": "",
+  "amount": 40000,
+  "currency": "IDR",
+  "items": [
+   {
+    "name": "XXL Crispy Chicken",
+    "qty": 1,
+    "line_total": 40000
+   }
+  ],
+  "labels": {
+   "planted_error": "policy_breach",
+   "planted_detail": {
+    "clause": "C1",
+    "detail": "no purpose stated"
+   },
+   "natural_flags": [],
+   "expected_decision": "needs_review"
+  }
+ },
+ {
+  "claim_id": "TES-037",
+  "receipt_id": "test_037",
+  "image_path": "data/images/test/test_037.png",
+  "submitter": "Member 037",
+  "purpose": "",
+  "amount": 20000,
+  "currency": "IDR",
+  "items": [
+   {
+    "name": "Popcorn Salt (S)",
+    "qty": 1,
+    "line_total": 20000
+   }
+  ],
+  "labels": {
+   "planted_error": "policy_breach",
+   "planted_detail": {
+    "clause": "C1",
+    "detail": "no purpose stated"
+   },
+   "natural_flags": [],
+   "expected_decision": "needs_review"
+  }
+ },
+ {
+  "claim_id": "TES-038",
+  "receipt_id": "test_038",
+  "image_path": "data/images/test/test_038.png",
+  "submitter": "Member 038",
+  "purpose": "Team lunch, 3 people",
+  "amount": 664329,
+  "currency": "IDR",
+  "items": [
+   {
+    "name": "XLB Org Pork 10x",
+    "qty": 1,
+    "line_total": 78000
+   },
+   {
+    "name": "Sicito Babi",
+    "qty": 1,
+    "line_total": 65000
+   },
+   {
+    "name": "Hotplate Tahu",
+    "qty": 1,
+    "line_total": 58000
+   },
+   {
+    "name": "DF Fish Fillet Garlc",
+    "qty": 1,
+    "line_total": 108000
+   },
+   {
+    "name": "LM Pork Belly",
+    "qty": 1,
+    "line_total": 88000
+   },
+   {
+    "name": "Siew Mai",
+    "qty": 1,
+    "line_total": 38800
+   },
+   {
+    "name": "Kwan Yin Cup",
+    "qty": 5,
+    "line_total": 50000
+   },
+   {
+    "name": "Herbal Jelly",
+    "qty": 1,
+    "line_total": 38000
+   },
+   {
+    "name": "Onde-Onde",
+    "qty": 1,
+    "line_total": 38000
+   }
+  ],
+  "labels": {
+   "planted_error": null,
+   "planted_detail": null,
+   "natural_flags": [
+    "above_500k"
+   ],
+   "expected_decision": "needs_review"
+  }
+ },
+ {
+  "claim_id": "TES-039",
+  "receipt_id": "test_039",
+  "image_path": "data/images/test/test_039.png",
+  "submitter": "Member 039",
+  "purpose": "Team lunch, 5 people",
+  "amount": 4086000,
+  "currency": "IDR",
+  "items": [
+   {
+    "name": "LUNCH BOX 3P SET W/RED BAG & SP00 N.",
+    "qty": 8,
+    "line_total": 1944000
+   },
+   {
+    "name": "RICE CASE 7L W/CUP",
+    "qty": 6,
+    "line_total": 1170000
+   },
+   {
+    "name": "LUNCH BOX 3P SET W/BLACK BAG & SP OON",
+    "qty": 4,
+    "line_total": 972000
+   }
+  ],
+  "labels": {
+   "planted_error": "wrong_quantity",
+   "planted_detail": {
+    "item": "RICE CASE 7L W/CUP",
+    "extra_qty": 1
+   },
+   "natural_flags": [
+    "packaging_over_5000"
+   ],
+   "expected_decision": "reject"
+  }
+ },
+ {
+  "claim_id": "TES-040",
+  "receipt_id": "test_040",
+  "image_path": "data/images/test/test_040.png",
+  "submitter": "Member 040",
+  "purpose": "Food for volunteers, 2 people",
+  "amount": 68000,
+  "currency": "IDR",
+  "items": [
+   {
+    "name": "Snack Lestari All",
+    "qty": 2,
+    "line_total": 54000
+   },
+   {
+    "name": "Bakery Aneka Sisir Banana,Pizza,yoko,Mar mer,Daging,abon,keju,cokelat,dll",
+    "qty": 2,
+    "line_total": 14000
+   }
+  ],
+  "labels": {
+   "planted_error": null,
+   "planted_detail": null,
+   "natural_flags": [],
+   "expected_decision": "approve"
+  }
+ },
+ {
+  "claim_id": "TES-041",
+  "receipt_id": "test_041",
+  "image_path": "data/images/test/test_041.png",
+  "submitter": "Member 041",
+  "purpose": "Supplies for workshop",
+  "amount": 365000,
+  "currency": "IDR",
+  "items": [
+   {
+    "name": "Chicken Maryland",
+    "qty": 1,
+    "line_total": 47619
+   },
+   {
+    "name": "Cappucino (Hot/Iced)",
+    "qty": 1,
+    "line_total": 30303
+   },
+   {
+    "name": "Naga Lychee Juice",
+    "qty": 1,
+    "line_total": 34632
+   },
+   {
+    "name": "Cafe Latte",
+    "qty": 1,
+    "line_total": 30303
+   },
+   {
+    "name": "Hot Chocolate Marshmallo",
+    "qty": 1,
+    "line_total": 30303
+   },
+   {
+    "name": "Chicken Cesar Salad",
+    "qty": 1,
+    "line_total": 43290
+   },
+   {
+    "name": "Mineral Water",
+    "qty": 1,
+    "line_total": 12987
+   },
+   {
+    "name": "Mineral Water",
+    "qty": 1,
+    "line_total": 12987
+   },
+   {
+    "name": "Lychee/Peach/Lemon/Mango",
+    "qty": 1,
+    "line_total": 25974
+   },
+   {
+    "name": "Chicken Maryland",
+    "qty": 1,
+    "line_total": 47619
+   }
+  ],
+  "labels": {
+   "planted_error": null,
+   "planted_detail": null,
+   "natural_flags": [
+    "price_above_list"
+   ],
+   "expected_decision": "needs_review"
+  }
+ },
+ {
+  "claim_id": "TES-042",
+  "receipt_id": "test_042",
+  "image_path": "data/images/test/test_042.png",
+  "submitter": "Member 042",
+  "purpose": "",
+  "amount": 16500,
+  "currency": "IDR",
+  "items": [
+   {
+    "name": "Chicken HCC. 1Pcs",
+    "qty": 1,
+    "line_total": 15000
+   }
+  ],
+  "labels": {
+   "planted_error": "policy_breach",
+   "planted_detail": {
+    "clause": "C1",
+    "detail": "no purpose stated"
+   },
+   "natural_flags": [],
+   "expected_decision": "needs_review"
+  }
+ },
+ {
+  "claim_id": "TES-043",
+  "receipt_id": "test_043",
+  "image_path": "data/images/test/test_043.png",
+  "submitter": "Member 043",
+  "purpose": "Committee dinner, 6 people",
+  "amount": 165000,
+  "currency": "IDR",
+  "items": [
+   {
+    "name": "Cheese Tart",
+    "qty": 6,
+    "line_total": 247000
+   }
+  ],
+  "labels": {
+   "planted_error": "totals_mismatch",
+   "planted_detail": {
+    "item": "Cheese Tart",
+    "delta": 82000
+   },
+   "natural_flags": [],
+   "expected_decision": "needs_review"
+  }
+ },
+ {
+  "claim_id": "TES-044",
+  "receipt_id": "test_044",
+  "image_path": "data/images/test/test_044.png",
+  "submitter": "Member 044",
+  "purpose": "Welfare pack items",
+  "amount": 35000,
+  "currency": "IDR",
+  "items": [
+   {
+    "name": "Combo 1",
+    "qty": 1,
+    "line_total": 35000
+   }
+  ],
+  "labels": {
+   "planted_error": "inflated_amount",
+   "planted_detail": {
+    "delta": 5000
+   },
+   "natural_flags": [],
+   "expected_decision": "reject"
+  }
+ },
+ {
+  "claim_id": "TES-045",
+  "receipt_id": "test_045",
+  "image_path": "data/images/test/test_045.png",
+  "submitter": "Member 045",
+  "purpose": "Snacks for event booth, 6 people",
+  "amount": 103000,
+  "currency": "IDR",
+  "items": [
+   {
+    "name": "Lemon Tea (L).",
+    "qty": 1,
+    "line_total": 25000
+   },
+   {
+    "name": "Mike & Ike Original",
+    "qty": 1,
+    "line_total": 28000
+   },
+   {
+    "name": "Mike & Berry",
+    "qty": 1,
+    "line_total": 43000
+   },
+   {
+    "name": "Roti Keju Manis.",
+    "qty": 1,
+    "line_total": 7000
+   }
+  ],
+  "labels": {
+   "planted_error": "inflated_amount",
+   "planted_detail": {
+    "delta": 15000
+   },
+   "natural_flags": [],
+   "expected_decision": "reject"
+  }
+ },
+ {
+  "claim_id": "TES-046",
+  "receipt_id": "test_046",
+  "image_path": "data/images/test/test_046.png",
+  "submitter": "Member 046",
+  "purpose": "Welfare pack items",
+  "amount": 85000,
+  "currency": "IDR",
+  "items": [
+   {
+    "name": "S-Bubble Milk Tea",
+    "qty": 1,
+    "line_total": 20000
+   },
+   {
+    "name": "S-Caramel Milk Tea",
+    "qty": 1,
+    "line_total": 20000
+   },
+   {
+    "name": "CHANGE TO CHICKEN BOX",
+    "qty": 1,
+    "line_total": 45000
+   }
+  ],
+  "labels": {
+   "planted_error": "item_not_on_receipt",
+   "planted_detail": {
+    "item": "CHANGE TO CHICKEN BOX",
+    "price": 45000
+   },
+   "natural_flags": [],
+   "expected_decision": "reject"
+  }
+ },
+ {
+  "claim_id": "TES-047",
+  "receipt_id": "test_047",
+  "image_path": "data/images/test/test_047.png",
+  "submitter": "Member 047",
+  "purpose": "Food for volunteers, 4 people",
+  "amount": 85000,
+  "currency": "IDR",
+  "items": [
+   {
+    "name": "COPIA 1 /GB",
+    "qty": 1,
+    "line_total": 45000
+   },
+   {
+    "name": "PLASTIC BAG RED CENTRAL SI",
+    "qty": 1,
+    "line_total": 0
+   },
+   {
+    "name": "COPIA 1 /GB",
+    "qty": 1,
+    "line_total": 40000
+   }
+  ],
+  "labels": {
+   "planted_error": "inflated_amount",
+   "planted_detail": {
+    "delta": 22000
+   },
+   "natural_flags": [],
+   "expected_decision": "reject"
+  }
+ },
+ {
+  "claim_id": "TES-048",
+  "receipt_id": "test_048",
+  "image_path": "data/images/test/test_048.png",
+  "submitter": "Member 048",
+  "purpose": "Snacks for event booth, 2 people",
+  "amount": 25000,
+  "currency": "IDR",
+  "items": [
+   {
+    "name": "S-Hazelnut KOI Cafe",
+    "qty": 1,
+    "line_total": 33000
+   }
+  ],
+  "labels": {
+   "planted_error": "totals_mismatch",
+   "planted_detail": {
+    "item": "S-Hazelnut KOI Cafe",
+    "delta": 8000
+   },
+   "natural_flags": [],
+   "expected_decision": "needs_review"
+  }
+ },
+ {
+  "claim_id": "TES-049",
+  "receipt_id": "test_049",
+  "image_path": "data/images/test/test_049.png",
+  "submitter": "Member 049",
+  "purpose": "Refreshments for meeting, 3 people",
+  "amount": 23000,
+  "currency": "IDR",
+  "items": [
+   {
+    "name": "Ptgs Eggtart",
+    "qty": 1,
+    "line_total": 12000
+   },
+   {
+    "name": "Choco Melt",
+    "qty": 1,
+    "line_total": 11000
+   }
+  ],
+  "labels": {
+   "planted_error": null,
+   "planted_detail": null,
+   "natural_flags": [],
+   "expected_decision": "approve"
+  }
+ },
+ {
+  "claim_id": "TES-050",
+  "receipt_id": "test_050",
+  "image_path": "data/images/test/test_050.png",
+  "submitter": "Member 050",
+  "purpose": "Team lunch, 5 people",
+  "amount": 19500,
+  "currency": "IDR",
+  "items": [
+   {
+    "name": "Superice Cauburry",
+    "qty": 1,
+    "line_total": 17727
+   }
+  ],
+  "labels": {
+   "planted_error": null,
+   "planted_detail": null,
+   "natural_flags": [],
+   "expected_decision": "approve"
+  }
+ },
+ {
+  "claim_id": "TES-051",
+  "receipt_id": "test_051",
+  "image_path": "data/images/test/test_051.png",
+  "submitter": "Member 051",
+  "purpose": "Refreshments for meeting, 5 people",
+  "amount": 334000,
+  "currency": "IDR",
+  "items": [
+   {
+    "name": "(TA) NASI GRG TERI MEDAN",
+    "qty": 4,
+    "line_total": 165460
+   },
+   {
+    "name": "(TA) BIHUN GORENG SEAFOOD",
+    "qty": 1,
+    "line_total": 40456
+   },
+   {
+    "name": "(TA) KWETIAW SEAFOOD SIRAM",
+    "qty": 1,
+    "line_total": 42274
+   },
+   {
+    "name": "(TA) NASI GORENG",
+    "qty": 2,
+    "line_total": 74456
+   }
+  ],
+  "labels": {
+   "planted_error": "totals_mismatch",
+   "planted_detail": {
+    "item": "(TA) NASI GORENG",
+    "delta": 19000
+   },
+   "natural_flags": [
+    "receipt_inconsistent"
+   ],
+   "expected_decision": "needs_review"
+  }
+ },
+ {
+  "claim_id": "TES-052",
+  "receipt_id": "test_052",
+  "image_path": "data/images/test/test_052.png",
+  "submitter": "Member 052",
+  "purpose": "Food for volunteers, 6 people",
+  "amount": 55000,
+  "currency": "IDR",
+  "items": [
+   {
+    "name": "THAI ICED TEA",
+    "qty": 1,
+    "line_total": 35000
+   },
+   {
+    "name": "THAI ICED TEA",
+    "qty": 1,
+    "line_total": 20000
+   }
+  ],
+  "labels": {
+   "planted_error": "inflated_amount",
+   "planted_detail": {
+    "delta": 15000
+   },
+   "natural_flags": [],
+   "expected_decision": "reject"
+  }
+ },
+ {
+  "claim_id": "TES-053",
+  "receipt_id": "test_053",
+  "image_path": "data/images/test/test_053.png",
+  "submitter": "Member 053",
+  "purpose": "Supplies for workshop",
+  "amount": 123585,
+  "currency": "IDR",
+  "items": [
+   {
+    "name": "Pecel Komplit + Nasi",
+    "qty": 1,
+    "line_total": 42000
+   },
+   {
+    "name": "SOTO KUDUS",
+    "qty": 1,
+    "line_total": 47000
+   },
+   {
+    "name": "Mineral Water",
+    "qty": 2,
+    "line_total": 18000
+   }
+  ],
+  "labels": {
+   "planted_error": null,
+   "planted_detail": null,
+   "natural_flags": [],
+   "expected_decision": "approve"
+  }
+ },
+ {
+  "claim_id": "TES-054",
+  "receipt_id": "test_054",
+  "image_path": "data/images/test/test_054.png",
+  "submitter": "Member 054",
+  "purpose": "",
+  "amount": 10000,
+  "currency": "IDR",
+  "items": [
+   {
+    "name": "KACANG MERAH",
+    "qty": 1,
+    "line_total": 10000
+   }
+  ],
+  "labels": {
+   "planted_error": "policy_breach",
+   "planted_detail": {
+    "clause": "C1",
+    "detail": "no purpose stated"
+   },
+   "natural_flags": [],
+   "expected_decision": "needs_review"
+  }
+ },
+ {
+  "claim_id": "TES-055",
+  "receipt_id": "test_055",
+  "image_path": "data/images/test/test_055.png",
+  "submitter": "Member 055",
+  "purpose": "Snacks for event booth, 5 people",
+  "amount": 70000,
+  "currency": "IDR",
+  "items": [
+   {
+    "name": "APPLE CINNAMON PASTRY",
+    "qty": 1,
+    "line_total": 22000
+   },
+   {
+    "name": "ROYAL CHEESE TART",
+    "qty": 3,
+    "line_total": 48000
+   }
+  ],
+  "labels": {
+   "planted_error": "wrong_quantity",
+   "planted_detail": {
+    "item": "ROYAL CHEESE TART",
+    "extra_qty": 1
+   },
+   "natural_flags": [],
+   "expected_decision": "reject"
+  }
+ },
+ {
+  "claim_id": "TES-056",
+  "receipt_id": "test_056",
+  "image_path": "data/images/test/test_056.png",
+  "submitter": "Member 056",
+  "purpose": "Snacks for event booth, 6 people",
+  "amount": 8999,
+  "currency": "IDR",
+  "items": [
+   {
+    "name": "AIR MINERAL",
+    "qty": 1,
+    "line_total": 8181
+   }
+  ],
+  "labels": {
+   "planted_error": null,
+   "planted_detail": null,
+   "natural_flags": [],
+   "expected_decision": "approve"
+  }
+ },
+ {
+  "claim_id": "TES-057",
+  "receipt_id": "test_057",
+  "image_path": "data/images/test/test_057.png",
+  "submitter": "Member 057",
+  "purpose": "Snacks for event booth, 6 people",
+  "amount": 42000,
+  "currency": "IDR",
+  "items": [
+   {
+    "name": "ICED TT",
+    "qty": 1,
+    "line_total": 20000
+   },
+   {
+    "name": "ICED GT",
+    "qty": 1,
+    "line_total": 22000
+   }
+  ],
+  "labels": {
+   "planted_error": null,
+   "planted_detail": null,
+   "natural_flags": [],
+   "expected_decision": "approve"
+  }
+ },
+ {
+  "claim_id": "TES-058",
+  "receipt_id": "test_058",
+  "image_path": "data/images/test/test_058.png",
+  "submitter": "Member 058",
+  "purpose": "",
+  "amount": 60500,
+  "currency": "IDR",
+  "items": [
+   {
+    "name": "PHO BO TAI",
+    "qty": 1,
+    "line_total": 55000
+   }
+  ],
+  "labels": {
+   "planted_error": "policy_breach",
+   "planted_detail": {
+    "clause": "C1",
+    "detail": "no purpose stated"
+   },
+   "natural_flags": [],
+   "expected_decision": "needs_review"
+  }
+ },
+ {
+  "claim_id": "TES-059",
+  "receipt_id": "test_059",
+  "image_path": "data/images/test/test_059.png",
+  "submitter": "Member 059",
+  "purpose": "Welfare pack items",
+  "amount": 680500,
+  "currency": "IDR",
+  "items": [
+   {
+    "name": "Tahu Isi",
+    "qty": 2,
+    "line_total": 78000
+   },
+   {
+    "name": "Tea",
+    "qty": 5,
+    "line_total": 30000
+   },
+   {
+    "name": "Kepiting 7-8.4ons - Chilly 0.7 1",
+    "qty": 1,
+    "line_total": 297490
+   },
+   {
+    "name": "Udang Telur Asin - Regular",
+    "qty": 1,
+    "line_total": 47500
+   },
+   {
+    "name": "Kailan 2 Rasa",
+    "qty": 1,
+    "line_total": 45000
+   },
+   {
+    "name": "Mantau - 2 pcs",
+    "qty": 1,
+    "line_total": 25000
+   },
+   {
+    "name": "Sweet Tea",
+    "qty": 2,
+    "line_total": 16000
+   },
+   {
+    "name": "Nasi Putih",
+    "qty": 7,
+    "line_total": 42000
+   },
+   {
+    "name": "Mantau - 3 pcs",
+    "qty": 1,
+    "line_total": 37500
+   }
+  ],
+  "labels": {
+   "planted_error": null,
+   "planted_detail": null,
+   "natural_flags": [
+    "above_500k",
+    "receipt_inconsistent"
+   ],
+   "expected_decision": "needs_review"
+  }
+ },
+ {
+  "claim_id": "TES-060",
+  "receipt_id": "test_060",
+  "image_path": "data/images/test/test_060.png",
+  "submitter": "Member 060",
+  "purpose": "Supplies for workshop",
+  "amount": 26250,
+  "currency": "IDR",
+  "items": [
+   {
+    "name": "Topping Milo Sparkle (untuk 1 Po rsi)",
+    "qty": 1,
+    "line_total": 1250
+   },
+   {
+    "name": "Bola Ubi Mini Original (14 Pcs )",
+    "qty": 2,
+    "line_total": 25000
+   }
+  ],
+  "labels": {
+   "planted_error": null,
+   "planted_detail": null,
+   "natural_flags": [],
+   "expected_decision": "approve"
+  }
+ },
+ {
+  "claim_id": "TES-061",
+  "receipt_id": "test_061",
+  "image_path": "data/images/test/test_061.png",
+  "submitter": "Member 061",
+  "purpose": "Supplies for workshop",
+  "amount": 24500,
+  "currency": "IDR",
+  "items": [
+   {
+    "name": "TALAM UNGU",
+    "qty": 1,
+    "line_total": 6500
+   },
+   {
+    "name": "AREM - AREM",
+    "qty": 1,
+    "line_total": 8000
+   },
+   {
+    "name": "LEMPER",
+    "qty": 2,
+    "line_total": 18000
+   },
+   {
+    "name": "MIKA SEDANG",
+    "qty": 1,
+    "line_total": 0
+   },
+   {
+    "name": "PLASTIK KECIL",
+    "qty": 1,
+    "line_total": 0
+   },
+   {
+    "name": "TEH KOTAK",
+    "qty": 1,
+    "line_total": 5000
+   }
+  ],
+  "labels": {
+   "planted_error": null,
+   "planted_detail": null,
+   "natural_flags": [
+    "receipt_inconsistent"
+   ],
+   "expected_decision": "needs_review"
+  }
+ },
+ {
+  "claim_id": "TES-062",
+  "receipt_id": "test_062",
+  "image_path": "data/images/test/test_062.png",
+  "submitter": "Member 062",
+  "purpose": "Team lunch, 5 people",
+  "amount": 48000,
+  "currency": "IDR",
+  "items": [
+   {
+    "name": "XXI Java Tea (M)",
+    "qty": 1,
+    "line_total": 18000
+   },
+   {
+    "name": "Combo 2",
+    "qty": 1,
+    "line_total": 30000
+   }
+  ],
+  "labels": {
+   "planted_error": null,
+   "planted_detail": null,
+   "natural_flags": [],
+   "expected_decision": "approve"
+  }
+ },
+ {
+  "claim_id": "TES-063",
+  "receipt_id": "test_063",
+  "image_path": "data/images/test/test_063.png",
+  "submitter": "Member 063",
+  "purpose": "Committee dinner, 6 people",
+  "amount": 57000,
+  "currency": "IDR",
+  "items": [
+   {
+    "name": "Kopi Susu Kampung.",
+    "qty": 1,
+    "line_total": 19000
+   },
+   {
+    "name": "Kopi Susu Kampung.",
+    "qty": 2,
+    "line_total": 38000
+   }
+  ],
+  "labels": {
+   "planted_error": null,
+   "planted_detail": null,
+   "natural_flags": [],
+   "expected_decision": "approve"
+  }
+ },
+ {
+  "claim_id": "TES-064",
+  "receipt_id": "test_064",
+  "image_path": "data/images/test/test_064.png",
+  "submitter": "Member 064",
+  "purpose": "Team lunch, 4 people",
+  "amount": 16000,
+  "currency": "IDR",
+  "items": [
+   {
+    "name": "SINGLE SCOOP",
+    "qty": 1,
+    "line_total": 16000
+   }
+  ],
+  "labels": {
+   "planted_error": null,
+   "planted_detail": null,
+   "natural_flags": [],
+   "expected_decision": "approve"
+  }
+ },
+ {
+  "claim_id": "TES-065",
+  "receipt_id": "test_065",
+  "image_path": "data/images/test/test_065.png",
+  "submitter": "Member 065",
+  "purpose": "Supplies for workshop",
+  "amount": 13000,
+  "currency": "IDR",
+  "items": [
+   {
+    "name": "Bubur Polos + Telur",
+    "qty": 1,
+    "line_total": 13000
+   }
+  ],
+  "labels": {
+   "planted_error": null,
+   "planted_detail": null,
+   "natural_flags": [],
+   "expected_decision": "approve"
+  }
+ },
+ {
+  "claim_id": "TES-066",
+  "receipt_id": "test_066",
+  "image_path": "data/images/test/test_066.png",
+  "submitter": "Member 066",
+  "purpose": "Welfare pack items",
+  "amount": 47000,
+  "currency": "IDR",
+  "items": [
+   {
+    "name": "PILLOW DURIA",
+    "qty": 1,
+    "line_total": 36364
+   },
+   {
+    "name": "PLASTIK 25",
+    "qty": 1,
+    "line_total": 7000
+   }
+  ],
+  "labels": {
+   "planted_error": "inflated_amount",
+   "planted_detail": {
+    "delta": 7000
+   },
+   "natural_flags": [],
+   "expected_decision": "reject"
+  }
+ },
+ {
+  "claim_id": "TES-067",
+  "receipt_id": "test_067",
+  "image_path": "data/images/test/test_067.png",
+  "submitter": "Member 067",
+  "purpose": "Refreshments for meeting, 4 people",
+  "amount": 14500,
+  "currency": "IDR",
+  "items": [
+   {
+    "name": "CHEESE JOHN",
+    "qty": 1,
+    "line_total": 14500
+   }
+  ],
+  "labels": {
+   "planted_error": "inflated_amount",
+   "planted_detail": {
+    "delta": 5000
+   },
+   "natural_flags": [],
+   "expected_decision": "reject"
+  }
+ },
+ {
+  "claim_id": "TES-068",
+  "receipt_id": "test_068",
+  "image_path": "data/images/test/test_068.png",
+  "submitter": "Member 068",
+  "purpose": "Refreshments for meeting, 6 people",
+  "amount": 60000,
+  "currency": "IDR",
+  "items": [
+   {
+    "name": "ICED TT",
+    "qty": 3,
+    "line_total": 60000
+   }
+  ],
+  "labels": {
+   "planted_error": "wrong_quantity",
+   "planted_detail": {
+    "item": "ICED TT",
+    "extra_qty": 2
+   },
+   "natural_flags": [],
+   "expected_decision": "reject"
+  }
+ },
+ {
+  "claim_id": "TES-069",
+  "receipt_id": "test_069",
+  "image_path": "data/images/test/test_069.png",
+  "submitter": "Member 069",
+  "purpose": "Welfare pack items",
+  "amount": 119000,
+  "currency": "IDR",
+  "items": [
+   {
+    "name": "[MD] SOFT MORNING ROLL",
+    "qty": 1,
+    "line_total": 18000
+   },
+   {
+    "name": "REAL HONEY PANCAKE BREAD",
+    "qty": 2,
+    "line_total": 20000
+   },
+   {
+    "name": "CUSTARD BRIOCHE",
+    "qty": 4,
+    "line_total": 36000
+   },
+   {
+    "name": "SPOOKY SOBORO",
+    "qty": 1,
+    "line_total": 45000
+   }
+  ],
+  "labels": {
+   "planted_error": "item_not_on_receipt",
+   "planted_detail": {
+    "item": "SPOOKY SOBORO",
+    "price": 45000
+   },
+   "natural_flags": [],
+   "expected_decision": "reject"
+  }
+ },
+ {
+  "claim_id": "TES-070",
+  "receipt_id": "test_070",
+  "image_path": "data/images/test/test_070.png",
+  "submitter": "Member 070",
+  "purpose": "Refreshments for meeting, 4 people",
+  "amount": 1565938,
+  "currency": "IDR",
+  "items": [
+   {
+    "name": "UDANG RE",
+    "qty": 2,
+    "line_total": 432000
+   },
+   {
+    "name": "AYM GR JUN NJAN",
+    "qty": 1,
+    "line_total": 108000
+   },
+   {
+    "name": "SAPO TH SEAFOOD",
+    "qty": 1,
+    "line_total": 172000
+   },
+   {
+    "name": "POCAI 3",
+    "qty": 2,
+    "line_total": 222000
+   },
+   {
+    "name": "GURAME FILLET M",
+    "qty": 1,
+    "line_total": 163000
+   },
+   {
+    "name": "BIHUN GORENG JJ",
+    "qty": 1,
+    "line_total": 116000
+   },
+   {
+    "name": "ICED TEA",
+    "qty": 5,
+    "line_total": 60000
+   },
+   {
+    "name": "NASI PUTIH",
+    "qty": 7,
+    "line_total": 70000
+   }
+  ],
+  "labels": {
+   "planted_error": null,
+   "planted_detail": null,
+   "natural_flags": [
+    "above_500k",
+    "price_above_list"
+   ],
+   "expected_decision": "needs_review"
+  }
+ },
+ {
+  "claim_id": "TES-071",
+  "receipt_id": "test_071",
+  "image_path": "data/images/test/test_071.png",
+  "submitter": "Member 071",
+  "purpose": "Snacks for event booth, 5 people",
+  "amount": 198000,
+  "currency": "IDR",
+  "items": [
+   {
+    "name": "Cuka Apel Tetes",
+    "qty": 1,
+    "line_total": 198000
+   }
+  ],
+  "labels": {
+   "planted_error": null,
+   "planted_detail": null,
+   "natural_flags": [],
+   "expected_decision": "approve"
+  }
+ },
+ {
+  "claim_id": "TES-072",
+  "receipt_id": "test_072",
+  "image_path": "data/images/test/test_072.png",
+  "submitter": "Member 072",
+  "purpose": "Welfare pack items",
+  "amount": 17500,
+  "currency": "IDR",
+  "items": [
+   {
+    "name": "Choco Devil",
+    "qty": 1,
+    "line_total": 21909
+   }
+  ],
+  "labels": {
+   "planted_error": "totals_mismatch",
+   "planted_detail": {
+    "item": "Choco Devil",
+    "delta": 6000
+   },
+   "natural_flags": [],
+   "expected_decision": "needs_review"
+  }
+ },
+ {
+  "claim_id": "TES-073",
+  "receipt_id": "test_073",
+  "image_path": "data/images/test/test_073.png",
+  "submitter": "Member 073",
+  "purpose": "Welfare pack items",
+  "amount": 22000,
+  "currency": "IDR",
+  "items": [
+   {
+    "name": "1001-Choco Bun",
+    "qty": 1,
+    "line_total": 22000
+   },
+   {
+    "name": "6001-Plastic Bag Small",
+    "qty": 1,
+    "line_total": 2000
+   }
+  ],
+  "labels": {
+   "planted_error": "totals_mismatch",
+   "planted_detail": {
+    "item": "6001-Plastic Bag Small",
+    "delta": 2000
+   },
+   "natural_flags": [],
+   "expected_decision": "needs_review"
+  }
+ },
+ {
+  "claim_id": "TES-074",
+  "receipt_id": "test_074",
+  "image_path": "data/images/test/test_074.png",
+  "submitter": "Member 074",
+  "purpose": "Team lunch, 6 people",
+  "amount": 330264,
+  "currency": "IDR",
+  "items": [
+   {
+    "name": "BLACKCURRANT",
+    "qty": 1,
+    "line_total": 32000
+   },
+   {
+    "name": "SPRITE",
+    "qty": 1,
+    "line_total": 32000
+   },
+   {
+    "name": "GRILLED CALAMARI",
+    "qty": 1,
+    "line_total": 85000
+   },
+   {
+    "name": "DINE FOR 2",
+    "qty": 1,
+    "line_total": 129000
+   }
+  ],
+  "labels": {
+   "planted_error": null,
+   "planted_detail": null,
+   "natural_flags": [],
+   "expected_decision": "approve"
+  }
+ },
+ {
+  "claim_id": "TES-075",
+  "receipt_id": "test_075",
+  "image_path": "data/images/test/test_075.png",
+  "submitter": "Member 075",
+  "purpose": "Welfare pack items",
+  "amount": 282000,
+  "currency": "IDR",
+  "items": [
+   {
+    "name": "CHOCO PUFF",
+    "qty": 1,
+    "line_total": 29091
+   },
+   {
+    "name": "CREAMY BEEF CLS FTC",
+    "qty": 1,
+    "line_total": 42727
+   },
+   {
+    "name": "NEW ORIENTAL CHK RICE",
+    "qty": 1,
+    "line_total": 34545
+   },
+   {
+    "name": "LIPTON PITCHER",
+    "qty": 1,
+    "line_total": 54545
+   },
+   {
+    "name": "SC/P SUPER SUPREME",
+    "qty": 1,
+    "line_total": 63273
+   },
+   {
+    "name": "CB/P BLACK PEPP BEEF",
+    "qty": 1,
+    "line_total": 48182
+   }
+  ],
+  "labels": {
+   "planted_error": "totals_mismatch",
+   "planted_detail": {
+    "item": "SC/P SUPER SUPREME",
+    "delta": 16000
+   },
+   "natural_flags": [],
+   "expected_decision": "needs_review"
+  }
+ },
+ {
+  "claim_id": "TES-076",
+  "receipt_id": "test_076",
+  "image_path": "data/images/test/test_076.png",
+  "submitter": "Member 076",
+  "purpose": "Team lunch, 6 people",
+  "amount": 110000,
+  "currency": "IDR",
+  "items": [
+   {
+    "name": "BASO TAHU",
+    "qty": 1,
+    "line_total": 46000
+   },
+   {
+    "name": "NASI PUTIH",
+    "qty": 1,
+    "line_total": 6000
+   },
+   {
+    "name": "BASO TAHU",
+    "qty": 1,
+    "line_total": 46000
+   },
+   {
+    "name": "NASI PUTIH",
+    "qty": 2,
+    "line_total": 12000
+   }
+  ],
+  "labels": {
+   "planted_error": null,
+   "planted_detail": null,
+   "natural_flags": [],
+   "expected_decision": "approve"
+  }
+ },
+ {
+  "claim_id": "TES-077",
+  "receipt_id": "test_077",
+  "image_path": "data/images/test/test_077.png",
+  "submitter": "Member 077",
+  "purpose": "Team lunch, 5 people",
+  "amount": 17000,
+  "currency": "IDR",
+  "items": [
+   {
+    "name": "TRIPPLE CHEESE",
+    "qty": 1,
+    "line_total": 17000
+   }
+  ],
+  "labels": {
+   "planted_error": null,
+   "planted_detail": null,
+   "natural_flags": [],
+   "expected_decision": "approve"
+  }
+ },
+ {
+  "claim_id": "TES-078",
+  "receipt_id": "test_078",
+  "image_path": "data/images/test/test_078.png",
+  "submitter": "Member 078",
+  "purpose": "Supplies for workshop",
+  "amount": 30000,
+  "currency": "IDR",
+  "items": [
+   {
+    "name": "Lemon Tea (L)",
+    "qty": 1,
+    "line_total": 25000
+   }
+  ],
+  "labels": {
+   "planted_error": null,
+   "planted_detail": null,
+   "natural_flags": [],
+   "expected_decision": "approve"
+  }
+ },
+ {
+  "claim_id": "TES-079",
+  "receipt_id": "test_079",
+  "image_path": "data/images/test/test_079.png",
+  "submitter": "Member 079",
+  "purpose": "Snacks for event booth, 5 people",
+  "amount": 22000,
+  "currency": "IDR",
+  "items": [
+   {
+    "name": "1001-Choco Bun",
+    "qty": 1,
+    "line_total": 31000
+   },
+   {
+    "name": "6001-Plastic Bag Small",
+    "qty": 1,
+    "line_total": 0
+   }
+  ],
+  "labels": {
+   "planted_error": "totals_mismatch",
+   "planted_detail": {
+    "item": "1001-Choco Bun",
+    "delta": 9000
+   },
+   "natural_flags": [],
+   "expected_decision": "needs_review"
+  }
+ },
+ {
+  "claim_id": "TES-080",
+  "receipt_id": "test_080",
+  "image_path": "data/images/test/test_080.png",
+  "submitter": "Member 080",
+  "purpose": "Snacks for event booth, 3 people",
+  "amount": 30000,
+  "currency": "IDR",
+  "items": [
+   {
+    "name": "Viet Milk Coffee",
+    "qty": 1,
+    "line_total": 30000
+   }
+  ],
+  "labels": {
+   "planted_error": "inflated_amount",
+   "planted_detail": {
+    "delta": 5000
+   },
+   "natural_flags": [],
+   "expected_decision": "reject"
+  }
+ },
+ {
+  "claim_id": "TES-081",
+  "receipt_id": "test_081",
+  "image_path": "data/images/test/test_081.png",
+  "submitter": "Member 081",
+  "purpose": "",
+  "amount": 50000,
+  "currency": "IDR",
+  "items": [
+   {
+    "name": "3002-Kyoto Choco Mochi",
+    "qty": 2,
+    "line_total": 28000
+   },
+   {
+    "name": "1001-Choco Bun",
+    "qty": 1,
+    "line_total": 22000
+   },
+   {
+    "name": "6001-Plastic Bag Small",
+    "qty": 1,
+    "line_total": 0
+   }
+  ],
+  "labels": {
+   "planted_error": "policy_breach",
+   "planted_detail": {
+    "clause": "C1",
+    "detail": "no purpose stated"
+   },
+   "natural_flags": [],
+   "expected_decision": "needs_review"
+  }
+ },
+ {
+  "claim_id": "TES-082",
+  "receipt_id": "test_082",
+  "image_path": "data/images/test/test_082.png",
+  "submitter": "Member 082",
+  "purpose": "Supplies for workshop",
+  "amount": 490000,
+  "currency": "IDR",
+  "items": [
+   {
+    "name": "Chocolate Log Cake",
+    "qty": 1,
+    "line_total": 115000
+   },
+   {
+    "name": "Snowman Cake Chocolate",
+    "qty": 1,
+    "line_total": 60000
+   },
+   {
+    "name": "Strawberry Log Cake",
+    "qty": 3,
+    "line_total": 315000
+   }
+  ],
+  "labels": {
+   "planted_error": "wrong_quantity",
+   "planted_detail": {
+    "item": "Strawberry Log Cake",
+    "extra_qty": 1
+   },
+   "natural_flags": [],
+   "expected_decision": "reject"
+  }
+ },
+ {
+  "claim_id": "TES-083",
+  "receipt_id": "test_083",
+  "image_path": "data/images/test/test_083.png",
+  "submitter": "Member 083",
+  "purpose": "Committee dinner, 5 people",
+  "amount": 45000,
+  "currency": "IDR",
+  "items": [
+   {
+    "name": "COOKIES AND CREAM",
+    "qty": 1,
+    "line_total": 20909
+   },
+   {
+    "name": "Pork Belly Cheese Fries",
+    "qty": 1,
+    "line_total": 22000
+   }
+  ],
+  "labels": {
+   "planted_error": "item_not_on_receipt",
+   "planted_detail": {
+    "item": "Pork Belly Cheese Fries",
+    "price": 22000
+   },
+   "natural_flags": [],
+   "expected_decision": "reject"
+  }
+ },
+ {
+  "claim_id": "TES-084",
+  "receipt_id": "test_084",
+  "image_path": "data/images/test/test_084.png",
+  "submitter": "Member 084",
+  "purpose": "Food for volunteers, 6 people",
+  "amount": 51600,
+  "currency": "IDR",
+  "items": [
+   {
+    "name": "Kroket",
+    "qty": 1,
+    "line_total": 12000
+   },
+   {
+    "name": "Arem Arem",
+    "qty": 3,
+    "line_total": 36000
+   }
+  ],
+  "labels": {
+   "planted_error": "wrong_quantity",
+   "planted_detail": {
+    "item": "Arem Arem",
+    "extra_qty": 1
+   },
+   "natural_flags": [],
+   "expected_decision": "reject"
+  }
+ },
+ {
+  "claim_id": "TES-085",
+  "receipt_id": "test_085",
+  "image_path": "data/images/test/test_085.png",
+  "submitter": "Member 085",
+  "purpose": "Team lunch, 6 people",
+  "amount": 197450,
+  "currency": "IDR",
+  "items": [
+   {
+    "name": "Nasi Putih",
+    "qty": 3,
+    "line_total": 30000
+   },
+   {
+    "name": "Nasi Tambah",
+    "qty": 1,
+    "line_total": 7000
+   },
+   {
+    "name": "Ayam Pop",
+    "qty": 2,
+    "line_total": 40000
+   },
+   {
+    "name": "Samabal SP",
+    "qty": 1,
+    "line_total": 11000
+   },
+   {
+    "name": "Sambal Gabus Asin Cb",
+    "qty": 1,
+    "line_total": 18000
+   },
+   {
+    "name": "Kerupuk Kuah",
+    "qty": 1,
+    "line_total": 15000
+   },
+   {
+    "name": "Ikan Bawal Besa",
+    "qty": 1,
+    "line_total": 28500
+   },
+   {
+    "name": "Telur Dadar",
+    "qty": 1,
+    "line_total": 10000
+   },
+   {
+    "name": "Teh Es",
+    "qty": 1,
+    "line_total": 7000
+   },
+   {
+    "name": "Teh Manis",
+    "qty": 1,
+    "line_total": 9000
+   },
+   {
+    "name": "Es Batu",
+    "qty": 1,
+    "line_total": 4000
+   }
+  ],
+  "labels": {
+   "planted_error": null,
+   "planted_detail": null,
+   "natural_flags": [],
+   "expected_decision": "approve"
+  }
+ },
+ {
+  "claim_id": "TES-086",
+  "receipt_id": "test_086",
+  "image_path": "data/images/test/test_086.png",
+  "submitter": "Member 086",
+  "purpose": "Snacks for event booth, 4 people",
+  "amount": 22000,
+  "currency": "IDR",
+  "items": [
+   {
+    "name": "Cheezemania",
+    "qty": 1,
+    "line_total": 9500
+   },
+   {
+    "name": "Mamamia",
+    "qty": 1,
+    "line_total": 12500
+   }
+  ],
+  "labels": {
+   "planted_error": null,
+   "planted_detail": null,
+   "natural_flags": [],
+   "expected_decision": "approve"
+  }
+ },
+ {
+  "claim_id": "TES-087",
+  "receipt_id": "test_087",
+  "image_path": "data/images/test/test_087.png",
+  "submitter": "Member 087",
+  "purpose": "Welfare pack items",
+  "amount": 40150,
+  "currency": "IDR",
+  "items": [
+   {
+    "name": "PHOTAI CHIN",
+    "qty": 1,
+    "line_total": 36500
+   }
+  ],
+  "labels": {
+   "planted_error": null,
+   "planted_detail": null,
+   "natural_flags": [],
+   "expected_decision": "approve"
+  }
+ },
+ {
+  "claim_id": "TES-088",
+  "receipt_id": "test_088",
+  "image_path": "data/images/test/test_088.png",
+  "submitter": "Member 088",
+  "purpose": "Team lunch, 2 people",
+  "amount": 92000,
+  "currency": "IDR",
+  "items": [
+   {
+    "name": "STIX ECLAIRS",
+    "qty": 1,
+    "line_total": 19000
+   },
+   {
+    "name": "ALMOND CREAM CHEESE",
+    "qty": 1,
+    "line_total": 28000
+   },
+   {
+    "name": "Salmon Seaweed Bowl",
+    "qty": 1,
+    "line_total": 45000
+   }
+  ],
+  "labels": {
+   "planted_error": "item_not_on_receipt",
+   "planted_detail": {
+    "item": "Salmon Seaweed Bowl",
+    "price": 45000
+   },
+   "natural_flags": [],
+   "expected_decision": "reject"
+  }
+ },
+ {
+  "claim_id": "TES-089",
+  "receipt_id": "test_089",
+  "image_path": "data/images/test/test_089.png",
+  "submitter": "Member 089",
+  "purpose": "Refreshments for meeting, 5 people",
+  "amount": 58000,
+  "currency": "IDR",
+  "items": [
+   {
+    "name": "XXL Crispy Chicken",
+    "qty": 1,
+    "line_total": 40000
+   },
+   {
+    "name": "Ice Kopi",
+    "qty": 1,
+    "line_total": 18000
+   }
+  ],
+  "labels": {
+   "planted_error": "item_not_on_receipt",
+   "planted_detail": {
+    "item": "Ice Kopi",
+    "price": 18000
+   },
+   "natural_flags": [],
+   "expected_decision": "reject"
+  }
+ },
+ {
+  "claim_id": "TES-090",
+  "receipt_id": "test_090",
+  "image_path": "data/images/test/test_090.png",
+  "submitter": "Member 090",
+  "purpose": "Welfare pack items",
+  "amount": 44500,
+  "currency": "IDR",
+  "items": [
+   {
+    "name": "CIRENG PANDAWA",
+    "qty": 1,
+    "line_total": 26818
+   },
+   {
+    "name": "CHARGE TA",
+    "qty": 1,
+    "line_total": 15000
+   }
+  ],
+  "labels": {
+   "planted_error": "item_not_on_receipt",
+   "planted_detail": {
+    "item": "CHARGE TA",
+    "price": 15000
+   },
+   "natural_flags": [],
+   "expected_decision": "reject"
+  }
+ },
+ {
+  "claim_id": "TES-091",
+  "receipt_id": "test_091",
+  "image_path": "data/images/test/test_091.png",
+  "submitter": "Member 091",
+  "purpose": "Refreshments for meeting, 5 people",
+  "amount": 23000,
+  "currency": "IDR",
+  "items": [
+   {
+    "name": "BAKSO BNGKS",
+    "qty": 1,
+    "line_total": 15000
+   },
+   {
+    "name": "GORENGAN",
+    "qty": 8,
+    "line_total": 8000
+   }
+  ],
+  "labels": {
+   "planted_error": "wrong_quantity",
+   "planted_detail": {
+    "item": "GORENGAN",
+    "extra_qty": 2
+   },
+   "natural_flags": [],
+   "expected_decision": "reject"
+  }
+ },
+ {
+  "claim_id": "TES-092",
+  "receipt_id": "test_092",
+  "image_path": "data/images/test/test_092.png",
+  "submitter": "Member 092",
+  "purpose": "Food for volunteers, 5 people",
+  "amount": 300000,
+  "currency": "IDR",
+  "items": [
+   {
+    "name": "- TICKET CP",
+    "qty": 5,
+    "line_total": 300000
+   }
+  ],
+  "labels": {
+   "planted_error": "wrong_quantity",
+   "planted_detail": {
+    "item": "- TICKET CP",
+    "extra_qty": 1
+   },
+   "natural_flags": [],
+   "expected_decision": "reject"
+  }
+ },
+ {
+  "claim_id": "TES-093",
+  "receipt_id": "test_093",
+  "image_path": "data/images/test/test_093.png",
+  "submitter": "Member 093",
+  "purpose": "Supplies for workshop",
+  "amount": 34362,
+  "currency": "IDR",
+  "items": [
+   {
+    "name": "THAI ICED TEA (L)",
+    "qty": 2,
+    "line_total": 32726
+   }
+  ],
+  "labels": {
+   "planted_error": "wrong_quantity",
+   "planted_detail": {
+    "item": "THAI ICED TEA (L)",
+    "extra_qty": 1
+   },
+   "natural_flags": [],
+   "expected_decision": "reject"
+  }
+ },
+ {
+  "claim_id": "TES-094",
+  "receipt_id": "test_094",
+  "image_path": "data/images/test/test_094.png",
+  "submitter": "Member 094",
+  "purpose": "Food for volunteers, 4 people",
+  "amount": 140063,
+  "currency": "IDR",
+  "items": [
+   {
+    "name": "TAHU GORENG",
+    "qty": 1,
+    "line_total": 28000
+   },
+   {
+    "name": "CAKWE",
+    "qty": 1,
+    "line_total": 17000
+   },
+   {
+    "name": "PHO TAI CHIN(R)",
+    "qty": 1,
+    "line_total": 63000
+   },
+   {
+    "name": "TEA",
+    "qty": 1,
+    "line_total": 11000
+   }
+  ],
+  "labels": {
+   "planted_error": null,
+   "planted_detail": null,
+   "natural_flags": [],
+   "expected_decision": "approve"
+  }
+ },
+ {
+  "claim_id": "TES-095",
+  "receipt_id": "test_095",
+  "image_path": "data/images/test/test_095.png",
+  "submitter": "Member 095",
+  "purpose": "Food for volunteers, 3 people",
+  "amount": 74799,
+  "currency": "IDR",
+  "items": [
+   {
+    "name": "BASO TAHU",
+    "qty": 1,
+    "line_total": 56181
+   },
+   {
+    "name": "ES JERUK",
+    "qty": 1,
+    "line_total": 13000
+   }
+  ],
+  "labels": {
+   "planted_error": "inflated_amount",
+   "planted_detail": {
+    "delta": 13000
+   },
+   "natural_flags": [],
+   "expected_decision": "reject"
+  }
+ },
+ {
+  "claim_id": "TES-096",
+  "receipt_id": "test_096",
+  "image_path": "data/images/test/test_096.png",
+  "submitter": "Member 096",
+  "purpose": "Refreshments for meeting, 3 people",
+  "amount": 41000,
+  "currency": "IDR",
+  "items": [
+   {
+    "name": "BBQ Chicken",
+    "qty": 1,
+    "line_total": 41000
+   }
+  ],
+  "labels": {
+   "planted_error": null,
+   "planted_detail": null,
+   "natural_flags": [],
+   "expected_decision": "approve"
+  }
+ },
+ {
+  "claim_id": "TES-097",
+  "receipt_id": "test_097",
+  "image_path": "data/images/test/test_097.png",
+  "submitter": "Member 097",
+  "purpose": "Food for volunteers, 3 people",
+  "amount": 55000,
+  "currency": "IDR",
+  "items": [
+   {
+    "name": "BUBUR GO",
+    "qty": 2,
+    "line_total": 40000
+   },
+   {
+    "name": "PUYUH GO",
+    "qty": 1,
+    "line_total": 6000
+   },
+   {
+    "name": "SATE ATI GO",
+    "qty": 3,
+    "line_total": 9000
+   }
+  ],
+  "labels": {
+   "planted_error": null,
+   "planted_detail": null,
+   "natural_flags": [],
+   "expected_decision": "approve"
+  }
+ },
+ {
+  "claim_id": "TES-098",
+  "receipt_id": "test_098",
+  "image_path": "data/images/test/test_098.png",
+  "submitter": "Member 098",
+  "purpose": "Committee dinner, 4 people",
+  "amount": 265690,
+  "currency": "IDR",
+  "items": [
+   {
+    "name": "BLACK PAPPER MEATBALL PAS",
+    "qty": 1,
+    "line_total": 79000
+   },
+   {
+    "name": "TRUFFLE CREAM",
+    "qty": 1,
+    "line_total": 77000
+   },
+   {
+    "name": "EARL GREY MILK TEA",
+    "qty": 1,
+    "line_total": 59000
+   },
+   {
+    "name": "Pdg Madness",
+    "qty": 1,
+    "line_total": 15000
+   }
+  ],
+  "labels": {
+   "planted_error": "item_not_on_receipt",
+   "planted_detail": {
+    "item": "Pdg Madness",
+    "price": 15000
+   },
+   "natural_flags": [],
+   "expected_decision": "reject"
+  }
+ },
+ {
+  "claim_id": "TES-099",
+  "receipt_id": "test_099",
+  "image_path": "data/images/test/test_099.png",
+  "submitter": "Member 099",
+  "purpose": "Welfare pack items",
+  "amount": 75000,
+  "currency": "IDR",
+  "items": [
+   {
+    "name": "FL-Xmas 30 Off",
+    "qty": 1,
+    "line_total": 68180
+   }
+  ],
+  "labels": {
+   "planted_error": null,
+   "planted_detail": null,
+   "natural_flags": [
+    "receipt_inconsistent"
+   ],
+   "expected_decision": "needs_review"
+  }
+ }
+]
