@@ -47,3 +47,10 @@ def test_routing_skips_checks_when_unreadable_or_failed():
     assert route_after_extract({"error": None, "receipt": receipt("clear")}) == "maths_check"
     assert route_after_extract({"error": None, "receipt": receipt("unreadable")}) == "decide"
     assert route_after_extract({"error": "boom", "receipt": None}) == "decide"
+
+
+def test_review_routing_only_pauses_needs_review_in_review_mode():
+    from receipted.graph import route_after_decide
+    assert route_after_decide({"review": True, "decision": "needs_review"}) == "human_review"
+    assert route_after_decide({"review": True, "decision": "approve"}) == "draft"
+    assert route_after_decide({"review": False, "decision": "needs_review"}) == "draft"

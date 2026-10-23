@@ -29,3 +29,5 @@ Receipted_build_brief.md
 
 # Local record of claims seen (for duplicate detection); personal, not for the repo
 data/claims_registry.json
+data/review_checkpoints.sqlite
+data/review_queue.json

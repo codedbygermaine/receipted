@@ -23,6 +23,8 @@ flowchart LR
     D --> E[rule_check<br/>LLM, must cite clause + receipt line]
     E --> V[verify<br/>Python drops issues without real evidence]
     V --> F[decide<br/>approve / needs_review / reject]
+    F -->|needs_review, in review mode| H[human_review<br/>pause, checkpoint, resume]
+    H --> G
     F --> G[draft<br/>message to submitter]
 ```
 
@@ -30,6 +32,16 @@ flowchart LR
 - **Every flag needs evidence.** The verifier, in plain Python, throws away any issue whose clause id does not exist in the policy, whose receipt line is not in the extraction, or whose price comparison does not hold when re-done in code. Dropped issues are counted and reported.
 - **It knows when to pass to a human.** Unreadable images and failed extractions skip the checks and go straight to *needs review*. Medium-severity findings also go to a person; only high-severity findings with evidence produce a reject.
 - **It is measured, not just demoed.** See the results below. Every number comes from a file in `results/` written by the scripts in `eval/`.
+
+### Human in the loop
+
+Run a claim with `--review` and a needs_review decision pauses the graph instead of ending it: LangGraph checkpoints the whole state to SQLite under the claim id and stops before the draft. A reviewer lists what is waiting, decides, and the graph resumes from the checkpoint and writes the draft from the human's decision and note:
+
+```bash
+python -m receipted.run --sample SAMPLE-003 --review          # pauses: hot tea above the price list
+python -m receipted.review list                                # what is waiting, with issues and evidence
+python -m receipted.review resolve SAMPLE-003 approve "Cafe confirmed the price; one-off"
+```
 
 ## How to run
 

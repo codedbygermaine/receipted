@@ -20,6 +20,7 @@ def main():
     ap.add_argument("--sample", help="claim_id from fixtures/sample_claims.json")
     ap.add_argument("--model", default=llm.DEFAULT_MODEL)
     ap.add_argument("--json", action="store_true", help="print the full final state as JSON")
+    ap.add_argument("--review", action="store_true", help="pause needs_review claims for a person (see python -m receipted.review)")
     args = ap.parse_args()
 
     if args.sample:
@@ -32,12 +33,14 @@ def main():
             ap.error("give --image and --claim, or --sample")
         claim, image = json.load(open(args.claim)), args.image
 
-    state = run_claim(image, claim, model=args.model, register=True)
+    state = run_claim(image, claim, model=args.model, register=True, review=args.review)
 
     if args.json:
         print(json.dumps({k: v for k, v in state.items() if k != "retrieved"}, indent=1, ensure_ascii=False, default=str))
         return
 
+    if state.get("paused_for_review"):
+        print(f"\nPAUSED FOR HUMAN REVIEW: {state['decision_reason']}\n  resolve with: python -m receipted.review resolve {claim['claim_id']} approve|reject \"note\"")
     print(f"\nDECISION: {state['decision'].upper()}  ({state['decision_reason']})")
     print(f"\nISSUES ({len(state['verified_issues'])} verified, {len(state['dropped_issues'])} dropped by verifier):")
     for i in state["verified_issues"]:

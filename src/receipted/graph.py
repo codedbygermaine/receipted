@@ -6,10 +6,13 @@ and handles the one branch we need: unreadable receipts skip the checks and go t
 """
 
 import operator
+import sqlite3
 import time
 from typing import Annotated, TypedDict
 
+from langgraph.checkpoint.sqlite import SqliteSaver
 from langgraph.graph import END, START, StateGraph
+from langgraph.types import Command, interrupt
 
 from receipted import llm, maths
 from receipted.draft import write_draft
@@ -25,6 +28,8 @@ class State(TypedDict, total=False):
     claim: dict
     model: str
     register: bool            # remember this claim for duplicate detection (CLI/app/MCP yes, eval runs no)
+    review: bool              # pause for a human when the decision is needs_review (CLI --review)
+    reviewed_by_human: bool
     fingerprint: str
     receipt: dict | None
     extraction_meta: dict
@@ -149,6 +154,28 @@ def node_decide(state):
     return {"decision": decision, "decision_reason": reason, "_summary": f"{decision}: {reason}"}
 
 
+def route_after_decide(state) -> str:
+    if state.get("review") and state["decision"] == "needs_review":
+        return "human_review"
+    return "draft"
+
+
+@traced("human_review")
+def node_human_review(state):
+    """Pause here. LangGraph saves the whole state to the checkpoint database and stops; a reviewer
+    resumes the same thread with a decision, and this node runs again with their answer."""
+    answer = interrupt({
+        "claim_id": state["claim"].get("claim_id"),
+        "reason": state["decision_reason"],
+        "issues": [{"type": i["type"], "severity": i["severity"], "message": i["message"]} for i in state.get("verified_issues", [])],
+        "ask": "decision: approve | reject | needs_review, and a one-line note",
+    })
+    decision = answer.get("decision", "needs_review")
+    note = answer.get("note", "")
+    return {"decision": decision, "decision_reason": f"reviewed by a person: {note}" if note else "reviewed by a person",
+            "reviewed_by_human": True, "_summary": f"human set {decision}: {note}"}
+
+
 @traced("draft")
 def node_draft(state):
     text, meta = write_draft(state["claim"], state.get("receipt"), state["decision"], state["decision_reason"],
@@ -164,6 +191,7 @@ def build_graph():
     g.add_node("rule_check", node_rules)
     g.add_node("verify", node_verify)
     g.add_node("decide", node_decide)
+    g.add_node("human_review", node_human_review)
     g.add_node("draft", node_draft)
 
     g.add_edge(START, "extract")
@@ -172,25 +200,97 @@ def build_graph():
     g.add_edge("retrieve", "rule_check")
     g.add_edge("rule_check", "verify")
     g.add_edge("verify", "decide")
-    g.add_edge("decide", "draft")
+    g.add_conditional_edges("decide", route_after_decide, {"human_review": "human_review", "draft": "draft"})
+    g.add_edge("human_review", "draft")
     g.add_edge("draft", END)
-    return g.compile()
+    return g
 
 
+CHECKPOINT_DB = llm.ROOT / "data" / "review_checkpoints.sqlite"
 _graph = None
+_review_graph = None
 
 
-def run_claim(image_path: str, claim: dict, model: str = llm.DEFAULT_MODEL, register: bool = False) -> dict:
-    """Run one receipt + claim through the graph. Returns the final state, with totals added.
-    register=True records the claim for duplicate detection; eval runs leave it False."""
+def plain_graph():
     global _graph
     if _graph is None:
-        _graph = build_graph()
-    t0 = time.perf_counter()
-    state = _graph.invoke({"image_path": str(image_path), "claim": claim, "model": model, "register": register,
-                           "fingerprint": "", "trace": []})
+        _graph = build_graph().compile()
+    return _graph
+
+
+def review_graph():
+    """Same graph, but every step is checkpointed to SQLite so a paused run can be resumed later."""
+    global _review_graph
+    if _review_graph is None:
+        CHECKPOINT_DB.parent.mkdir(parents=True, exist_ok=True)
+        saver = SqliteSaver(sqlite3.connect(str(CHECKPOINT_DB), check_same_thread=False))
+        _review_graph = build_graph().compile(checkpointer=saver)
+    return _review_graph
+
+
+def _finish(state, t0):
     state["total_seconds"] = round(time.perf_counter() - t0, 2)
     state["total_cost_usd"] = round(sum(e.get("cost_usd") or 0 for e in state["trace"]), 6)
     state.setdefault("verified_issues", [])
     state.setdefault("dropped_issues", [])
+    state["paused_for_review"] = "__interrupt__" in state
+    if state["paused_for_review"]:
+        state.setdefault("draft", "")
     return state
+
+
+def run_claim(image_path: str, claim: dict, model: str = llm.DEFAULT_MODEL, register: bool = False,
+              review: bool = False) -> dict:
+    """Run one receipt + claim through the graph. Returns the final state, with totals added.
+    register=True records the claim for duplicate detection; eval runs leave it False.
+    review=True pauses a needs_review claim for a person (resume with resume_review)."""
+    t0 = time.perf_counter()
+    inputs = {"image_path": str(image_path), "claim": claim, "model": model, "register": register,
+              "review": review, "reviewed_by_human": False, "fingerprint": "", "trace": []}
+    if review:
+        thread_id = claim.get("claim_id") or str(image_path)
+        state = review_graph().invoke(inputs, {"configurable": {"thread_id": thread_id}})
+        if "__interrupt__" in state:
+            _queue_write(_queue_read() + [thread_id])
+    else:
+        state = plain_graph().invoke(inputs)
+    return _finish(state, t0)
+
+
+def resume_review(claim_id: str, decision: str, note: str = "") -> dict:
+    """Resume a paused claim with a person's decision. Returns the final state, draft included."""
+    t0 = time.perf_counter()
+    config = {"configurable": {"thread_id": claim_id}}
+    state = review_graph().invoke(Command(resume={"decision": decision, "note": note}), config)
+    _queue_write([t for t in _queue_read() if t != claim_id])
+    return _finish(state, t0)
+
+
+REVIEW_QUEUE = llm.ROOT / "data" / "review_queue.json"
+
+
+def _queue_read() -> list[str]:
+    import json
+    return json.loads(REVIEW_QUEUE.read_text()) if REVIEW_QUEUE.exists() else []
+
+
+def _queue_write(ids: list[str]) -> None:
+    import json
+    REVIEW_QUEUE.parent.mkdir(parents=True, exist_ok=True)
+    REVIEW_QUEUE.write_text(json.dumps(sorted(set(ids))))
+
+
+def pending_reviews() -> list[dict]:
+    """Claims currently paused for a human: the queue file lists the thread ids, the checkpoint
+    database holds their state. A thread that is no longer waiting is dropped from the queue."""
+    out, still_waiting = [], []
+    for tid in _queue_read():
+        snap = review_graph().get_state({"configurable": {"thread_id": tid}})
+        if snap.next and "human_review" in snap.next:
+            still_waiting.append(tid)
+            v = snap.values
+            out.append({"claim_id": tid, "reason": v.get("decision_reason"), "amount": v.get("claim", {}).get("amount"),
+                        "submitter": v.get("claim", {}).get("submitter"),
+                        "issues": [(i["severity"], i["type"], i["message"]) for i in v.get("verified_issues", [])]})
+    _queue_write(still_waiting)
+    return out

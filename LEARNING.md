@@ -156,3 +156,18 @@
 - *How do you know the model doesn't make up totals?* I removed the total from real receipts and asked again. It said "not printed" 9 times out of 10, and the tenth time it found the amount printed elsewhere on the same receipt.
 
 **Trade-off.** The duplicate registry is a local JSON file, fine for one treasurer on one laptop; a club with several approvers would need it in a shared store. The probe masks only the total; masking item prices and the subtotal is the natural extension.
+
+
+## Phase 9: Human in the loop
+
+**What we built.** A `human_review` node in the graph that runs only in review mode when the decision is needs_review. It calls LangGraph's `interrupt()`, which saves the entire state to a SQLite checkpoint under the claim id and stops the run. `python -m receipted.review list` shows what is waiting; `resolve <claim> approve|reject "note"` resumes that thread with the person's answer, the node finishes with their decision, and the draft is written from it. A small queue file remembers which claim ids are paused so the list command does not have to scan the whole checkpoint database (the first version did, and hung).
+
+**Why it matters.** Until now needs_review meant "stop and print". Now it means "wait for a person, then carry on with what they said", and the draft the member receives reflects the human's note. That is the difference between a demo and a workflow, and it is the feature where LangGraph earns its place: the pause, the persisted state and the resume are three lines because the framework does the bookkeeping.
+
+**How it works, for the interview.** A LangGraph run is a sequence of node executions over a shared state. With a checkpointer, every node's output is saved under a thread id. `interrupt(payload)` raises a special exception that ends the run and records the payload; the caller gets the state plus an `__interrupt__` marker. Resuming means invoking the graph again on the same thread id with `Command(resume=answer)`: the paused node re-runs from its start, and this time `interrupt()` returns the answer instead of raising. Nodes before it do not re-run; their outputs come from the checkpoint.
+
+**Likely interview questions.**
+- *Why not just store the decision in a database and have a web form?* That is what the checkpoint is, with one difference: the resumed run continues the original graph, so the draft, the trace and any later steps use the same state the agent had, not a copy someone rebuilt. Adding a step after review is one node, not a second system.
+- *What happens if the reviewer never answers?* The thread stays checkpointed; nothing is paid or sent. The queue list shows it. A deadline or reminder would be a scheduled job that reads the same queue.
+
+**Trade-off.** SQLite and a JSON queue file are fine for one laptop and are what the demo needs. Several reviewers on different machines would need a shared checkpoint store, which LangGraph supports with the same code and a different saver.
