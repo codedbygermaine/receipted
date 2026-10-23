@@ -29,16 +29,16 @@ from receipted.graph import run_claim           # noqa: E402
 DAILY_CAP = 30                                  # uncached checks per day, so strangers can't run up the bill
 USAGE_FILE = ROOT / "data" / "usage.json"
 SAMPLES = {
-    "Bakery, 3 items, clean claim": ("data/images/validation/validation_000.png", 45500,
+    "Bakery, 3 items, clean claim": ("app/samples/validation_000.jpg", 45500,
                                      "Snacks for orientation booth, 5 people",
                                      "Real Ganache, 1, 16500\nEgg Tart, 1, 13000\nPizza Toast, 1, 16000"),
-    "Restaurant, inflated claim + beer not on receipt": ("data/images/validation/validation_025.png", 250000,
+    "Restaurant, inflated claim + beer not on receipt": ("app/samples/validation_025.jpg", 250000,
                                                         "Committee dinner, 4 people",
                                                         "Sop Sui Jiao, 1, 33000\nHa Kaou Udang, 1, 28000\nSiomay Kombinasi, 2, 46000\nBir Bintang, 2, 70000"),
-    "Cafe, hot tea above price list": ("data/images/validation/validation_045.png", 287760,
+    "Cafe, hot tea above price list": ("app/samples/validation_045.jpg", 287760,
                                        "Refreshments for committee meeting, 6 people", ""),
-    "Cinema ticket, no purpose stated": ("data/images/validation/validation_090.png", 70000, "", "Regular, 2, 70000"),
-    "Fast food, claim matches": ("data/images/validation/validation_004.png", 41000, "Lunch for volunteers, 1 person",
+    "Cinema ticket, no purpose stated": ("app/samples/validation_090.jpg", 70000, "", "Regular, 2, 70000"),
+    "Fast food, claim matches": ("app/samples/validation_004.jpg", 41000, "Lunch for volunteers, 1 person",
                                  "BBQ Chicken, 1, 41000"),
 }
 BADGE = {"approve": ("APPROVE", "#0ca30c"), "needs_review": ("NEEDS REVIEW", "#fab219"), "reject": ("REJECT", "#d03b3b")}
