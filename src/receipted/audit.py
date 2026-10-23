@@ -22,7 +22,7 @@ def is_audit_sample(fingerprint: str | None, decision: str | None, rate: int = A
     errors in the 'approve' bucket get found."""
     if decision != "approve" or not fingerprint:
         return False
-    return int(fingerprint[:8], 16) % rate == 0
+    return int(fingerprint, 16) % rate == 0
 
 
 def record(state: dict, source: str, reviewer_note: str | None = None) -> dict:
