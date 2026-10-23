@@ -14,6 +14,14 @@ from rapidfuzz import fuzz
 
 ANCHORS = {"RECEIPT_TOTAL", "CLAIM_AMOUNT"}
 LINE_MATCH_THRESHOLD = 95
+PRICE_NAME_THRESHOLD = 65  # chosen from real pairs: wrong matches scored <= 55, right ones >= 84
+
+
+def price_name_score(price_item: str, receipt_name: str) -> float:
+    """Is the price-list row the same product as the receipt line? 0-100 on the better of two measures:
+    word overlap ("es teh" vs "Teh Es") and substring ("nasi goreng" vs "NASI GOR SFD TLR")."""
+    a, b = price_item.lower().strip(), receipt_name.lower().strip()
+    return max(fuzz.token_set_ratio(a, b), fuzz.partial_ratio(a, b))
 
 
 def _norm(s: str) -> str:
@@ -66,6 +74,13 @@ def verify(issues: list[dict], receipt: dict, clauses: dict, price_list: dict) -
         if clause is not None:
             evidence["clause_text"] = f"{clause['id']}. {clause['title']}: {clause['text']}"
         if price_row is not None:
+            score = price_name_score(price_row["item"], item["name"]) if item is not None else 0
+            if score < PRICE_NAME_THRESHOLD:
+                dropped.append({**issue, "dropped_because":
+                                f"price-list item '{price_row['item']}' does not look like receipt item "
+                                f"'{item['name'] if item else ''}' (similarity {score:.0f})"})
+                continue
+            evidence["price_name_similarity"] = round(score)
             paid = unit_price_of(item) if item is not None else None
             if paid is None or paid <= price_row["agreed_max_unit_price"]:
                 dropped.append({**issue, "dropped_because":

@@ -41,6 +41,20 @@ def test_anchor_lines_are_allowed_for_whole_claim_rules():
     assert len(kept) == 1
 
 
+def test_price_issue_needs_a_matching_product_name():
+    cake = {**RECEIPT, "items": [{"name": "BANABERRY FRESH CREAM CAK", "qty": 1, "unit_price": None,
+                                 "line_total": 230000, "raw_line": "1 BANABERRY FRESH CREAM CAK 230,000"}]}
+    prices = {"almond cream cheese": {"item": "almond cream cheese", "agreed_max_unit_price": 31000}}
+    wrong = rule(price_item="almond cream cheese", receipt_line="1 BANABERRY FRESH CREAM CAK 230,000")
+    kept, dropped = verify([wrong], cake, CLAUSES, prices)
+    assert kept == [] and "does not look like" in dropped[0]["dropped_because"]
+    # word order and case differences are still the same product
+    teh = {**RECEIPT, "items": [{"name": "Teh Es", "qty": 1, "unit_price": None, "line_total": 7000, "raw_line": "1 Teh Es 7.000"}]}
+    prices = {"es teh": {"item": "es teh", "agreed_max_unit_price": 6500}}
+    kept, dropped = verify([rule(price_item="es teh", receipt_line="1 Teh Es 7.000")], teh, CLAUSES, prices)
+    assert len(kept) == 1 and kept[0]["evidence"]["price_name_similarity"] >= 65
+
+
 def test_price_issue_is_rechecked_numerically():
     above = rule(price_item="iced tea", receipt_line="1 ICED TEA 20,000")       # 20000 > 13500: keep
     kept, dropped = verify([above], RECEIPT, CLAUSES, PRICES)

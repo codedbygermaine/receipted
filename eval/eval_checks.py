@@ -24,7 +24,7 @@ EST_TOKENS_PER_CLAIM = {"input": 7000, "output": 1200}  # extraction + rule chec
 def caught(label, planted_detail, issues) -> bool:
     """Did any verified issue correspond to this label?"""
     types = {i["type"] for i in issues}
-    clauses = {i.get("clause_id") for i in issues if i["source"] == "rules"}
+    clauses = {i.get("clause_id") for i in issues if i.get("clause_id")}
     has_price = any(i.get("price_item") for i in issues)
     return {
         "inflated_amount": "claim_exceeds_receipt" in types or "C4" in clauses,

@@ -61,13 +61,13 @@ def test_empty_receipt():
 
 def test_claim_matches_receipt():
     r = receipt([item("Nasi Goreng", 2, 25000, 50000)], total=50000)
-    c = {"amount": 50000, "items": [{"name": "nasi goreng", "qty": 2, "line_total": 50000}]}
+    c = {"amount": 50000, "purpose": "Lunch", "items": [{"name": "nasi goreng", "qty": 2, "line_total": 50000}]}
     assert check_claim(c, r) == []
 
 
 def test_inflated_claim_is_high_severity():
     r = receipt([item("A", 1, None, 50000)], total=50000)
-    issues = check_claim({"amount": 80000, "items": []}, r)
+    issues = check_claim({"amount": 80000, "purpose": "Lunch", "items": []}, r)
     assert types(issues) == ["claim_exceeds_receipt"]
     assert issues[0]["severity"] == "high"
     assert issues[0]["evidence"]["difference"] == 30000
@@ -75,26 +75,26 @@ def test_inflated_claim_is_high_severity():
 
 def test_underclaim_is_low_severity():
     r = receipt([item("A", 1, None, 50000)], total=50000)
-    issues = check_claim({"amount": 40000, "items": []}, r)
+    issues = check_claim({"amount": 40000, "purpose": "Lunch", "items": []}, r)
     assert types(issues) == ["claim_below_receipt"] and issues[0]["severity"] == "low"
 
 
 def test_claimed_item_not_on_receipt():
     r = receipt([item("Es Teh Tawar", 1, None, 7000)], total=7000)
-    issues = check_claim({"amount": 7000, "items": [{"name": "Bir Bintang", "qty": 1}]}, r)
+    issues = check_claim({"amount": 7000, "purpose": "Lunch", "items": [{"name": "Bir Bintang", "qty": 1}]}, r)
     assert types(issues) == ["claimed_item_not_on_receipt"]
 
 
 def test_claimed_qty_above_receipt():
     r = receipt([item("Egg Tart", 1, None, 13000, raw="1 EGG TART 13,000")], total=13000)
-    issues = check_claim({"amount": 13000, "items": [{"name": "egg tart", "qty": 3}]}, r)
+    issues = check_claim({"amount": 13000, "purpose": "Lunch", "items": [{"name": "egg tart", "qty": 3}]}, r)
     assert types(issues) == ["claimed_qty_exceeds_receipt"]
     assert issues[0]["receipt_line"] == "1 EGG TART 13,000"
 
 
 def test_claim_lines_must_sum_to_amount():
     r = receipt([item("A", 1, None, 10000), item("B", 1, None, 5000)], total=15000)
-    c = {"amount": 15000, "items": [{"name": "A", "qty": 1, "line_total": 10000},
+    c = {"amount": 15000, "purpose": "Lunch", "items": [{"name": "A", "qty": 1, "line_total": 10000},
                                     {"name": "B", "qty": 1, "line_total": 2000}]}
     assert types(check_claim(c, r)) == ["claim_lines_vs_amount"]
 
@@ -102,11 +102,24 @@ def test_claim_lines_must_sum_to_amount():
 def test_claim_lines_may_exclude_tax_and_service():
     # items listed before tax, amount claimed including the receipt's tax and service: not an error
     r = receipt([item("A", 1, None, 100000)], subtotal=100000, tax=10000, service=5000, total=115000)
-    c = {"amount": 115000, "items": [{"name": "A", "qty": 1, "line_total": 100000}]}
+    c = {"amount": 115000, "purpose": "Lunch", "items": [{"name": "A", "qty": 1, "line_total": 100000}]}
     assert check_claim(c, r) == []
 
 
 def test_claim_lines_still_checked_when_no_tax_explains_gap():
     r = receipt([item("A", 1, None, 100000)], subtotal=100000, tax=10000, total=110000)
-    c = {"amount": 110000, "items": [{"name": "A", "qty": 1, "line_total": 70000}]}
+    c = {"amount": 110000, "purpose": "Lunch", "items": [{"name": "A", "qty": 1, "line_total": 70000}]}
     assert types(check_claim(c, r)) == ["claim_lines_vs_amount"]
+
+
+def test_names_match_when_receipt_prints_no_spaces():
+    r = receipt([item("SATECATIGO", 1, None, 15000)], total=15000)
+    c = {"amount": 15000, "purpose": "Lunch", "items": [{"name": "SATE ATI GO", "qty": 1, "line_total": 15000}]}
+    assert check_claim(c, r) == []
+
+
+def test_missing_purpose_is_flagged_with_clause_c1():
+    r = receipt([item("A", 1, None, 10000)], total=10000)
+    issues = check_claim({"amount": 10000, "purpose": "  ", "items": []}, r)
+    assert types(issues) == ["purpose_missing"]
+    assert issues[0]["clause_id"] == "C1" and issues[0]["severity"] == "medium"

@@ -81,11 +81,18 @@ def check_receipt(receipt: dict) -> list[dict]:
     return issues
 
 
+def name_similarity(a: str, b: str) -> float:
+    """0-100. Compared on words, and again with all spaces removed, because receipts sometimes print
+    names with no spaces at all ("SATECATIGO" for "SATE ATI GO"). The better score wins."""
+    a, b = a.lower().strip(), b.lower().strip()
+    return max(fuzz.token_set_ratio(a, b), fuzz.ratio(a.replace(" ", ""), b.replace(" ", "")))
+
+
 def best_match(name: str, items: list[dict]):
     """Closest receipt item by name. Returns (item, score)."""
     best, best_score = None, 0
     for it in items:
-        score = fuzz.token_set_ratio(name.lower(), it["name"].lower())
+        score = name_similarity(name, it["name"])
         if score > best_score:
             best, best_score = it, score
     return best, best_score
@@ -112,6 +119,13 @@ def check_claim(claim: dict, receipt: dict) -> list[dict]:
                                 {"claimed": amount, "receipt_total": receipt_total}))
 
     claim_items = claim.get("items") or []
+
+    # 1b. a purpose must be stated (policy C1). A one-line rule, so code checks it, not the model.
+    if not (claim.get("purpose") or "").strip():
+        issues.append({**issue("purpose_missing", "medium",
+                               "No purpose is stated on the claim; policy C1 requires one",
+                               {"purpose": claim.get("purpose")}),
+                       "clause_id": "C1", "receipt_line": "CLAIM_AMOUNT"})
 
     # 2. claim's own lines add up to its amount. Claim forms list items before tax, so lines that
     #    equal the receipt subtotal, or the amount once the receipt's tax and service are added, are fine.
