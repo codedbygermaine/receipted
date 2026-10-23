@@ -4,6 +4,18 @@ An AI agent that reads receipt and invoice images, checks them against a claim r
 
 **Live demo:** https://receipted.streamlit.app · **Stack:** Python, Claude API (Haiku 5.5 / Opus 5.5), LangGraph, Chroma, Streamlit, pytest
 
+**At a glance** (test split, 100 real receipts, 100 synthetic claims; every number from `results/`):
+
+| | |
+|---|---|
+| Planted errors caught | **48 / 50** (95% CI in the results table) |
+| Decision accuracy | 83% |
+| Clean claims wrongly flagged | 8 / 41 (upper bound; several are real breaches the labels missed) |
+| Item F1, Haiku 5.5 vs Opus 5.5 | 0.92 vs 0.92, at $0.0006 vs $0.0186 per receipt |
+| Draft quality, Opus judge (1–5) | accuracy 4.6, evidence 4.89, clarity 4.73, tone 4.98 |
+| Hallucination probe (total masked) | abstained on 9 / 10; the rest read a second printed copy |
+| Cost and time per claim | $0.0013, 4.82 s |
+
 ![Receipted demo](docs/demo_screenshot.jpg)
 
 ## The problem
