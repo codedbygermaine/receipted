@@ -103,10 +103,12 @@ def node_retrieve(state):
 
 @traced("rule_check")
 def node_rules(state):
+    from receipted.rules import votes_for
+    votes = votes_for(state["claim"].get("amount"), state["receipt"].get("currency"))
     issues, meta = check_rules(state["receipt"], state["claim"], state["maths_issues"], state["retrieved"],
-                               model=state["model"])
+                               model=state["model"], votes=votes)
     return {"rule_issues": issues, "rule_meta": meta,
-            "_summary": f"{len(issues)} issues: {[(i['type'], i['clause_id'] or i['price_item']) for i in issues]}"}
+            "_summary": f"{len(issues)} issues ({votes} vote{'s' if votes > 1 else ''}): {[(i['type'], i['clause_id'] or i['price_item']) for i in issues]}"}
 
 
 @traced("verify")

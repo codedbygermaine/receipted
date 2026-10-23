@@ -1,0 +1,18 @@
+{
+ "split": "validation",
+ "one_vote": {
+  "caught": "50/50",
+  "decision_accuracy": 0.9,
+  "false_alarms": "8/43",
+  "rule_issues_dropped": 3,
+  "cost_usd": 0.1348
+ },
+ "three_votes": {
+  "caught": "49/50",
+  "decision_accuracy": 0.91,
+  "false_alarms": "8/43",
+  "rule_issues_dropped": 4,
+  "cost_usd": 0.2456
+ },
+ "note": "VAL-039's planted quantity error was caught by the C9 rule in the single run and not by the 3-vote majority; it was rejected in both runs via the claim-amount check. Decisions changed on 3 claims: one false alarm removed, one added, one reject corrected to needs_review."
+}

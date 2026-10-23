@@ -240,3 +240,6 @@
 **Why CI.** A regression gate nobody runs is a script. GitHub runs the 80 tests and the run-1 → run-2 comparison on every push; a change that lowers recall or raises false alarms on the committed results fails the build.
 
 **Interview question.** *What would it take to put this in front of real treasurers?* Mostly what was added here: votes on the judgement step, a review screen, an audit trail, calibration, CI. What is still missing is multi-user state (a shared database instead of local files), authentication, and a calibration set of a few hundred of the team's own receipts rather than 100 validation ones.
+
+
+**Voting, measured.** Re-running the 100 validation claims with a 3-vote rule check changed three decisions (one false alarm removed, one added, one reject softened to needs_review), caught 49/50 planted errors instead of 50/50 (the one that flipped was still rejected on the claim amount), and cost $0.25 instead of $0.13. The single-receipt experiment (4 of 5 runs) was real, but it does not add up to a gain across 100 claims. So the feature stays, applied where the stakes justify the cost: claims above the two-approver threshold run with 3 votes, the rest with 1. The interview point is the method, not the feature: build it, measure it on the whole set, keep it only where the numbers say so.

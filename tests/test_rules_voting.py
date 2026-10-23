@@ -20,3 +20,10 @@ def test_majority_keeps_issues_two_of_three_runs_agree_on():
 def test_single_run_is_unchanged():
     kept, tally = majority([[issue("C3", "2 BEER 70,000")]])
     assert len(kept) == 1 and kept[0]["evidence"]["votes"] == "1/1"
+
+
+def test_votes_depend_on_stakes():
+    from receipted.rules import votes_for
+    assert votes_for(20.40, "SGD") == 1 and votes_for(545.00, "SGD") == 3
+    assert votes_for(207900, "IDR") == 1 and votes_for(600000, "IDR") == 3
+    assert votes_for(None, "SGD") == 1
