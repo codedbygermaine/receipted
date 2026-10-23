@@ -6,6 +6,7 @@ a re-run of the same input is free and instant, and results are reproducible.
 
 import hashlib
 import json
+import os
 from pathlib import Path
 
 import anthropic
@@ -24,7 +25,10 @@ PRICES_PER_MTOK = {
     "claude-opus-5-5": (4.00, 20.00),
 }
 
-CACHE_DIR = ROOT / "data" / "cache"
+# Everything the system writes goes under DATA_DIR. On a laptop that is the repo's data/ folder; on a
+# read-only runtime such as AWS Lambda, set RECEIPTED_DATA_DIR=/tmp.
+DATA_DIR = Path(os.environ.get("RECEIPTED_DATA_DIR", ROOT / "data"))
+CACHE_DIR = DATA_DIR / "cache"
 
 _client = None
 

@@ -11,8 +11,8 @@ from pathlib import Path
 
 from receipted import draft, extract, llm, rules
 
-AUDIT_PATH = llm.ROOT / "data" / "audit_log.jsonl"
-CORRECTIONS_PATH = llm.ROOT / "data" / "review_corrections.json"
+AUDIT_PATH = llm.DATA_DIR / "audit_log.jsonl"
+CORRECTIONS_PATH = llm.DATA_DIR / "review_corrections.json"
 AUDIT_SAMPLE_RATE = 10   # 1 in N auto-approved claims is marked for a random human audit
 
 

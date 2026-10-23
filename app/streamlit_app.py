@@ -36,7 +36,7 @@ from receipted import audit, llm                           # noqa: E402
 from receipted.graph import pending_reviews, resume_review, run_claim   # noqa: E402
 
 DAILY_CAP = 30                                  # uncached checks per day, so strangers can't run up the bill
-USAGE_FILE = ROOT / "data" / "usage.json"
+USAGE_FILE = llm.DATA_DIR / "usage.json"
 SAMPLES = {
     "SG brunch for 3, claim matches (SGD)": ("data/external/singapore/sg_24.jpg", 101.90, "Team brunch, 3 people",
                                               "Eggs Benedict, 1, 28.00\nBrussels Salad, 1, 27.00\nSymmetry Breakfast, 1, 30.00"),

@@ -209,7 +209,7 @@ def build_graph():
     return g
 
 
-CHECKPOINT_DB = llm.ROOT / "data" / "review_checkpoints.sqlite"
+CHECKPOINT_DB = llm.DATA_DIR / "review_checkpoints.sqlite"
 _graph = None
 _review_graph = None
 
@@ -274,7 +274,7 @@ def resume_review(claim_id: str, decision: str, note: str = "") -> dict:
     return state
 
 
-REVIEW_QUEUE = llm.ROOT / "data" / "review_queue.json"
+REVIEW_QUEUE = llm.DATA_DIR / "review_queue.json"
 
 
 def _queue_read() -> list[str]:

@@ -1,0 +1,12 @@
+# Runtime-only dependencies for the API image (no Streamlit, datasets or matplotlib)
+anthropic>=2.0
+python-dotenv>=1.0
+pydantic>=2.7
+langgraph>=1.0
+langgraph-checkpoint-sqlite>=3.0
+chromadb>=1.0
+pillow>=10.0
+rapidfuzz>=3.9
+fastapi>=0.110
+mangum>=0.17
+python-multipart>=0.0.9

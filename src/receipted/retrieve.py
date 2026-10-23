@@ -7,6 +7,7 @@ would need to be for a 40-page policy, and it also gives the verifier an allowli
 """
 
 import csv
+import os
 import re
 
 import chromadb
@@ -14,6 +15,7 @@ import chromadb
 from receipted.llm import ROOT
 
 CHROMA_PATH = ROOT / "chroma_db"
+CHROMA_EPHEMERAL = os.environ.get("RECEIPTED_CHROMA_EPHEMERAL") == "1"   # build in memory (read-only runtimes)
 
 # One policy and price list per currency. A receipt's currency picks the set; unknown currencies use IDR,
 # the set the project was built and measured on.
@@ -60,7 +62,7 @@ def collections(rebuild: bool = False, currency: str | None = None):
     cur = policy_set_for(currency)
     if cur in _collections and not rebuild:
         return _collections[cur]
-    client = chromadb.PersistentClient(path=str(CHROMA_PATH))
+    client = chromadb.EphemeralClient() if CHROMA_EPHEMERAL else chromadb.PersistentClient(path=str(CHROMA_PATH))
     clauses, prices = load_policy_clauses(cur), load_price_list(cur)
     suffix = "" if cur == DEFAULT_CURRENCY else f"_{cur.lower()}"
 

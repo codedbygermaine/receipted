@@ -13,9 +13,9 @@ from pathlib import Path
 
 from rapidfuzz import fuzz
 
-from receipted.llm import ROOT
+from receipted import llm
 
-REGISTRY_PATH = ROOT / "data" / "claims_registry.json"
+REGISTRY_PATH = llm.DATA_DIR / "claims_registry.json"
 NAME_OVERLAP_THRESHOLD = 0.8   # share of item names that must match for a "likely duplicate"
 
 
