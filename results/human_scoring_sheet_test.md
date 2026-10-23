@@ -1,5 +1,7 @@
 # Human scoring sheet (test) — score 1-5 per dimension using the rubric below
 
+Score each message against the facts shown for it: the claim facts (amount, receipt total, decision) AND the verified issues. A message may state any of those; it must not add problems or numbers that are not there.
+
 Score each dimension from 1 to 5.
 
 ACCURACY — does the message state only what the verified issues and decision say?
@@ -26,7 +28,9 @@ TONE — polite, neutral, treasurer-to-member.
 
 ## TES-032  (decision: needs_review)
 
-**Verified issues (the only facts the message may use):**
+**Claim facts the writer was given:** submitter Member 032, claimed amount 24000 IDR, receipt total 24000, decision needs_review (medium-severity issues need a human decision).
+
+**Verified issues (the only problems the message may mention):**
 
 - [medium] purpose_missing (C1): No purpose is stated on the claim; policy C1 requires one
 
@@ -47,7 +51,9 @@ Accuracy: __   Evidence: __   Clarity: __   Tone: __
 
 ## TES-033  (decision: needs_review)
 
-**Verified issues (the only facts the message may use):**
+**Claim facts the writer was given:** submitter Member 033, claimed amount 148127 IDR, receipt total 148127, decision needs_review (medium-severity issues need a human decision).
+
+**Verified issues (the only problems the message may mention):**
 
 - [medium] lines_vs_totals (code): Line items sum to 184500, but subtotal is 117500 and total is 148127
 - [medium] totals_arithmetic (code): 117500 + tax 19557 + service 11070 - discount 67000 = 81127, but total shows 148127
@@ -76,7 +82,9 @@ Accuracy: __   Evidence: __   Clarity: __   Tone: __
 
 ## TES-099  (decision: approve)
 
-**Verified issues (the only facts the message may use):**
+**Claim facts the writer was given:** submitter Member 099, claimed amount 75000 IDR, receipt total 75000, decision approve (no issues found and the receipt is clear).
+
+**Verified issues (the only problems the message may mention):**
 
 - none
 
@@ -97,7 +105,9 @@ Accuracy: __   Evidence: __   Clarity: __   Tone: __
 
 ## TES-025  (decision: reject)
 
-**Verified issues (the only facts the message may use):**
+**Claim facts the writer was given:** submitter Member 025, claimed amount 65000 IDR, receipt total 43000, decision reject (at least one high-severity issue with evidence).
+
+**Verified issues (the only problems the message may mention):**
 
 - [high] claim_exceeds_receipt (code): Claimed 65000 but the receipt total is 43000
 - [high] claimed_item_not_on_receipt (code): 'A.MINERAL BOTOL' is claimed but no receipt line matches it
@@ -122,7 +132,9 @@ Accuracy: __   Evidence: __   Clarity: __   Tone: __
 
 ## TES-068  (decision: reject)
 
-**Verified issues (the only facts the message may use):**
+**Claim facts the writer was given:** submitter Member 068, claimed amount 60000 IDR, receipt total 20000, decision reject (at least one high-severity issue with evidence).
+
+**Verified issues (the only problems the message may mention):**
 
 - [high] claim_exceeds_receipt (code): Claimed 60000 but the receipt total is 20000
 
@@ -143,7 +155,9 @@ Accuracy: __   Evidence: __   Clarity: __   Tone: __
 
 ## TES-045  (decision: reject)
 
-**Verified issues (the only facts the message may use):**
+**Claim facts the writer was given:** submitter Member 045, claimed amount 103000 IDR, receipt total 88000, decision reject (at least one high-severity issue with evidence).
+
+**Verified issues (the only problems the message may mention):**
 
 - [high] claim_exceeds_receipt (code): Claimed 103000 but the receipt total is 88000
 - [high] claim_above_receipt_total (C4): The claim of IDR 103,000 exceeds the receipt total of IDR 88,000, so under C4 the claim is rejected as submitted. The claimant should resubmit for no more than IDR 88,000.
@@ -170,7 +184,9 @@ Accuracy: __   Evidence: __   Clarity: __   Tone: __
 
 ## TES-030  (decision: needs_review)
 
-**Verified issues (the only facts the message may use):**
+**Claim facts the writer was given:** submitter Member 030, claimed amount 31500 IDR, receipt total 31500, decision needs_review (medium-severity issues need a human decision).
+
+**Verified issues (the only problems the message may mention):**
 
 - [medium] purpose_missing (C1): No purpose is stated on the claim; policy C1 requires one
 
@@ -191,7 +207,9 @@ Accuracy: __   Evidence: __   Clarity: __   Tone: __
 
 ## TES-073  (decision: needs_review)
 
-**Verified issues (the only facts the message may use):**
+**Claim facts the writer was given:** submitter Member 073, claimed amount 22000 IDR, receipt total 22000, decision needs_review (medium-severity issues need a human decision).
+
+**Verified issues (the only problems the message may mention):**
 
 - [medium] claim_lines_vs_amount (code): Claim lines sum to 24000 but the claimed amount is 22000
 
@@ -214,7 +232,9 @@ Accuracy: __   Evidence: __   Clarity: __   Tone: __
 
 ## TES-046  (decision: reject)
 
-**Verified issues (the only facts the message may use):**
+**Claim facts the writer was given:** submitter Member 046, claimed amount 85000 IDR, receipt total 40000, decision reject (at least one high-severity issue with evidence).
+
+**Verified issues (the only problems the message may mention):**
 
 - [high] claim_exceeds_receipt (code): Claimed 85000 but the receipt total is 40000
 - [high] claimed_item_not_on_receipt (code): 'CHANGE TO CHICKEN BOX' is claimed but no receipt line matches it
@@ -239,7 +259,9 @@ Accuracy: __   Evidence: __   Clarity: __   Tone: __
 
 ## TES-002  (decision: reject)
 
-**Verified issues (the only facts the message may use):**
+**Claim facts the writer was given:** submitter Member 002, claimed amount 76000 IDR, receipt total 28000, decision reject (at least one high-severity issue with evidence).
+
+**Verified issues (the only problems the message may mention):**
 
 - [high] claim_exceeds_receipt (code): Claimed 76000 but the receipt total is 28000
 - [medium] claim_lines_vs_amount (code): Claim lines sum to 72000 but the claimed amount is 76000

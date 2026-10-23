@@ -87,10 +87,14 @@ def judge(row: dict, model: str) -> tuple[dict, dict]:
 def write_human_sheet(rows, split):
     rng = random.Random(SEED)
     sample = rng.sample(rows, min(10, len(rows)))
-    md = [f"# Human scoring sheet ({split}) — score 1-5 per dimension using the rubric below\n", RUBRIC, "\n---\n"]
+    md = [f"# Human scoring sheet ({split}) — score 1-5 per dimension using the rubric below\n",
+          "Score each message against the facts shown for it: the claim facts (amount, receipt total, decision) AND the verified issues. "
+          "A message may state any of those; it must not add problems or numbers that are not there.\n", RUBRIC, "\n---\n"]
     for r in sample:
         md.append(f"## {r['claim_id']}  (decision: {r['predicted']})\n")
-        md.append("**Verified issues (the only facts the message may use):**\n")
+        md.append(f"**Claim facts the writer was given:** submitter {r.get('submitter')}, claimed amount {r.get('claimed_amount')} {r.get('currency')}, "
+                  f"receipt total {r.get('receipt_total')}, decision {r['predicted']} ({r['decision_reason']}).\n")
+        md.append("**Verified issues (the only problems the message may mention):**\n")
         md += [f"- [{i['severity']}] {i['type']} ({i['clause_id'] or i['price_item'] or 'code'}): {i['message']}" for i in r["verified_issues"]] or ["- none"]
         md.append(f"\n**Message:**\n\n> " + r["draft"].replace("\n", "\n> ") + "\n")
         md.append("Accuracy: __   Evidence: __   Clarity: __   Tone: __\n\n---\n")

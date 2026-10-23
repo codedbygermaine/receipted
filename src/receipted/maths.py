@@ -147,9 +147,14 @@ def check_claim(claim: dict, receipt: dict) -> list[dict]:
         if receipt.get("subtotal") is not None:
             acceptable.append(receipt["subtotal"])
         if not any(close(line_sum_claim, target, tol) for target in acceptable):
+            if extras > 0:
+                why = f" (the receipt's tax and service add {extras}, which does not explain the gap)"
+            elif extras < 0:
+                why = f" (the receipt's discount of {abs(extras)} does not explain the gap)"
+            else:
+                why = ""
             issues.append(issue("claim_lines_vs_amount", "medium",
-                                f"Claim lines sum to {line_sum_claim} but the claimed amount is {amount}"
-                                + (f" (receipt tax + service = {extras})" if extras else ""),
+                                f"Claim lines sum to {line_sum_claim} but the claimed amount is {amount}" + why,
                                 {"claim_line_sum": line_sum_claim, "claimed": amount, "receipt_tax_and_service": extras}))
 
     # 3. each claimed item exists on the receipt, with no more quantity than the receipt shows
