@@ -95,7 +95,13 @@ def write_human_sheet(rows, split):
         md.append(f"**Claim facts the writer was given:** submitter {r.get('submitter')}, claimed amount {r.get('claimed_amount')} {r.get('currency')}, "
                   f"receipt total {r.get('receipt_total')}, decision {r['predicted']} ({r['decision_reason']}).\n")
         md.append("**Verified issues (the only problems the message may mention):**\n")
-        md += [f"- [{i['severity']}] {i['type']} ({i['clause_id'] or i['price_item'] or 'code'}): {i['message']}" for i in r["verified_issues"]] or ["- none"]
+        for i in r["verified_issues"]:
+            ev = {k: v for k, v in (i.get("evidence") or {}).items() if k != "clause_text"}
+            md.append(f"- [{i['severity']}] {i['type']} ({i['clause_id'] or i['price_item'] or 'code'}): {i['message']}"
+                      + (f"  \n  receipt line: `{i['receipt_line']}`" if i.get("receipt_line") else "")
+                      + (f"  \n  evidence: {ev}" if ev else ""))
+        if not r["verified_issues"]:
+            md.append("- none")
         md.append(f"\n**Message:**\n\n> " + r["draft"].replace("\n", "\n> ") + "\n")
         md.append("Accuracy: __   Evidence: __   Clarity: __   Tone: __\n\n---\n")
     (ROOT / "results" / f"human_scoring_sheet_{split}.md").write_text("\n".join(md))

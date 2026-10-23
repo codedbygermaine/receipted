@@ -216,3 +216,12 @@
 **Interview answer: did you test it on data from a different country?** Yes, two ways: ten licensed receipts from the UK, US and Australia, and 24 of my own from Singapore. Item extraction and currency detection held up. What broke was my code's assumptions, not the model: a whole-unit tolerance from rupiah, and no field for per-line discounts. I fixed the first and measured again; the second is on the list.
 
 **Privacy.** Even with names covered, a clinic invoice says what was treated. Those four files are gitignored and their numbers are reported only in aggregate. Deciding that took longer than labelling them, and it is the right call for a public repo under my name.
+
+
+## Phase 14: Checking the judge against a person
+
+**What we measured.** I scored 10 of the 100 test drafts by hand on the same four dimensions, without looking at the judge's scores. Exact agreement with the Opus judge: accuracy 80%, evidence 90%, clarity 70%, tone 100%; within one point: 100%, 100%, 90%, 100%. On the two accuracy disagreements I was the stricter one, by one point each.
+
+**What went wrong first, and why it is worth telling.** My first pass gave five drafts an accuracy of 1 for "inventing" amounts. They had not invented anything: the scoring sheet showed only the verified issues, not the claimed amount, receipt total or the evidence numbers the writer had been given. The judge had made exactly the same mistake in its first run, for exactly the same reason, and I had fixed the judge without fixing the sheet. The fix was to print the same facts to the person that the writer and the judge see. The lesson is general: when a grader, human or model, calls something unsupported, first check what the grader was shown.
+
+**Interview answer: how do you know your LLM judge is any good?** I checked it against myself on ten drafts and we agreed within a point on 39 of 40 scores, with me slightly stricter. That is small, but it is the right kind of evidence: a model grading a model needs a person in the loop somewhere, and the disagreements told me more than the agreements.

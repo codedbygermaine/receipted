@@ -1,6 +1,6 @@
 {
  "split": "test",
- "generated_at": "2026-10-24T00:58:34",
+ "generated_at": "2026-10-24T04:06:17",
  "extraction": {
   "claude-haiku-5-5": {
    "split": "test",
@@ -216,7 +216,31 @@
    "TES-002"
   ],
   "human_vs_judge_agreement": {
-   "status": "human_scores not filled in yet"
+   "n": 10,
+   "accuracy": {
+    "exact_agreement": 0.8,
+    "within_1": 1.0,
+    "human_mean": 5,
+    "judge_mean": 4.8
+   },
+   "evidence": {
+    "exact_agreement": 0.9,
+    "within_1": 1.0,
+    "human_mean": 5,
+    "judge_mean": 4.9
+   },
+   "clarity": {
+    "exact_agreement": 0.7,
+    "within_1": 0.9,
+    "human_mean": 4.6,
+    "judge_mean": 4.8
+   },
+   "tone": {
+    "exact_agreement": 1.0,
+    "within_1": 1.0,
+    "human_mean": 5,
+    "judge_mean": 5
+   }
   }
  }
 }

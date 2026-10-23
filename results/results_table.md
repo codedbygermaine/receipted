@@ -53,4 +53,9 @@ Run 2 is reported because the three fixes were motivated by failures seen in run
 |---|---|---|---|---|
 | 4.6 | 4.89 | 4.73 | 4.98 | 4 / 100 |
 
-_Human scoring sheet generated; agreement will be reported once it is filled in._
+| human vs judge (10 drafts) | exact agreement | within 1 point |
+|---|---|---|
+| accuracy | 80% | 100% |
+| evidence | 90% | 100% |
+| clarity | 70% | 90% |
+| tone | 100% | 100% |

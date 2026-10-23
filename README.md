@@ -12,7 +12,7 @@ An AI agent that reads receipt and invoice images, checks them against a claim r
 | Decision accuracy | 83% |
 | Clean claims wrongly flagged | 8 / 41 (upper bound; several are real breaches the labels missed) |
 | Item F1, Haiku 5.5 vs Opus 5.5 | 0.92 vs 0.92, at $0.0006 vs $0.0186 per receipt |
-| Draft quality, Opus judge (1–5) | accuracy 4.6, evidence 4.89, clarity 4.73, tone 4.98 |
+| Draft quality, Opus judge (1–5) | accuracy 4.6, evidence 4.89, clarity 4.73, tone 4.98; a human scored 10 of them and agreed with the judge within 1 point on 39 of 40 scores |
 | Hallucination probe (total masked, 98 receipts) | 84% abstained; 13% read a second printed copy; 3% put the subtotal in the total slot; 0 fabricated digits |
 | Cost and time per claim | $0.0013, 4.82 s |
 
@@ -136,7 +136,12 @@ Run 2 is reported because the three fixes were motivated by failures seen in run
 |---|---|---|---|---|
 | 4.6 | 4.89 | 4.73 | 4.98 | 4 / 100 |
 
-_Human scoring sheet generated; agreement will be reported once it is filled in._
+| human vs judge (10 drafts) | exact agreement | within 1 point |
+|---|---|---|
+| accuracy | 80% | 100% |
+| evidence | 90% | 100% |
+| clarity | 70% | 90% |
+| tone | 100% | 100% |
 
 ![errors caught per type](results/chart_recall_test.png)
 

@@ -32,7 +32,9 @@ TONE — polite, neutral, treasurer-to-member.
 
 **Verified issues (the only problems the message may mention):**
 
-- [medium] purpose_missing (C1): No purpose is stated on the claim; policy C1 requires one
+- [medium] purpose_missing (C1): No purpose is stated on the claim; policy C1 requires one  
+  receipt line: `CLAIM_AMOUNT`  
+  evidence: {'purpose': ''}
 
 **Message:**
 
@@ -55,9 +57,12 @@ Accuracy: __   Evidence: __   Clarity: __   Tone: __
 
 **Verified issues (the only problems the message may mention):**
 
-- [medium] lines_vs_totals (code): Line items sum to 184500, but subtotal is 117500 and total is 148127
-- [medium] totals_arithmetic (code): 117500 + tax 19557 + service 11070 - discount 67000 = 81127, but total shows 148127
-- [medium] claim_lines_vs_amount (code): Claim lines sum to 220500 but the claimed amount is 148127 (receipt tax + service = -36373)
+- [medium] lines_vs_totals (code): Line items sum to 184500, but subtotal is 117500 and total is 148127  
+  evidence: {'line_sum': 184500, 'subtotal': 117500, 'total': 148127}
+- [medium] totals_arithmetic (code): 117500 + tax 19557 + service 11070 - discount 67000 = 81127, but total shows 148127  
+  evidence: {'subtotal': 117500, 'tax': 19557, 'service': 11070, 'discount': 67000, 'expected': 81127, 'total': 148127}
+- [medium] claim_lines_vs_amount (code): Claim lines sum to 220500 but the claimed amount is 148127 (receipt tax + service = -36373)  
+  evidence: {'claim_line_sum': 220500, 'claimed': 148127, 'receipt_tax_and_service': -36373}
 
 **Message:**
 
@@ -109,8 +114,10 @@ Accuracy: __   Evidence: __   Clarity: __   Tone: __
 
 **Verified issues (the only problems the message may mention):**
 
-- [high] claim_exceeds_receipt (code): Claimed 65000 but the receipt total is 43000
-- [high] claimed_item_not_on_receipt (code): 'A.MINERAL BOTOL' is claimed but no receipt line matches it
+- [high] claim_exceeds_receipt (code): Claimed 65000 but the receipt total is 43000  
+  evidence: {'claimed': 65000, 'receipt_total': 43000, 'difference': 22000}
+- [high] claimed_item_not_on_receipt (code): 'A.MINERAL BOTOL' is claimed but no receipt line matches it  
+  evidence: {'claimed_name': 'A.MINERAL BOTOL', 'closest': 'POTATO PEPPER BAGEL', 'match_score': 41.1764705882353}
 
 **Message:**
 
@@ -136,7 +143,8 @@ Accuracy: __   Evidence: __   Clarity: __   Tone: __
 
 **Verified issues (the only problems the message may mention):**
 
-- [high] claim_exceeds_receipt (code): Claimed 60000 but the receipt total is 20000
+- [high] claim_exceeds_receipt (code): Claimed 60000 but the receipt total is 20000  
+  evidence: {'claimed': 60000, 'receipt_total': 20000, 'difference': 40000}
 
 **Message:**
 
@@ -159,9 +167,13 @@ Accuracy: __   Evidence: __   Clarity: __   Tone: __
 
 **Verified issues (the only problems the message may mention):**
 
-- [high] claim_exceeds_receipt (code): Claimed 103000 but the receipt total is 88000
-- [high] claim_above_receipt_total (C4): The claim of IDR 103,000 exceeds the receipt total of IDR 88,000, so under C4 the claim is rejected as submitted. The claimant should resubmit for no more than IDR 88,000.
-- [medium] price_above_list (roti): The receipt shows IDR 7,000 for Roti Keju Manis, but the agreed maximum for the matching price-list row 'roti' is IDR 5,500. The treasurer should confirm the item or hold the excess for review.
+- [high] claim_exceeds_receipt (code): Claimed 103000 but the receipt total is 88000  
+  evidence: {'claimed': 103000, 'receipt_total': 88000, 'difference': 15000}
+- [high] claim_above_receipt_total (C4): The claim of IDR 103,000 exceeds the receipt total of IDR 88,000, so under C4 the claim is rejected as submitted. The claimant should resubmit for no more than IDR 88,000.  
+  receipt line: `CLAIM_AMOUNT`
+- [medium] price_above_list (roti): The receipt shows IDR 7,000 for Roti Keju Manis, but the agreed maximum for the matching price-list row 'roti' is IDR 5,500. The treasurer should confirm the item or hold the excess for review.  
+  receipt line: `1 Roti Keju Manis. 7.000`  
+  evidence: {'price_name_similarity': 100, 'unit_price_paid': 7000.0, 'agreed_max_unit_price': 5500, 'price_list_item': 'roti'}
 
 **Message:**
 
@@ -188,7 +200,9 @@ Accuracy: __   Evidence: __   Clarity: __   Tone: __
 
 **Verified issues (the only problems the message may mention):**
 
-- [medium] purpose_missing (C1): No purpose is stated on the claim; policy C1 requires one
+- [medium] purpose_missing (C1): No purpose is stated on the claim; policy C1 requires one  
+  receipt line: `CLAIM_AMOUNT`  
+  evidence: {'purpose': ''}
 
 **Message:**
 
@@ -211,7 +225,8 @@ Accuracy: __   Evidence: __   Clarity: __   Tone: __
 
 **Verified issues (the only problems the message may mention):**
 
-- [medium] claim_lines_vs_amount (code): Claim lines sum to 24000 but the claimed amount is 22000
+- [medium] claim_lines_vs_amount (code): Claim lines sum to 24000 but the claimed amount is 22000  
+  evidence: {'claim_line_sum': 24000, 'claimed': 22000, 'receipt_tax_and_service': 0}
 
 **Message:**
 
@@ -236,8 +251,10 @@ Accuracy: __   Evidence: __   Clarity: __   Tone: __
 
 **Verified issues (the only problems the message may mention):**
 
-- [high] claim_exceeds_receipt (code): Claimed 85000 but the receipt total is 40000
-- [high] claimed_item_not_on_receipt (code): 'CHANGE TO CHICKEN BOX' is claimed but no receipt line matches it
+- [high] claim_exceeds_receipt (code): Claimed 85000 but the receipt total is 40000  
+  evidence: {'claimed': 85000, 'receipt_total': 40000, 'difference': 45000}
+- [high] claimed_item_not_on_receipt (code): 'CHANGE TO CHICKEN BOX' is claimed but no receipt line matches it  
+  evidence: {'claimed_name': 'CHANGE TO CHICKEN BOX', 'closest': 'S-Caramel Milk Tea', 'match_score': 35.29411764705882}
 
 **Message:**
 
@@ -263,11 +280,17 @@ Accuracy: __   Evidence: __   Clarity: __   Tone: __
 
 **Verified issues (the only problems the message may mention):**
 
-- [high] claim_exceeds_receipt (code): Claimed 76000 but the receipt total is 28000
-- [medium] claim_lines_vs_amount (code): Claim lines sum to 72000 but the claimed amount is 76000
-- [high] claimed_qty_exceeds_receipt (code): Claimed 3 x 'JASMINE MT ( L )' but the receipt shows 1
-- [high] claim_exceeds_receipt_policy (C4): The claimed amount of 76000 is more than the receipt total of 28000, so C4 requires the claim to be rejected. Reduce the claim to the receipt total or less.
-- [high] claimed_qty_exceeds_receipt_policy (C9): The claim asks for 3 units of JASMINE MT but the receipt shows only 1, which C9 does not allow. Claim no more than the receipt quantity.
+- [high] claim_exceeds_receipt (code): Claimed 76000 but the receipt total is 28000  
+  evidence: {'claimed': 76000, 'receipt_total': 28000, 'difference': 48000}
+- [medium] claim_lines_vs_amount (code): Claim lines sum to 72000 but the claimed amount is 76000  
+  evidence: {'claim_line_sum': 72000, 'claimed': 76000, 'receipt_tax_and_service': 0}
+- [high] claimed_qty_exceeds_receipt (code): Claimed 3 x 'JASMINE MT ( L )' but the receipt shows 1  
+  receipt line: `1 JASMINE MT (L) 24,000`  
+  evidence: {'claimed_qty': 3, 'receipt_qty': 1, 'receipt_item': 'JASMINE MT (L)'}
+- [high] claim_exceeds_receipt_policy (C4): The claimed amount of 76000 is more than the receipt total of 28000, so C4 requires the claim to be rejected. Reduce the claim to the receipt total or less.  
+  receipt line: `CLAIM_AMOUNT`
+- [high] claimed_qty_exceeds_receipt_policy (C9): The claim asks for 3 units of JASMINE MT but the receipt shows only 1, which C9 does not allow. Claim no more than the receipt quantity.  
+  receipt line: `1 JASMINE MT (L) 24,000`
 
 **Message:**
 
