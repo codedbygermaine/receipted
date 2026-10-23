@@ -1,0 +1,377 @@
+[
+ {
+  "file": "Receipt-woolworth.jpg",
+  "currency": "AUD",
+  "notes": "Australian supermarket; weighed items priced per kg; discount line; the total is cut off, only the subtotal is printed",
+  "items": [
+   {
+    "name": "WW Sandwich Classic Egg & Lettuce",
+    "qty": 1,
+    "line_total": 6.0
+   },
+   {
+    "name": "Apple Pink Lady",
+    "qty": 0.217,
+    "line_total": 0.85
+   },
+   {
+    "name": "Macro Organic Fresh Milk Low Fat 1L",
+    "qty": 1,
+    "line_total": 2.2
+   },
+   {
+    "name": "Banana Cavendish",
+    "qty": 0.572,
+    "line_total": 1.43
+   },
+   {
+    "name": "Golden Pikelet Bites 16pk 140gm",
+    "qty": 1,
+    "line_total": 3.99
+   },
+   {
+    "name": "Golden Pikelets 8 pk 200gm",
+    "qty": 1,
+    "line_total": 3.99
+   }
+  ],
+  "subtotal": 16.48,
+  "tax": null,
+  "service": null,
+  "discount": 1.98,
+  "total": null
+ },
+ {
+  "file": "Pink_Peacock_receipt.jpg",
+  "currency": "GBP",
+  "notes": "Handwritten pay-what-you-can cafe receipt, Glasgow; suggested prices",
+  "items": [
+   {
+    "name": "poppyseed bagel w/ cream cheese",
+    "qty": 1,
+    "line_total": 3
+   },
+   {
+    "name": "coffee",
+    "qty": 1,
+    "line_total": 2
+   }
+  ],
+  "subtotal": null,
+  "tax": null,
+  "service": null,
+  "discount": null,
+  "total": 5
+ },
+ {
+  "file": "TK_Maxx__Trafford_Retail_Park_receipt__2013-05-12_.jpg",
+  "currency": "GBP",
+  "notes": "UK clothing store, 9 items, each with a code line under it; subtotal equals total",
+  "items": [
+   {
+    "name": "Mens Shoes",
+    "qty": 1,
+    "line_total": 29.99
+   },
+   {
+    "name": "Mens Knitwear",
+    "qty": 1,
+    "line_total": 10.0
+   },
+   {
+    "name": "Mens Jersey",
+    "qty": 1,
+    "line_total": 11.0
+   },
+   {
+    "name": "Mens Casual Shirts",
+    "qty": 1,
+    "line_total": 18.0
+   },
+   {
+    "name": "Mens Underwear",
+    "qty": 1,
+    "line_total": 6.99
+   },
+   {
+    "name": "Mens Underwear",
+    "qty": 1,
+    "line_total": 6.99
+   },
+   {
+    "name": "Mens Jersey",
+    "qty": 1,
+    "line_total": 29.99
+   },
+   {
+    "name": "Food",
+    "qty": 1,
+    "line_total": 9.99
+   },
+   {
+    "name": "Formal Shirts & Ties",
+    "qty": 1,
+    "line_total": 19.99
+   }
+  ],
+  "subtotal": 142.94,
+  "tax": null,
+  "service": null,
+  "discount": null,
+  "total": 142.94
+ },
+ {
+  "file": "Receipt_for_my_BBC_Micro__51333059914_.jpg",
+  "currency": "GBP",
+  "notes": "Handwritten 1982 UK invoice; VAT 15% added to a subtotal",
+  "items": [
+   {
+    "name": "BBC/B N.126282",
+    "qty": 1,
+    "line_total": 346.96
+   },
+   {
+    "name": "Tape Recorder",
+    "qty": 1,
+    "line_total": 29.0
+   },
+   {
+    "name": "BBC Book",
+    "qty": 1,
+    "line_total": 7.95
+   }
+  ],
+  "subtotal": 383.91,
+  "tax": 56.39,
+  "service": null,
+  "discount": null,
+  "total": 440.3
+ },
+ {
+  "file": "99_cents_only_store_receipt_2021.jpg",
+  "currency": "USD",
+  "notes": "US discount store; 20 items at $0.9999 each printed to 4 decimals; one weighed item at $/lb; sales tax",
+  "items": [
+   {
+    "name": "BigRollPaperTowels/100sh/11x8",
+    "qty": 1,
+    "line_total": 0.9999
+   },
+   {
+    "name": "BigRollPaperTowels/100sh/11x8",
+    "qty": 1,
+    "line_total": 0.9999
+   },
+   {
+    "name": "BigRollPaperTowels/100sh/11x8",
+    "qty": 1,
+    "line_total": 0.9999
+   },
+   {
+    "name": "GladGallonZipperStorageBag10c",
+    "qty": 1,
+    "line_total": 0.9999
+   },
+   {
+    "name": "Celery 1 Stalk",
+    "qty": 1,
+    "line_total": 0.9999
+   },
+   {
+    "name": "Red Onions/2Lbs/#60101",
+    "qty": 1,
+    "line_total": 0.9999
+   },
+   {
+    "name": "DomesticPlum",
+    "qty": 2.54,
+    "line_total": 2.5146
+   },
+   {
+    "name": "DURABLE-WaxPaper/50SqFt#75050",
+    "qty": 1,
+    "line_total": 0.9999
+   },
+   {
+    "name": "TemptUnsweetenedCoconutHempMi",
+    "qty": 1,
+    "line_total": 0.9999
+   },
+   {
+    "name": "HalloweenCrmcPlntrNnPtHD31102",
+    "qty": 1,
+    "line_total": 0.9999
+   },
+   {
+    "name": "Apricots/2lbs/#40250",
+    "qty": 1,
+    "line_total": 1.99
+   },
+   {
+    "name": "FreshWhiteGarlicBag/#02005",
+    "qty": 1,
+    "line_total": 0.9999
+   },
+   {
+    "name": "MORTON-IodizedSalt/26oz#01003",
+    "qty": 1,
+    "line_total": 0.9999
+   },
+   {
+    "name": "MOREHOUSE-JalapenoMustard/17o",
+    "qty": 1,
+    "line_total": 0.9999
+   },
+   {
+    "name": "AlsurArtichokeHearts6.5oz#725",
+    "qty": 1,
+    "line_total": 0.9999
+   },
+   {
+    "name": "PremiumOrchard-PeanutsR/S/8oz",
+    "qty": 1,
+    "line_total": 0.9999
+   },
+   {
+    "name": "PremiumOrchard-PeanutsR/S/8oz",
+    "qty": 1,
+    "line_total": 0.9999
+   },
+   {
+    "name": "EncoreBlkPeprButhchrGrind1.41",
+    "qty": 1,
+    "line_total": 0.9999
+   },
+   {
+    "name": "SeasonBrndSardineTomWSlt4.375",
+    "qty": 1,
+    "line_total": 0.9999
+   },
+   {
+    "name": "Venezia Soap Coconut",
+    "qty": 1,
+    "line_total": 0.9999
+   }
+  ],
+  "subtotal": 22.5,
+  "tax": 0.67,
+  "service": null,
+  "discount": null,
+  "total": 23.17
+ },
+ {
+  "file": "Family_Dollar_store_receipt.jpg",
+  "currency": "USD",
+  "notes": "Blurry US convenience receipt, two items, sales tax; price and barcode share a line",
+  "items": [
+   {
+    "name": "Coca Cola 1.25 LTR",
+    "qty": 1,
+    "line_total": 1.0
+   },
+   {
+    "name": "Rip It Energy Drink Citrus 16FL OZ",
+    "qty": 1,
+    "line_total": 1.0
+   }
+  ],
+  "subtotal": 2.0,
+  "tax": 0.18,
+  "service": null,
+  "discount": null,
+  "total": 2.18
+ },
+ {
+  "file": "Harpoon_Harry_s__Key_West__Florida_-__In_God_We_Trust__receipt.jpg",
+  "currency": "USD",
+  "notes": "US diner check photographed at an angle with a glass and a peg in frame; a free item at 0.00; prices column offset from item names",
+  "items": [
+   {
+    "name": "Tap Water",
+    "qty": 1,
+    "line_total": 0.0
+   },
+   {
+    "name": "Chef's Salad",
+    "qty": 1,
+    "line_total": 12.95
+   }
+  ],
+  "subtotal": 12.95,
+  "tax": 0.97,
+  "service": null,
+  "discount": null,
+  "total": 13.92
+ },
+ {
+  "file": "L_Oro_di_Napoli_-_January_2025_-_Sarah_Stierch_22.jpg",
+  "currency": "USD",
+  "notes": "Clean US restaurant check, 2025, sales tax",
+  "items": [
+   {
+    "name": "Polpette della Nonna",
+    "qty": 1,
+    "line_total": 14.0
+   },
+   {
+    "name": "Margherita",
+    "qty": 1,
+    "line_total": 22.0
+   },
+   {
+    "name": "Tiramisu",
+    "qty": 1,
+    "line_total": 12.0
+   }
+  ],
+  "subtotal": 48.0,
+  "tax": 4.45,
+  "service": null,
+  "discount": null,
+  "total": 52.45
+ },
+ {
+  "file": "Cline_s_Hallmark_recipt_2010-11-20.jpg",
+  "currency": "USD",
+  "notes": "US card shop; three identical item names with different prices; sales tax",
+  "items": [
+   {
+    "name": "Card General Hallmark Blanks",
+    "qty": 1,
+    "line_total": 2.69
+   },
+   {
+    "name": "Card General Hallmark Blanks",
+    "qty": 1,
+    "line_total": 1.99
+   },
+   {
+    "name": "Card General Hallmark Blanks",
+    "qty": 1,
+    "line_total": 2.29
+   }
+  ],
+  "subtotal": 6.97,
+  "tax": 0.61,
+  "service": null,
+  "discount": null,
+  "total": 7.58
+ },
+ {
+  "file": "Love_s_207__Coachella__California___2011-12-31_.jpg",
+  "currency": "USD",
+  "notes": "US fuel receipt: gallons x price per gallon; no subtotal or tax lines; the total is the single amount",
+  "items": [
+   {
+    "name": "Unleaded",
+    "qty": 13.132,
+    "line_total": 47.26
+   }
+  ],
+  "subtotal": null,
+  "tax": null,
+  "service": null,
+  "discount": null,
+  "total": 47.26
+ }
+]

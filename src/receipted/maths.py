@@ -12,10 +12,16 @@ from rapidfuzz import fuzz
 TOL_ABS = 1
 TOL_REL = 0.005
 NAME_MATCH_THRESHOLD = 70  # rapidfuzz token_set_ratio, 0-100
+NO_CENTS_CURRENCIES = {"IDR", "JPY", "KRW", "VND", "HUF", "CLP", "ISK", "TWD"}
 
 
-def close(a, b) -> bool:
-    return abs(a - b) <= max(TOL_ABS, TOL_REL * max(abs(a), abs(b)))
+def tolerance_for(currency: str | None) -> float:
+    """Whole-unit currencies (rupiah, yen) round to the unit; everything else prints cents."""
+    return TOL_ABS if (currency or "IDR").upper() in NO_CENTS_CURRENCIES else 0.01
+
+
+def close(a, b, tol_abs: float = TOL_ABS) -> bool:
+    return abs(a - b) <= max(tol_abs, TOL_REL * max(abs(a), abs(b)))
 
 
 def issue(type_, severity, message, evidence, receipt_line=None):
@@ -44,6 +50,7 @@ def check_receipt(receipt: dict) -> list[dict]:
     """Does the receipt agree with itself?"""
     issues = []
     items = receipt["items"]
+    tol = tolerance_for(receipt.get("currency"))
 
     if not items:
         issues.append(issue("no_line_items", "medium",
@@ -53,7 +60,7 @@ def check_receipt(receipt: dict) -> list[dict]:
     # 1. qty x unit price = line total, where all three are printed
     for it in items:
         q, u, t = it.get("qty"), it.get("unit_price"), it.get("line_total")
-        if q is not None and u is not None and t is not None and not close(q * u, t):
+        if q is not None and u is not None and t is not None and not close(q * u, t, tol):
             issues.append(issue("line_arithmetic", "medium",
                                 f"{q} x {u} = {q * u}, but the line shows {t}",
                                 {"qty": q, "unit_price": u, "expected": q * u, "line_total": t},
@@ -64,7 +71,7 @@ def check_receipt(receipt: dict) -> list[dict]:
     sub, tax, svc, disc, total = (receipt.get(k) for k in ("subtotal", "tax", "service", "discount", "total"))
     if ls is not None:
         targets = [v for v in (sub, total) if v is not None]
-        if targets and not any(close(ls, v) for v in targets):
+        if targets and not any(close(ls, v, tol) for v in targets):
             issues.append(issue("lines_vs_totals", "medium",
                                 f"Line items sum to {ls}, but subtotal is {sub} and total is {total}",
                                 {"line_sum": ls, "subtotal": sub, "total": total}))
@@ -72,7 +79,7 @@ def check_receipt(receipt: dict) -> list[dict]:
     # 3. subtotal + tax + service - discount = total (or total = subtotal when tax is included)
     if sub is not None and total is not None:
         expected = sub + (tax or 0) + (svc or 0) - abs(disc or 0)
-        if not close(expected, total) and not close(sub, total):
+        if not close(expected, total, tol) and not close(sub, total, tol):
             issues.append(issue("totals_arithmetic", "medium",
                                 f"{sub} + tax {tax or 0} + service {svc or 0} - discount {abs(disc or 0)} = {expected}, "
                                 f"but total shows {total}",
@@ -101,13 +108,14 @@ def best_match(name: str, items: list[dict]):
 def check_claim(claim: dict, receipt: dict) -> list[dict]:
     """Does the claim agree with the receipt?"""
     issues = []
+    tol = tolerance_for(receipt.get("currency"))
     receipt_total = receipt.get("total")
     if receipt_total is None:
         receipt_total = line_sum(receipt)
 
     # 1. claimed amount vs receipt total
     amount = claim.get("amount")
-    if amount is not None and receipt_total is not None and not close(amount, receipt_total):
+    if amount is not None and receipt_total is not None and not close(amount, receipt_total, tol):
         if amount > receipt_total:
             issues.append(issue("claim_exceeds_receipt", "high",
                                 f"Claimed {amount} but the receipt total is {receipt_total}",
@@ -136,7 +144,7 @@ def check_claim(claim: dict, receipt: dict) -> list[dict]:
         acceptable = [amount, amount - extras]
         if receipt.get("subtotal") is not None:
             acceptable.append(receipt["subtotal"])
-        if not any(close(line_sum_claim, target) for target in acceptable):
+        if not any(close(line_sum_claim, target, tol) for target in acceptable):
             issues.append(issue("claim_lines_vs_amount", "medium",
                                 f"Claim lines sum to {line_sum_claim} but the claimed amount is {amount}"
                                 + (f" (receipt tax + service = {extras})" if extras else ""),

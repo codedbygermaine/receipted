@@ -13,7 +13,7 @@ An AI agent that reads receipt and invoice images, checks them against a claim r
 | Clean claims wrongly flagged | 8 / 41 (upper bound; several are real breaches the labels missed) |
 | Item F1, Haiku 5.5 vs Opus 5.5 | 0.92 vs 0.92, at $0.0006 vs $0.0186 per receipt |
 | Draft quality, Opus judge (1–5) | accuracy 4.6, evidence 4.89, clarity 4.73, tone 4.98 |
-| Hallucination probe (total masked) | abstained on 9 / 10; the rest read a second printed copy |
+| Hallucination probe (total masked, 98 receipts) | 84% abstained; 13% read a second printed copy; 3% put the subtotal in the total slot; 0 fabricated digits |
 | Cost and time per claim | $0.0013, 4.82 s |
 
 ![Receipted demo](docs/demo_screenshot.jpg)
@@ -147,7 +147,7 @@ The headline (run 2): **48 of 50 planted errors caught (96%, 95% CI 90–100%)**
 
 ### Hallucination probe
 
-Does the model invent a total when there is none? Using CORD's word coordinates, `eval/hallucination_probe.py` paints a white box over the printed total on real receipts and extracts again. On 10 validation receipts the model returned `null` for 9; on the tenth the receipt prints the same amount twice (an ITEMS line and a TOTAL line) and the model read the other copy, which is correct, not invented. Result file: `results/hallucination_probe_validation_claude-haiku-5-5.json`.
+Does the model invent a total when there is none? Using CORD's word coordinates, `eval/hallucination_probe.py` paints a white box over the printed total on real receipts and extracts again. On the 98 validation receipts that print a total, Haiku returned `null` for 82 (84%). In 13 cases it returned the true total anyway: those receipts print the same amount a second time (a cash-tendered line, an ITEMS line, a card slip), so the model read the other copy, which is correct. In the remaining 3 it returned a wrong number, and all 3 were the same mistake: the printed subtotal placed in the total slot on a tax-exclusive receipt. So the failure mode is field confusion, not fabricated digits. Result file: `results/hallucination_probe_validation_claude-haiku-5-5.json`.
 
 ### Duplicate receipts
 
@@ -165,6 +165,35 @@ Since the test run, extraction (prompt v3) returns a confidence of high / medium
 | clean claims held for readability, old rule → new rule | 2 → 1 |
 
 Honest reading: the per-line rule saved one review here; most of the gain came from the prompt telling the model that blur on a logo or footer does not lower the confidence of a legible price line. The test split (prompt v2) had 25 receipts marked partly unclear and 6 clean claims held for that reason, so the saving there would be larger, but it has not been measured on test and is not claimed.
+
+### Unseen formats: receipts from four other countries
+
+The system was built and tuned on Indonesian receipts. To see how it handles formats it has never seen, I took 10 receipt photos from Wikimedia Commons under reusable licences (UK, Australia, USA; pounds and dollars with cents; VAT and sales tax; one handwritten; one fuel receipt priced per gallon; one with 20 items at $0.9999), wrote the labels by hand from the images, and ran both models (`eval/eval_external.py`, `data/external/commons/`).
+
+| 10 receipts, 51 items | Haiku 5.5 | Opus 5.5 |
+|---|---|---|
+| currency identified | 100% | 100% |
+| item F1 (name + quantity + price, cent-level tolerance) | 0.99 | 0.99 |
+| total correct | 80% | 90% |
+| mean latency | 5.29s | 6.69s |
+| cost for the set | $0.009 | $0.268 |
+
+The two misses are instructive: Haiku read a blurry "$2.18" as "$2.13" (Opus read it correctly and marked the receipt partly unclear), and both models left the total empty on a fuel receipt whose only amount is labelled "Amount" rather than "Total". This set also exposed a real bug for cent-based currencies: the arithmetic tolerance was a whole unit (fine for rupiah, useless for dollars), so it now depends on the receipt's currency. Singapore receipts photographed by me are the next step; the same script runs them.
+
+Sources (all Wikimedia Commons):
+
+| file | currency | licence |
+|---|---|---|
+| [99_cents_only_store_receipt_2021.jpg](https://commons.wikimedia.org/wiki/File%3A99%20cents%20only%20store%20receipt%202021.jpg) | USD | CC BY-SA 4.0 |
+| [Cline_s_Hallmark_recipt_2010-11-20.jpg](https://commons.wikimedia.org/wiki/File%3ACline%27s%20Hallmark%20recipt%202010-11-20.jpg) | USD | Public domain |
+| [Family_Dollar_store_receipt.jpg](https://commons.wikimedia.org/wiki/File%3AFamily%20Dollar%20store%20receipt.jpg) | USD | CC BY-SA 3.0 |
+| [Harpoon_Harry_s__Key_West__Florida_-__In](https://commons.wikimedia.org/wiki/File%3AHarpoon%20Harry%E2%80%99s%2C%20Key%20West%2C%20Florida%20-%20%E2%80%9CIn%20God%20We%20Trust%E2%80%9D%20receipt.jpg) | USD | CC BY 2.0 |
+| [L_Oro_di_Napoli_-_January_2025_-_Sarah_S](https://commons.wikimedia.org/wiki/File%3AL%27Oro%20di%20Napoli%20-%20January%202025%20-%20Sarah%20Stierch%2022.jpg) | USD | CC0 |
+| [Love_s_207__Coachella__California___2011](https://commons.wikimedia.org/wiki/File%3ALove%27s%20207%20%28Coachella%2C%20California%29%20%282011-12-31%29.jpg) | USD | Public domain |
+| [Pink_Peacock_receipt.jpg](https://commons.wikimedia.org/wiki/File:Pink_Peacock_receipt.jpg) | GBP | CC BY-SA 4.0 |
+| [Receipt-woolworth.jpg](https://commons.wikimedia.org/wiki/File:Receipt-woolworth.jpg) | AUD | CC BY-SA 4.0 |
+| [Receipt_for_my_BBC_Micro__51333059914_.j](https://commons.wikimedia.org/wiki/File%3AReceipt%20for%20my%20BBC%20Micro%20%2851333059914%29.jpg) | GBP | CC BY-SA 2.0 |
+| [TK_Maxx__Trafford_Retail_Park_receipt__2](https://commons.wikimedia.org/wiki/File%3ATK%20Maxx%2C%20Trafford%20Retail%20Park%20receipt%20%282013-05-12%29.jpg) | GBP | Public domain |
 
 ### Regression gate
 

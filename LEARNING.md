@@ -180,3 +180,17 @@
 **What the number actually says.** The feature saved one review on validation. That is small, and I say so. The larger effect was a prompt change made at the same time ("blur elsewhere does not lower the confidence of a legible line"), which cut the share of receipts called partly unclear. The test split, frozen at the earlier prompt, had 25 such receipts and 6 clean claims held for that reason, so the saving there is probably bigger, but I have not measured it and the README does not claim it.
 
 **Interview question.** *Why measure on validation and leave the test numbers alone?* Because changing the extraction prompt changes everything downstream, and re-running test again would be the third time; at some point "test" stops being a held-out set. Validation is the right place for a feature experiment, and the README labels it as such.
+
+
+**Probe at full size (98 validation receipts).** 82 abstained, 13 returned the true total because it was printed a second time elsewhere (cash tendered, ITEMS line, card slip), and 3 returned the subtotal in the total slot on tax-exclusive receipts. Not one receipt produced digits that were not printed somewhere on it. That is the precise claim the design supports: the model does not fabricate numbers, but it can put a real number in the wrong field, and the arithmetic check is what catches that (subtotal + tax would not equal a "total" that equals the subtotal).
+
+
+## Phase 11: Receipts from other countries
+
+**What we built.** `eval/eval_external.py` scores extraction on an external set with hand-written labels. The first set is 10 Wikimedia Commons receipts (UK, Australia, USA) under CC or public-domain licences, with attribution in `data/external/commons/ATTRIBUTION.json`. Both models: currency 100%, item F1 0.99; totals 8/10 (Haiku) and 9/10 (Opus).
+
+**Why Commons and not Google Images.** A photo belongs to whoever took it. Blurring a name fixes privacy, not copyright. Commons files carry a licence that says reuse is allowed with credit, so they can sit in a public repo with a straight face, exactly like CORD.
+
+**What the set taught.** Three things the Indonesian data could never show: (1) the model leaves quantity empty when a receipt does not print one, which is what the prompt asks, so an evaluation must treat "not printed" as 1 only when the label says 1; (2) the arithmetic tolerance of one whole unit, right for rupiah, would have ignored a 99-cent error on a dollar receipt, so tolerance now follows the currency; (3) a fuel receipt labels its only amount "Amount", and both models declined to call it the total, an honest abstention that still counts as a miss.
+
+**Interview question.** *Your training data was all one country. Does it generalise?* On ten receipts from three other countries, item extraction was as good as on the Indonesian test split and the currency was always right. The misses were a blurry digit and an unusual label for the total, not the format. What did not generalise was my own code: a tolerance constant that assumed whole-unit prices.

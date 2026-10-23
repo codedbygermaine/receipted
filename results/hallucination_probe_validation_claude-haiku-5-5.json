@@ -2,12 +2,13 @@
  "summary": {
   "split": "validation",
   "model": "claude-haiku-5-5",
-  "n": 10,
+  "n": 98,
   "verdicts": {
-   "abstained": 9,
-   "produced the true total anyway": 1
+   "abstained": 82,
+   "produced the true total anyway": 13,
+   "invented a different number": 3
   },
-  "abstention_rate": 0.9
+  "abstention_rate": 0.837
  },
  "receipts": [
   {
@@ -15,7 +16,7 @@
    "true_total": 45500,
    "returned_total": null,
    "verdict": "abstained",
-   "readability": "clear",
+   "readability": "partly unclear",
    "masked_words": 2,
    "image": "data/probe/validation_000_masked_total.png"
   },
@@ -58,8 +59,8 @@
   {
    "id": "validation_005",
    "true_total": 8000,
-   "returned_total": null,
-   "verdict": "abstained",
+   "returned_total": 7273,
+   "verdict": "invented a different number",
    "readability": "partly unclear",
    "masked_words": 2,
    "image": "data/probe/validation_005_masked_total.png"
@@ -67,8 +68,8 @@
   {
    "id": "validation_006",
    "true_total": 123000,
-   "returned_total": null,
-   "verdict": "abstained",
+   "returned_total": 123000,
+   "verdict": "produced the true total anyway",
    "readability": "partly unclear",
    "masked_words": 2,
    "image": "data/probe/validation_006_masked_total.png"
@@ -99,6 +100,798 @@
    "readability": "clear",
    "masked_words": 2,
    "image": "data/probe/validation_009_masked_total.png"
+  },
+  {
+   "id": "validation_010",
+   "true_total": 60000,
+   "returned_total": null,
+   "verdict": "abstained",
+   "readability": "clear",
+   "masked_words": 2,
+   "image": "data/probe/validation_010_masked_total.png"
+  },
+  {
+   "id": "validation_011",
+   "true_total": 89100,
+   "returned_total": 89100,
+   "verdict": "produced the true total anyway",
+   "readability": "clear",
+   "masked_words": 2,
+   "image": "data/probe/validation_011_masked_total.png"
+  },
+  {
+   "id": "validation_012",
+   "true_total": 72000,
+   "returned_total": null,
+   "verdict": "abstained",
+   "readability": "partly unclear",
+   "masked_words": 2,
+   "image": "data/probe/validation_012_masked_total.png"
+  },
+  {
+   "id": "validation_013",
+   "true_total": 45500,
+   "returned_total": null,
+   "verdict": "abstained",
+   "readability": "partly unclear",
+   "masked_words": 2,
+   "image": "data/probe/validation_013_masked_total.png"
+  },
+  {
+   "id": "validation_014",
+   "true_total": 39600,
+   "returned_total": 39600,
+   "verdict": "produced the true total anyway",
+   "readability": "clear",
+   "masked_words": 3,
+   "image": "data/probe/validation_014_masked_total.png"
+  },
+  {
+   "id": "validation_015",
+   "true_total": 59400,
+   "returned_total": null,
+   "verdict": "abstained",
+   "readability": "partly unclear",
+   "masked_words": 3,
+   "image": "data/probe/validation_015_masked_total.png"
+  },
+  {
+   "id": "validation_016",
+   "true_total": 20000,
+   "returned_total": 20000,
+   "verdict": "produced the true total anyway",
+   "readability": "partly unclear",
+   "masked_words": 2,
+   "image": "data/probe/validation_016_masked_total.png"
+  },
+  {
+   "id": "validation_017",
+   "true_total": 20000,
+   "returned_total": null,
+   "verdict": "abstained",
+   "readability": "clear",
+   "masked_words": 2,
+   "image": "data/probe/validation_017_masked_total.png"
+  },
+  {
+   "id": "validation_018",
+   "true_total": 25000,
+   "returned_total": null,
+   "verdict": "abstained",
+   "readability": "partly unclear",
+   "masked_words": 2,
+   "image": "data/probe/validation_018_masked_total.png"
+  },
+  {
+   "id": "validation_019",
+   "true_total": 42500,
+   "returned_total": null,
+   "verdict": "abstained",
+   "readability": "partly unclear",
+   "masked_words": 2,
+   "image": "data/probe/validation_019_masked_total.png"
+  },
+  {
+   "id": "validation_020",
+   "true_total": 16500,
+   "returned_total": null,
+   "verdict": "abstained",
+   "readability": "partly unclear",
+   "masked_words": 2,
+   "image": "data/probe/validation_020_masked_total.png"
+  },
+  {
+   "id": "validation_021",
+   "true_total": 224908,
+   "returned_total": 224908,
+   "verdict": "produced the true total anyway",
+   "readability": "clear",
+   "masked_words": 2,
+   "image": "data/probe/validation_021_masked_total.png"
+  },
+  {
+   "id": "validation_022",
+   "true_total": 308000,
+   "returned_total": null,
+   "verdict": "abstained",
+   "readability": "clear",
+   "masked_words": 2,
+   "image": "data/probe/validation_022_masked_total.png"
+  },
+  {
+   "id": "validation_023",
+   "true_total": 20000,
+   "returned_total": null,
+   "verdict": "abstained",
+   "readability": "partly unclear",
+   "masked_words": 2,
+   "image": "data/probe/validation_023_masked_total.png"
+  },
+  {
+   "id": "validation_024",
+   "true_total": 80500,
+   "returned_total": null,
+   "verdict": "abstained",
+   "readability": "partly unclear",
+   "masked_words": 2,
+   "image": "data/probe/validation_024_masked_total.png"
+  },
+  {
+   "id": "validation_025",
+   "true_total": 207900,
+   "returned_total": null,
+   "verdict": "abstained",
+   "readability": "partly unclear",
+   "masked_words": 2,
+   "image": "data/probe/validation_025_masked_total.png"
+  },
+  {
+   "id": "validation_026",
+   "true_total": 35000,
+   "returned_total": null,
+   "verdict": "abstained",
+   "readability": "clear",
+   "masked_words": 3,
+   "image": "data/probe/validation_026_masked_total.png"
+  },
+  {
+   "id": "validation_027",
+   "true_total": 17999,
+   "returned_total": null,
+   "verdict": "abstained",
+   "readability": "clear",
+   "masked_words": 3,
+   "image": "data/probe/validation_027_masked_total.png"
+  },
+  {
+   "id": "validation_028",
+   "true_total": 22000,
+   "returned_total": null,
+   "verdict": "abstained",
+   "readability": "partly unclear",
+   "masked_words": 2,
+   "image": "data/probe/validation_028_masked_total.png"
+  },
+  {
+   "id": "validation_030",
+   "true_total": 21000,
+   "returned_total": null,
+   "verdict": "abstained",
+   "readability": "partly unclear",
+   "masked_words": 2,
+   "image": "data/probe/validation_030_masked_total.png"
+  },
+  {
+   "id": "validation_031",
+   "true_total": 24000,
+   "returned_total": null,
+   "verdict": "abstained",
+   "readability": "partly unclear",
+   "masked_words": 2,
+   "image": "data/probe/validation_031_masked_total.png"
+  },
+  {
+   "id": "validation_032",
+   "true_total": 6000,
+   "returned_total": null,
+   "verdict": "abstained",
+   "readability": "clear",
+   "masked_words": 2,
+   "image": "data/probe/validation_032_masked_total.png"
+  },
+  {
+   "id": "validation_033",
+   "true_total": 57500,
+   "returned_total": null,
+   "verdict": "abstained",
+   "readability": "clear",
+   "masked_words": 2,
+   "image": "data/probe/validation_033_masked_total.png"
+  },
+  {
+   "id": "validation_034",
+   "true_total": 283338,
+   "returned_total": null,
+   "verdict": "abstained",
+   "readability": "clear",
+   "masked_words": 2,
+   "image": "data/probe/validation_034_masked_total.png"
+  },
+  {
+   "id": "validation_035",
+   "true_total": 304326,
+   "returned_total": null,
+   "verdict": "abstained",
+   "readability": "clear",
+   "masked_words": 2,
+   "image": "data/probe/validation_035_masked_total.png"
+  },
+  {
+   "id": "validation_036",
+   "true_total": 18999,
+   "returned_total": null,
+   "verdict": "abstained",
+   "readability": "clear",
+   "masked_words": 2,
+   "image": "data/probe/validation_036_masked_total.png"
+  },
+  {
+   "id": "validation_037",
+   "true_total": 70000,
+   "returned_total": null,
+   "verdict": "abstained",
+   "readability": "clear",
+   "masked_words": 4,
+   "image": "data/probe/validation_037_masked_total.png"
+  },
+  {
+   "id": "validation_038",
+   "true_total": 20000,
+   "returned_total": 20000,
+   "verdict": "produced the true total anyway",
+   "readability": "partly unclear",
+   "masked_words": 2,
+   "image": "data/probe/validation_038_masked_total.png"
+  },
+  {
+   "id": "validation_039",
+   "true_total": 97900,
+   "returned_total": null,
+   "verdict": "abstained",
+   "readability": "partly unclear",
+   "masked_words": 2,
+   "image": "data/probe/validation_039_masked_total.png"
+  },
+  {
+   "id": "validation_040",
+   "true_total": 379500,
+   "returned_total": null,
+   "verdict": "abstained",
+   "readability": "clear",
+   "masked_words": 2,
+   "image": "data/probe/validation_040_masked_total.png"
+  },
+  {
+   "id": "validation_041",
+   "true_total": 2352460,
+   "returned_total": 2352460,
+   "verdict": "produced the true total anyway",
+   "readability": "partly unclear",
+   "masked_words": 2,
+   "image": "data/probe/validation_041_masked_total.png"
+  },
+  {
+   "id": "validation_042",
+   "true_total": 53000,
+   "returned_total": null,
+   "verdict": "abstained",
+   "readability": "clear",
+   "masked_words": 2,
+   "image": "data/probe/validation_042_masked_total.png"
+  },
+  {
+   "id": "validation_043",
+   "true_total": 278000,
+   "returned_total": null,
+   "verdict": "abstained",
+   "readability": "partly unclear",
+   "masked_words": 2,
+   "image": "data/probe/validation_043_masked_total.png"
+  },
+  {
+   "id": "validation_044",
+   "true_total": 17999,
+   "returned_total": null,
+   "verdict": "abstained",
+   "readability": "clear",
+   "masked_words": 3,
+   "image": "data/probe/validation_044_masked_total.png"
+  },
+  {
+   "id": "validation_045",
+   "true_total": 287760,
+   "returned_total": null,
+   "verdict": "abstained",
+   "readability": "clear",
+   "masked_words": 2,
+   "image": "data/probe/validation_045_masked_total.png"
+  },
+  {
+   "id": "validation_046",
+   "true_total": 22000,
+   "returned_total": null,
+   "verdict": "abstained",
+   "readability": "partly unclear",
+   "masked_words": 2,
+   "image": "data/probe/validation_046_masked_total.png"
+  },
+  {
+   "id": "validation_047",
+   "true_total": 42000,
+   "returned_total": 42000,
+   "verdict": "produced the true total anyway",
+   "readability": "partly unclear",
+   "masked_words": 2,
+   "image": "data/probe/validation_047_masked_total.png"
+  },
+  {
+   "id": "validation_048",
+   "true_total": 61500,
+   "returned_total": null,
+   "verdict": "abstained",
+   "readability": "partly unclear",
+   "masked_words": 2,
+   "image": "data/probe/validation_048_masked_total.png"
+  },
+  {
+   "id": "validation_050",
+   "true_total": 26000,
+   "returned_total": null,
+   "verdict": "abstained",
+   "readability": "clear",
+   "masked_words": 2,
+   "image": "data/probe/validation_050_masked_total.png"
+  },
+  {
+   "id": "validation_051",
+   "true_total": 57200,
+   "returned_total": 57200,
+   "verdict": "produced the true total anyway",
+   "readability": "clear",
+   "masked_words": 2,
+   "image": "data/probe/validation_051_masked_total.png"
+  },
+  {
+   "id": "validation_052",
+   "true_total": 56000,
+   "returned_total": null,
+   "verdict": "abstained",
+   "readability": "clear",
+   "masked_words": 2,
+   "image": "data/probe/validation_052_masked_total.png"
+  },
+  {
+   "id": "validation_053",
+   "true_total": 31000,
+   "returned_total": null,
+   "verdict": "abstained",
+   "readability": "clear",
+   "masked_words": 2,
+   "image": "data/probe/validation_053_masked_total.png"
+  },
+  {
+   "id": "validation_054",
+   "true_total": 40000,
+   "returned_total": null,
+   "verdict": "abstained",
+   "readability": "clear",
+   "masked_words": 2,
+   "image": "data/probe/validation_054_masked_total.png"
+  },
+  {
+   "id": "validation_055",
+   "true_total": 60000,
+   "returned_total": null,
+   "verdict": "abstained",
+   "readability": "clear",
+   "masked_words": 2,
+   "image": "data/probe/validation_055_masked_total.png"
+  },
+  {
+   "id": "validation_056",
+   "true_total": 20000,
+   "returned_total": null,
+   "verdict": "abstained",
+   "readability": "partly unclear",
+   "masked_words": 2,
+   "image": "data/probe/validation_056_masked_total.png"
+  },
+  {
+   "id": "validation_057",
+   "true_total": 288585,
+   "returned_total": null,
+   "verdict": "abstained",
+   "readability": "clear",
+   "masked_words": 2,
+   "image": "data/probe/validation_057_masked_total.png"
+  },
+  {
+   "id": "validation_058",
+   "true_total": 25000,
+   "returned_total": null,
+   "verdict": "abstained",
+   "readability": "partly unclear",
+   "masked_words": 2,
+   "image": "data/probe/validation_058_masked_total.png"
+  },
+  {
+   "id": "validation_059",
+   "true_total": 664329,
+   "returned_total": null,
+   "verdict": "abstained",
+   "readability": "partly unclear",
+   "masked_words": 2,
+   "image": "data/probe/validation_059_masked_total.png"
+  },
+  {
+   "id": "validation_060",
+   "true_total": 180000,
+   "returned_total": 180000,
+   "verdict": "produced the true total anyway",
+   "readability": "clear",
+   "masked_words": 2,
+   "image": "data/probe/validation_060_masked_total.png"
+  },
+  {
+   "id": "validation_061",
+   "true_total": 8250,
+   "returned_total": null,
+   "verdict": "abstained",
+   "readability": "partly unclear",
+   "masked_words": 3,
+   "image": "data/probe/validation_061_masked_total.png"
+  },
+  {
+   "id": "validation_062",
+   "true_total": 62000,
+   "returned_total": null,
+   "verdict": "abstained",
+   "readability": "clear",
+   "masked_words": 2,
+   "image": "data/probe/validation_062_masked_total.png"
+  },
+  {
+   "id": "validation_063",
+   "true_total": 56800,
+   "returned_total": 51636,
+   "verdict": "invented a different number",
+   "readability": "partly unclear",
+   "masked_words": 3,
+   "image": "data/probe/validation_063_masked_total.png"
+  },
+  {
+   "id": "validation_064",
+   "true_total": 20000,
+   "returned_total": null,
+   "verdict": "abstained",
+   "readability": "partly unclear",
+   "masked_words": 2,
+   "image": "data/probe/validation_064_masked_total.png"
+  },
+  {
+   "id": "validation_065",
+   "true_total": 54600,
+   "returned_total": 49636,
+   "verdict": "invented a different number",
+   "readability": "partly unclear",
+   "masked_words": 3,
+   "image": "data/probe/validation_065_masked_total.png"
+  },
+  {
+   "id": "validation_066",
+   "true_total": 7000,
+   "returned_total": null,
+   "verdict": "abstained",
+   "readability": "clear",
+   "masked_words": 2,
+   "image": "data/probe/validation_066_masked_total.png"
+  },
+  {
+   "id": "validation_067",
+   "true_total": 76000,
+   "returned_total": null,
+   "verdict": "abstained",
+   "readability": "clear",
+   "masked_words": 2,
+   "image": "data/probe/validation_067_masked_total.png"
+  },
+  {
+   "id": "validation_068",
+   "true_total": 26000,
+   "returned_total": null,
+   "verdict": "abstained",
+   "readability": "clear",
+   "masked_words": 2,
+   "image": "data/probe/validation_068_masked_total.png"
+  },
+  {
+   "id": "validation_069",
+   "true_total": 174983,
+   "returned_total": null,
+   "verdict": "abstained",
+   "readability": "partly unclear",
+   "masked_words": 2,
+   "image": "data/probe/validation_069_masked_total.png"
+  },
+  {
+   "id": "validation_070",
+   "true_total": 121798,
+   "returned_total": null,
+   "verdict": "abstained",
+   "readability": "partly unclear",
+   "masked_words": 2,
+   "image": "data/probe/validation_070_masked_total.png"
+  },
+  {
+   "id": "validation_071",
+   "true_total": 20000,
+   "returned_total": null,
+   "verdict": "abstained",
+   "readability": "partly unclear",
+   "masked_words": 2,
+   "image": "data/probe/validation_071_masked_total.png"
+  },
+  {
+   "id": "validation_072",
+   "true_total": 36000,
+   "returned_total": 36000,
+   "verdict": "produced the true total anyway",
+   "readability": "clear",
+   "masked_words": 2,
+   "image": "data/probe/validation_072_masked_total.png"
+  },
+  {
+   "id": "validation_073",
+   "true_total": 20000,
+   "returned_total": null,
+   "verdict": "abstained",
+   "readability": "partly unclear",
+   "masked_words": 2,
+   "image": "data/probe/validation_073_masked_total.png"
+  },
+  {
+   "id": "validation_074",
+   "true_total": 20000,
+   "returned_total": null,
+   "verdict": "abstained",
+   "readability": "clear",
+   "masked_words": 2,
+   "image": "data/probe/validation_074_masked_total.png"
+  },
+  {
+   "id": "validation_075",
+   "true_total": 66500,
+   "returned_total": null,
+   "verdict": "abstained",
+   "readability": "partly unclear",
+   "masked_words": 2,
+   "image": "data/probe/validation_075_masked_total.png"
+  },
+  {
+   "id": "validation_076",
+   "true_total": 99000,
+   "returned_total": null,
+   "verdict": "abstained",
+   "readability": "clear",
+   "masked_words": 2,
+   "image": "data/probe/validation_076_masked_total.png"
+  },
+  {
+   "id": "validation_077",
+   "true_total": 58000,
+   "returned_total": null,
+   "verdict": "abstained",
+   "readability": "clear",
+   "masked_words": 2,
+   "image": "data/probe/validation_077_masked_total.png"
+  },
+  {
+   "id": "validation_078",
+   "true_total": 177870,
+   "returned_total": null,
+   "verdict": "abstained",
+   "readability": "partly unclear",
+   "masked_words": 2,
+   "image": "data/probe/validation_078_masked_total.png"
+  },
+  {
+   "id": "validation_079",
+   "true_total": 72000,
+   "returned_total": null,
+   "verdict": "abstained",
+   "readability": "clear",
+   "masked_words": 2,
+   "image": "data/probe/validation_079_masked_total.png"
+  },
+  {
+   "id": "validation_080",
+   "true_total": 25000,
+   "returned_total": null,
+   "verdict": "abstained",
+   "readability": "partly unclear",
+   "masked_words": 2,
+   "image": "data/probe/validation_080_masked_total.png"
+  },
+  {
+   "id": "validation_081",
+   "true_total": 276000,
+   "returned_total": null,
+   "verdict": "abstained",
+   "readability": "clear",
+   "masked_words": 2,
+   "image": "data/probe/validation_081_masked_total.png"
+  },
+  {
+   "id": "validation_082",
+   "true_total": 35000,
+   "returned_total": null,
+   "verdict": "abstained",
+   "readability": "partly unclear",
+   "masked_words": 2,
+   "image": "data/probe/validation_082_masked_total.png"
+  },
+  {
+   "id": "validation_083",
+   "true_total": 17000,
+   "returned_total": null,
+   "verdict": "abstained",
+   "readability": "partly unclear",
+   "masked_words": 2,
+   "image": "data/probe/validation_083_masked_total.png"
+  },
+  {
+   "id": "validation_084",
+   "true_total": 52000,
+   "returned_total": null,
+   "verdict": "abstained",
+   "readability": "clear",
+   "masked_words": 3,
+   "image": "data/probe/validation_084_masked_total.png"
+  },
+  {
+   "id": "validation_085",
+   "true_total": 15000,
+   "returned_total": null,
+   "verdict": "abstained",
+   "readability": "clear",
+   "masked_words": 2,
+   "image": "data/probe/validation_085_masked_total.png"
+  },
+  {
+   "id": "validation_086",
+   "true_total": 26000,
+   "returned_total": null,
+   "verdict": "abstained",
+   "readability": "clear",
+   "masked_words": 2,
+   "image": "data/probe/validation_086_masked_total.png"
+  },
+  {
+   "id": "validation_087",
+   "true_total": 29000,
+   "returned_total": null,
+   "verdict": "abstained",
+   "readability": "partly unclear",
+   "masked_words": 2,
+   "image": "data/probe/validation_087_masked_total.png"
+  },
+  {
+   "id": "validation_088",
+   "true_total": 170000,
+   "returned_total": null,
+   "verdict": "abstained",
+   "readability": "clear",
+   "masked_words": 2,
+   "image": "data/probe/validation_088_masked_total.png"
+  },
+  {
+   "id": "validation_089",
+   "true_total": 29000,
+   "returned_total": null,
+   "verdict": "abstained",
+   "readability": "partly unclear",
+   "masked_words": 2,
+   "image": "data/probe/validation_089_masked_total.png"
+  },
+  {
+   "id": "validation_090",
+   "true_total": 70000,
+   "returned_total": null,
+   "verdict": "abstained",
+   "readability": "partly unclear",
+   "masked_words": 3,
+   "image": "data/probe/validation_090_masked_total.png"
+  },
+  {
+   "id": "validation_091",
+   "true_total": 44000,
+   "returned_total": null,
+   "verdict": "abstained",
+   "readability": "clear",
+   "masked_words": 2,
+   "image": "data/probe/validation_091_masked_total.png"
+  },
+  {
+   "id": "validation_092",
+   "true_total": 23000,
+   "returned_total": null,
+   "verdict": "abstained",
+   "readability": "partly unclear",
+   "masked_words": 2,
+   "image": "data/probe/validation_092_masked_total.png"
+  },
+  {
+   "id": "validation_093",
+   "true_total": 172000,
+   "returned_total": null,
+   "verdict": "abstained",
+   "readability": "partly unclear",
+   "masked_words": 2,
+   "image": "data/probe/validation_093_masked_total.png"
+  },
+  {
+   "id": "validation_094",
+   "true_total": 80100,
+   "returned_total": 80100,
+   "verdict": "produced the true total anyway",
+   "readability": "clear",
+   "masked_words": 4,
+   "image": "data/probe/validation_094_masked_total.png"
+  },
+  {
+   "id": "validation_095",
+   "true_total": 30000,
+   "returned_total": null,
+   "verdict": "abstained",
+   "readability": "partly unclear",
+   "masked_words": 2,
+   "image": "data/probe/validation_095_masked_total.png"
+  },
+  {
+   "id": "validation_096",
+   "true_total": 12750,
+   "returned_total": null,
+   "verdict": "abstained",
+   "readability": "partly unclear",
+   "masked_words": 2,
+   "image": "data/probe/validation_096_masked_total.png"
+  },
+  {
+   "id": "validation_097",
+   "true_total": 25000,
+   "returned_total": null,
+   "verdict": "abstained",
+   "readability": "clear",
+   "masked_words": 2,
+   "image": "data/probe/validation_097_masked_total.png"
+  },
+  {
+   "id": "validation_098",
+   "true_total": 100000,
+   "returned_total": null,
+   "verdict": "abstained",
+   "readability": "clear",
+   "masked_words": 2,
+   "image": "data/probe/validation_098_masked_total.png"
+  },
+  {
+   "id": "validation_099",
+   "true_total": 39000,
+   "returned_total": null,
+   "verdict": "abstained",
+   "readability": "clear",
+   "masked_words": 3,
+   "image": "data/probe/validation_099_masked_total.png"
   }
  ]
 }

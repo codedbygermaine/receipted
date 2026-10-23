@@ -123,3 +123,13 @@ def test_missing_purpose_is_flagged_with_clause_c1():
     issues = check_claim({"amount": 10000, "purpose": "  ", "items": []}, r)
     assert types(issues) == ["purpose_missing"]
     assert issues[0]["clause_id"] == "C1" and issues[0]["severity"] == "medium"
+
+
+def test_tolerance_depends_on_currency():
+    from receipted.maths import tolerance_for
+    assert tolerance_for("IDR") == 1 and tolerance_for("SGD") == 0.01 and tolerance_for(None) == 1
+    # a 5-cent gap on a dollar receipt is an error; a 1-rupiah gap on a rupiah receipt is rounding
+    sgd = {**receipt([item("Kopi", 1, None, 1.80), item("Toast", 1, None, 2.50)], subtotal=4.30, total=4.35), "currency": "SGD"}
+    assert types(check_receipt(sgd)) == ["totals_arithmetic"]
+    idr = receipt([item("A", 1, None, 10000)], subtotal=10000, total=10001)
+    assert check_receipt(idr) == []
