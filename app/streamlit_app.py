@@ -192,7 +192,11 @@ with tab_review:
     st.subheader("Claims waiting for a person")
     st.caption("What a reviewer sees: the receipt, the extracted lines with their confidence, each issue with its evidence, "
                "and two buttons. The decision resumes the paused run and the draft is written from it.")
-    pending = pending_reviews()
+    try:
+        pending = pending_reviews()
+    except Exception as e:
+        st.error(f"Review queue unavailable: {type(e).__name__}: {e}")
+        pending = []
     if not pending:
         st.info("Nothing waiting. Run a claim with the pause box ticked and a needs_review outcome to see one here.")
     for pz in pending:
@@ -227,8 +231,12 @@ with tab_review:
 
 with tab_audit:
     st.subheader("Every decision, with its evidence")
-    entries = audit.recent(30)
-    samples = audit.audit_samples()
+    try:
+        entries = audit.recent(30)
+        samples = audit.audit_samples()
+    except Exception as e:  # show the real reason instead of Streamlit Cloud's redacted error page
+        st.error(f"Audit log unavailable: {type(e).__name__}: {e}. If the app was just updated, reboot it from Manage app.")
+        entries, samples = [], []
     if samples:
         st.warning(f"{len(samples)} auto-approved claim(s) picked for a random audit (1 in {audit.AUDIT_SAMPLE_RATE}): "
                    + ", ".join(e["claim_id"] for e in samples[:10]) + ". A reviewer should spot-check these against the receipt.")
