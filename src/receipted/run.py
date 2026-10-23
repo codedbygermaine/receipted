@@ -32,7 +32,7 @@ def main():
             ap.error("give --image and --claim, or --sample")
         claim, image = json.load(open(args.claim)), args.image
 
-    state = run_claim(image, claim, model=args.model)
+    state = run_claim(image, claim, model=args.model, register=True)
 
     if args.json:
         print(json.dumps({k: v for k, v in state.items() if k != "retrieved"}, indent=1, ensure_ascii=False, default=str))

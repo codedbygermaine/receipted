@@ -14,6 +14,10 @@ import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from stats import bootstrap_ci, fmt_ci  # noqa: E402
+
 ROOT = Path(__file__).resolve().parents[1]
 RES = ROOT / "results"
 # categorical palette (validated, see dataviz reference): slot 1 blue, slot 2 orange; fixed per model
@@ -92,29 +96,56 @@ def pct(x):
 
 def results_table(extraction, checks, drafts, split):
     md = [f"## Results ({split} split)\n", "### Extraction vs CORD ground truth\n",
-          "| model | receipts | item F1 | item precision | item recall | total correct | subtotal correct | tax correct | mean latency | mean cost / receipt |",
+          "| model | receipts | item F1 (95% CI) | item precision | item recall | total correct | subtotal correct | tax correct | mean latency | mean cost / receipt |",
           "|---|---|---|---|---|---|---|---|---|---|"]
     for m, d in extraction.items():
         s = d["summary"]
-        md.append(f"| `{m}` | {s['n_receipts']} | {s['item_f1']:.2f} | {s['item_precision']:.2f} | {s['item_recall']:.2f} | "
+        rows = d["receipts"]
+        def f1_of(rs):
+            hits = sum(r["full_hits"] for r in rs); ex = sum(r["n_extracted_items"] for r in rs); gt = sum(r["n_gt_items"] for r in rs)
+            p_ = hits / ex if ex else 0; r_ = hits / gt if gt else 0
+            return 2 * p_ * r_ / (p_ + r_) if p_ + r_ else 0
+        f1, lo, hi = bootstrap_ci(rows, statistic=f1_of)
+        md.append(f"| `{m}` | {s['n_receipts']} | {fmt_ci(f1, lo, hi, pct=False)} | {s['item_precision']:.2f} | {s['item_recall']:.2f} | "
                   f"{pct(s['total_accuracy'])} | {pct(s['subtotal_accuracy'])} | {pct(s['tax_accuracy'])} | "
                   f"{s['mean_latency_s']}s | ${s['mean_cost_usd']:.4f} |")
     if checks:
         s = checks["summary"]
+        rows = checks["claims"]
         md += [f"\n### Checks: full agent on {s['n_claims']} synthetic claims (`{s['model']}`)\n",
-               "| planted error | n | caught | recall |", "|---|---|---|---|"]
-        md += [f"| {t.replace('_', ' ')} | {d['n']} | {d['caught']} | {pct(d['recall'])} |" for t, d in s["planted"].items()]
+               "| planted error | n | caught | recall (95% CI) |", "|---|---|---|---|"]
+        for t, d in s["planted"].items():
+            flags = [1 if r["caught"].get(t) else 0 for r in rows if r["planted_error"] == t]
+            md.append(f"| {t.replace('_', ' ')} | {d['n']} | {d['caught']} | {fmt_ci(*bootstrap_ci(flags))} |")
+        all_flags = [1 if r["caught"].get(r["planted_error"]) else 0 for r in rows if r["planted_error"]]
+        md.append(f"| **all planted errors** | {len(all_flags)} | {sum(all_flags)} | **{fmt_ci(*bootstrap_ci(all_flags))}** |")
         md += ["\n| natural breach (from ground truth) | n | caught | recall |", "|---|---|---|---|"]
         md += [f"| {t.replace('_', ' ')} | {d['n']} | {d['caught']} | {pct(d['recall'])} |" for t, d in s["natural"].items() if d["n"]]
         fa = s["false_alarms"]
+        dec = [1 if r["predicted"] == r["expected"] else 0 for r in rows]
+        clean = [r for r in rows if not r["planted_error"] and not r["natural_flags"]]
+        fa_flags = [1 if r["verified_issues"] else 0 for r in clean]
         md += ["\n| metric | value |", "|---|---|",
-               f"| decision accuracy (approve / needs_review / reject) | {pct(s['decision_accuracy'])} |",
+               f"| decision accuracy (approve / needs_review / reject) | {fmt_ci(*bootstrap_ci(dec))} |",
                f"| clean claims (no planted error, no natural breach) | {fa['n_clean_claims']} |",
-               f"| false alarms: clean claim flagged with an issue | {fa['flagged_with_an_issue']} ({pct(fa['false_alarm_rate_issues'])}) |",
+               f"| false alarms: clean claim flagged with an issue | {fa['flagged_with_an_issue']} ({fmt_ci(*bootstrap_ci(fa_flags))}) |",
                f"| clean claims held only because the receipt was hard to read | {fa['held_for_readability_only']} |",
                f"| rule-check issues raised / dropped by verifier | {s['verifier']['rule_issues_raised']} / {s['verifier']['dropped']} |",
                f"| mean cost per claim | ${s['mean_cost_usd_per_claim']:.4f} |",
                f"| mean seconds per claim (uncached) | {s['mean_seconds_per_claim_uncached']} |"]
+    run1 = sorted(glob.glob(str(RES / f"run1_checks_{split}_*.json")))
+    if run1 and checks:
+        r1 = json.load(open(run1[0]))["summary"]; r2 = checks["summary"]
+        def line(name, f):
+            return f"| {name} | {f(r1)} | {f(r2)} |"
+        md += ["\n### Run 1 vs run 2 (same test claims, before and after the fixes from the error analysis)\n",
+               "| metric | run 1 | run 2 |", "|---|---|---|",
+               line("planted errors caught", lambda x: f"{sum(v['caught'] for v in x['planted'].values())}/{sum(v['n'] for v in x['planted'].values())}"),
+               line("decision accuracy", lambda x: pct(x["decision_accuracy"])),
+               line("false alarms (clean claims flagged)", lambda x: f"{x['false_alarms']['flagged_with_an_issue']}/{x['false_alarms']['n_clean_claims']}"),
+               line("rule-check issues dropped by verifier", lambda x: str(x["verifier"]["dropped"])),
+               line("mean cost per claim", lambda x: f"${x['mean_cost_usd_per_claim']:.4f}"),
+               "\nRun 2 is reported because the three fixes were motivated by failures seen in run 1; both are kept so the effect is visible and the second run is not mistaken for a first."]
     if drafts:
         s = drafts["summary"]
         md += [f"\n### Drafts: LLM-as-judge (`{s['judge_model']}` scoring `{s['agent_model']}` drafts, 1–5)\n",

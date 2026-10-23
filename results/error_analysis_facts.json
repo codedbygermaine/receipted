@@ -1,23 +1,5 @@
 [
  {
-  "kind": "missed planted error",
-  "claim_id": "TES-032",
-  "receipt_id": "test_032",
-  "image": "data/images/test/test_032.png",
-  "planted": "policy_breach",
-  "planted_detail": {
-   "clause": "C1",
-   "detail": "no purpose stated"
-  },
-  "natural": [],
-  "expected": "needs_review",
-  "predicted": "approve",
-  "reason": "no issues found and the receipt is clear",
-  "readability": "clear",
-  "issues": [],
-  "dropped": []
- },
- {
   "kind": "false alarm",
   "claim_id": "TES-000",
   "receipt_id": "test_000",
@@ -34,14 +16,17 @@
     "line_arithmetic",
     null,
     "2 x 60000 = 120000, but the line shows 60000"
-   ],
-   [
-    "price_above_list",
-    "dept01",
-    "The unit price of 60000 for TICKET CP is above the agreed maximum of 24500 for dept01. Check the unit price against the price list before approving."
    ]
   ],
-  "dropped": []
+  "dropped": [
+   {
+    "type": "price_above_list",
+    "clause_id": null,
+    "price_item": "dept01",
+    "receipt_line": "901016 -TICKET CP 2 [blurred] 60.000 60.000",
+    "why": "price-list item 'dept01' does not look like receipt item 'TICKET CP' (similarity 36)"
+   }
+  ]
  },
  {
   "kind": "false alarm",
@@ -56,27 +41,6 @@
   "reason": "no issues found, but parts of the receipt were hard to read",
   "readability": "partly unclear",
   "issues": [],
-  "dropped": []
- },
- {
-  "kind": "false alarm",
-  "claim_id": "TES-011",
-  "receipt_id": "test_011",
-  "image": "data/images/test/test_011.png",
-  "planted": null,
-  "planted_detail": null,
-  "natural": [],
-  "expected": "approve",
-  "predicted": "needs_review",
-  "reason": "medium-severity issues need a human decision",
-  "readability": "clear",
-  "issues": [
-   [
-    "price_above_list",
-    "almond cream cheese",
-    "The receipt line totals 230,000 for one cake, while the closest retrieved price-list row (almond cream cheese) has an agreed maximum of 31,000. The price is well above the list and should be reviewed against the actual item."
-   ]
-  ],
   "dropped": []
  },
  {
@@ -96,6 +60,53 @@
     "personal_item_clothing",
     "C6",
     "BLUS WANITA is clothing, which is a personal item and not reimbursable under C6. This 120,000 IDR line should be rejected, and the claim's stated purpose (food for volunteers) does not match the receipt."
+   ]
+  ],
+  "dropped": []
+ },
+ {
+  "kind": "false alarm",
+  "claim_id": "TES-013",
+  "receipt_id": "test_013",
+  "image": "data/images/test/test_013.png",
+  "planted": null,
+  "planted_detail": null,
+  "natural": [],
+  "expected": "approve",
+  "predicted": "needs_review",
+  "reason": "medium-severity issues need a human decision",
+  "readability": "partly unclear",
+  "issues": [
+   [
+    "totals_arithmetic",
+    null,
+    "46636 + tax 0 + service 0 - discount 0 = 46636, but total shows 51300"
+   ]
+  ],
+  "dropped": []
+ },
+ {
+  "kind": "false alarm",
+  "claim_id": "TES-020",
+  "receipt_id": "test_020",
+  "image": "data/images/test/test_020.png",
+  "planted": null,
+  "planted_detail": null,
+  "natural": [],
+  "expected": "approve",
+  "predicted": "needs_review",
+  "reason": "medium-severity issues need a human decision",
+  "readability": "partly unclear",
+  "issues": [
+   [
+    "meal_per_person_above_limit",
+    "C12",
+    "The claim is IDR 377,859 for 2 people, about IDR 188,929 per person, which is above the IDR 150,000 per-person limit, so the claim is held for review. The number of people is stated, so that requirement is met."
+   ],
+   [
+    "price_above_list",
+    "rice",
+    "Steamed rice is billed at about IDR 11,900 per unit (47,600 / 4), which is above the agreed maximum of IDR 7,500 for rice on the price list."
    ]
   ],
   "dropped": []

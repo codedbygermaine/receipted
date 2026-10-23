@@ -13,7 +13,8 @@ from langgraph.graph import END, START, StateGraph
 
 from receipted import llm, maths
 from receipted.draft import write_draft
-from receipted.extract import ExtractionError, extract
+from receipted.duplicates import duplicate_issue, find_duplicate, image_fingerprint, register
+from receipted.extract import ExtractionError, extract, prepare_image
 from receipted.retrieve import load_policy_clauses, load_price_list, retrieve_for
 from receipted.rules import check_rules
 from receipted.verify import verify
@@ -23,6 +24,8 @@ class State(TypedDict, total=False):
     image_path: str
     claim: dict
     model: str
+    register: bool            # remember this claim for duplicate detection (CLI/app/MCP yes, eval runs no)
+    fingerprint: str
     receipt: dict | None
     extraction_meta: dict
     error: str | None
@@ -65,7 +68,8 @@ def node_extract(state):
         return {"receipt": None, "error": str(e), "extraction_meta": {},
                 "_summary": f"extraction failed: {e}"}
     meta = {k: getattr(r, k) for k in ("model", "input_tokens", "output_tokens", "latency_s", "cost_usd", "attempts", "cached")}
-    return {"receipt": r.receipt, "error": None, "extraction_meta": meta,
+    fingerprint = image_fingerprint(prepare_image(state["image_path"])[0])
+    return {"receipt": r.receipt, "error": None, "extraction_meta": meta, "fingerprint": fingerprint,
             "_summary": f"{len(r.receipt['items'])} items, total={r.receipt['total']}, readability={r.receipt['readability']}"}
 
 
@@ -78,6 +82,9 @@ def route_after_extract(state) -> str:
 @traced("maths_check")
 def node_maths(state):
     issues = maths.check_receipt(state["receipt"]) + maths.check_claim(state["claim"], state["receipt"])
+    match = find_duplicate(state["fingerprint"], state["receipt"], claim_id=state["claim"].get("claim_id"))
+    if match:
+        issues.append(duplicate_issue(match))
     return {"maths_issues": issues, "_summary": f"{len(issues)} issues: {[i['type'] for i in issues]}"}
 
 
@@ -125,6 +132,8 @@ def decide(receipt, error, issues) -> tuple[str, str]:
 @traced("decide")
 def node_decide(state):
     decision, reason = decide(state.get("receipt"), state.get("error"), state.get("verified_issues", []))
+    if state.get("register") and state.get("receipt") and state.get("fingerprint"):
+        register(state["claim"].get("claim_id") or "unknown", state["fingerprint"], state["receipt"], decision)
     return {"decision": decision, "decision_reason": reason, "_summary": f"{decision}: {reason}"}
 
 
@@ -159,13 +168,15 @@ def build_graph():
 _graph = None
 
 
-def run_claim(image_path: str, claim: dict, model: str = llm.DEFAULT_MODEL) -> dict:
-    """Run one receipt + claim through the graph. Returns the final state, with totals added."""
+def run_claim(image_path: str, claim: dict, model: str = llm.DEFAULT_MODEL, register: bool = False) -> dict:
+    """Run one receipt + claim through the graph. Returns the final state, with totals added.
+    register=True records the claim for duplicate detection; eval runs leave it False."""
     global _graph
     if _graph is None:
         _graph = build_graph()
     t0 = time.perf_counter()
-    state = _graph.invoke({"image_path": str(image_path), "claim": claim, "model": model, "trace": []})
+    state = _graph.invoke({"image_path": str(image_path), "claim": claim, "model": model, "register": register,
+                           "fingerprint": "", "trace": []})
     state["total_seconds"] = round(time.perf_counter() - t0, 2)
     state["total_cost_usd"] = round(sum(e.get("cost_usd") or 0 for e in state["trace"]), 6)
     state.setdefault("verified_issues", [])

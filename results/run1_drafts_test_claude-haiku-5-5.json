@@ -1,0 +1,1359 @@
+{
+ "summary": {
+  "split": "test",
+  "agent_model": "claude-haiku-5-5",
+  "judge_model": "claude-opus-5-5",
+  "n_drafts": 100,
+  "mean_accuracy": 4.55,
+  "mean_evidence": 4.9,
+  "mean_clarity": 4.71,
+  "mean_tone": 4.95,
+  "dist_accuracy": {
+   "1": 2,
+   "2": 1,
+   "3": 2,
+   "4": 30,
+   "5": 65
+  },
+  "dist_evidence": {
+   "1": 0,
+   "2": 0,
+   "3": 1,
+   "4": 8,
+   "5": 91
+  },
+  "dist_clarity": {
+   "1": 0,
+   "2": 0,
+   "3": 6,
+   "4": 17,
+   "5": 77
+  },
+  "dist_tone": {
+   "1": 0,
+   "2": 0,
+   "3": 0,
+   "4": 5,
+   "5": 95
+  },
+  "n_accuracy_below_4": 5,
+  "judge_total_cost_usd": 1.3088,
+  "human_sample": [
+   "TES-032",
+   "TES-033",
+   "TES-099",
+   "TES-025",
+   "TES-068",
+   "TES-045",
+   "TES-030",
+   "TES-073",
+   "TES-046",
+   "TES-002"
+  ],
+  "human_vs_judge_agreement": {
+   "status": "human_scores not filled in yet"
+  }
+ },
+ "drafts": [
+  {
+   "claim_id": "TES-000",
+   "predicted": "needs_review",
+   "planted_error": null,
+   "scores": {
+    "accuracy": 5,
+    "evidence": 4,
+    "clarity": 5,
+    "tone": 5,
+    "justification": "All amounts, the two issues and the needs_review decision match the facts, with nothing unsupported added. The arithmetic bullet gives full numbers but does not identify the receipt line (901016 TICKET CP), unlike the price bullet, which names the item and dept01."
+   },
+   "cost_usd": 0.018148
+  },
+  {
+   "claim_id": "TES-001",
+   "predicted": "reject",
+   "planted_error": "wrong_quantity",
+   "scores": {
+    "accuracy": 5,
+    "evidence": 5,
+    "clarity": 4,
+    "tone": 5,
+    "justification": "All figures (137000 claimed, 91000 receipt, 46000 difference), clause C4 and the rejection match the facts, and the 'or less' option is supported by the C4 text. Clarity loses a point because the two options largely overlap, and 'once the amount matches the receipt' slightly conflicts with 'or less'."
+   },
+   "cost_usd": 0.01632
+  },
+  {
+   "claim_id": "TES-002",
+   "predicted": "reject",
+   "planted_error": "wrong_quantity",
+   "scores": {
+    "accuracy": 5,
+    "evidence": 5,
+    "clarity": 5,
+    "tone": 5,
+    "justification": "All figures (76000 vs 28000, difference 48000, line sum 72000, 3 vs 1 JASMINE MT (L) at 24,000), clause ids C4 and C9, and the rejection decision match the facts, and nothing unsupported is added. The message is concise, merges the duplicate maths and rules issues cleanly, gives clear resubmission steps, and stays courteous."
+   },
+   "cost_usd": 0.01686
+  },
+  {
+   "claim_id": "TES-003",
+   "predicted": "approve",
+   "planted_error": null,
+   "scores": {
+    "accuracy": 4,
+    "evidence": 5,
+    "clarity": 5,
+    "tone": 5,
+    "justification": "The claim ID, amount, matching receipt total and approval all match the facts. However, 'will be paid' is a small addition: the facts record an approval but say nothing about payment."
+   },
+   "cost_usd": 0.01066
+  },
+  {
+   "claim_id": "TES-004",
+   "predicted": "needs_review",
+   "planted_error": null,
+   "scores": {
+    "accuracy": 5,
+    "evidence": 5,
+    "clarity": 5,
+    "tone": 5,
+    "justification": "The message correctly states the claim ID, the IDR 174,600 amount, the needs_review decision and the hard-to-read reason, and invents no problems; with no verified issues, noting that the claim matches the receipt total is sufficient evidence. The request for a clearer receipt is a reasonable next step rather than an unsupported fact, and the message is concise, actionable and courteous."
+   },
+   "cost_usd": 0.012832
+  },
+  {
+   "claim_id": "TES-005",
+   "predicted": "needs_review",
+   "planted_error": "policy_breach",
+   "scores": {
+    "accuracy": 5,
+    "evidence": 5,
+    "clarity": 5,
+    "tone": 5,
+    "justification": "The message matches the facts exactly: claim TES-005, IDR 31,000, no stated purpose under clause C1, and a hold pending review, with nothing added. It gives a clear next step in under 150 words and a courteous, neutral tone; there are no unsupported statements."
+   },
+   "cost_usd": 0.008584
+  },
+  {
+   "claim_id": "TES-006",
+   "predicted": "reject",
+   "planted_error": "inflated_amount",
+   "scores": {
+    "accuracy": 5,
+    "evidence": 5,
+    "clarity": 5,
+    "tone": 5,
+    "justification": "The message correctly states the rejection and the only verified issue, with exact figures: claimed IDR 58,000 vs receipt IDR 46,000, a difference of 12,000. It gives clear next steps, is concise and courteous, and makes no unsupported statements; no clause or receipt line applies."
+   },
+   "cost_usd": 0.0115
+  },
+  {
+   "claim_id": "TES-007",
+   "predicted": "needs_review",
+   "planted_error": null,
+   "scores": {
+    "accuracy": 1,
+    "evidence": 4,
+    "clarity": 3,
+    "tone": 5,
+    "justification": "The message says the IDR 11,000 difference 'matches' the IDR 10,091 tax and service, and that adding a 10,091 line would make the lines total 111,000. Both are false: 100,000 + 10,091 = 110,091, so the facts do not support either statement. Tone is courteous and the next steps are concrete, but they rest on this incorrect arithmetic."
+   },
+   "cost_usd": 0.015308
+  },
+  {
+   "claim_id": "TES-008",
+   "predicted": "approve",
+   "planted_error": null,
+   "scores": {
+    "accuracy": 4,
+    "evidence": 5,
+    "clarity": 5,
+    "tone": 5,
+    "justification": "The claim ID, amount, approval decision and receipt match are all correct. However, \"will be paid\" is not stated in the facts; it is a minor added assumption beyond the approval decision."
+   },
+   "cost_usd": 0.010552
+  },
+  {
+   "claim_id": "TES-009",
+   "predicted": "needs_review",
+   "planted_error": "policy_breach",
+   "scores": {
+    "accuracy": 5,
+    "evidence": 5,
+    "clarity": 5,
+    "tone": 4,
+    "justification": "The message matches the facts: claim TES-009, IDR 36,000, held for review under C1 for no stated purpose, with a clear request for the purpose and no added issues. The only flaw is the treasurer awkwardly referring to themselves in the third person ('Once the treasurer receives it')."
+   },
+   "cost_usd": 0.013944
+  },
+  {
+   "claim_id": "TES-010",
+   "predicted": "approve",
+   "planted_error": null,
+   "scores": {
+    "accuracy": 5,
+    "evidence": 5,
+    "clarity": 5,
+    "tone": 5,
+    "justification": "The message correctly states the approval, the claim ID, the IDR 17,000 claimed amount matching the receipt, and that no issues were found, with nothing invented. Evidence is fully satisfied because there are no problems to cite, and the message is concise and courteous. The phrase 'will be paid' is a reasonable implication of the approval decision."
+   },
+   "cost_usd": 0.007948
+  },
+  {
+   "claim_id": "TES-011",
+   "predicted": "needs_review",
+   "planted_error": null,
+   "scores": {
+    "accuracy": 5,
+    "evidence": 5,
+    "clarity": 5,
+    "tone": 5,
+    "justification": "The claim ID, amount, receipt line, price-list item, 31,000 maximum and needs-review decision all match the facts, and no unsupported statement appears; the clause ID is correctly omitted because it is null. The message is concise, courteous and gives a clear next step: send an itemised invoice or an explanation of the price."
+   },
+   "cost_usd": 0.012572
+  },
+  {
+   "claim_id": "TES-012",
+   "predicted": "reject",
+   "planted_error": null,
+   "scores": {
+    "accuracy": 4,
+    "evidence": 5,
+    "clarity": 4,
+    "tone": 5,
+    "justification": "Item, amount, clause C6, the purpose mismatch and the rejection all match the facts. However, the resubmission guidance is not in the facts and is misleading: the option to 'correct the claim so it reflects what was actually bought' would still be a non-reimbursable clothing claim under C6."
+   },
+   "cost_usd": 0.014128
+  },
+  {
+   "claim_id": "TES-013",
+   "predicted": "needs_review",
+   "planted_error": null,
+   "scores": {
+    "accuracy": 5,
+    "evidence": 5,
+    "clarity": 5,
+    "tone": 4,
+    "justification": "All figures match the facts: subtotal IDR 46,636, total IDR 51,300, and a correctly derived IDR 4,664 difference, with the needs_review decision rendered as 'on hold for review'. The next step is clear, but 'There is no clause reference for this issue' is internal jargon that means nothing to the member."
+   },
+   "cost_usd": 0.015868
+  },
+  {
+   "claim_id": "TES-014",
+   "predicted": "needs_review",
+   "planted_error": null,
+   "scores": {
+    "accuracy": 4,
+    "evidence": 5,
+    "clarity": 5,
+    "tone": 5,
+    "justification": "All figures, receipt lines and the needs_review status match the facts. However, the offer to 'reimburse at the agreed maximums once the total is confirmed' commits to an outcome the facts leave open, since they say only that the excess may need to be justified or reduced and the decision awaits a human reviewer."
+   },
+   "cost_usd": 0.016672
+  },
+  {
+   "claim_id": "TES-015",
+   "predicted": "approve",
+   "planted_error": null,
+   "scores": {
+    "accuracy": 5,
+    "evidence": 5,
+    "clarity": 5,
+    "tone": 5,
+    "justification": "The message accurately states the approval, the claimed amount of IDR 63,000, its match with the receipt total, and that no issues were found, all consistent with the facts. 'Will be paid' is a reasonable implication of approval, and the message is concise, polite and needs no further action."
+   },
+   "cost_usd": 0.007492
+  },
+  {
+   "claim_id": "TES-016",
+   "predicted": "reject",
+   "planted_error": "item_not_on_receipt",
+   "scores": {
+    "accuracy": 5,
+    "evidence": 5,
+    "clarity": 5,
+    "tone": 5,
+    "justification": "Every figure (88000 vs 70000, the 18000 difference), clause C4, the unmatched item with its closest receipt line, and the reject decision match the facts, with no unsupported statement. The message merges the duplicate C4 and maths issues, gives clear resubmission steps in about 110 words, and stays courteous and neutral."
+   },
+   "cost_usd": 0.014832
+  },
+  {
+   "claim_id": "TES-017",
+   "predicted": "needs_review",
+   "planted_error": "totals_mismatch",
+   "scores": {
+    "accuracy": 5,
+    "evidence": 5,
+    "clarity": 4,
+    "tone": 5,
+    "justification": "All figures (lines 96,000 vs claimed 91,000) and the needs_review decision match the facts, and no clause or receipt line exists to cite. Clarity is slightly reduced because the message invites a 96,000 claim even though the receipt totals 91,000, which makes the next step a little ambiguous."
+   },
+   "cost_usd": 0.014484
+  },
+  {
+   "claim_id": "TES-018",
+   "predicted": "reject",
+   "planted_error": "inflated_amount",
+   "scores": {
+    "accuracy": 5,
+    "evidence": 5,
+    "clarity": 5,
+    "tone": 5,
+    "justification": "All figures (201,000 claimed, 156,000 receipt, 45,000 difference), clause C4 and the reject decision match the facts exactly, with a clear next step and nothing unsupported added. The message is well under 150 words and courteous."
+   },
+   "cost_usd": 0.009292
+  },
+  {
+   "claim_id": "TES-019",
+   "predicted": "approve",
+   "planted_error": null,
+   "scores": {
+    "accuracy": 4,
+    "evidence": 5,
+    "clarity": 5,
+    "tone": 5,
+    "justification": "The claim ID, the IDR 176,000 amount, the receipt match, the approval and the absence of issues all match the facts. The phrase \"will be paid\" is not stated in the facts; it is a reasonable implication of approval but still an addition. The message is concise, clear and courteous."
+   },
+   "cost_usd": 0.010452
+  },
+  {
+   "claim_id": "TES-020",
+   "predicted": "needs_review",
+   "planted_error": null,
+   "scores": {
+    "accuracy": 4,
+    "evidence": 5,
+    "clarity": 5,
+    "tone": 5,
+    "justification": "All figures, clause C12 and the needs_review decision match the facts. The suggestion that an approved activity could justify a higher per-person amount is unsupported: C12 only says meals must be part of an approved activity and that claims above IDR 150,000 per person are held for review."
+   },
+   "cost_usd": 0.016872
+  },
+  {
+   "claim_id": "TES-021",
+   "predicted": "needs_review",
+   "planted_error": null,
+   "scores": {
+    "accuracy": 4,
+    "evidence": 4,
+    "clarity": 5,
+    "tone": 4,
+    "justification": "The amounts (38,000 claimed and matching the receipt, 35,000 paid vs 33,000 maximum, 2,000 difference) match the facts, but the resubmission total of 36,000 IDR is the writer's own calculation rather than a stated fact. The receipt line is not quoted, and 'The treasurer needs to check' reads awkwardly in a message signed by the treasurer."
+   },
+   "cost_usd": 0.017264
+  },
+  {
+   "claim_id": "TES-022",
+   "predicted": "approve",
+   "planted_error": null,
+   "scores": {
+    "accuracy": 4,
+    "evidence": 5,
+    "clarity": 5,
+    "tone": 5,
+    "justification": "The claim ID, the IDR 40,000 amount, the matching receipt total, the approval and the absence of issues all match the facts. The phrase 'will be paid' is a small addition: the facts record approval only, not a payment commitment."
+   },
+   "cost_usd": 0.010204
+  },
+  {
+   "claim_id": "TES-023",
+   "predicted": "approve",
+   "planted_error": null,
+   "scores": {
+    "accuracy": 4,
+    "evidence": 5,
+    "clarity": 5,
+    "tone": 5,
+    "justification": "The claim ID, the IDR 63,000 amount, the matching receipt total, the approval and the absence of issues all match the facts. The promise that the claim 'will be paid' is a small addition that is not stated in the facts."
+   },
+   "cost_usd": 0.010624
+  },
+  {
+   "claim_id": "TES-024",
+   "predicted": "approve",
+   "planted_error": null,
+   "scores": {
+    "accuracy": 5,
+    "evidence": 5,
+    "clarity": 5,
+    "tone": 5,
+    "justification": "The message states the claim ID, amount, decision and the match with the receipt exactly as in the facts. Since there are no verified issues, citing the matching IDR 118,000 claimed and receipt totals is sufficient evidence. It is concise, courteous and needs no follow-up from the member."
+   },
+   "cost_usd": 0.007548
+  },
+  {
+   "claim_id": "TES-025",
+   "predicted": "reject",
+   "planted_error": "item_not_on_receipt",
+   "scores": {
+    "accuracy": 5,
+    "evidence": 5,
+    "clarity": 5,
+    "tone": 5,
+    "justification": "The decision, amounts, difference and unmatched item all match the verified issues, and no clause ids exist to cite. The next steps are clear, the message is concise and courteous, and calling 'A.MINERAL BOTOL' 'mineral water' is a reasonable paraphrase rather than an invented fact."
+   },
+   "cost_usd": 0.014628
+  },
+  {
+   "claim_id": "TES-026",
+   "predicted": "reject",
+   "planted_error": "item_not_on_receipt",
+   "scores": {
+    "accuracy": 5,
+    "evidence": 5,
+    "clarity": 3,
+    "tone": 5,
+    "justification": "All three verified issues and their figures (150000 vs 138000, difference 12000; lines 142000 vs claimed 150000; 'OYONG 3 TELOR' not on receipt) and the rejection are stated correctly, with nothing invented. However, the next step asks the member to match the claimed amount to both the receipt total (138000) and the claim lines (142000), which disagree with each other, so the required correction is unclear."
+   },
+   "cost_usd": 0.015612
+  },
+  {
+   "claim_id": "TES-027",
+   "predicted": "approve",
+   "planted_error": null,
+   "scores": {
+    "accuracy": 5,
+    "evidence": 5,
+    "clarity": 5,
+    "tone": 5,
+    "justification": "The claim ID, the IDR 61,600 amount, the receipt match, the absence of issues and the approval all match the facts, and there are no problems that would need evidence. The phrase \"will be paid\" goes slightly beyond the facts but follows directly from the approval, so it is not counted as an invented statement."
+   },
+   "cost_usd": 0.010984
+  },
+  {
+   "claim_id": "TES-028",
+   "predicted": "reject",
+   "planted_error": "totals_mismatch",
+   "scores": {
+    "accuracy": 2,
+    "evidence": 4,
+    "clarity": 3,
+    "tone": 5,
+    "justification": "The message says the 'difference of IDR 57,195' matches tax and service, but 426,195 − 395,000 is 31,195; the facts give only the 57,195 tax-and-service figure, so this matching claim is unsupported. It also announces 'two problems' and then raises a third (C12), runs well over 150 words, and gives vague maths next steps ('claim the amount that matches your claim lines, or correct the total'), though the tone stays courteous."
+   },
+   "cost_usd": 0.020164
+  },
+  {
+   "claim_id": "TES-029",
+   "predicted": "approve",
+   "planted_error": null,
+   "scores": {
+    "accuracy": 4,
+    "evidence": 5,
+    "clarity": 5,
+    "tone": 5,
+    "justification": "The claim ID, amount, matching receipt total and approval all match the facts, and with no issues to report the evidence is sufficient. The phrase 'will be paid' is a small addition: the facts record only the approval decision, not payment."
+   },
+   "cost_usd": 0.011732
+  },
+  {
+   "claim_id": "TES-030",
+   "predicted": "needs_review",
+   "planted_error": "policy_breach",
+   "scores": {
+    "accuracy": 5,
+    "evidence": 5,
+    "clarity": 4,
+    "tone": 5,
+    "justification": "The amount (IDR 31,500), clause C1, the missing-purpose issue and the needs-review hold all match the facts, and nothing is invented. The phrase 'if possible' weakens the C1 requirement that the purpose be tied to an approved club activity or business need, which makes the required action slightly less clear."
+   },
+   "cost_usd": 0.014576
+  },
+  {
+   "claim_id": "TES-031",
+   "predicted": "needs_review",
+   "planted_error": null,
+   "scores": {
+    "accuracy": 5,
+    "evidence": 5,
+    "clarity": 5,
+    "tone": 5,
+    "justification": "The claim amount, the needs-review decision and both arithmetic issues match the facts exactly, with every figure given (no clause ids or receipt lines exist to cite). The requested next step (send a corrected receipt or an explanatory note) is clear and courteous, and adds no unsupported fact."
+   },
+   "cost_usd": 0.01292
+  },
+  {
+   "claim_id": "TES-032",
+   "predicted": "approve",
+   "planted_error": "policy_breach",
+   "scores": {
+    "accuracy": 5,
+    "evidence": 5,
+    "clarity": 5,
+    "tone": 5,
+    "justification": "The message correctly states the approval, the IDR 24,000 amount matching the receipt total, and that no issues were found, all consistent with the facts. No problems needed evidencing, and the message is short, clear and courteous; 'will be paid' is a reasonable implication of approval rather than an invented fact."
+   },
+   "cost_usd": 0.007636
+  },
+  {
+   "claim_id": "TES-033",
+   "predicted": "needs_review",
+   "planted_error": "totals_mismatch",
+   "scores": {
+    "accuracy": 5,
+    "evidence": 5,
+    "clarity": 4,
+    "tone": 5,
+    "justification": "Every figure, the three issues and the needs_review decision match the facts exactly, and no clause or receipt-line ids exist to cite. Clarity loses a point because the bare 'tax and service come to -36,373' figure is unexplained and likely to confuse the member, and one generic next step covers all three problems."
+   },
+   "cost_usd": 0.013904
+  },
+  {
+   "claim_id": "TES-034",
+   "predicted": "approve",
+   "planted_error": null,
+   "scores": {
+    "accuracy": 4,
+    "evidence": 5,
+    "clarity": 5,
+    "tone": 5,
+    "justification": "The claim ID, IDR 93,500 amount, receipt match, approval decision and absence of issues all match the facts. However, \"will be paid\" is a minor addition that the facts do not state."
+   },
+   "cost_usd": 0.01054
+  },
+  {
+   "claim_id": "TES-035",
+   "predicted": "needs_review",
+   "planted_error": null,
+   "scores": {
+    "accuracy": 5,
+    "evidence": 5,
+    "clarity": 5,
+    "tone": 5,
+    "justification": "The message correctly states the matching IDR 54,000 amounts, the needs_review decision, and the illegibility reason, with no invented issues. The request for a clearer copy is a reasonable next step rather than an unsupported factual claim."
+   },
+   "cost_usd": 0.01084
+  },
+  {
+   "claim_id": "TES-036",
+   "predicted": "needs_review",
+   "planted_error": "policy_breach",
+   "scores": {
+    "accuracy": 5,
+    "evidence": 5,
+    "clarity": 5,
+    "tone": 5,
+    "justification": "The message matches the facts: claim TES-036, IDR 40,000, held for review, and the single verified issue (purpose missing under clause C1), with no invented problems. It cites the clause, states one clear next step, stays well under 150 words, and is courteous and neutral."
+   },
+   "cost_usd": 0.011816
+  },
+  {
+   "claim_id": "TES-037",
+   "predicted": "needs_review",
+   "planted_error": "policy_breach",
+   "scores": {
+    "accuracy": 5,
+    "evidence": 5,
+    "clarity": 5,
+    "tone": 5,
+    "justification": "The message matches the facts: IDR 20,000 claimed matches the receipt, the claim is held for review, and the only issue is the missing purpose under clause C1. It names that clause, gives the amounts, states a clear next step in under 150 words, and stays courteous. No statement is unsupported."
+   },
+   "cost_usd": 0.014172
+  },
+  {
+   "claim_id": "TES-038",
+   "predicted": "needs_review",
+   "planted_error": null,
+   "scores": {
+    "accuracy": 4,
+    "evidence": 5,
+    "clarity": 4,
+    "tone": 5,
+    "justification": "Decision, amounts, the 3-person split and clauses C7/C12 all match the facts. However, asking the member to confirm the meal was part of an approved activity goes beyond the verified issues, since no such problem was flagged. The request for 'any supporting detail' is also somewhat vague as a next step."
+   },
+   "cost_usd": 0.015808
+  },
+  {
+   "claim_id": "TES-039",
+   "predicted": "reject",
+   "planted_error": "wrong_quantity",
+   "scores": {
+    "accuracy": 5,
+    "evidence": 5,
+    "clarity": 4,
+    "tone": 5,
+    "justification": "All figures, clause ids (C4, C9, C12) and the reject decision match the facts, with nothing added, and each problem cites its numbers and clause. Clarity loses a point because the meal item says only that it is 'held for review', with no next step for the member, such as confirming the meal was part of an approved activity."
+   },
+   "cost_usd": 0.01826
+  },
+  {
+   "claim_id": "TES-040",
+   "predicted": "needs_review",
+   "planted_error": null,
+   "scores": {
+    "accuracy": 5,
+    "evidence": 5,
+    "clarity": 5,
+    "tone": 5,
+    "justification": "The message correctly states that IDR 68,000 claimed matches the 68,000 receipt total, that no issues were found, and that the claim needs review because parts of the receipt were hard to read; no problems are invented. Asking for a clearer copy is a reasonable next step rather than an unsupported fact, and the message is concise and courteous."
+   },
+   "cost_usd": 0.012512
+  },
+  {
+   "claim_id": "TES-041",
+   "predicted": "needs_review",
+   "planted_error": null,
+   "scores": {
+    "accuracy": 4,
+    "evidence": 5,
+    "clarity": 5,
+    "tone": 5,
+    "justification": "Every issue, clause ID, unit price and maximum matches the facts, and the decision is correctly stated as on hold for review. The Chicken Maryland excess of IDR 2,119 per item is not stated in the facts; it is correctly derived (47,619 − 45,500) but is still an added figure."
+   },
+   "cost_usd": 0.019828
+  },
+  {
+   "claim_id": "TES-042",
+   "predicted": "needs_review",
+   "planted_error": "policy_breach",
+   "scores": {
+    "accuracy": 5,
+    "evidence": 5,
+    "clarity": 5,
+    "tone": 5,
+    "justification": "The message matches the facts. It gives the correct claim amount and hold-for-review decision, the 15,000 vs 16,500 totals discrepancy (a correctly derived 1,500 difference), and the missing purpose under C1. Each issue cites its numbers or clause, the next steps are clear in under 150 words, and the tone is courteous and neutral."
+   },
+   "cost_usd": 0.015256
+  },
+  {
+   "claim_id": "TES-043",
+   "predicted": "needs_review",
+   "planted_error": "totals_mismatch",
+   "scores": {
+    "accuracy": 5,
+    "evidence": 5,
+    "clarity": 5,
+    "tone": 5,
+    "justification": "All figures (claim lines IDR 247,000, claimed and receipt total IDR 165,000, tax and service IDR 15,000) and the needs-review decision match the facts, with no invented problems; no clause or receipt line applies. The message is concise, gives a clear next step, and is courteous."
+   },
+   "cost_usd": 0.012436
+  },
+  {
+   "claim_id": "TES-044",
+   "predicted": "reject",
+   "planted_error": "inflated_amount",
+   "scores": {
+    "accuracy": 5,
+    "evidence": 5,
+    "clarity": 5,
+    "tone": 5,
+    "justification": "Every figure matches the facts: claimed IDR 35000, receipt IDR 30000, difference IDR 5000, clause C4, and the rejection. The message adds no unsupported statement and gives a clear, concise next step: resubmit for IDR 30000 or less."
+   },
+   "cost_usd": 0.012092
+  },
+  {
+   "claim_id": "TES-045",
+   "predicted": "reject",
+   "planted_error": "inflated_amount",
+   "scores": {
+    "accuracy": 5,
+    "evidence": 5,
+    "clarity": 5,
+    "tone": 5,
+    "justification": "Every figure (103,000 claimed, 88,000 receipt, 15,000 difference, C4, Roti Keju Manis 7,000 vs 5,500 'roti') and the reject decision match the facts; the IDR 1,500 excess is correctly derived (7,000 − 5,500, qty 1) and is not an invented claim. The message merges the duplicate maths and rules issues into one point, gives clear next steps in about 110 words, and stays courteous and neutral."
+   },
+   "cost_usd": 0.017108
+  },
+  {
+   "claim_id": "TES-046",
+   "predicted": "reject",
+   "planted_error": "item_not_on_receipt",
+   "scores": {
+    "accuracy": 5,
+    "evidence": 5,
+    "clarity": 5,
+    "tone": 5,
+    "justification": "The decision, the amounts (85,000 vs 40,000, a 45,000 difference) and the unmatched 'CHANGE TO CHICKEN BOX' item all match the verified issues, and no clause ids or receipt lines exist to cite. The resubmission advice is not stated in the facts, but it is a reasonable next step rather than an invented problem, and the message is concise and courteous."
+   },
+   "cost_usd": 0.013652
+  },
+  {
+   "claim_id": "TES-047",
+   "predicted": "reject",
+   "planted_error": "inflated_amount",
+   "scores": {
+    "accuracy": 5,
+    "evidence": 5,
+    "clarity": 4,
+    "tone": 4,
+    "justification": "All amounts (85,000 vs 63,000, difference 22,000; unit price 45,000 vs maximum 12,500, dept01 at 24,500) and the rejection match the facts. Each problem cites its numbers and the COPIA 1 /GB receipt line. However, 'The price has no clause reference' is internal jargon that is unhelpful to the member, and the closing partly repeats the next steps."
+   },
+   "cost_usd": 0.015348
+  },
+  {
+   "claim_id": "TES-048",
+   "predicted": "needs_review",
+   "planted_error": "totals_mismatch",
+   "scores": {
+    "accuracy": 4,
+    "evidence": 5,
+    "clarity": 5,
+    "tone": 5,
+    "justification": "Figures and the needs_review decision match the facts. However, the statement that the IDR 2,272 tax and service 'does not account for the difference' is an inference not found in the verified issue, though it is arithmetically true (8,000 gap). The resubmit instruction is reasonable guidance but goes slightly beyond a decision that awaits a human ruling."
+   },
+   "cost_usd": 0.014164
+  },
+  {
+   "claim_id": "TES-049",
+   "predicted": "approve",
+   "planted_error": null,
+   "scores": {
+    "accuracy": 4,
+    "evidence": 5,
+    "clarity": 5,
+    "tone": 5,
+    "justification": "The claim ID, the IDR 23,000 amount, the receipt match and the approval all agree with the facts. The statement that the claim 'will be paid' is a mild addition not stated in the facts, though approval implies it."
+   },
+   "cost_usd": 0.010656
+  },
+  {
+   "claim_id": "TES-050",
+   "predicted": "approve",
+   "planted_error": null,
+   "scores": {
+    "accuracy": 4,
+    "evidence": 5,
+    "clarity": 5,
+    "tone": 5,
+    "justification": "The claim ID, amount, matching receipt total, approval and 'no issues found' all match the facts. 'Will be paid' is a small addition: the facts record only the approval, not a payment commitment."
+   },
+   "cost_usd": 0.009636
+  },
+  {
+   "claim_id": "TES-051",
+   "predicted": "needs_review",
+   "planted_error": "totals_mismatch",
+   "scores": {
+    "accuracy": 1,
+    "evidence": 3,
+    "clarity": 3,
+    "tone": 5,
+    "justification": "The claim that the difference 'matches the receipt tax and service charge of IDR 30,365' and 'is not included in the lines' is unsupported and wrong, since 334,000 - 322,646 = 11,354, not 30,365. The numbers are cited correctly, but the suggested fix of adding a 30,365 line would not reconcile to 334,000, which makes the next step misleading."
+   },
+   "cost_usd": 0.013408
+  },
+  {
+   "claim_id": "TES-052",
+   "predicted": "reject",
+   "planted_error": "inflated_amount",
+   "scores": {
+    "accuracy": 5,
+    "evidence": 5,
+    "clarity": 5,
+    "tone": 5,
+    "justification": "The message states the single verified issue with the exact figures (IDR 55,000 claimed, IDR 40,000 receipt, IDR 15,000 difference) and reflects the reject decision as 'cannot pay it as submitted'; no clause or receipt line applies. The resubmission options are reasonable next steps rather than unsupported facts, and the message is concise and courteous."
+   },
+   "cost_usd": 0.01352
+  },
+  {
+   "claim_id": "TES-053",
+   "predicted": "approve",
+   "planted_error": null,
+   "scores": {
+    "accuracy": 5,
+    "evidence": 5,
+    "clarity": 5,
+    "tone": 5,
+    "justification": "The message correctly states the approval, the claim ID and the amount of IDR 123,585, which matches the receipt total, and it reports no issues, all consistent with the facts. 'Will be paid' is a reasonable implication of approval rather than an invented fact, and since there are no problems to evidence, the evidence dimension is fully satisfied."
+   },
+   "cost_usd": 0.0079
+  },
+  {
+   "claim_id": "TES-054",
+   "predicted": "needs_review",
+   "planted_error": "policy_breach",
+   "scores": {
+    "accuracy": 5,
+    "evidence": 5,
+    "clarity": 5,
+    "tone": 5,
+    "justification": "The message correctly reports the single verified issue (no purpose stated, clause C1, IDR 10,000) and the needs_review hold, and it adds nothing unsupported. It gives a clear next step in a courteous, concise way, with no unsupported statements."
+   },
+   "cost_usd": 0.011668
+  },
+  {
+   "claim_id": "TES-055",
+   "predicted": "reject",
+   "planted_error": "wrong_quantity",
+   "scores": {
+    "accuracy": 5,
+    "evidence": 5,
+    "clarity": 5,
+    "tone": 5,
+    "justification": "Every figure matches the facts: IDR 70,000 vs 54,000, the 16,000 difference, 3 vs 2 tarts, clause C9, the receipt line and the reject decision, and nothing unsupported is added. Each issue cites its evidence, the next steps are clear, the message is under 150 words and the tone is courteous."
+   },
+   "cost_usd": 0.016208
+  },
+  {
+   "claim_id": "TES-056",
+   "predicted": "approve",
+   "planted_error": null,
+   "scores": {
+    "accuracy": 5,
+    "evidence": 5,
+    "clarity": 5,
+    "tone": 5,
+    "justification": "The message correctly states the approval, the claim ID, and the amount IDR 8,999, which matches the receipt total, with no invented issues. 'Will be paid' is a reasonable consequence of approval and adds no unsupported problem."
+   },
+   "cost_usd": 0.00716
+  },
+  {
+   "claim_id": "TES-057",
+   "predicted": "approve",
+   "planted_error": null,
+   "scores": {
+    "accuracy": 4,
+    "evidence": 5,
+    "clarity": 5,
+    "tone": 5,
+    "justification": "The claim ID, the amount of IDR 42,000 and the approval decision all match the facts, and with no verified issues there is no evidence to cite. The phrase 'will be paid' is a minor addition not stated in the facts, though it is a reasonable consequence of approval."
+   },
+   "cost_usd": 0.011768
+  },
+  {
+   "claim_id": "TES-058",
+   "predicted": "needs_review",
+   "planted_error": "policy_breach",
+   "scores": {
+    "accuracy": 5,
+    "evidence": 5,
+    "clarity": 5,
+    "tone": 5,
+    "justification": "Every stated fact matches the verified issue and the needs_review decision: the IDR 60,500 claimed and receipt totals, clause C1, and the missing purpose. The message cites C1 with its wording, gives a clear next step in under 150 words, and stays courteous; no unsupported statement was found."
+   },
+   "cost_usd": 0.012344
+  },
+  {
+   "claim_id": "TES-059",
+   "predicted": "needs_review",
+   "planted_error": null,
+   "scores": {
+    "accuracy": 4,
+    "evidence": 5,
+    "clarity": 5,
+    "tone": 5,
+    "justification": "The amount (IDR 680,500), the 7 rice portions, the IDR 150,000 threshold, clause C12 and the needs-review decision all match the facts. The request to confirm the meal was 'for an approved activity' goes slightly beyond the verified issue, which only asks whether it was a meal and the headcount, though C12's clause text does support it."
+   },
+   "cost_usd": 0.01614
+  },
+  {
+   "claim_id": "TES-060",
+   "predicted": "approve",
+   "planted_error": null,
+   "scores": {
+    "accuracy": 5,
+    "evidence": 5,
+    "clarity": 5,
+    "tone": 5,
+    "justification": "The claim ID, amount (IDR 26,250), receipt match and approve decision all match the facts, and no problems are invented. 'Will be paid' is a reasonable implication of approval rather than an unsupported claim, and the message is concise and courteous."
+   },
+   "cost_usd": 0.009728
+  },
+  {
+   "claim_id": "TES-061",
+   "predicted": "needs_review",
+   "planted_error": null,
+   "scores": {
+    "accuracy": 4,
+    "evidence": 5,
+    "clarity": 5,
+    "tone": 5,
+    "justification": "Both issues and their figures (37,500 vs 24,500) match the facts exactly. However, the decision is 'needs_review' (a human decision on medium-severity issues), and the message presents it as an on-hold claim awaiting resubmission without saying it is under review."
+   },
+   "cost_usd": 0.012384
+  },
+  {
+   "claim_id": "TES-062",
+   "predicted": "approve",
+   "planted_error": null,
+   "scores": {
+    "accuracy": 4,
+    "evidence": 5,
+    "clarity": 5,
+    "tone": 5,
+    "justification": "Amounts, claim id and the approval match the facts, and the message correctly reports that no issues were found. However, 'will be paid' is not stated in the facts, which only record the decision to approve; this is a minor addition."
+   },
+   "cost_usd": 0.007104
+  },
+  {
+   "claim_id": "TES-063",
+   "predicted": "reject",
+   "planted_error": null,
+   "scores": {
+    "accuracy": 5,
+    "evidence": 5,
+    "clarity": 4,
+    "tone": 5,
+    "justification": "Every figure matches the facts: 2 claimed vs 1 on the receipt, the line 'Kopi Susu Kampung x1 19.000', 57,000 IDR claimed equal to the receipt total, and the reject decision; the resubmission guidance goes beyond the facts but reads as process advice, not an invented issue. Clarity loses a point because changing the quantity to 1 without saying how the 57,000 IDR total should change may leave the member with a question."
+   },
+   "cost_usd": 0.0155
+  },
+  {
+   "claim_id": "TES-064",
+   "predicted": "approve",
+   "planted_error": null,
+   "scores": {
+    "accuracy": 5,
+    "evidence": 5,
+    "clarity": 5,
+    "tone": 5,
+    "justification": "The message correctly states the approval, the IDR 16,000 amount, the match with the receipt total and that no issues were found, with no invented problems. 'Will be paid' is not stated in the facts, but it is a reasonable consequence of approval rather than a factual error."
+   },
+   "cost_usd": 0.011156
+  },
+  {
+   "claim_id": "TES-065",
+   "predicted": "needs_review",
+   "planted_error": null,
+   "scores": {
+    "accuracy": 4,
+    "evidence": 5,
+    "clarity": 5,
+    "tone": 5,
+    "justification": "The amount, matching totals, absence of issues and the needs-review outcome all match the facts. However, the request for a clearer copy, with the total and date specifically visible, as a condition of payment goes slightly beyond the stated decision reason, which does not say which parts were unreadable."
+   },
+   "cost_usd": 0.011108
+  },
+  {
+   "claim_id": "TES-066",
+   "predicted": "reject",
+   "planted_error": "inflated_amount",
+   "scores": {
+    "accuracy": 4,
+    "evidence": 5,
+    "clarity": 3,
+    "tone": 5,
+    "justification": "The message announces 'three problems' but lists only two bullets, and it repeats the difference ('IDR 7,000 ... (difference 7000)'). The closing advice that packaging can be claimed up to IDR 5,000 is extrapolated from C13 and not stated in the facts; since the receipt prints PLASTIK 25 at IDR 0, it could mislead the member. The figures, clauses C4/C13 and the reject decision otherwise match the facts."
+   },
+   "cost_usd": 0.020896
+  },
+  {
+   "claim_id": "TES-067",
+   "predicted": "reject",
+   "planted_error": "inflated_amount",
+   "scores": {
+    "accuracy": 5,
+    "evidence": 5,
+    "clarity": 5,
+    "tone": 5,
+    "justification": "All figures (14500 claimed, 9500 receipt, 5000 difference), clause C4 and the rejection decision match the facts exactly, and nothing unsupported is added. The two verified issues are fairly merged into one clear point with a concrete next step, in a courteous tone and well under 150 words."
+   },
+   "cost_usd": 0.00954
+  },
+  {
+   "claim_id": "TES-068",
+   "predicted": "reject",
+   "planted_error": "wrong_quantity",
+   "scores": {
+    "accuracy": 5,
+    "evidence": 5,
+    "clarity": 5,
+    "tone": 5,
+    "justification": "The message reports the single verified issue with the correct claimed amount (IDR 60,000), receipt total (IDR 20,000) and difference (IDR 40,000), and 'cannot be paid as submitted' matches the reject decision. It gives clear next steps in under 150 words, in a courteous tone, and contains no unsupported statement."
+   },
+   "cost_usd": 0.013264
+  },
+  {
+   "claim_id": "TES-069",
+   "predicted": "reject",
+   "planted_error": "item_not_on_receipt",
+   "scores": {
+    "accuracy": 4,
+    "evidence": 5,
+    "clarity": 5,
+    "tone": 5,
+    "justification": "Numbers, item names, clause C4 and the rejection all match the facts, and the message is clear, concise and courteous. However, the option to 'send a receipt that supports the full IDR 119,000' is not supported by the facts, which only say the claim should be reduced to the receipt total or rejected."
+   },
+   "cost_usd": 0.016868
+  },
+  {
+   "claim_id": "TES-070",
+   "predicted": "needs_review",
+   "planted_error": null,
+   "scores": {
+    "accuracy": 4,
+    "evidence": 5,
+    "clarity": 5,
+    "tone": 5,
+    "justification": "All figures, clause C12, the price-list item and the needs-review decision match the facts. The statement that the claim 'has not been paid yet' is a small inference not stated in the facts, though it is consistent with the hold. Both problems carry their numbers, the message is concise with clear next steps, and the tone is courteous and neutral."
+   },
+   "cost_usd": 0.013952
+  },
+  {
+   "claim_id": "TES-071",
+   "predicted": "approve",
+   "planted_error": null,
+   "scores": {
+    "accuracy": 5,
+    "evidence": 5,
+    "clarity": 5,
+    "tone": 5,
+    "justification": "The claim ID, the IDR 198,000 amount and the approval decision all match the facts, and with no verified issues no evidence is needed. 'Will be paid' is a reasonable implication of approval rather than an invented fact, and the message is brief, clear and courteous."
+   },
+   "cost_usd": 0.011528
+  },
+  {
+   "claim_id": "TES-072",
+   "predicted": "needs_review",
+   "planted_error": "totals_mismatch",
+   "scores": {
+    "accuracy": 4,
+    "evidence": 5,
+    "clarity": 4,
+    "tone": 5,
+    "justification": "The figures (21,909 vs 17,500, tax and service 1,591) and the needs-review decision match the facts. However, the claim that the 1,591 'may account for part of the difference' is an inference not stated in the facts. Suggesting the member 'correct the claimed amount' is also slightly misleading, since the claimed amount equals the receipt total of 17,500 and the claim lines are the more likely error."
+   },
+   "cost_usd": 0.014868
+  },
+  {
+   "claim_id": "TES-073",
+   "predicted": "needs_review",
+   "planted_error": "totals_mismatch",
+   "scores": {
+    "accuracy": 4,
+    "evidence": 5,
+    "clarity": 4,
+    "tone": 5,
+    "justification": "The figures (IDR 24,000 lines vs IDR 22,000 claimed, IDR 22,000 receipt total, no tax or service) and the needs-review decision match the facts, but 'a committee member reviews it' adds a detail not in the facts, which only say 'human decision'. The next step 'If the lines are correct, let us know which figure should be used' is slightly confusing, since correct lines would already imply IDR 24,000."
+   },
+   "cost_usd": 0.016712
+  },
+  {
+   "claim_id": "TES-074",
+   "predicted": "approve",
+   "planted_error": null,
+   "scores": {
+    "accuracy": 5,
+    "evidence": 5,
+    "clarity": 5,
+    "tone": 5,
+    "justification": "The message correctly states approval, the exact amount (IDR 330,264), and that the claim matches the receipt with no issues, consistent with the facts; no problems exist, so no evidence is required. 'Will be paid' is a reasonable implication of approval rather than an invented fact."
+   },
+   "cost_usd": 0.007492
+  },
+  {
+   "claim_id": "TES-075",
+   "predicted": "reject",
+   "planted_error": "totals_mismatch",
+   "scores": {
+    "accuracy": 5,
+    "evidence": 5,
+    "clarity": 4,
+    "tone": 5,
+    "justification": "All figures, clause C4, and the rejection decision match the facts, and no unsupported statement was found. The phrase 'receipt line shows 47,273, which is 16,000 more than the receipt' is awkwardly worded. The next step for the line-sum discrepancy ('check that the claimed amount agrees') is somewhat vague."
+   },
+   "cost_usd": 0.016312
+  },
+  {
+   "claim_id": "TES-076",
+   "predicted": "approve",
+   "planted_error": null,
+   "scores": {
+    "accuracy": 4,
+    "evidence": 5,
+    "clarity": 5,
+    "tone": 5,
+    "justification": "The claim ID, amount (IDR 110,000), approval decision and clear-receipt reason all match the facts. The statement that the claim 'will be paid' is not in the facts; approval implies it, so it counts as a small addition rather than an error, and there are no verified issues requiring evidence."
+   },
+   "cost_usd": 0.010864
+  },
+  {
+   "claim_id": "TES-077",
+   "predicted": "approve",
+   "planted_error": null,
+   "scores": {
+    "accuracy": 5,
+    "evidence": 5,
+    "clarity": 5,
+    "tone": 5,
+    "justification": "The message correctly states approval of TES-077 for IDR 17,000, notes the claim matches the receipt total, and reports no issues, all of which match the facts. 'Will be paid' is a reasonable implication of approval rather than an invented fact, and with no verified issues there is no further evidence to cite."
+   },
+   "cost_usd": 0.007656
+  },
+  {
+   "claim_id": "TES-078",
+   "predicted": "needs_review",
+   "planted_error": null,
+   "scores": {
+    "accuracy": 5,
+    "evidence": 5,
+    "clarity": 5,
+    "tone": 5,
+    "justification": "Every figure matches the facts: lines 25,000 vs claimed 30,000 IDR, receipt 30,000 IDR with no tax or service, and the on-hold-for-review status reflects needs_review; the 5,000 IDR gap is correctly derived and nothing is invented. The single issue cites its numbers (no clause id exists), the next step is concrete, and the tone is courteous and neutral."
+   },
+   "cost_usd": 0.012736
+  },
+  {
+   "claim_id": "TES-079",
+   "predicted": "needs_review",
+   "planted_error": "totals_mismatch",
+   "scores": {
+    "accuracy": 5,
+    "evidence": 5,
+    "clarity": 4,
+    "tone": 5,
+    "justification": "All figures (lines IDR 31,000 vs claimed IDR 22,000, receipt IDR 22,000, no tax/service) and the pending-review status match the facts, with nothing invented. Clarity loses a point because inviting the member to confirm IDR 31,000 is ambiguous when the receipt only supports IDR 22,000."
+   },
+   "cost_usd": 0.013816
+  },
+  {
+   "claim_id": "TES-080",
+   "predicted": "reject",
+   "planted_error": "inflated_amount",
+   "scores": {
+    "accuracy": 5,
+    "evidence": 5,
+    "clarity": 5,
+    "tone": 5,
+    "justification": "The decision (not payable as submitted) and the figures (claimed IDR 30,000, receipt IDR 25,000, difference IDR 5,000) all match the single verified issue, which has no clause id. The resubmission guidance is a next step rather than an invented fact, and the message is concise and courteous."
+   },
+   "cost_usd": 0.012536
+  },
+  {
+   "claim_id": "TES-081",
+   "predicted": "needs_review",
+   "planted_error": "policy_breach",
+   "scores": {
+    "accuracy": 5,
+    "evidence": 5,
+    "clarity": 5,
+    "tone": 4,
+    "justification": "The message matches the facts: TES-081, IDR 50,000, on hold for review, purpose missing under clause C1, with nothing invented. Tone is courteous, but a message signed by the Club Treasurer refers to 'the treasurer' in the third person, which reads slightly stiff."
+   },
+   "cost_usd": 0.015344
+  },
+  {
+   "claim_id": "TES-082",
+   "predicted": "reject",
+   "planted_error": "wrong_quantity",
+   "scores": {
+    "accuracy": 3,
+    "evidence": 4,
+    "clarity": 4,
+    "tone": 5,
+    "justification": "The message says \"this item is held for review\" where the facts say the claim is held, and it invents an option to \"provide documentation for the price\", which contradicts C5's rule that any amount above the maximum is not reimbursed. The numbers are correct, but the receipt lines (e.g., 'Strawberry Log Cake 2x 105,000 210,000') are not cited."
+   },
+   "cost_usd": 0.017804
+  },
+  {
+   "claim_id": "TES-083",
+   "predicted": "reject",
+   "planted_error": "item_not_on_receipt",
+   "scores": {
+    "accuracy": 5,
+    "evidence": 5,
+    "clarity": 4,
+    "tone": 5,
+    "justification": "Every figure (45000 vs 23000, difference 22000), clause C4, the unmatched item and its closest line 'COOKIES AND CREAM' match the facts, and the rejection is correctly conveyed; no unsupported statements found. Clarity loses a point because 'remove or verify' leaves the member unsure how to verify the Pork Belly Cheese Fries item."
+   },
+   "cost_usd": 0.015224
+  },
+  {
+   "claim_id": "TES-084",
+   "predicted": "reject",
+   "planted_error": "wrong_quantity",
+   "scores": {
+    "accuracy": 4,
+    "evidence": 5,
+    "clarity": 5,
+    "tone": 5,
+    "justification": "All amounts, quantities, the receipt line and clause C4 match the facts, and each problem cites its evidence. The promise 'we will review the claim again' is not in the facts, and 'showing the correct quantity and total' slightly embellishes the corrected-receipt option."
+   },
+   "cost_usd": 0.01574
+  },
+  {
+   "claim_id": "TES-085",
+   "predicted": "needs_review",
+   "planted_error": null,
+   "scores": {
+    "accuracy": 4,
+    "evidence": 5,
+    "clarity": 4,
+    "tone": 5,
+    "justification": "All amounts, items, price rows and the needs_review decision match the facts, and each problem cites quantity, paid price and agreed maximum. However, 'You can also confirm the Teh Es price' is an added request not stated in the verified issue, and its optional wording makes the next step for that item slightly vague."
+   },
+   "cost_usd": 0.015712
+  },
+  {
+   "claim_id": "TES-086",
+   "predicted": "needs_review",
+   "planted_error": null,
+   "scores": {
+    "accuracy": 4,
+    "evidence": 5,
+    "clarity": 5,
+    "tone": 5,
+    "justification": "The amount, the needs_review decision and the legibility reason all match the facts, and the message correctly reports no issues. However, saying a clearer copy is needed 'before we can approve it' implies approval will follow, which the facts do not state."
+   },
+   "cost_usd": 0.011712
+  },
+  {
+   "claim_id": "TES-087",
+   "predicted": "approve",
+   "planted_error": null,
+   "scores": {
+    "accuracy": 5,
+    "evidence": 5,
+    "clarity": 5,
+    "tone": 5,
+    "justification": "The message matches the facts exactly: claim TES-087, IDR 40,150 claimed and on the receipt, approved with no issues. 'Will be paid' is a reasonable consequence of approval rather than an invented fact, and there were no problems needing evidence."
+   },
+   "cost_usd": 0.007396
+  },
+  {
+   "claim_id": "TES-088",
+   "predicted": "reject",
+   "planted_error": "item_not_on_receipt",
+   "scores": {
+    "accuracy": 5,
+    "evidence": 5,
+    "clarity": 5,
+    "tone": 5,
+    "justification": "All figures (IDR 92,000 vs 47,000, difference 45,000), clause C4, the unmatched 'Salmon Seaweed Bowl' with closest line 'ALMOND CREAM CHEESE', and the reject decision match the facts. The duplicate maths/rules issue is merged cleanly, nothing is invented, and the next steps are clear and courteous."
+   },
+   "cost_usd": 0.01438
+  },
+  {
+   "claim_id": "TES-089",
+   "predicted": "reject",
+   "planted_error": "item_not_on_receipt",
+   "scores": {
+    "accuracy": 5,
+    "evidence": 5,
+    "clarity": 5,
+    "tone": 5,
+    "justification": "Both verified issues match the facts: IDR 58,000 claimed vs 40,000 on the receipt, an 18,000 difference, and 'Ice Kopi' with no matching receipt line. 'Cannot be paid as submitted' correctly conveys the reject decision, and no unsupported problem is introduced. The message is concise, gives clear next steps and is courteous."
+   },
+   "cost_usd": 0.018188
+  },
+  {
+   "claim_id": "TES-090",
+   "predicted": "reject",
+   "planted_error": "item_not_on_receipt",
+   "scores": {
+    "accuracy": 5,
+    "evidence": 5,
+    "clarity": 5,
+    "tone": 5,
+    "justification": "Both verified issues are stated with the exact figures (44,500 claimed vs 29,500 receipt, 15,000 difference; 'CHARGE TA' not on the receipt), and 'cannot be paid as submitted' matches the reject decision; no unsupported statement was found. No clause ids or receipt lines exist in the facts, the next steps are concrete, the message is under 150 words, and the tone is courteous."
+   },
+   "cost_usd": 0.014488
+  },
+  {
+   "claim_id": "TES-091",
+   "predicted": "reject",
+   "planted_error": "wrong_quantity",
+   "scores": {
+    "accuracy": 3,
+    "evidence": 4,
+    "clarity": 3,
+    "tone": 5,
+    "justification": "The decision is 'reject', but the message says the claim 'cannot be paid as submitted' and then 'is held for manual review', blurring the outcome. It also overstates C10: the items and total 'cannot be fully confirmed', where the facts say only 'may not be fully confirmable'. Evidence numbers and C10 are cited, but the GORENGAN receipt line ('6 GORENGAN 6.000') is not quoted."
+   },
+   "cost_usd": 0.018168
+  },
+  {
+   "claim_id": "TES-092",
+   "predicted": "reject",
+   "planted_error": "wrong_quantity",
+   "scores": {
+    "accuracy": 5,
+    "evidence": 4,
+    "clarity": 5,
+    "tone": 5,
+    "justification": "All figures (300,000 vs 240,000, a 60,000 difference, and 5 vs 4 TICKET CP at 60,000) and the rejection match the facts, and nothing unsupported is stated as fact; the resubmission options are next steps, not claims. Evidence is strong, but the receipt line is cited only by item and price, without its line reference (901016)."
+   },
+   "cost_usd": 0.017432
+  },
+  {
+   "claim_id": "TES-093",
+   "predicted": "reject",
+   "planted_error": "wrong_quantity",
+   "scores": {
+    "accuracy": 5,
+    "evidence": 5,
+    "clarity": 5,
+    "tone": 5,
+    "justification": "All figures (34,362 vs 17,999, difference 16,363; 2 vs 1 THAI ICED TEA (L)) and the rejection match the facts, with no clause ids applicable and no invented issues. The next steps are clear, the message is under 150 words, and the tone is courteous; no unsupported statement found."
+   },
+   "cost_usd": 0.01312
+  },
+  {
+   "claim_id": "TES-094",
+   "predicted": "approve",
+   "planted_error": null,
+   "scores": {
+    "accuracy": 5,
+    "evidence": 5,
+    "clarity": 5,
+    "tone": 5,
+    "justification": "The message correctly states approval of TES-094 for IDR 140,063 and notes the claim matches the receipt with no issues, as the facts show. 'Will be paid' is a reasonable implication of approval and not an invented problem; there are no issues requiring evidence."
+   },
+   "cost_usd": 0.007416
+  },
+  {
+   "claim_id": "TES-095",
+   "predicted": "reject",
+   "planted_error": "inflated_amount",
+   "scores": {
+    "accuracy": 5,
+    "evidence": 5,
+    "clarity": 5,
+    "tone": 5,
+    "justification": "All figures (claimed 74,799, receipt 61,799, difference 13,000) and the rejection match the facts, and the message adds no unsupported issues. The next steps are clear, the message is under 150 words, and the tone is courteous."
+   },
+   "cost_usd": 0.00804
+  },
+  {
+   "claim_id": "TES-096",
+   "predicted": "approve",
+   "planted_error": null,
+   "scores": {
+    "accuracy": 5,
+    "evidence": 5,
+    "clarity": 5,
+    "tone": 5,
+    "justification": "The message correctly states the approval, the matching IDR 41,000 claimed and receipt amounts, and that no issues were found. With no verified issues, no further evidence is needed, and it adds no unsupported problems."
+   },
+   "cost_usd": 0.007116
+  },
+  {
+   "claim_id": "TES-097",
+   "predicted": "reject",
+   "planted_error": null,
+   "scores": {
+    "accuracy": 5,
+    "evidence": 4,
+    "clarity": 5,
+    "tone": 5,
+    "justification": "Every stated fact matches the verified issue and the reject decision: TES-097, IDR 55,000, the claimed 'SATE ATI GO' and the closest receipt line 'SATECATIGO'. Evidence loses a point because the match score (47.6) is not given, though the clause id and receipt line are legitimately null."
+   },
+   "cost_usd": 0.013412
+  },
+  {
+   "claim_id": "TES-098",
+   "predicted": "reject",
+   "planted_error": "item_not_on_receipt",
+   "scores": {
+    "accuracy": 5,
+    "evidence": 5,
+    "clarity": 4,
+    "tone": 5,
+    "justification": "All figures (265,690 vs 250,690, difference 15,000), the missing 'Pdg Madness' item with its closest line, and clause C10 match the facts, and 'cannot be paid as submitted' is consistent with the reject decision. No unsupported statement was found. The next step is slightly ambiguous because the 'or' suggests fixing only one issue would be enough."
+   },
+   "cost_usd": 0.017264
+  },
+  {
+   "claim_id": "TES-099",
+   "predicted": "approve",
+   "planted_error": null,
+   "scores": {
+    "accuracy": 5,
+    "evidence": 5,
+    "clarity": 5,
+    "tone": 5,
+    "justification": "The message correctly states the approval, the claimed amount matching the IDR 75,000 receipt total, and that no issues were found, with nothing invented. 'Will be paid' is a reasonable implication of approval rather than an unsupported claim, and the note is concise and courteous."
+   },
+   "cost_usd": 0.007512
+  }
+ ]
+}

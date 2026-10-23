@@ -124,7 +124,7 @@ with tab_check:
             claim = {"claim_id": "DEMO", "submitter": submitter, "purpose": purpose, "amount": int(amount),
                      "currency": "IDR", "items": parse_items(items_text)}
             with st.spinner("Reading the receipt and running the checks…"):
-                state = run_claim(image_path, claim, model=model)
+                state = run_claim(image_path, claim, model=model, register=True)
             if not all(e.get("cached") for e in state["trace"] if "cost_usd" in e):
                 record_usage()
 

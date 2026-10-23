@@ -26,3 +26,6 @@ chroma_db/
 
 # Personal planning notes, not for the public repo
 Receipted_build_brief.md
+
+# Local record of claims seen (for duplicate detection); personal, not for the repo
+data/claims_registry.json

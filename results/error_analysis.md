@@ -1,5 +1,7 @@
 # Error analysis (test split, claude-haiku-5-5)
 
+> Written from **run 1**. The three fixes it motivated (cases 1, 2 and 3) were then applied and the test claims re-run once as run 2: TES-097 is no longer rejected (held for readability instead), TES-011's wrong-product price match is dropped by the verifier, and TES-032's missing purpose is caught. Both runs are in `results/` and compared in the README.
+
 Five real failures, picked from the worst cases in `checks_test_claude-haiku-5-5.json` and `extraction_test_*.json`. Image ids refer to `data/images/test/`.
 
 ## 1. A false reject from whitespace in a name (TES-097, test_097)

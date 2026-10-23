@@ -61,20 +61,21 @@ Every LLM response is cached on disk (keyed by input, prompt version and model),
 
 ### Extraction vs CORD ground truth
 
-| model | receipts | item F1 | item precision | item recall | total correct | subtotal correct | tax correct | mean latency | mean cost / receipt |
+| model | receipts | item F1 (95% CI) | item precision | item recall | total correct | subtotal correct | tax correct | mean latency | mean cost / receipt |
 |---|---|---|---|---|---|---|---|---|---|
-| `claude-haiku-5-5` | 100 | 0.92 | 0.88 | 0.95 | 97% | 96% | 97% | 3.68s | $0.0006 |
-| `claude-opus-5-5` | 100 | 0.92 | 0.88 | 0.95 | 97% | 98% | 100% | 4.13s | $0.0186 |
+| `claude-haiku-5-5` | 100 | 0.92 (0.87–0.95) | 0.88 | 0.95 | 97% | 96% | 97% | 3.68s | $0.0006 |
+| `claude-opus-5-5` | 100 | 0.92 (0.88–0.95) | 0.88 | 0.95 | 97% | 98% | 100% | 4.13s | $0.0186 |
 
 ### Checks: full agent on 100 synthetic claims (`claude-haiku-5-5`)
 
-| planted error | n | caught | recall |
+| planted error | n | caught | recall (95% CI) |
 |---|---|---|---|
-| inflated amount | 10 | 10 | 100% |
-| wrong quantity | 10 | 8 | 80% |
-| item not on receipt | 10 | 10 | 100% |
-| totals mismatch | 10 | 10 | 100% |
-| policy breach | 10 | 9 | 90% |
+| inflated amount | 10 | 10 | 100% (95% CI 100–100%) |
+| wrong quantity | 10 | 8 | 80% (95% CI 50–100%) |
+| item not on receipt | 10 | 10 | 100% (95% CI 100–100%) |
+| totals mismatch | 10 | 10 | 100% (95% CI 100–100%) |
+| policy breach | 10 | 10 | 100% (95% CI 100–100%) |
+| **all planted errors** | 50 | 48 | **96% (95% CI 90–100%)** |
 
 | natural breach (from ground truth) | n | caught | recall |
 |---|---|---|---|
@@ -85,19 +86,31 @@ Every LLM response is cached on disk (keyed by input, prompt version and model),
 
 | metric | value |
 |---|---|
-| decision accuracy (approve / needs_review / reject) | 81% |
+| decision accuracy (approve / needs_review / reject) | 83% (95% CI 76–90%) |
 | clean claims (no planted error, no natural breach) | 41 |
-| false alarms: clean claim flagged with an issue | 10 (24%) |
-| clean claims held only because the receipt was hard to read | 5 |
-| rule-check issues raised / dropped by verifier | 56 / 1 |
+| false alarms: clean claim flagged with an issue | 8 (20% (95% CI 7–32%)) |
+| clean claims held only because the receipt was hard to read | 6 |
+| rule-check issues raised / dropped by verifier | 48 / 4 |
 | mean cost per claim | $0.0013 |
-| mean seconds per claim (uncached) | 6.22 |
+| mean seconds per claim (uncached) | 4.82 |
+
+### Run 1 vs run 2 (same test claims, before and after the fixes from the error analysis)
+
+| metric | run 1 | run 2 |
+|---|---|---|
+| planted errors caught | 47/50 | 48/50 |
+| decision accuracy | 81% | 83% |
+| false alarms (clean claims flagged) | 10/41 | 8/41 |
+| rule-check issues dropped by verifier | 1 | 4 |
+| mean cost per claim | $0.0013 | $0.0013 |
+
+Run 2 is reported because the three fixes were motivated by failures seen in run 1; both are kept so the effect is visible and the second run is not mistaken for a first.
 
 ### Drafts: LLM-as-judge (`claude-opus-5-5` scoring `claude-haiku-5-5` drafts, 1–5)
 
 | accuracy | evidence | clarity | tone | drafts with accuracy < 4 |
 |---|---|---|---|---|
-| 4.55 | 4.9 | 4.71 | 4.95 | 5 / 100 |
+| 4.6 | 4.89 | 4.73 | 4.98 | 4 / 100 |
 
 _Human scoring sheet generated; agreement will be reported once it is filled in._
 
@@ -106,7 +119,19 @@ _Human scoring sheet generated; agreement will be reported once it is filled in.
 ![extraction by model](results/chart_models_test.png)
 <!-- /RESULTS -->
 
-The headline: **47 of 50 planted errors caught (94%)**, decision accuracy 81% on 100 claims, at about $0.0013 and 6 seconds per claim with Haiku 5.5. Drafts score 4.55 / 5 on accuracy and 4.9 / 5 on evidence from an Opus judge; the 5 weakest drafts all did a sum of their own in prose, which the maths check will phrase for them next time. The two models read receipts equally well; Haiku costs 30× less. The human-scoring sheet for 10 drafts is in `results/human_scoring_sheet_test.md`; agreement with the judge is reported once it is filled in.
+The headline (run 2): **48 of 50 planted errors caught (96%, 95% CI 90–100%)**, decision accuracy 83% on 100 claims, 8 of 41 clean claims flagged, at about $0.0013 and 5 seconds per claim with Haiku 5.5. Intervals are bootstrap 95% CIs over the 100 claims; with a test set this size a single percentage overstates what is known, so every headline carries one.
+
+### Hallucination probe
+
+Does the model invent a total when there is none? Using CORD's word coordinates, `eval/hallucination_probe.py` paints a white box over the printed total on real receipts and extracts again. On 10 validation receipts the model returned `null` for 9; on the tenth the receipt prints the same amount twice (an ITEMS line and a TOTAL line) and the model read the other copy, which is correct, not invented. Result file: `results/hallucination_probe_validation_claude-haiku-5-5.json`.
+
+### Duplicate receipts
+
+Policy clause C9 forbids claiming the same receipt twice. `src/receipted/duplicates.py` keeps a local registry of claims the CLI, app or MCP tool approved or held (image fingerprint, receipt total, item names). A new claim with the same fingerprint, or a different photo with the same total and 80%+ of the same item names, is rejected under C9 with the earlier claim id as evidence. Rejected claims are not registered, so a corrected resubmission goes through. Evaluation runs never write to the registry.
+
+### Regression gate
+
+`eval/compare.py` lines up two runs claim by claim, lists every decision that changed (FIXED / BROKE / moved), prints the headline metrics side by side and exits non-zero if recall or decision accuracy fell or false alarms rose. The run-1 vs run-2 table above comes from it. The two models read receipts equally well; Haiku costs 30× less. The human-scoring sheet for 10 drafts is in `results/human_scoring_sheet_test.md`; agreement with the judge is reported once it is filled in.
 
 ## Error analysis
 
@@ -130,11 +155,13 @@ Reading the 10 flagged clean claims by hand, at least 3 are correct by the polic
 
 ## What I'd do next
 
-1. Name-similarity guard in the verifier for price-list issues, and space-insensitive name matching (fixes failures 1 and 2 above).
-2. Move "purpose is empty" and the two-approver threshold into deterministic checks; keep the LLM for judgements code can't make.
-3. Route receipts Haiku marks "partly unclear" to Opus instead of a human, and measure how many reviews that saves.
-4. Try the extraction prompt without zero-priced bundle lines, on the validation split first.
-5. Expose `check_document(image, claim)` as an MCP tool, and test on Singapore receipts photographed by me.
+Done since the first test run: the name-similarity guard, space-insensitive matching, the deterministic purpose check (together: run 2 above), duplicate-receipt detection, the hallucination probe, confidence intervals, the regression gate and the MCP server. Still open:
+
+1. Per-item confidence and quoted evidence in the extraction schema, so only uncertain items go to a human; measure how many of the 25% "partly unclear" holds that saves.
+2. Pause-and-resume for human review using LangGraph checkpoints, with a small reviewer CLI, instead of stopping at needs_review.
+3. Route receipts Haiku marks "partly unclear" to Opus and measure the trade-off.
+4. Move the two-approver threshold (C7) into a deterministic check; the rule check raised it on only 1 of 3 claims.
+5. Singapore receipts photographed by me, with an SGD policy and price list, to test a second country's format.
 
 ## Use from Claude Desktop (MCP)
 

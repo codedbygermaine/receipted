@@ -1,0 +1,104 @@
+{
+ "summary": {
+  "split": "validation",
+  "model": "claude-haiku-5-5",
+  "n": 10,
+  "verdicts": {
+   "abstained": 9,
+   "produced the true total anyway": 1
+  },
+  "abstention_rate": 0.9
+ },
+ "receipts": [
+  {
+   "id": "validation_000",
+   "true_total": 45500,
+   "returned_total": null,
+   "verdict": "abstained",
+   "readability": "clear",
+   "masked_words": 2,
+   "image": "data/probe/validation_000_masked_total.png"
+  },
+  {
+   "id": "validation_001",
+   "true_total": 23000,
+   "returned_total": null,
+   "verdict": "abstained",
+   "readability": "clear",
+   "masked_words": 2,
+   "image": "data/probe/validation_001_masked_total.png"
+  },
+  {
+   "id": "validation_002",
+   "true_total": 20000,
+   "returned_total": null,
+   "verdict": "abstained",
+   "readability": "partly unclear",
+   "masked_words": 2,
+   "image": "data/probe/validation_002_masked_total.png"
+  },
+  {
+   "id": "validation_003",
+   "true_total": 28000,
+   "returned_total": null,
+   "verdict": "abstained",
+   "readability": "clear",
+   "masked_words": 2,
+   "image": "data/probe/validation_003_masked_total.png"
+  },
+  {
+   "id": "validation_004",
+   "true_total": 41000,
+   "returned_total": 41000,
+   "verdict": "produced the true total anyway",
+   "readability": "partly unclear",
+   "masked_words": 2,
+   "image": "data/probe/validation_004_masked_total.png"
+  },
+  {
+   "id": "validation_005",
+   "true_total": 8000,
+   "returned_total": null,
+   "verdict": "abstained",
+   "readability": "partly unclear",
+   "masked_words": 2,
+   "image": "data/probe/validation_005_masked_total.png"
+  },
+  {
+   "id": "validation_006",
+   "true_total": 123000,
+   "returned_total": null,
+   "verdict": "abstained",
+   "readability": "partly unclear",
+   "masked_words": 2,
+   "image": "data/probe/validation_006_masked_total.png"
+  },
+  {
+   "id": "validation_007",
+   "true_total": 59500,
+   "returned_total": null,
+   "verdict": "abstained",
+   "readability": "clear",
+   "masked_words": 2,
+   "image": "data/probe/validation_007_masked_total.png"
+  },
+  {
+   "id": "validation_008",
+   "true_total": 11700,
+   "returned_total": null,
+   "verdict": "abstained",
+   "readability": "clear",
+   "masked_words": 2,
+   "image": "data/probe/validation_008_masked_total.png"
+  },
+  {
+   "id": "validation_009",
+   "true_total": 20000,
+   "returned_total": null,
+   "verdict": "abstained",
+   "readability": "clear",
+   "masked_words": 2,
+   "image": "data/probe/validation_009_masked_total.png"
+  }
+ ]
+}

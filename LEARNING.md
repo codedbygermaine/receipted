@@ -137,3 +137,22 @@
 - *How did you test it?* Not by calling the Python function. The test script starts the server as a subprocess and talks the real protocol: initialise, list tools, call tool, parse the structured result. If the schema or transport were wrong, the test would fail even though the function works.
 
 **Trade-off.** stdio only. It is what Claude Desktop uses and needs no network or auth. Serving it over HTTP for other clients would need the SDK's streamable-http transport plus authentication, which is a separate piece of work.
+
+
+## Phase 8: After comparing with similar projects
+
+**What we built.** Three fixes from the error analysis (space-insensitive name matching, a name-similarity guard for price-list issues in the verifier, a deterministic empty-purpose check), then a second test run reported beside the first; `src/receipted/duplicates.py` (duplicate-receipt detection, clause C9); `eval/hallucination_probe.py` (mask the printed total, check the model abstains); `eval/stats.py` (bootstrap confidence intervals, now on every headline number); `eval/compare.py` (a regression gate between two runs).
+
+**Why a second test run, and why both are shown.** The fixes came from failures seen on the test split, so a re-run is not a fresh measurement: I knew what to fix because the test set told me. Showing run 1 and run 2 together is the honest version. The effect was 47→48 planted errors caught, 81→83% decisions right, 10→8 false alarms on clean claims, and the verifier now drops 4 wrong-product price matches instead of 1. Small, in the right direction, and the intervals (recall 90–100%, decision accuracy 76–90%) say how much of that could be noise.
+
+**Why confidence intervals.** With 100 claims, "96%" sounds precise and is not. Resampling the claims with replacement 4,000 times and taking the middle 95% of recomputed results gives the range a different 100 receipts might produce. None of the similar GitHub projects report this; one (docparse-vlm) planned to. It is the cheapest way to look like you understand measurement, because you do.
+
+**Why a hallucination probe.** The whole design rests on "no evidence, no flag". The extraction step is the one place a number can appear from nowhere. Painting over the real total and asking again tests exactly that: 9 of 10 abstained, and the tenth read a second printed copy of the same amount, which is the right answer. Ten receipts is a small probe; the script scales to the whole split for a few cents.
+
+**Why duplicates are deterministic.** A duplicate is a fact about history (this receipt was claimed before), not a judgement, so it lives in code with a registry file. Two signals: identical image fingerprint (same photo) and same total plus 80% of item names (a new photo of the same paper). Rejected claims are not registered, otherwise a corrected resubmission would be flagged as a duplicate of its own rejection.
+
+**Likely interview questions.**
+- *You changed the system after seeing test results. Isn't that cheating?* It would be if I reported only the second run as if it were the first. I report both, say why the fixes were made, and give intervals. A bug fix found on test is normal engineering; hiding the first number is the problem.
+- *How do you know the model doesn't make up totals?* I removed the total from real receipts and asked again. It said "not printed" 9 times out of 10, and the tenth time it found the amount printed elsewhere on the same receipt.
+
+**Trade-off.** The duplicate registry is a local JSON file, fine for one treasurer on one laptop; a club with several approvers would need it in a shared store. The probe masks only the total; masking item prices and the subtotal is the natural extension.

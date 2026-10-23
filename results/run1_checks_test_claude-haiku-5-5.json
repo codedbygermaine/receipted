@@ -1,0 +1,4820 @@
+{
+ "summary": {
+  "split": "test",
+  "model": "claude-haiku-5-5",
+  "n_claims": 100,
+  "decision_accuracy": 0.81,
+  "confusion_expected_to_predicted": {
+   "approve->approve": 26,
+   "approve->needs_review": 12,
+   "approve->reject": 3,
+   "needs_review->approve": 2,
+   "needs_review->needs_review": 25,
+   "needs_review->reject": 2,
+   "reject->reject": 30
+  },
+  "planted": {
+   "inflated_amount": {
+    "n": 10,
+    "caught": 10,
+    "recall": 1.0,
+    "decision_not_approve": 10
+   },
+   "wrong_quantity": {
+    "n": 10,
+    "caught": 8,
+    "recall": 0.8,
+    "decision_not_approve": 10
+   },
+   "item_not_on_receipt": {
+    "n": 10,
+    "caught": 10,
+    "recall": 1.0,
+    "decision_not_approve": 10
+   },
+   "totals_mismatch": {
+    "n": 10,
+    "caught": 10,
+    "recall": 1.0,
+    "decision_not_approve": 10
+   },
+   "policy_breach": {
+    "n": 10,
+    "caught": 9,
+    "recall": 0.9,
+    "decision_not_approve": 9
+   }
+  },
+  "natural": {
+   "price_above_list": {
+    "n": 3,
+    "caught": 3,
+    "recall": 1.0
+   },
+   "alcohol_on_receipt": {
+    "n": 0,
+    "caught": 0,
+    "recall": null
+   },
+   "above_500k": {
+    "n": 3,
+    "caught": 1,
+    "recall": 0.3333
+   },
+   "packaging_over_5000": {
+    "n": 2,
+    "caught": 0,
+    "recall": 0.0
+   },
+   "receipt_inconsistent": {
+    "n": 9,
+    "caught": 3,
+    "recall": 0.3333
+   }
+  },
+  "false_alarms": {
+   "n_clean_claims": 41,
+   "flagged_with_an_issue": 10,
+   "held_for_readability_only": 5,
+   "false_alarm_rate_issues": 0.2439,
+   "false_alarm_rate_any": 0.3659,
+   "false_alarm_issue_types": {
+    "line_arithmetic": 1,
+    "price_above_list": 6,
+    "personal_item_clothing": 1,
+    "totals_arithmetic": 1,
+    "meal_per_person_above_limit": 1,
+    "claimed_qty_exceeds_receipt": 1,
+    "claim_lines_vs_amount": 1,
+    "claimed_item_not_on_receipt": 1
+   }
+  },
+  "verifier": {
+   "rule_issues_raised": 56,
+   "dropped": 1,
+   "drop_reasons": {
+    "unit...": 1
+   }
+  },
+  "mean_cost_usd_per_claim": 0.00132,
+  "total_cost_usd": 0.1316,
+  "mean_seconds_per_claim_uncached": 6.22,
+  "readability_counts": {
+   "partly unclear": 25,
+   "clear": 75
+  }
+ },
+ "claims": [
+  {
+   "claim_id": "TES-000",
+   "receipt_id": "test_000",
+   "image_path": "data/images/test/test_000.png",
+   "planted_error": null,
+   "planted_detail": null,
+   "natural_flags": [],
+   "expected": "approve",
+   "predicted": "needs_review",
+   "decision_reason": "medium-severity issues need a human decision",
+   "submitter": "Member 000",
+   "claimed_amount": 60000,
+   "currency": "IDR",
+   "receipt_total": 60000,
+   "readability": "partly unclear",
+   "extraction_error": null,
+   "caught": {},
+   "verified_issues": [
+    {
+     "source": "maths",
+     "type": "line_arithmetic",
+     "severity": "medium",
+     "clause_id": null,
+     "price_item": null,
+     "receipt_line": "901016 -TICKET CP 2 [blurred] 60.000 60.000",
+     "message": "2 x 60000 = 120000, but the line shows 60000",
+     "evidence": {
+      "qty": 2,
+      "unit_price": 60000,
+      "expected": 120000,
+      "line_total": 60000
+     }
+    },
+    {
+     "source": "rules",
+     "type": "price_above_list",
+     "severity": "medium",
+     "clause_id": null,
+     "price_item": "dept01",
+     "receipt_line": "901016 -TICKET CP 2 [blurred] 60.000 60.000",
+     "message": "The unit price of 60000 for TICKET CP is above the agreed maximum of 24500 for dept01. Check the unit price against the price list before approving.",
+     "evidence": {
+      "unit_price_paid": 60000,
+      "agreed_max_unit_price": 24500,
+      "price_list_item": "dept01"
+     }
+    }
+   ],
+   "n_rule_issues": 1,
+   "n_dropped": 0,
+   "dropped": [],
+   "draft": "Hello Member 000,\n\nYour claim TES-000 for 60000 IDR is on hold while a person reviews it. Two issues were found:\n\n- Line arithmetic: the receipt line shows 2 x 60000, which should total 120000, but the line shows 60000. Please check whether the quantity or line total is correct.\n- Price above list: the unit price of 60000 for TICKET CP is above the agreed maximum of 24500 for dept01.\n\nTo move this forward, please send a corrected receipt or a note explaining the quantity and unit price. Once we have that, the claim can be reviewed again.\n\nThank you,\nClub Treasurer",
+   "cost_usd": 0.001313,
+   "seconds": 0.62,
+   "cached": true
+  },
+  {
+   "claim_id": "TES-001",
+   "receipt_id": "test_001",
+   "image_path": "data/images/test/test_001.png",
+   "planted_error": "wrong_quantity",
+   "planted_detail": {
+    "item": "Y.B.BAT",
+    "extra_qty": 1
+   },
+   "natural_flags": [],
+   "expected": "reject",
+   "predicted": "reject",
+   "decision_reason": "at least one high-severity issue with evidence",
+   "submitter": "Member 001",
+   "claimed_amount": 137000,
+   "currency": "IDR",
+   "receipt_total": 91000,
+   "readability": "clear",
+   "extraction_error": null,
+   "caught": {
+    "wrong_quantity": false
+   },
+   "verified_issues": [
+    {
+     "source": "maths",
+     "type": "claim_exceeds_receipt",
+     "severity": "high",
+     "clause_id": null,
+     "price_item": null,
+     "receipt_line": null,
+     "message": "Claimed 137000 but the receipt total is 91000",
+     "evidence": {
+      "claimed": 137000,
+      "receipt_total": 91000,
+      "difference": 46000
+     }
+    },
+    {
+     "source": "rules",
+     "type": "claim_exceeds_receipt_total",
+     "severity": "high",
+     "clause_id": "C4",
+     "price_item": null,
+     "receipt_line": "CLAIM_AMOUNT",
+     "message": "The claimed amount of 137000 is more than the receipt total of 91000. Under C4 a claim for more than the receipt total is rejected, so the claim should be reduced to 91000 or rejected.",
+     "evidence": {
+      "clause_text": "C4. Claimed amount must match the receipt: The amount claimed must equal the total printed on the receipt. A claim for more than the receipt total is rejected. A claim for less than the receipt total is acceptable (the claimant may choose not to claim some items)."
+     }
+    }
+   ],
+   "n_rule_issues": 1,
+   "n_dropped": 0,
+   "dropped": [],
+   "draft": "Subject: Your expense claim TES-001\n\nDear Member 001,\n\nYour claim TES-001 cannot be paid as submitted. You claimed 137000 IDR, but the receipt total is 91000 IDR, a difference of 46000 IDR.\n\nUnder clause C4, a claim for more than the receipt total is rejected. To proceed, please either:\n\n- reduce the claimed amount to 91000 IDR, matching the receipt, or\n- submit a new claim for 91000 IDR or less.\n\nOnce the amount matches the receipt, we will review it again.\n\nKind regards,\nClub Treasurer",
+   "cost_usd": 0.001454,
+   "seconds": 0.59,
+   "cached": true
+  },
+  {
+   "claim_id": "TES-002",
+   "receipt_id": "test_002",
+   "image_path": "data/images/test/test_002.png",
+   "planted_error": "wrong_quantity",
+   "planted_detail": {
+    "item": "JASMINE MT ( L )",
+    "extra_qty": 2
+   },
+   "natural_flags": [
+    "receipt_inconsistent"
+   ],
+   "expected": "reject",
+   "predicted": "reject",
+   "decision_reason": "at least one high-severity issue with evidence",
+   "submitter": "Member 002",
+   "claimed_amount": 76000,
+   "currency": "IDR",
+   "receipt_total": 28000,
+   "readability": "clear",
+   "extraction_error": null,
+   "caught": {
+    "wrong_quantity": true,
+    "receipt_inconsistent": false
+   },
+   "verified_issues": [
+    {
+     "source": "maths",
+     "type": "claim_exceeds_receipt",
+     "severity": "high",
+     "clause_id": null,
+     "price_item": null,
+     "receipt_line": null,
+     "message": "Claimed 76000 but the receipt total is 28000",
+     "evidence": {
+      "claimed": 76000,
+      "receipt_total": 28000,
+      "difference": 48000
+     }
+    },
+    {
+     "source": "maths",
+     "type": "claim_lines_vs_amount",
+     "severity": "medium",
+     "clause_id": null,
+     "price_item": null,
+     "receipt_line": null,
+     "message": "Claim lines sum to 72000 but the claimed amount is 76000",
+     "evidence": {
+      "claim_line_sum": 72000,
+      "claimed": 76000,
+      "receipt_tax_and_service": 0
+     }
+    },
+    {
+     "source": "maths",
+     "type": "claimed_qty_exceeds_receipt",
+     "severity": "high",
+     "clause_id": null,
+     "price_item": null,
+     "receipt_line": "1 JASMINE MT (L) 24,000",
+     "message": "Claimed 3 x 'JASMINE MT ( L )' but the receipt shows 1",
+     "evidence": {
+      "claimed_qty": 3,
+      "receipt_qty": 1,
+      "receipt_item": "JASMINE MT (L)"
+     }
+    },
+    {
+     "source": "rules",
+     "type": "claim_exceeds_receipt_policy",
+     "severity": "high",
+     "clause_id": "C4",
+     "price_item": null,
+     "receipt_line": "CLAIM_AMOUNT",
+     "message": "The claimed amount of 76000 is more than the receipt total of 28000, so C4 requires the claim to be rejected. Reduce the claim to the receipt total or less.",
+     "evidence": {
+      "clause_text": "C4. Claimed amount must match the receipt: The amount claimed must equal the total printed on the receipt. A claim for more than the receipt total is rejected. A claim for less than the receipt total is acceptable (the claimant may choose not to claim some items)."
+     }
+    },
+    {
+     "source": "rules",
+     "type": "claimed_qty_exceeds_receipt_policy",
+     "severity": "high",
+     "clause_id": "C9",
+     "price_item": null,
+     "receipt_line": "1 JASMINE MT (L) 24,000",
+     "message": "The claim asks for 3 units of JASMINE MT but the receipt shows only 1, which C9 does not allow. Claim no more than the receipt quantity.",
+     "evidence": {
+      "clause_text": "C9. Quantities: The quantity of any item claimed must not exceed the quantity shown on the receipt, and the same receipt may not be claimed twice."
+     }
+    }
+   ],
+   "n_rule_issues": 2,
+   "n_dropped": 0,
+   "dropped": [],
+   "draft": "Subject: Expense claim TES-002 - cannot be paid as submitted\n\nDear Member 002,\n\nThank you for submitting claim TES-002. Unfortunately it cannot be paid as submitted, for the following reasons:\n\n- The claimed amount is 76000 IDR, but the receipt total is 28000 IDR, a difference of 48000 IDR. Under clause C4, a claim for more than the receipt total is rejected.\n- The claim lines add up to 72000 IDR, which does not match the claimed amount of 76000 IDR.\n- You claimed 3 units of JASMINE MT (L), but the receipt shows only 1 (24,000). Under clause C9, the quantity claimed must not exceed the receipt quantity.\n\nTo resubmit, please reduce the claim to 28000 IDR or less, make sure the claim lines match that amount, and claim no more than the quantities shown on the receipt.\n\nKind regards,\nClub Treasurer",
+   "cost_usd": 0.001703,
+   "seconds": 2.56,
+   "cached": false
+  },
+  {
+   "claim_id": "TES-003",
+   "receipt_id": "test_003",
+   "image_path": "data/images/test/test_003.png",
+   "planted_error": null,
+   "planted_detail": null,
+   "natural_flags": [],
+   "expected": "approve",
+   "predicted": "approve",
+   "decision_reason": "no issues found and the receipt is clear",
+   "submitter": "Member 003",
+   "claimed_amount": 11000,
+   "currency": "IDR",
+   "receipt_total": 11000,
+   "readability": "clear",
+   "extraction_error": null,
+   "caught": {},
+   "verified_issues": [],
+   "n_rule_issues": 0,
+   "n_dropped": 0,
+   "dropped": [],
+   "draft": "Hello Member 003,\n\nYour expense claim TES-003 for IDR 11,000 has been approved and will be paid. The amount you claimed matches the receipt total exactly, and we found no issues with the submission.\n\nThank you for sending it in.\n\nKind regards,\nClub Treasurer",
+   "cost_usd": 0.000823,
+   "seconds": 0.38,
+   "cached": true
+  },
+  {
+   "claim_id": "TES-004",
+   "receipt_id": "test_004",
+   "image_path": "data/images/test/test_004.png",
+   "planted_error": null,
+   "planted_detail": null,
+   "natural_flags": [],
+   "expected": "approve",
+   "predicted": "needs_review",
+   "decision_reason": "no issues found, but parts of the receipt were hard to read",
+   "submitter": "Member 004",
+   "claimed_amount": 174600,
+   "currency": "IDR",
+   "receipt_total": 174600,
+   "readability": "partly unclear",
+   "extraction_error": null,
+   "caught": {},
+   "verified_issues": [],
+   "n_rule_issues": 0,
+   "n_dropped": 0,
+   "dropped": [],
+   "draft": "Hello Member 004,\n\nYour expense claim TES-004 for IDR 174,600 is on hold for manual review.\n\nNo issues were found in the amounts, as the claimed amount matches the receipt total. However, parts of the receipt were hard to read, so a treasurer needs to check it before payment.\n\nTo help, please send a clearer copy or photo of the receipt, ideally with the full total and date visible. Once we have it, we will complete the review and let you know the outcome.\n\nThank you for your patience.\n\nKind regards,\nClub Treasurer",
+   "cost_usd": 0.00131,
+   "seconds": 6.28,
+   "cached": false
+  },
+  {
+   "claim_id": "TES-005",
+   "receipt_id": "test_005",
+   "image_path": "data/images/test/test_005.png",
+   "planted_error": "policy_breach",
+   "planted_detail": {
+    "clause": "C1",
+    "detail": "no purpose stated"
+   },
+   "natural_flags": [],
+   "expected": "needs_review",
+   "predicted": "needs_review",
+   "decision_reason": "medium-severity issues need a human decision",
+   "submitter": "Member 005",
+   "claimed_amount": 31000,
+   "currency": "IDR",
+   "receipt_total": 31000,
+   "readability": "clear",
+   "extraction_error": null,
+   "caught": {
+    "policy_breach": true
+   },
+   "verified_issues": [
+    {
+     "source": "rules",
+     "type": "no_purpose_stated",
+     "severity": "medium",
+     "clause_id": "C1",
+     "price_item": null,
+     "receipt_line": "CLAIM_AMOUNT",
+     "message": "The claim states no purpose, so it cannot be confirmed as an approved club activity or business expense. Hold the claim for review until the claimant states the purpose.",
+     "evidence": {
+      "clause_text": "C1. Purpose of expense: Expenses are reimbursable only when incurred for an approved club activity or business purpose. The claim must state the purpose. Claims with no stated purpose are held for review."
+     }
+    }
+   ],
+   "n_rule_issues": 1,
+   "n_dropped": 0,
+   "dropped": [],
+   "draft": "Dear Member 005,\n\nYour expense claim TES-005 for IDR 31,000 is on hold. The claim does not state its purpose, so we cannot yet confirm it as an approved club activity or business expense (clause C1).\n\nPlease reply with the purpose of the expense, including the club activity or business reason it relates to. Once we have this, the claim will be reviewed again.\n\nKind regards,\nClub Treasurer",
+   "cost_usd": 0.001125,
+   "seconds": 4.42,
+   "cached": false
+  },
+  {
+   "claim_id": "TES-006",
+   "receipt_id": "test_006",
+   "image_path": "data/images/test/test_006.png",
+   "planted_error": "inflated_amount",
+   "planted_detail": {
+    "delta": 12000
+   },
+   "natural_flags": [],
+   "expected": "reject",
+   "predicted": "reject",
+   "decision_reason": "at least one high-severity issue with evidence",
+   "submitter": "Member 006",
+   "claimed_amount": 58000,
+   "currency": "IDR",
+   "receipt_total": 46000,
+   "readability": "partly unclear",
+   "extraction_error": null,
+   "caught": {
+    "inflated_amount": true
+   },
+   "verified_issues": [
+    {
+     "source": "maths",
+     "type": "claim_exceeds_receipt",
+     "severity": "high",
+     "clause_id": null,
+     "price_item": null,
+     "receipt_line": null,
+     "message": "Claimed 58000 but the receipt total is 46000",
+     "evidence": {
+      "claimed": 58000,
+      "receipt_total": 46000,
+      "difference": 12000
+     }
+    }
+   ],
+   "n_rule_issues": 0,
+   "n_dropped": 0,
+   "dropped": [],
+   "draft": "Dear Member 006,\n\nThank you for submitting claim TES-006. Unfortunately, it cannot be paid as submitted.\n\nYou claimed IDR 58,000, but the receipt total is IDR 46,000, a difference of IDR 12,000. To proceed, please submit a corrected claim for IDR 46,000 to match the receipt, or provide a receipt that supports the full IDR 58,000.\n\nKind regards,\nClub Treasurer",
+   "cost_usd": 0.001277,
+   "seconds": 0.71,
+   "cached": true
+  },
+  {
+   "claim_id": "TES-007",
+   "receipt_id": "test_007",
+   "image_path": "data/images/test/test_007.png",
+   "planted_error": null,
+   "planted_detail": null,
+   "natural_flags": [
+    "receipt_inconsistent"
+   ],
+   "expected": "needs_review",
+   "predicted": "needs_review",
+   "decision_reason": "medium-severity issues need a human decision",
+   "submitter": "Member 007",
+   "claimed_amount": 111000,
+   "currency": "IDR",
+   "receipt_total": 111000,
+   "readability": "clear",
+   "extraction_error": null,
+   "caught": {
+    "receipt_inconsistent": false
+   },
+   "verified_issues": [
+    {
+     "source": "maths",
+     "type": "claim_lines_vs_amount",
+     "severity": "medium",
+     "clause_id": null,
+     "price_item": null,
+     "receipt_line": null,
+     "message": "Claim lines sum to 100000 but the claimed amount is 111000 (receipt tax + service = 10091)",
+     "evidence": {
+      "claim_line_sum": 100000,
+      "claimed": 111000,
+      "receipt_tax_and_service": 10091
+     }
+    }
+   ],
+   "n_rule_issues": 0,
+   "n_dropped": 0,
+   "dropped": [],
+   "draft": "Hello Member 007,\n\nYour claim TES-007 for IDR 111,000 is on hold for a treasurer review. The claim lines add up to IDR 100,000, but the claimed amount is IDR 111,000. The difference matches the tax and service charges on your receipt (IDR 10,091), which were included in the claimed amount but not listed as separate claim lines.\n\nTo move this forward, you can:\n- Add a claim line for the tax and service charges (IDR 10,091), so the lines total IDR 111,000, or\n- Reply to confirm whether the claimed amount should be reduced to IDR 100,000.\n\nOnce we hear from you, the claim will be reviewed again.",
+   "cost_usd": 0.00139,
+   "seconds": 6.91,
+   "cached": false
+  },
+  {
+   "claim_id": "TES-008",
+   "receipt_id": "test_008",
+   "image_path": "data/images/test/test_008.png",
+   "planted_error": null,
+   "planted_detail": null,
+   "natural_flags": [],
+   "expected": "approve",
+   "predicted": "approve",
+   "decision_reason": "no issues found and the receipt is clear",
+   "submitter": "Member 008",
+   "claimed_amount": 50000,
+   "currency": "IDR",
+   "receipt_total": 50000,
+   "readability": "clear",
+   "extraction_error": null,
+   "caught": {},
+   "verified_issues": [],
+   "n_rule_issues": 0,
+   "n_dropped": 0,
+   "dropped": [],
+   "draft": "Hello Member 008,\n\nYour expense claim TES-008 for IDR 50,000 has been approved and will be paid. The amount you claimed matches the receipt total exactly, and no issues were found.\n\nThank you for submitting your claim.\n\nKind regards,\nClub Treasurer",
+   "cost_usd": 0.000973,
+   "seconds": 4.98,
+   "cached": false
+  },
+  {
+   "claim_id": "TES-009",
+   "receipt_id": "test_009",
+   "image_path": "data/images/test/test_009.png",
+   "planted_error": "policy_breach",
+   "planted_detail": {
+    "clause": "C1",
+    "detail": "no purpose stated"
+   },
+   "natural_flags": [],
+   "expected": "needs_review",
+   "predicted": "needs_review",
+   "decision_reason": "medium-severity issues need a human decision",
+   "submitter": "Member 009",
+   "claimed_amount": 36000,
+   "currency": "IDR",
+   "receipt_total": null,
+   "readability": "clear",
+   "extraction_error": null,
+   "caught": {
+    "policy_breach": true
+   },
+   "verified_issues": [
+    {
+     "source": "rules",
+     "type": "no_purpose_stated",
+     "severity": "medium",
+     "clause_id": "C1",
+     "price_item": null,
+     "receipt_line": "CLAIM_AMOUNT",
+     "message": "The claim has no stated purpose, so under C1 it is held for review until the treasurer receives a club activity or business purpose.",
+     "evidence": {
+      "clause_text": "C1. Purpose of expense: Expenses are reimbursable only when incurred for an approved club activity or business purpose. The claim must state the purpose. Claims with no stated purpose are held for review."
+     }
+    }
+   ],
+   "n_rule_issues": 1,
+   "n_dropped": 0,
+   "dropped": [],
+   "draft": "Hello Member 009,\n\nThank you for submitting claim TES-009 for IDR 36,000.\n\nThis claim is on hold because no purpose is stated. Under clause C1, expenses are reimbursable only when incurred for an approved club activity or business purpose, and the claim must state that purpose.\n\nTo move this forward, please reply with the club activity or business purpose for this expense. Once the treasurer receives it, the claim will be reviewed again.\n\nKind regards,\nClub Treasurer",
+   "cost_usd": 0.001133,
+   "seconds": 0.47,
+   "cached": true
+  },
+  {
+   "claim_id": "TES-010",
+   "receipt_id": "test_010",
+   "image_path": "data/images/test/test_010.png",
+   "planted_error": null,
+   "planted_detail": null,
+   "natural_flags": [],
+   "expected": "approve",
+   "predicted": "approve",
+   "decision_reason": "no issues found and the receipt is clear",
+   "submitter": "Member 010",
+   "claimed_amount": 17000,
+   "currency": "IDR",
+   "receipt_total": 17000,
+   "readability": "clear",
+   "extraction_error": null,
+   "caught": {},
+   "verified_issues": [],
+   "n_rule_issues": 0,
+   "n_dropped": 0,
+   "dropped": [],
+   "draft": "Hello Member 010,\n\nYour expense claim TES-010 for IDR 17,000 has been approved and will be paid. The amount claimed matches the receipt total of IDR 17,000, and no issues were found.\n\nThank you for submitting your claim.\n\nKind regards,\nClub Treasurer",
+   "cost_usd": 0.000679,
+   "seconds": 0.32,
+   "cached": true
+  },
+  {
+   "claim_id": "TES-011",
+   "receipt_id": "test_011",
+   "image_path": "data/images/test/test_011.png",
+   "planted_error": null,
+   "planted_detail": null,
+   "natural_flags": [],
+   "expected": "approve",
+   "predicted": "needs_review",
+   "decision_reason": "medium-severity issues need a human decision",
+   "submitter": "Member 011",
+   "claimed_amount": 230000,
+   "currency": "IDR",
+   "receipt_total": 230000,
+   "readability": "clear",
+   "extraction_error": null,
+   "caught": {},
+   "verified_issues": [
+    {
+     "source": "rules",
+     "type": "price_above_list",
+     "severity": "medium",
+     "clause_id": null,
+     "price_item": "almond cream cheese",
+     "receipt_line": "1 BANABERRY FRESH CREAM CAK 230,000",
+     "message": "The receipt line totals 230,000 for one cake, while the closest retrieved price-list row (almond cream cheese) has an agreed maximum of 31,000. The price is well above the list and should be reviewed against the actual item.",
+     "evidence": {
+      "unit_price_paid": 230000,
+      "agreed_max_unit_price": 31000,
+      "price_list_item": "almond cream cheese"
+     }
+    }
+   ],
+   "n_rule_issues": 1,
+   "n_dropped": 0,
+   "dropped": [],
+   "draft": "Dear Member 011,\n\nYour claim TES-011 for IDR 230,000 is on hold for review.\n\nThe receipt line \"1 BANABERRY FRESH CREAM CAK\" totals IDR 230,000. The closest item on our price list, almond cream cheese, has an agreed maximum of IDR 31,000. The price is well above that list rate, so we need to check it against the actual item purchased.\n\nTo help us proceed, please send the itemised invoice or a note describing the cake and why its price differs from the list. Once we have this, a treasurer will make the final decision.\n\nKind regards,\nClub Treasurer",
+   "cost_usd": 0.001208,
+   "seconds": 0.3,
+   "cached": true
+  },
+  {
+   "claim_id": "TES-012",
+   "receipt_id": "test_012",
+   "image_path": "data/images/test/test_012.png",
+   "planted_error": null,
+   "planted_detail": null,
+   "natural_flags": [],
+   "expected": "approve",
+   "predicted": "reject",
+   "decision_reason": "at least one high-severity issue with evidence",
+   "submitter": "Member 012",
+   "claimed_amount": 120000,
+   "currency": "IDR",
+   "receipt_total": 120000,
+   "readability": "partly unclear",
+   "extraction_error": null,
+   "caught": {},
+   "verified_issues": [
+    {
+     "source": "rules",
+     "type": "personal_item_clothing",
+     "severity": "high",
+     "clause_id": "C6",
+     "price_item": null,
+     "receipt_line": "0571-1854 BLUS WANITA / 1 8120,000 0% 120,000",
+     "message": "BLUS WANITA is clothing, which is a personal item and not reimbursable under C6. This 120,000 IDR line should be rejected, and the claim's stated purpose (food for volunteers) does not match the receipt.",
+     "evidence": {
+      "clause_text": "C6. Personal and non-business items: Personal items are not reimbursable: toiletries, clothing, phone credit (pulsa), gift cards, games, lottery, medicines for personal use, and gifts for individuals. Such items are rejected."
+     }
+    }
+   ],
+   "n_rule_issues": 1,
+   "n_dropped": 0,
+   "dropped": [],
+   "draft": "Claim TES-012 cannot be paid as submitted.\n\nThe receipt shows one line, \"BLUS WANITA\", for 120,000 IDR, which matches the claimed amount. Clothing is a personal item and is not reimbursable under clause C6, so the full 120,000 IDR is rejected.\n\nThe claim's stated purpose is food for volunteers, but the receipt does not show food. To resubmit, please provide a receipt that matches the stated purpose, or correct the claim so it reflects what was actually bought.\n\nTreasurer",
+   "cost_usd": 0.001371,
+   "seconds": 0.45,
+   "cached": true
+  },
+  {
+   "claim_id": "TES-013",
+   "receipt_id": "test_013",
+   "image_path": "data/images/test/test_013.png",
+   "planted_error": null,
+   "planted_detail": null,
+   "natural_flags": [],
+   "expected": "approve",
+   "predicted": "needs_review",
+   "decision_reason": "medium-severity issues need a human decision",
+   "submitter": "Member 013",
+   "claimed_amount": 51300,
+   "currency": "IDR",
+   "receipt_total": 51300,
+   "readability": "partly unclear",
+   "extraction_error": null,
+   "caught": {},
+   "verified_issues": [
+    {
+     "source": "maths",
+     "type": "totals_arithmetic",
+     "severity": "medium",
+     "clause_id": null,
+     "price_item": null,
+     "receipt_line": null,
+     "message": "46636 + tax 0 + service 0 - discount 0 = 46636, but total shows 51300",
+     "evidence": {
+      "subtotal": 46636,
+      "tax": null,
+      "service": null,
+      "discount": null,
+      "expected": 46636,
+      "total": 51300
+     }
+    }
+   ],
+   "n_rule_issues": 0,
+   "n_dropped": 0,
+   "dropped": [],
+   "draft": "Dear Member 013,\n\nThank you for submitting claim TES-013 for IDR 51,300.\n\nYour claim is on hold for review. The receipt subtotal is IDR 46,636 with no tax, service or discount, but the receipt total shows IDR 51,300. The difference of IDR 4,664 is not explained on the receipt. There is no clause reference for this issue.\n\nTo move the claim forward, please send a corrected or fuller receipt that shows how the total of IDR 51,300 was reached, or a note explaining the extra amount. We will review it once received.\n\nKind regards,\nClub Treasurer",
+   "cost_usd": 0.001296,
+   "seconds": 0.41,
+   "cached": true
+  },
+  {
+   "claim_id": "TES-014",
+   "receipt_id": "test_014",
+   "image_path": "data/images/test/test_014.png",
+   "planted_error": null,
+   "planted_detail": null,
+   "natural_flags": [
+    "price_above_list"
+   ],
+   "expected": "needs_review",
+   "predicted": "needs_review",
+   "decision_reason": "medium-severity issues need a human decision",
+   "submitter": "Member 014",
+   "claimed_amount": 281435,
+   "currency": "IDR",
+   "receipt_total": 281435,
+   "readability": "partly unclear",
+   "extraction_error": null,
+   "caught": {
+    "price_above_list": true
+   },
+   "verified_issues": [
+    {
+     "source": "maths",
+     "type": "totals_arithmetic",
+     "severity": "medium",
+     "clause_id": null,
+     "price_item": null,
+     "receipt_line": null,
+     "message": "238000 + tax 25585 + service 17850 - discount 100000 = 181435, but total shows 281435",
+     "evidence": {
+      "subtotal": 238000,
+      "tax": 25585,
+      "service": 17850,
+      "discount": 100000,
+      "expected": 181435,
+      "total": 281435
+     }
+    },
+    {
+     "source": "rules",
+     "type": "price_above_list",
+     "severity": "low",
+     "clause_id": null,
+     "price_item": "cheese tart",
+     "receipt_line": "1 RedVelvet Cheese Slc 38,000",
+     "message": "The RedVelvet Cheese Slc line is 38,000, above the agreed maximum of 32,000 for cheese tart. The excess of 6,000 may need to be justified or reduced.",
+     "evidence": {
+      "unit_price_paid": 38000.0,
+      "agreed_max_unit_price": 32000,
+      "price_list_item": "cheese tart"
+     }
+    },
+    {
+     "source": "rules",
+     "type": "price_above_list",
+     "severity": "low",
+     "clause_id": null,
+     "price_item": "iced tea",
+     "receipt_line": "1 Iced Tea 20,000",
+     "message": "The Iced Tea line is 20,000, above the agreed maximum of 13,500 for iced tea. The excess of 6,500 may need to be justified or reduced.",
+     "evidence": {
+      "unit_price_paid": 20000.0,
+      "agreed_max_unit_price": 13500,
+      "price_list_item": "iced tea"
+     }
+    }
+   ],
+   "n_rule_issues": 2,
+   "n_dropped": 0,
+   "dropped": [],
+   "draft": "Subject: Expense claim TES-014 is on hold\n\nDear Member 014,\n\nYour claim TES-014 for IDR 281,435 is on hold while a committee member reviews it.\n\nThe receipt does not add up. Subtotal 238,000 plus tax 25,585 plus service 17,850, less discount 100,000, comes to 181,435, but the total shows 281,435. The difference is 100,000. Please check the receipt and send a corrected copy or a note explaining the figure.\n\nTwo lines are above the agreed maximum price list:\n- RedVelvet Cheese Slc (cheese tart) was 38,000, against a maximum of 32,000. The excess is 6,000.\n- Iced Tea was 20,000, against a maximum of 13,500. The excess is 6,500.\n\nYou can reply with a justification for these prices, or we can reimburse at the agreed maximums once the total is confirmed.\n\nKind regards,\nClub Treasurer",
+   "cost_usd": 0.001813,
+   "seconds": 10.54,
+   "cached": false
+  },
+  {
+   "claim_id": "TES-015",
+   "receipt_id": "test_015",
+   "image_path": "data/images/test/test_015.png",
+   "planted_error": null,
+   "planted_detail": null,
+   "natural_flags": [],
+   "expected": "approve",
+   "predicted": "approve",
+   "decision_reason": "no issues found and the receipt is clear",
+   "submitter": "Member 015",
+   "claimed_amount": 63000,
+   "currency": "IDR",
+   "receipt_total": 63000,
+   "readability": "clear",
+   "extraction_error": null,
+   "caught": {},
+   "verified_issues": [],
+   "n_rule_issues": 0,
+   "n_dropped": 0,
+   "dropped": [],
+   "draft": "Hello Member 015,\n\nYour expense claim TES-015 for IDR 63,000 has been approved and will be paid. The amount you claimed matches the receipt total of IDR 63,000, and no issues were found.\n\nThank you for submitting your claim.\n\nKind regards,\nClub Treasurer",
+   "cost_usd": 0.00073,
+   "seconds": 0.47,
+   "cached": true
+  },
+  {
+   "claim_id": "TES-016",
+   "receipt_id": "test_016",
+   "image_path": "data/images/test/test_016.png",
+   "planted_error": "item_not_on_receipt",
+   "planted_detail": {
+    "item": "NASI 2SAYUR TELR",
+    "price": 18000
+   },
+   "natural_flags": [],
+   "expected": "reject",
+   "predicted": "reject",
+   "decision_reason": "at least one high-severity issue with evidence",
+   "submitter": "Member 016",
+   "claimed_amount": 88000,
+   "currency": "IDR",
+   "receipt_total": 70000,
+   "readability": "clear",
+   "extraction_error": null,
+   "caught": {
+    "item_not_on_receipt": true
+   },
+   "verified_issues": [
+    {
+     "source": "maths",
+     "type": "claim_exceeds_receipt",
+     "severity": "high",
+     "clause_id": null,
+     "price_item": null,
+     "receipt_line": null,
+     "message": "Claimed 88000 but the receipt total is 70000",
+     "evidence": {
+      "claimed": 88000,
+      "receipt_total": 70000,
+      "difference": 18000
+     }
+    },
+    {
+     "source": "maths",
+     "type": "claimed_item_not_on_receipt",
+     "severity": "high",
+     "clause_id": null,
+     "price_item": null,
+     "receipt_line": null,
+     "message": "'NASI 2SAYUR TELR' is claimed but no receipt line matches it",
+     "evidence": {
+      "claimed_name": "NASI 2SAYUR TELR",
+      "closest": "ROASTED ALMOND",
+      "match_score": 40.0
+     }
+    },
+    {
+     "source": "rules",
+     "type": "claim_exceeds_receipt_policy",
+     "severity": "high",
+     "clause_id": "C4",
+     "price_item": null,
+     "receipt_line": "CLAIM_AMOUNT",
+     "message": "The claim is for IDR 88000 but the receipt total is IDR 70000. Under C4 a claim for more than the receipt total is rejected, so the claim should be reduced to IDR 70000 or less.",
+     "evidence": {
+      "clause_text": "C4. Claimed amount must match the receipt: The amount claimed must equal the total printed on the receipt. A claim for more than the receipt total is rejected. A claim for less than the receipt total is acceptable (the claimant may choose not to claim some items)."
+     }
+    }
+   ],
+   "n_rule_issues": 1,
+   "n_dropped": 0,
+   "dropped": [],
+   "draft": "Dear Member 016,\n\nClaim TES-016 cannot be paid as submitted, so it has been rejected.\n\n- You claimed IDR 88000, but the receipt total is IDR 70000. Under clause C4, a claim for more than the receipt total is rejected. The difference is IDR 18000.\n- The item \"NASI 2SAYUR TELR\" is claimed but does not appear on the receipt. The closest receipt line is \"ROASTED ALMOND\", so this item cannot be matched.\n\nTo fix this, please resubmit the claim for IDR 70000 or less, and make sure every claimed item appears on the receipt. Claiming less than the receipt total is acceptable under C4.\n\nThank you,\nClub Treasurer",
+   "cost_usd": 0.001599,
+   "seconds": 7.38,
+   "cached": false
+  },
+  {
+   "claim_id": "TES-017",
+   "receipt_id": "test_017",
+   "image_path": "data/images/test/test_017.png",
+   "planted_error": "totals_mismatch",
+   "planted_detail": {
+    "item": "Chili Pepper Croquette",
+    "delta": 5000
+   },
+   "natural_flags": [],
+   "expected": "needs_review",
+   "predicted": "needs_review",
+   "decision_reason": "medium-severity issues need a human decision",
+   "submitter": "Member 017",
+   "claimed_amount": 91000,
+   "currency": "IDR",
+   "receipt_total": 91000,
+   "readability": "clear",
+   "extraction_error": null,
+   "caught": {
+    "totals_mismatch": true
+   },
+   "verified_issues": [
+    {
+     "source": "maths",
+     "type": "claim_lines_vs_amount",
+     "severity": "medium",
+     "clause_id": null,
+     "price_item": null,
+     "receipt_line": null,
+     "message": "Claim lines sum to 96000 but the claimed amount is 91000",
+     "evidence": {
+      "claim_line_sum": 96000,
+      "claimed": 91000,
+      "receipt_tax_and_service": 0
+     }
+    }
+   ],
+   "n_rule_issues": 0,
+   "n_dropped": 0,
+   "dropped": [],
+   "draft": "Hello Member 017,\n\nYour expense claim TES-017 for IDR 91,000 is on hold for review. The individual claim lines add up to IDR 96,000, but the claimed amount is IDR 91,000, so the two figures do not match.\n\nPlease check the line items and the total, then reply with a corrected claim. If the claimed amount should be IDR 96,000, let us know and we will review it again. Once the figures agree with your receipt, the claim can move forward.\n\nThank you,\nClub Treasurer",
+   "cost_usd": 0.001543,
+   "seconds": 6.99,
+   "cached": false
+  },
+  {
+   "claim_id": "TES-018",
+   "receipt_id": "test_018",
+   "image_path": "data/images/test/test_018.png",
+   "planted_error": "inflated_amount",
+   "planted_detail": {
+    "delta": 45000
+   },
+   "natural_flags": [],
+   "expected": "reject",
+   "predicted": "reject",
+   "decision_reason": "at least one high-severity issue with evidence",
+   "submitter": "Member 018",
+   "claimed_amount": 201000,
+   "currency": "IDR",
+   "receipt_total": null,
+   "readability": "clear",
+   "extraction_error": null,
+   "caught": {
+    "inflated_amount": true
+   },
+   "verified_issues": [
+    {
+     "source": "maths",
+     "type": "claim_exceeds_receipt",
+     "severity": "high",
+     "clause_id": null,
+     "price_item": null,
+     "receipt_line": null,
+     "message": "Claimed 201000 but the receipt total is 156000",
+     "evidence": {
+      "claimed": 201000,
+      "receipt_total": 156000,
+      "difference": 45000
+     }
+    },
+    {
+     "source": "rules",
+     "type": "claim_exceeds_receipt_policy",
+     "severity": "high",
+     "clause_id": "C4",
+     "price_item": null,
+     "receipt_line": "CLAIM_AMOUNT",
+     "message": "The claimed amount of 201000 is higher than the receipt total of 156000, and C4 says a claim for more than the receipt total is rejected. Reduce the claim to the receipt total or below.",
+     "evidence": {
+      "clause_text": "C4. Claimed amount must match the receipt: The amount claimed must equal the total printed on the receipt. A claim for more than the receipt total is rejected. A claim for less than the receipt total is acceptable (the claimant may choose not to claim some items)."
+     }
+    }
+   ],
+   "n_rule_issues": 1,
+   "n_dropped": 0,
+   "dropped": [],
+   "draft": "Dear Member 018,\n\nThank you for submitting claim TES-018. We are unable to pay this claim as submitted, so it has been rejected.\n\n- You claimed IDR 201,000, but the receipt total is IDR 156,000. The difference is IDR 45,000.\n- Under clause C4, a claim for more than the receipt total is rejected.\n\nTo resolve this, please resubmit the claim with an amount of IDR 156,000 or less. A claim for less than the receipt total is acceptable if you prefer not to claim some items.\n\nKind regards,\nClub Treasurer",
+   "cost_usd": 0.001278,
+   "seconds": 5.33,
+   "cached": false
+  },
+  {
+   "claim_id": "TES-019",
+   "receipt_id": "test_019",
+   "image_path": "data/images/test/test_019.png",
+   "planted_error": null,
+   "planted_detail": null,
+   "natural_flags": [],
+   "expected": "approve",
+   "predicted": "approve",
+   "decision_reason": "no issues found and the receipt is clear",
+   "submitter": "Member 019",
+   "claimed_amount": 176000,
+   "currency": "IDR",
+   "receipt_total": 176000,
+   "readability": "clear",
+   "extraction_error": null,
+   "caught": {},
+   "verified_issues": [],
+   "n_rule_issues": 0,
+   "n_dropped": 0,
+   "dropped": [],
+   "draft": "Hello Member 019,\n\nYour expense claim TES-019 for IDR 176,000 has been approved and will be paid. The amount you claimed matches the receipt total of IDR 176,000, and no issues were found.\n\nThank you for submitting your claim.\n\nKind regards,\nClub Treasurer",
+   "cost_usd": 0.000982,
+   "seconds": 4.33,
+   "cached": false
+  },
+  {
+   "claim_id": "TES-020",
+   "receipt_id": "test_020",
+   "image_path": "data/images/test/test_020.png",
+   "planted_error": null,
+   "planted_detail": null,
+   "natural_flags": [],
+   "expected": "approve",
+   "predicted": "needs_review",
+   "decision_reason": "medium-severity issues need a human decision",
+   "submitter": "Member 020",
+   "claimed_amount": 377859,
+   "currency": "IDR",
+   "receipt_total": 377859,
+   "readability": "partly unclear",
+   "extraction_error": null,
+   "caught": {},
+   "verified_issues": [
+    {
+     "source": "rules",
+     "type": "meal_per_person_above_limit",
+     "severity": "medium",
+     "clause_id": "C12",
+     "price_item": null,
+     "receipt_line": "CLAIM_AMOUNT",
+     "message": "The claim is IDR 377,859 for 2 people, about IDR 188,929 per person, which is above the IDR 150,000 per-person limit, so the claim is held for review. The number of people is stated, so that requirement is met.",
+     "evidence": {
+      "clause_text": "C12. Meals and hospitality: Meals are reimbursable when they are part of an approved activity. Meal claims above IDR 150,000 per person are held for review. The number of people must be stated for any meal claim above IDR 150,000 in total."
+     }
+    },
+    {
+     "source": "rules",
+     "type": "price_above_list",
+     "severity": "medium",
+     "clause_id": null,
+     "price_item": "rice",
+     "receipt_line": "4 steamed rice 47,600",
+     "message": "Steamed rice is billed at about IDR 11,900 per unit (47,600 / 4), which is above the agreed maximum of IDR 7,500 for rice on the price list.",
+     "evidence": {
+      "unit_price_paid": 11900.0,
+      "agreed_max_unit_price": 7500,
+      "price_list_item": "rice"
+     }
+    }
+   ],
+   "n_rule_issues": 2,
+   "n_dropped": 0,
+   "dropped": [],
+   "draft": "Subject: Claim TES-020 is on hold for review\n\nHello Member 020,\n\nYour claim TES-020 for IDR 377,859 (receipt total matches) is on hold and has not been approved yet.\n\n- Meal limit: The claim covers 2 people, about IDR 188,929 per person, which is above the IDR 150,000 per-person limit under clause C12. The number of people is stated, so this is held for a human decision.\n- Rice price: Steamed rice is billed at about IDR 11,900 per unit (IDR 47,600 for 4), which is above the agreed maximum of IDR 7,500 on the price list.\n\nYou can reply with a note explaining why the meal cost was above the limit, such as an approved activity that needs the higher amount. You may also submit a revised claim with the rice line corrected to the price-list rate or supported by a reason.\n\nKind regards,\nClub Treasurer",
+   "cost_usd": 0.0018,
+   "seconds": 8.43,
+   "cached": false
+  },
+  {
+   "claim_id": "TES-021",
+   "receipt_id": "test_021",
+   "image_path": "data/images/test/test_021.png",
+   "planted_error": null,
+   "planted_detail": null,
+   "natural_flags": [],
+   "expected": "approve",
+   "predicted": "needs_review",
+   "decision_reason": "medium-severity issues need a human decision",
+   "submitter": "Member 021",
+   "claimed_amount": 38000,
+   "currency": "IDR",
+   "receipt_total": 38000,
+   "readability": "clear",
+   "extraction_error": null,
+   "caught": {},
+   "verified_issues": [
+    {
+     "source": "rules",
+     "type": "price_above_list",
+     "severity": "medium",
+     "clause_id": null,
+     "price_item": "nasi goreng",
+     "receipt_line": "1 35.000 Rp35.000 NASI GOR SFD TLR",
+     "message": "The unit price of 35,000 IDR is above the agreed maximum of 33,000 IDR for 'nasi goreng' on the price list. The treasurer should check the 2,000 IDR difference before approving this line.",
+     "evidence": {
+      "unit_price_paid": 35000,
+      "agreed_max_unit_price": 33000,
+      "price_list_item": "nasi goreng"
+     }
+    }
+   ],
+   "n_rule_issues": 1,
+   "n_dropped": 0,
+   "dropped": [],
+   "draft": "Dear Member 021,\n\nThank you for submitting claim TES-021 for 38,000 IDR. The receipt total matches the amount claimed.\n\nOne line is on hold. The nasi goreng was bought at 35,000 IDR per unit, but the agreed maximum on the price list is 33,000 IDR, a difference of 2,000 IDR. The treasurer needs to check this difference before the claim can be approved.\n\n- You can reply with a reason for the higher price, such as a note from the vendor or the event context.\n- Alternatively, you can resubmit the claim with the nasi goreng line at 33,000 IDR, which would bring the total to 36,000 IDR.\n\nOnce this is resolved, we will confirm the outcome to you.\n\nKind regards,\nClub Treasurer",
+   "cost_usd": 0.001452,
+   "seconds": 6.29,
+   "cached": false
+  },
+  {
+   "claim_id": "TES-022",
+   "receipt_id": "test_022",
+   "image_path": "data/images/test/test_022.png",
+   "planted_error": null,
+   "planted_detail": null,
+   "natural_flags": [],
+   "expected": "approve",
+   "predicted": "approve",
+   "decision_reason": "no issues found and the receipt is clear",
+   "submitter": "Member 022",
+   "claimed_amount": 40000,
+   "currency": "IDR",
+   "receipt_total": 40000,
+   "readability": "clear",
+   "extraction_error": null,
+   "caught": {},
+   "verified_issues": [],
+   "n_rule_issues": 0,
+   "n_dropped": 0,
+   "dropped": [],
+   "draft": "Hello Member 022,\n\nYour expense claim TES-022 for IDR 40,000 has been approved and will be paid. The claimed amount matches the receipt total of IDR 40,000, and no issues were found.\n\nThank you for submitting your claim.\n\nBest regards,\nClub Treasurer",
+   "cost_usd": 0.001052,
+   "seconds": 3.78,
+   "cached": false
+  },
+  {
+   "claim_id": "TES-023",
+   "receipt_id": "test_023",
+   "image_path": "data/images/test/test_023.png",
+   "planted_error": null,
+   "planted_detail": null,
+   "natural_flags": [],
+   "expected": "approve",
+   "predicted": "approve",
+   "decision_reason": "no issues found and the receipt is clear",
+   "submitter": "Member 023",
+   "claimed_amount": 63000,
+   "currency": "IDR",
+   "receipt_total": 63000,
+   "readability": "clear",
+   "extraction_error": null,
+   "caught": {},
+   "verified_issues": [],
+   "n_rule_issues": 0,
+   "n_dropped": 0,
+   "dropped": [],
+   "draft": "Hello Member 023,\n\nYour expense claim TES-023 for IDR 63,000 has been approved and will be paid. The amount claimed matches the receipt total of IDR 63,000, and no issues were found.\n\nThank you for submitting your claim.\n\nBest regards,\nClub Treasurer",
+   "cost_usd": 0.000886,
+   "seconds": 4.0,
+   "cached": false
+  },
+  {
+   "claim_id": "TES-024",
+   "receipt_id": "test_024",
+   "image_path": "data/images/test/test_024.png",
+   "planted_error": null,
+   "planted_detail": null,
+   "natural_flags": [],
+   "expected": "approve",
+   "predicted": "approve",
+   "decision_reason": "no issues found and the receipt is clear",
+   "submitter": "Member 024",
+   "claimed_amount": 118000,
+   "currency": "IDR",
+   "receipt_total": 118000,
+   "readability": "clear",
+   "extraction_error": null,
+   "caught": {},
+   "verified_issues": [],
+   "n_rule_issues": 0,
+   "n_dropped": 0,
+   "dropped": [],
+   "draft": "Hello Member 024,\n\nYour expense claim TES-024 for IDR 118,000 has been approved and will be paid. The amount you claimed matches the receipt total, and no issues were found.\n\nThank you for submitting it.\n\nBest regards,\nClub Treasurer",
+   "cost_usd": 0.001225,
+   "seconds": 5.87,
+   "cached": false
+  },
+  {
+   "claim_id": "TES-025",
+   "receipt_id": "test_025",
+   "image_path": "data/images/test/test_025.png",
+   "planted_error": "item_not_on_receipt",
+   "planted_detail": {
+    "item": "A.MINERAL BOTOL",
+    "price": 22000
+   },
+   "natural_flags": [
+    "packaging_over_5000"
+   ],
+   "expected": "reject",
+   "predicted": "reject",
+   "decision_reason": "at least one high-severity issue with evidence",
+   "submitter": "Member 025",
+   "claimed_amount": 65000,
+   "currency": "IDR",
+   "receipt_total": 43000,
+   "readability": "clear",
+   "extraction_error": null,
+   "caught": {
+    "item_not_on_receipt": true,
+    "packaging_over_5000": false
+   },
+   "verified_issues": [
+    {
+     "source": "maths",
+     "type": "claim_exceeds_receipt",
+     "severity": "high",
+     "clause_id": null,
+     "price_item": null,
+     "receipt_line": null,
+     "message": "Claimed 65000 but the receipt total is 43000",
+     "evidence": {
+      "claimed": 65000,
+      "receipt_total": 43000,
+      "difference": 22000
+     }
+    },
+    {
+     "source": "maths",
+     "type": "claimed_item_not_on_receipt",
+     "severity": "high",
+     "clause_id": null,
+     "price_item": null,
+     "receipt_line": null,
+     "message": "'A.MINERAL BOTOL' is claimed but no receipt line matches it",
+     "evidence": {
+      "claimed_name": "A.MINERAL BOTOL",
+      "closest": "POTATO PEPPER BAGEL",
+      "match_score": 41.1764705882353
+     }
+    }
+   ],
+   "n_rule_issues": 0,
+   "n_dropped": 0,
+   "dropped": [],
+   "draft": "Dear Member 025,\n\nThank you for submitting claim TES-025. We are unable to pay this claim as submitted, and it has been rejected.\n\n- The claimed amount is 65,000 IDR, but the receipt total is 43,000 IDR, a difference of 22,000 IDR.\n- The item \"A.MINERAL BOTOL\" is claimed, but no matching line appears on the receipt.\n\nTo have this claim reconsidered, please correct the claimed amount to match the receipt total, or provide a receipt that includes the mineral water item. You are welcome to resubmit with these changes.\n\nKind regards,\nClub Treasurer",
+   "cost_usd": 0.001044,
+   "seconds": 4.6,
+   "cached": false
+  },
+  {
+   "claim_id": "TES-026",
+   "receipt_id": "test_026",
+   "image_path": "data/images/test/test_026.png",
+   "planted_error": "item_not_on_receipt",
+   "planted_detail": {
+    "item": "OYONG 3 TELOR",
+    "price": 12000
+   },
+   "natural_flags": [
+    "receipt_inconsistent"
+   ],
+   "expected": "reject",
+   "predicted": "reject",
+   "decision_reason": "at least one high-severity issue with evidence",
+   "submitter": "Member 026",
+   "claimed_amount": 150000,
+   "currency": "IDR",
+   "receipt_total": 138000,
+   "readability": "partly unclear",
+   "extraction_error": null,
+   "caught": {
+    "item_not_on_receipt": true,
+    "receipt_inconsistent": false
+   },
+   "verified_issues": [
+    {
+     "source": "maths",
+     "type": "claim_exceeds_receipt",
+     "severity": "high",
+     "clause_id": null,
+     "price_item": null,
+     "receipt_line": null,
+     "message": "Claimed 150000 but the receipt total is 138000",
+     "evidence": {
+      "claimed": 150000,
+      "receipt_total": 138000,
+      "difference": 12000
+     }
+    },
+    {
+     "source": "maths",
+     "type": "claim_lines_vs_amount",
+     "severity": "medium",
+     "clause_id": null,
+     "price_item": null,
+     "receipt_line": null,
+     "message": "Claim lines sum to 142000 but the claimed amount is 150000",
+     "evidence": {
+      "claim_line_sum": 142000,
+      "claimed": 150000,
+      "receipt_tax_and_service": 0
+     }
+    },
+    {
+     "source": "maths",
+     "type": "claimed_item_not_on_receipt",
+     "severity": "high",
+     "clause_id": null,
+     "price_item": null,
+     "receipt_line": null,
+     "message": "'OYONG 3 TELOR' is claimed but no receipt line matches it",
+     "evidence": {
+      "claimed_name": "OYONG 3 TELOR",
+      "closest": "Fu Yung Hai",
+      "match_score": 33.33333333333333
+     }
+    }
+   ],
+   "n_rule_issues": 0,
+   "n_dropped": 0,
+   "dropped": [],
+   "draft": "Dear Member 026,\n\nThank you for submitting claim TES-026. It cannot be paid as submitted.\n\n- Claimed amount is 150000 IDR, but the receipt total is 138000 IDR, a difference of 12000 IDR.\n- Your claim lines add up to 142000 IDR, not the 150000 IDR claimed, so the claimed amount should match the lines.\n- The item \"OYONG 3 TELOR\" is claimed but does not appear on the receipt.\n\nTo resubmit, please correct the claimed amount to match the receipt total and the claim lines, and remove any item that is not on the receipt, or provide a receipt that includes it.\n\nKind regards,\nClub Treasurer",
+   "cost_usd": 0.001581,
+   "seconds": 5.22,
+   "cached": false
+  },
+  {
+   "claim_id": "TES-027",
+   "receipt_id": "test_027",
+   "image_path": "data/images/test/test_027.png",
+   "planted_error": null,
+   "planted_detail": null,
+   "natural_flags": [],
+   "expected": "approve",
+   "predicted": "approve",
+   "decision_reason": "no issues found and the receipt is clear",
+   "submitter": "Member 027",
+   "claimed_amount": 61600,
+   "currency": "IDR",
+   "receipt_total": 61600,
+   "readability": "clear",
+   "extraction_error": null,
+   "caught": {},
+   "verified_issues": [],
+   "n_rule_issues": 0,
+   "n_dropped": 0,
+   "dropped": [],
+   "draft": "Hello Member 027,\n\nYour expense claim TES-027 for IDR 61,600 has been approved and will be paid. The amount you claimed matches the receipt total exactly, and no issues were found.\n\nThank you for submitting it.\n\nKind regards,\nClub Treasurer",
+   "cost_usd": 0.000937,
+   "seconds": 3.75,
+   "cached": false
+  },
+  {
+   "claim_id": "TES-028",
+   "receipt_id": "test_028",
+   "image_path": "data/images/test/test_028.png",
+   "planted_error": "totals_mismatch",
+   "planted_detail": {
+    "item": "SUL LUNG TANG",
+    "delta": 26000
+   },
+   "natural_flags": [],
+   "expected": "needs_review",
+   "predicted": "reject",
+   "decision_reason": "at least one high-severity issue with evidence",
+   "submitter": "Member 028",
+   "claimed_amount": 426195,
+   "currency": "IDR",
+   "receipt_total": 426195,
+   "readability": "clear",
+   "extraction_error": null,
+   "caught": {
+    "totals_mismatch": true
+   },
+   "verified_issues": [
+    {
+     "source": "maths",
+     "type": "claim_lines_vs_amount",
+     "severity": "medium",
+     "clause_id": null,
+     "price_item": null,
+     "receipt_line": null,
+     "message": "Claim lines sum to 395000 but the claimed amount is 426195 (receipt tax + service = 57195)",
+     "evidence": {
+      "claim_line_sum": 395000,
+      "claimed": 426195,
+      "receipt_tax_and_service": 57195
+     }
+    },
+    {
+     "source": "rules",
+     "type": "alcohol_item",
+     "severity": "high",
+     "clause_id": "C3",
+     "price_item": null,
+     "receipt_line": "MAKOLI 1 100,000",
+     "message": "Makoli is a Korean rice wine, an alcoholic drink, so this item is never reimbursable and must be removed from the claim (IDR 100,000).",
+     "evidence": {
+      "clause_text": "C3. Alcohol and tobacco: Alcoholic drinks and tobacco products are never reimbursable. This includes beer (bir, Bintang, Heineken, Guinness, Anker), wine (anggur), spirits, soju, sake, cocktails, and cigarettes (rokok, Sampoerna, Marlboro, Gudang Garam). A claim that contains any such item is rejected for that item."
+     }
+    },
+    {
+     "source": "rules",
+     "type": "meal_per_person_above_limit",
+     "severity": "medium",
+     "clause_id": "C12",
+     "price_item": null,
+     "receipt_line": "CLAIM_AMOUNT",
+     "message": "The claimed amount of IDR 426,195 for 2 people is about IDR 213,098 per person, above the IDR 150,000 per-person limit, so the claim is held for review.",
+     "evidence": {
+      "clause_text": "C12. Meals and hospitality: Meals are reimbursable when they are part of an approved activity. Meal claims above IDR 150,000 per person are held for review. The number of people must be stated for any meal claim above IDR 150,000 in total."
+     }
+    }
+   ],
+   "n_rule_issues": 2,
+   "n_dropped": 0,
+   "dropped": [],
+   "draft": "Subject: Expense claim TES-028 - cannot be paid as submitted\n\nHello Member 028,\n\nClaim TES-028 cannot be paid as submitted. There are two problems:\n\n- The claim includes MAKOLI (IDR 100,000). Makoli is an alcoholic rice wine, and under clause C3 alcoholic drinks are never reimbursable. Removing this item from the claim would fix this part.\n- The claim lines add up to IDR 395,000, but the claimed amount is IDR 426,195. The difference of IDR 57,195 matches the receipt tax and service. Please claim the amount that matches your claim lines, or correct the total.\n\nOnce the alcohol item is removed and the amounts match, please resubmit the claim.\n\nNote also that the claimed amount of IDR 426,195 for 2 people is about IDR 213,098 per person, which is above the IDR 150,000 per-person limit under clause C12. The claim is held for review on this point, so please be ready to explain the meal and its attendees when you resubmit.\n\nKind regards,\nClub Treasurer",
+   "cost_usd": 0.001536,
+   "seconds": 8.97,
+   "cached": false
+  },
+  {
+   "claim_id": "TES-029",
+   "receipt_id": "test_029",
+   "image_path": "data/images/test/test_029.png",
+   "planted_error": null,
+   "planted_detail": null,
+   "natural_flags": [],
+   "expected": "approve",
+   "predicted": "approve",
+   "decision_reason": "no issues found and the receipt is clear",
+   "submitter": "Member 029",
+   "claimed_amount": 145900,
+   "currency": "IDR",
+   "receipt_total": 145900,
+   "readability": "clear",
+   "extraction_error": null,
+   "caught": {},
+   "verified_issues": [],
+   "n_rule_issues": 0,
+   "n_dropped": 0,
+   "dropped": [],
+   "draft": "Hello Member 029,\n\nYour expense claim TES-029 for IDR 145,900 has been approved and will be paid. The amount claimed matches the receipt total exactly, and we found no issues with the claim.\n\nThank you for submitting it.\n\nBest regards,\nClub Treasurer",
+   "cost_usd": 0.001797,
+   "seconds": 8.76,
+   "cached": false
+  },
+  {
+   "claim_id": "TES-030",
+   "receipt_id": "test_030",
+   "image_path": "data/images/test/test_030.png",
+   "planted_error": "policy_breach",
+   "planted_detail": {
+    "clause": "C1",
+    "detail": "no purpose stated"
+   },
+   "natural_flags": [],
+   "expected": "needs_review",
+   "predicted": "needs_review",
+   "decision_reason": "medium-severity issues need a human decision",
+   "submitter": "Member 030",
+   "claimed_amount": 31500,
+   "currency": "IDR",
+   "receipt_total": 31500,
+   "readability": "clear",
+   "extraction_error": null,
+   "caught": {
+    "policy_breach": true
+   },
+   "verified_issues": [
+    {
+     "source": "rules",
+     "type": "missing_purpose",
+     "severity": "medium",
+     "clause_id": "C1",
+     "price_item": null,
+     "receipt_line": "CLAIM_AMOUNT",
+     "message": "The claim has no stated purpose, so it is held for review until the treasurer receives a purpose tied to an approved club activity or business need.",
+     "evidence": {
+      "clause_text": "C1. Purpose of expense: Expenses are reimbursable only when incurred for an approved club activity or business purpose. The claim must state the purpose. Claims with no stated purpose are held for review."
+     }
+    }
+   ],
+   "n_rule_issues": 1,
+   "n_dropped": 0,
+   "dropped": [],
+   "draft": "Hello Member 030,\n\nYour expense claim TES-030 for IDR 31,500 is on hold for review. The claim does not state a purpose, and under clause C1 expenses are reimbursable only when incurred for an approved club activity or business purpose.\n\nTo move this forward, please reply with the purpose of the expense and, if possible, the club activity or business need it relates to. Once I receive this, I will review the claim again.\n\nThank you,\nClub Treasurer",
+   "cost_usd": 0.001151,
+   "seconds": 5.26,
+   "cached": false
+  },
+  {
+   "claim_id": "TES-031",
+   "receipt_id": "test_031",
+   "image_path": "data/images/test/test_031.png",
+   "planted_error": null,
+   "planted_detail": null,
+   "natural_flags": [
+    "receipt_inconsistent"
+   ],
+   "expected": "needs_review",
+   "predicted": "needs_review",
+   "decision_reason": "medium-severity issues need a human decision",
+   "submitter": "Member 031",
+   "claimed_amount": 113886,
+   "currency": "IDR",
+   "receipt_total": 113886,
+   "readability": "clear",
+   "extraction_error": null,
+   "caught": {
+    "receipt_inconsistent": true
+   },
+   "verified_issues": [
+    {
+     "source": "maths",
+     "type": "lines_vs_totals",
+     "severity": "medium",
+     "clause_id": null,
+     "price_item": null,
+     "receipt_line": null,
+     "message": "Line items sum to 171000, but subtotal is 85500 and total is 113886",
+     "evidence": {
+      "line_sum": 171000,
+      "subtotal": 85500,
+      "total": 113886
+     }
+    },
+    {
+     "source": "maths",
+     "type": "totals_arithmetic",
+     "severity": "medium",
+     "clause_id": null,
+     "price_item": null,
+     "receipt_line": null,
+     "message": "85500 + tax 18126 + service 10260 - discount 85500 = 28386, but total shows 113886",
+     "evidence": {
+      "subtotal": 85500,
+      "tax": 18126,
+      "service": 10260,
+      "discount": 85500,
+      "expected": 28386,
+      "total": 113886
+     }
+    }
+   ],
+   "n_rule_issues": 0,
+   "n_dropped": 0,
+   "dropped": [],
+   "draft": "Subject: Expense claim TES-031 on hold\n\nHello Member 031,\n\nYour claim TES-031 for IDR 113886 is on hold while we review it. We could not confirm the receipt totals.\n\n- Line items add up to 171000, but the receipt subtotal is 85500 and the total is 113886.\n- Subtotal 85500 plus tax 18126 plus service 10260, minus discount 85500, gives 28386, but the total shows 113886.\n\nPlease send a corrected or clearer copy of the receipt, or a short note explaining these figures. Once we have it, a treasurer will make the decision and let you know.\n\nThanks,\nClub Treasurer",
+   "cost_usd": 0.001437,
+   "seconds": 7.0,
+   "cached": false
+  },
+  {
+   "claim_id": "TES-032",
+   "receipt_id": "test_032",
+   "image_path": "data/images/test/test_032.png",
+   "planted_error": "policy_breach",
+   "planted_detail": {
+    "clause": "C1",
+    "detail": "no purpose stated"
+   },
+   "natural_flags": [],
+   "expected": "needs_review",
+   "predicted": "approve",
+   "decision_reason": "no issues found and the receipt is clear",
+   "submitter": "Member 032",
+   "claimed_amount": 24000,
+   "currency": "IDR",
+   "receipt_total": 24000,
+   "readability": "clear",
+   "extraction_error": null,
+   "caught": {
+    "policy_breach": false
+   },
+   "verified_issues": [],
+   "n_rule_issues": 0,
+   "n_dropped": 0,
+   "dropped": [],
+   "draft": "Hello Member 032,\n\nYour expense claim TES-032 for IDR 24,000 has been approved and will be paid. The amount claimed matches the receipt total, and no issues were found.\n\nThank you for submitting your claim.\n\nKind regards,\nClub Treasurer",
+   "cost_usd": 0.00083,
+   "seconds": 6.82,
+   "cached": false
+  },
+  {
+   "claim_id": "TES-033",
+   "receipt_id": "test_033",
+   "image_path": "data/images/test/test_033.png",
+   "planted_error": "totals_mismatch",
+   "planted_detail": {
+    "item": "HOT TUNA",
+    "delta": 36000
+   },
+   "natural_flags": [
+    "receipt_inconsistent"
+   ],
+   "expected": "needs_review",
+   "predicted": "needs_review",
+   "decision_reason": "medium-severity issues need a human decision",
+   "submitter": "Member 033",
+   "claimed_amount": 148127,
+   "currency": "IDR",
+   "receipt_total": 148127,
+   "readability": "clear",
+   "extraction_error": null,
+   "caught": {
+    "totals_mismatch": true,
+    "receipt_inconsistent": true
+   },
+   "verified_issues": [
+    {
+     "source": "maths",
+     "type": "lines_vs_totals",
+     "severity": "medium",
+     "clause_id": null,
+     "price_item": null,
+     "receipt_line": null,
+     "message": "Line items sum to 184500, but subtotal is 117500 and total is 148127",
+     "evidence": {
+      "line_sum": 184500,
+      "subtotal": 117500,
+      "total": 148127
+     }
+    },
+    {
+     "source": "maths",
+     "type": "totals_arithmetic",
+     "severity": "medium",
+     "clause_id": null,
+     "price_item": null,
+     "receipt_line": null,
+     "message": "117500 + tax 19557 + service 11070 - discount 67000 = 81127, but total shows 148127",
+     "evidence": {
+      "subtotal": 117500,
+      "tax": 19557,
+      "service": 11070,
+      "discount": 67000,
+      "expected": 81127,
+      "total": 148127
+     }
+    },
+    {
+     "source": "maths",
+     "type": "claim_lines_vs_amount",
+     "severity": "medium",
+     "clause_id": null,
+     "price_item": null,
+     "receipt_line": null,
+     "message": "Claim lines sum to 220500 but the claimed amount is 148127 (receipt tax + service = -36373)",
+     "evidence": {
+      "claim_line_sum": 220500,
+      "claimed": 148127,
+      "receipt_tax_and_service": -36373
+     }
+    }
+   ],
+   "n_rule_issues": 0,
+   "n_dropped": 0,
+   "dropped": [],
+   "draft": "Subject: Expense claim TES-033 is on hold\n\nDear Member 033,\n\nYour claim TES-033 for IDR 148,127 is on hold while we review it. We found three problems that need a human decision:\n\n- The line items add up to IDR 184,500, but the receipt subtotal is IDR 117,500 and the total is IDR 148,127.\n- The receipt does not add up: 117,500 + tax 19,557 + service 11,070 - discount 67,000 = 81,127, but the total shows 148,127.\n- Your claim lines add up to IDR 220,500, but the claimed amount is IDR 148,127. The receipt tax and service come to -36,373.\n\nYou can help by sending a corrected or clearer receipt, or by explaining how the claim lines relate to the receipt amount. We will confirm once the review is complete.\n\nKind regards,\nClub Treasurer",
+   "cost_usd": 0.00143,
+   "seconds": 6.44,
+   "cached": false
+  },
+  {
+   "claim_id": "TES-034",
+   "receipt_id": "test_034",
+   "image_path": "data/images/test/test_034.png",
+   "planted_error": null,
+   "planted_detail": null,
+   "natural_flags": [],
+   "expected": "approve",
+   "predicted": "approve",
+   "decision_reason": "no issues found and the receipt is clear",
+   "submitter": "Member 034",
+   "claimed_amount": 93500,
+   "currency": "IDR",
+   "receipt_total": 93500,
+   "readability": "clear",
+   "extraction_error": null,
+   "caught": {},
+   "verified_issues": [],
+   "n_rule_issues": 0,
+   "n_dropped": 0,
+   "dropped": [],
+   "draft": "Hello Member 034,\n\nYour expense claim TES-034 for IDR 93,500 has been approved and will be paid. The amount you claimed matches the receipt total exactly, and we found no issues with the claim.\n\nThank you for submitting it.\n\nKind regards,\nClub Treasurer",
+   "cost_usd": 0.001066,
+   "seconds": 4.73,
+   "cached": false
+  },
+  {
+   "claim_id": "TES-035",
+   "receipt_id": "test_035",
+   "image_path": "data/images/test/test_035.png",
+   "planted_error": null,
+   "planted_detail": null,
+   "natural_flags": [],
+   "expected": "approve",
+   "predicted": "needs_review",
+   "decision_reason": "no issues found, but parts of the receipt were hard to read",
+   "submitter": "Member 035",
+   "claimed_amount": 54000,
+   "currency": "IDR",
+   "receipt_total": 54000,
+   "readability": "partly unclear",
+   "extraction_error": null,
+   "caught": {},
+   "verified_issues": [],
+   "n_rule_issues": 0,
+   "n_dropped": 0,
+   "dropped": [],
+   "draft": "Dear Member 035,\n\nThank you for submitting claim TES-035. Your claimed amount of IDR 54,000 matches the receipt total.\n\nYour claim is on hold for manual review because parts of the receipt were hard to read. No errors were found in the amounts.\n\nTo move things forward, please send a clearer copy or photo of the receipt. Once we have it, we will complete the review and let you know the outcome.\n\nKind regards,\nClub Treasurer",
+   "cost_usd": 0.00142,
+   "seconds": 6.77,
+   "cached": false
+  },
+  {
+   "claim_id": "TES-036",
+   "receipt_id": "test_036",
+   "image_path": "data/images/test/test_036.png",
+   "planted_error": "policy_breach",
+   "planted_detail": {
+    "clause": "C1",
+    "detail": "no purpose stated"
+   },
+   "natural_flags": [],
+   "expected": "needs_review",
+   "predicted": "needs_review",
+   "decision_reason": "medium-severity issues need a human decision",
+   "submitter": "Member 036",
+   "claimed_amount": 40000,
+   "currency": "IDR",
+   "receipt_total": 40000,
+   "readability": "clear",
+   "extraction_error": null,
+   "caught": {
+    "policy_breach": true
+   },
+   "verified_issues": [
+    {
+     "source": "rules",
+     "type": "purpose_missing",
+     "severity": "medium",
+     "clause_id": "C1",
+     "price_item": null,
+     "receipt_line": "CLAIM_AMOUNT",
+     "message": "The claim has no stated purpose, so it is held for review. The treasurer should ask the submitter to state the approved club activity or business purpose before reimbursement.",
+     "evidence": {
+      "clause_text": "C1. Purpose of expense: Expenses are reimbursable only when incurred for an approved club activity or business purpose. The claim must state the purpose. Claims with no stated purpose are held for review."
+     }
+    }
+   ],
+   "n_rule_issues": 1,
+   "n_dropped": 0,
+   "dropped": [],
+   "draft": "Hello Member 036,\n\nYour expense claim TES-036 for IDR 40,000 is on hold for review. The claim does not state a purpose. Under clause C1, expenses are reimbursable only when incurred for an approved club activity or business purpose, and the claim must state that purpose.\n\nTo proceed, please reply with the approved club activity or business purpose for this expense. Once we have it, the claim will be reviewed again and, if it meets the rules, reimbursed.\n\nThank you,\nClub Treasurer",
+   "cost_usd": 0.001296,
+   "seconds": 6.31,
+   "cached": false
+  },
+  {
+   "claim_id": "TES-037",
+   "receipt_id": "test_037",
+   "image_path": "data/images/test/test_037.png",
+   "planted_error": "policy_breach",
+   "planted_detail": {
+    "clause": "C1",
+    "detail": "no purpose stated"
+   },
+   "natural_flags": [],
+   "expected": "needs_review",
+   "predicted": "needs_review",
+   "decision_reason": "medium-severity issues need a human decision",
+   "submitter": "Member 037",
+   "claimed_amount": 20000,
+   "currency": "IDR",
+   "receipt_total": 20000,
+   "readability": "clear",
+   "extraction_error": null,
+   "caught": {
+    "policy_breach": true
+   },
+   "verified_issues": [
+    {
+     "source": "rules",
+     "type": "claim_purpose_missing",
+     "severity": "medium",
+     "clause_id": "C1",
+     "price_item": null,
+     "receipt_line": "CLAIM_AMOUNT",
+     "message": "The claim states no purpose, and C1 requires a stated approved club activity or business purpose. The claim is held for review until the treasurer receives a purpose.",
+     "evidence": {
+      "clause_text": "C1. Purpose of expense: Expenses are reimbursable only when incurred for an approved club activity or business purpose. The claim must state the purpose. Claims with no stated purpose are held for review."
+     }
+    }
+   ],
+   "n_rule_issues": 1,
+   "n_dropped": 0,
+   "dropped": [],
+   "draft": "Dear Member 037,\n\nThank you for submitting claim TES-037 for IDR 20,000. Your receipt total matches the amount claimed.\n\nThis claim is on hold. Clause C1 requires every expense to be for an approved club activity or business purpose, and the claim does not state one.\n\nTo release the claim, please reply with the purpose of the expense, including the club activity or business reason it was incurred for. Once we receive it, the claim will be reviewed again.\n\nKind regards,\nClub Treasurer",
+   "cost_usd": 0.00079,
+   "seconds": 4.82,
+   "cached": false
+  },
+  {
+   "claim_id": "TES-038",
+   "receipt_id": "test_038",
+   "image_path": "data/images/test/test_038.png",
+   "planted_error": null,
+   "planted_detail": null,
+   "natural_flags": [
+    "above_500k"
+   ],
+   "expected": "needs_review",
+   "predicted": "needs_review",
+   "decision_reason": "medium-severity issues need a human decision",
+   "submitter": "Member 038",
+   "claimed_amount": 664329,
+   "currency": "IDR",
+   "receipt_total": 664329,
+   "readability": "clear",
+   "extraction_error": null,
+   "caught": {
+    "above_500k": true
+   },
+   "verified_issues": [
+    {
+     "source": "rules",
+     "type": "needs_two_approvers",
+     "severity": "medium",
+     "clause_id": "C7",
+     "price_item": null,
+     "receipt_line": "CLAIM_AMOUNT",
+     "message": "The claim is IDR 664,329, which is above IDR 500,000, so it needs sign-off from two approvers and must be held for review rather than approved automatically.",
+     "evidence": {
+      "clause_text": "C7. Two approvers above IDR 500,000: Any single claim above IDR 500,000 requires sign-off from two approvers before payment. The checker must mark such claims for review rather than approving them automatically."
+     }
+    },
+    {
+     "source": "rules",
+     "type": "meal_above_per_person_limit",
+     "severity": "medium",
+     "clause_id": "C12",
+     "price_item": null,
+     "receipt_line": "CLAIM_AMOUNT",
+     "message": "The stated 3 people gives about IDR 221,443 per person (664,329 / 3), which is above the IDR 150,000 per-person limit, so the meal claim is held for review.",
+     "evidence": {
+      "clause_text": "C12. Meals and hospitality: Meals are reimbursable when they are part of an approved activity. Meal claims above IDR 150,000 per person are held for review. The number of people must be stated for any meal claim above IDR 150,000 in total."
+     }
+    }
+   ],
+   "n_rule_issues": 2,
+   "n_dropped": 0,
+   "dropped": [],
+   "draft": "Hello Member 038,\n\nClaim TES-038 for IDR 664,329 is on hold for review and has not been paid yet.\n\n- Two approvers are needed: clause C7 requires sign-off from two approvers for any single claim above IDR 500,000. This claim is IDR 664,329, so it must be checked by two people before payment.\n- Meal limit: clause C12 sets a limit of IDR 150,000 per person. With the stated 3 people, the claim works out to about IDR 221,443 per person (664,329 / 3), which is above that limit.\n\nTo move this forward, please confirm that the meal was part of an approved activity and provide any supporting detail for the per-person amount. The treasurer team will then complete the two-approver review.\n\nThank you,\nClub Treasurer",
+   "cost_usd": 0.002074,
+   "seconds": 9.6,
+   "cached": false
+  },
+  {
+   "claim_id": "TES-039",
+   "receipt_id": "test_039",
+   "image_path": "data/images/test/test_039.png",
+   "planted_error": "wrong_quantity",
+   "planted_detail": {
+    "item": "RICE CASE 7L W/CUP",
+    "extra_qty": 1
+   },
+   "natural_flags": [
+    "packaging_over_5000"
+   ],
+   "expected": "reject",
+   "predicted": "reject",
+   "decision_reason": "at least one high-severity issue with evidence",
+   "submitter": "Member 039",
+   "claimed_amount": 4086000,
+   "currency": "IDR",
+   "receipt_total": null,
+   "readability": "partly unclear",
+   "extraction_error": null,
+   "caught": {
+    "wrong_quantity": true,
+    "packaging_over_5000": false
+   },
+   "verified_issues": [
+    {
+     "source": "maths",
+     "type": "claim_exceeds_receipt",
+     "severity": "high",
+     "clause_id": null,
+     "price_item": null,
+     "receipt_line": null,
+     "message": "Claimed 4086000 but the receipt total is 3891000",
+     "evidence": {
+      "claimed": 4086000,
+      "receipt_total": 3891000,
+      "difference": 195000
+     }
+    },
+    {
+     "source": "maths",
+     "type": "claimed_qty_exceeds_receipt",
+     "severity": "high",
+     "clause_id": null,
+     "price_item": null,
+     "receipt_line": "HPL500 RICE CASE 7L W/CUP 5 PCS 195,000 975,000",
+     "message": "Claimed 6 x 'RICE CASE 7L W/CUP' but the receipt shows 5",
+     "evidence": {
+      "claimed_qty": 6,
+      "receipt_qty": 5,
+      "receipt_item": "HPL500 RICE CASE 7L W/CUP"
+     }
+    },
+    {
+     "source": "rules",
+     "type": "meal_above_per_person_limit",
+     "severity": "medium",
+     "clause_id": "C12",
+     "price_item": null,
+     "receipt_line": "CLAIM_AMOUNT",
+     "message": "The claim of IDR 4,086,000 for 5 people is about IDR 817,200 per person, well above the IDR 150,000 per-person limit for meals, so it is held for review.",
+     "evidence": {
+      "clause_text": "C12. Meals and hospitality: Meals are reimbursable when they are part of an approved activity. Meal claims above IDR 150,000 per person are held for review. The number of people must be stated for any meal claim above IDR 150,000 in total."
+     }
+    },
+    {
+     "source": "rules",
+     "type": "claim_exceeds_receipt_total",
+     "severity": "high",
+     "clause_id": "C4",
+     "price_item": null,
+     "receipt_line": "CLAIM_AMOUNT",
+     "message": "The claimed amount of IDR 4,086,000 is more than the receipt total of IDR 3,891,000, so under C4 the claim is rejected for the excess; reduce the claim to the receipt total or below.",
+     "evidence": {
+      "clause_text": "C4. Claimed amount must match the receipt: The amount claimed must equal the total printed on the receipt. A claim for more than the receipt total is rejected. A claim for less than the receipt total is acceptable (the claimant may choose not to claim some items)."
+     }
+    },
+    {
+     "source": "rules",
+     "type": "claimed_qty_exceeds_receipt",
+     "severity": "high",
+     "clause_id": "C9",
+     "price_item": null,
+     "receipt_line": "HPL500 RICE CASE 7L W/CUP 5 PCS 195,000 975,000",
+     "message": "The claim is for 6 rice cases but the receipt shows 5, and C9 does not allow claiming more than the receipt quantity; claim at most 5.",
+     "evidence": {
+      "clause_text": "C9. Quantities: The quantity of any item claimed must not exceed the quantity shown on the receipt, and the same receipt may not be claimed twice."
+     }
+    }
+   ],
+   "n_rule_issues": 3,
+   "n_dropped": 0,
+   "dropped": [],
+   "draft": "Subject: Expense claim TES-039\n\nDear Member 039,\n\nYour claim TES-039 cannot be paid as submitted.\n\n- Claimed amount: IDR 4,086,000 is IDR 195,000 more than the receipt total of IDR 3,891,000 (clause C4). Reduce the claim to IDR 3,891,000 or below.\n- Rice cases: you claimed 6 x HPL500 RICE CASE 7L W/CUP, but the receipt shows 5 (clause C9). Claim at most 5.\n- Meals: the claim covers 5 people, about IDR 817,200 per person, well above the IDR 150,000 per-person limit (clause C12). This part is held for review.\n\nOnce you have corrected the claim, please resubmit it.\n\nKind regards,\nClub Treasurer",
+   "cost_usd": 0.002423,
+   "seconds": 10.2,
+   "cached": false
+  },
+  {
+   "claim_id": "TES-040",
+   "receipt_id": "test_040",
+   "image_path": "data/images/test/test_040.png",
+   "planted_error": null,
+   "planted_detail": null,
+   "natural_flags": [],
+   "expected": "approve",
+   "predicted": "needs_review",
+   "decision_reason": "no issues found, but parts of the receipt were hard to read",
+   "submitter": "Member 040",
+   "claimed_amount": 68000,
+   "currency": "IDR",
+   "receipt_total": 68000,
+   "readability": "partly unclear",
+   "extraction_error": null,
+   "caught": {},
+   "verified_issues": [],
+   "n_rule_issues": 0,
+   "n_dropped": 0,
+   "dropped": [],
+   "draft": "Dear Member 040,\n\nThank you for submitting claim TES-040. Your claimed amount of IDR 68,000 matches the receipt total, and we found no issues with the figures.\n\nHowever, parts of the receipt were hard to read, so the claim is on hold for now. Please send a clearer copy or photo of the receipt, and we will review it again as soon as we receive it.\n\nKind regards,\nClub Treasurer",
+   "cost_usd": 0.001134,
+   "seconds": 4.05,
+   "cached": false
+  },
+  {
+   "claim_id": "TES-041",
+   "receipt_id": "test_041",
+   "image_path": "data/images/test/test_041.png",
+   "planted_error": null,
+   "planted_detail": null,
+   "natural_flags": [
+    "price_above_list"
+   ],
+   "expected": "needs_review",
+   "predicted": "needs_review",
+   "decision_reason": "medium-severity issues need a human decision",
+   "submitter": "Member 041",
+   "claimed_amount": 365000,
+   "currency": "IDR",
+   "receipt_total": 365000,
+   "readability": "partly unclear",
+   "extraction_error": null,
+   "caught": {
+    "price_above_list": true
+   },
+   "verified_issues": [
+    {
+     "source": "rules",
+     "type": "meal_people_not_stated",
+     "severity": "medium",
+     "clause_id": "C12",
+     "price_item": null,
+     "receipt_line": "CLAIM_AMOUNT",
+     "message": "The claim totals IDR 365,000 for food and drinks, which is above IDR 150,000, but no number of people is stated. Ask the submitter for the attendee count so the per-person amount can be checked.",
+     "evidence": {
+      "clause_text": "C12. Meals and hospitality: Meals are reimbursable when they are part of an approved activity. Meal claims above IDR 150,000 per person are held for review. The number of people must be stated for any meal claim above IDR 150,000 in total."
+     }
+    },
+    {
+     "source": "rules",
+     "type": "price_above_list",
+     "severity": "medium",
+     "clause_id": "C5",
+     "price_item": "bbq chicken",
+     "receipt_line": "Chicken Maryland 47619.00",
+     "message": "The unit price of 47,619 is above the agreed maximum of 45,500 for bbq chicken, and also above the seaweed chicken maximum of 46,500. The excess is not reimbursed and the claim is held for review.",
+     "evidence": {
+      "clause_text": "C5. Agreed price list: For items that appear on the agreed price list, the unit price paid must not exceed the agreed maximum unit price for that item. Any amount above the agreed maximum is not reimbursed and the claim is held for review.",
+      "unit_price_paid": 47619,
+      "agreed_max_unit_price": 45500,
+      "price_list_item": "bbq chicken"
+     }
+    },
+    {
+     "source": "rules",
+     "type": "price_above_list",
+     "severity": "medium",
+     "clause_id": "C5",
+     "price_item": "bbq chicken",
+     "receipt_line": "Chicken Maryland 47619.00",
+     "message": "The second Chicken Maryland line at 47,619 is above the agreed maximum of 45,500 for bbq chicken. The excess is not reimbursed and the claim is held for review.",
+     "evidence": {
+      "clause_text": "C5. Agreed price list: For items that appear on the agreed price list, the unit price paid must not exceed the agreed maximum unit price for that item. Any amount above the agreed maximum is not reimbursed and the claim is held for review.",
+      "unit_price_paid": 47619,
+      "agreed_max_unit_price": 45500,
+      "price_list_item": "bbq chicken"
+     }
+    },
+    {
+     "source": "rules",
+     "type": "price_above_list",
+     "severity": "medium",
+     "clause_id": "C5",
+     "price_item": "mineral water",
+     "receipt_line": "Mineral Water 12987.00",
+     "message": "The unit price of 12,987 is above the agreed maximum of 9,000 for mineral water. The excess of 3,987 is not reimbursed and the claim is held for review.",
+     "evidence": {
+      "clause_text": "C5. Agreed price list: For items that appear on the agreed price list, the unit price paid must not exceed the agreed maximum unit price for that item. Any amount above the agreed maximum is not reimbursed and the claim is held for review.",
+      "unit_price_paid": 12987,
+      "agreed_max_unit_price": 9000,
+      "price_list_item": "mineral water"
+     }
+    },
+    {
+     "source": "rules",
+     "type": "price_above_list",
+     "severity": "medium",
+     "clause_id": "C5",
+     "price_item": "mineral water",
+     "receipt_line": "Mineral Water 12987.00",
+     "message": "The second Mineral Water line at 12,987 is above the agreed maximum of 9,000 for mineral water. The excess of 3,987 is not reimbursed and the claim is held for review.",
+     "evidence": {
+      "clause_text": "C5. Agreed price list: For items that appear on the agreed price list, the unit price paid must not exceed the agreed maximum unit price for that item. Any amount above the agreed maximum is not reimbursed and the claim is held for review.",
+      "unit_price_paid": 12987,
+      "agreed_max_unit_price": 9000,
+      "price_list_item": "mineral water"
+     }
+    }
+   ],
+   "n_rule_issues": 5,
+   "n_dropped": 0,
+   "dropped": [],
+   "draft": "Dear Member 041,\n\nYour expense claim TES-041 for IDR 365,000 is on hold for review. Please check the points below and reply so we can complete it.\n\n- Meal attendees (C12): The food and drinks total IDR 365,000, which is above IDR 150,000, but no number of people is stated. Please send us the attendee count so the per-person amount can be checked.\n- Chicken Maryland price (C5): Both Chicken Maryland lines are priced at IDR 47,619 each. The agreed maximum for bbq chicken is IDR 45,500, so the excess of IDR 2,119 per item is not reimbursed.\n- Mineral water price (C5): Both Mineral Water lines are priced at IDR 12,987 each. The agreed maximum is IDR 9,000, so the excess of IDR 3,987 per item is not reimbursed.\n\nOnce you send the attendee count, we will complete the review and confirm the final amount payable.\n\nKind regards,\nClub Treasurer",
+   "cost_usd": 0.00256,
+   "seconds": 17.79,
+   "cached": false
+  },
+  {
+   "claim_id": "TES-042",
+   "receipt_id": "test_042",
+   "image_path": "data/images/test/test_042.png",
+   "planted_error": "policy_breach",
+   "planted_detail": {
+    "clause": "C1",
+    "detail": "no purpose stated"
+   },
+   "natural_flags": [],
+   "expected": "needs_review",
+   "predicted": "needs_review",
+   "decision_reason": "medium-severity issues need a human decision",
+   "submitter": "Member 042",
+   "claimed_amount": 16500,
+   "currency": "IDR",
+   "receipt_total": 16500,
+   "readability": "clear",
+   "extraction_error": null,
+   "caught": {
+    "policy_breach": true
+   },
+   "verified_issues": [
+    {
+     "source": "maths",
+     "type": "totals_arithmetic",
+     "severity": "medium",
+     "clause_id": null,
+     "price_item": null,
+     "receipt_line": null,
+     "message": "15000 + tax 0 + service 0 - discount 0 = 15000, but total shows 16500",
+     "evidence": {
+      "subtotal": 15000,
+      "tax": null,
+      "service": null,
+      "discount": null,
+      "expected": 15000,
+      "total": 16500
+     }
+    },
+    {
+     "source": "rules",
+     "type": "no_purpose_stated",
+     "severity": "medium",
+     "clause_id": "C1",
+     "price_item": null,
+     "receipt_line": "CLAIM_AMOUNT",
+     "message": "The claim has no stated purpose, so it cannot be confirmed as an approved club activity or business expense. Hold the claim for review and ask the submitter for the purpose.",
+     "evidence": {
+      "clause_text": "C1. Purpose of expense: Expenses are reimbursable only when incurred for an approved club activity or business purpose. The claim must state the purpose. Claims with no stated purpose are held for review."
+     }
+    }
+   ],
+   "n_rule_issues": 1,
+   "n_dropped": 0,
+   "dropped": [],
+   "draft": "Subject: Expense claim TES-042 is on hold\n\nHello Member 042,\n\nYour claim TES-042 for IDR 16,500 is on hold for review and will not be paid yet.\n\n- The receipt subtotal is IDR 15,000 with no tax, service or discount, but the total shows IDR 16,500. The difference of IDR 1,500 is not explained.\n- The claim does not state its purpose. Under clause C1, expenses are reimbursable only when incurred for an approved club activity or business purpose, so we cannot confirm eligibility.\n\nTo move this forward, please reply with the purpose of the expense and either a corrected receipt or an explanation of the IDR 1,500 difference. We will review the claim again once we hear from you.\n\nKind regards,\nClub Treasurer",
+   "cost_usd": 0.001174,
+   "seconds": 6.27,
+   "cached": false
+  },
+  {
+   "claim_id": "TES-043",
+   "receipt_id": "test_043",
+   "image_path": "data/images/test/test_043.png",
+   "planted_error": "totals_mismatch",
+   "planted_detail": {
+    "item": "Cheese Tart",
+    "delta": 82000
+   },
+   "natural_flags": [],
+   "expected": "needs_review",
+   "predicted": "needs_review",
+   "decision_reason": "medium-severity issues need a human decision",
+   "submitter": "Member 043",
+   "claimed_amount": 165000,
+   "currency": "IDR",
+   "receipt_total": 165000,
+   "readability": "clear",
+   "extraction_error": null,
+   "caught": {
+    "totals_mismatch": true
+   },
+   "verified_issues": [
+    {
+     "source": "maths",
+     "type": "claim_lines_vs_amount",
+     "severity": "medium",
+     "clause_id": null,
+     "price_item": null,
+     "receipt_line": null,
+     "message": "Claim lines sum to 247000 but the claimed amount is 165000 (receipt tax + service = 15000)",
+     "evidence": {
+      "claim_line_sum": 247000,
+      "claimed": 165000,
+      "receipt_tax_and_service": 15000
+     }
+    }
+   ],
+   "n_rule_issues": 0,
+   "n_dropped": 0,
+   "dropped": [],
+   "draft": "Hello Member 043,\n\nYour claim TES-043 is on hold for a treasurer review. The claim lines add up to IDR 247,000, but the claimed amount is IDR 165,000. The receipt total is also IDR 165,000, and it includes IDR 15,000 in tax and service.\n\nPlease check the individual claim lines and the claimed amount, then reply with the correct figure or a corrected claim. Once we have that, the claim can be reviewed again and paid if it is accepted.\n\nThank you,\nClub Treasurer",
+   "cost_usd": 0.001287,
+   "seconds": 5.63,
+   "cached": false
+  },
+  {
+   "claim_id": "TES-044",
+   "receipt_id": "test_044",
+   "image_path": "data/images/test/test_044.png",
+   "planted_error": "inflated_amount",
+   "planted_detail": {
+    "delta": 5000
+   },
+   "natural_flags": [],
+   "expected": "reject",
+   "predicted": "reject",
+   "decision_reason": "at least one high-severity issue with evidence",
+   "submitter": "Member 044",
+   "claimed_amount": 35000,
+   "currency": "IDR",
+   "receipt_total": 30000,
+   "readability": "clear",
+   "extraction_error": null,
+   "caught": {
+    "inflated_amount": true
+   },
+   "verified_issues": [
+    {
+     "source": "maths",
+     "type": "claim_exceeds_receipt",
+     "severity": "high",
+     "clause_id": null,
+     "price_item": null,
+     "receipt_line": null,
+     "message": "Claimed 35000 but the receipt total is 30000",
+     "evidence": {
+      "claimed": 35000,
+      "receipt_total": 30000,
+      "difference": 5000
+     }
+    },
+    {
+     "source": "rules",
+     "type": "claim_exceeds_receipt",
+     "severity": "high",
+     "clause_id": "C4",
+     "price_item": null,
+     "receipt_line": "CLAIM_AMOUNT",
+     "message": "The claim is for IDR 35000 but the receipt total is IDR 30000. Under C4 a claim for more than the receipt total is rejected, so the claim should be reduced to IDR 30000 or less.",
+     "evidence": {
+      "clause_text": "C4. Claimed amount must match the receipt: The amount claimed must equal the total printed on the receipt. A claim for more than the receipt total is rejected. A claim for less than the receipt total is acceptable (the claimant may choose not to claim some items)."
+     }
+    }
+   ],
+   "n_rule_issues": 1,
+   "n_dropped": 0,
+   "dropped": [],
+   "draft": "Hello Member 044,\n\nYour expense claim TES-044 cannot be paid as submitted. You claimed IDR 35000, but the receipt total is IDR 30000, so the claim exceeds the receipt by IDR 5000. Under clause C4, a claim for more than the receipt total is rejected.\n\nTo proceed, please resubmit the claim for IDR 30000 or less, matching the receipt total or a lower amount you choose to claim.\n\nThank you,\nClub Treasurer",
+   "cost_usd": 0.000932,
+   "seconds": 3.99,
+   "cached": false
+  },
+  {
+   "claim_id": "TES-045",
+   "receipt_id": "test_045",
+   "image_path": "data/images/test/test_045.png",
+   "planted_error": "inflated_amount",
+   "planted_detail": {
+    "delta": 15000
+   },
+   "natural_flags": [],
+   "expected": "reject",
+   "predicted": "reject",
+   "decision_reason": "at least one high-severity issue with evidence",
+   "submitter": "Member 045",
+   "claimed_amount": 103000,
+   "currency": "IDR",
+   "receipt_total": 88000,
+   "readability": "clear",
+   "extraction_error": null,
+   "caught": {
+    "inflated_amount": true
+   },
+   "verified_issues": [
+    {
+     "source": "maths",
+     "type": "claim_exceeds_receipt",
+     "severity": "high",
+     "clause_id": null,
+     "price_item": null,
+     "receipt_line": null,
+     "message": "Claimed 103000 but the receipt total is 88000",
+     "evidence": {
+      "claimed": 103000,
+      "receipt_total": 88000,
+      "difference": 15000
+     }
+    },
+    {
+     "source": "rules",
+     "type": "claim_above_receipt_total",
+     "severity": "high",
+     "clause_id": "C4",
+     "price_item": null,
+     "receipt_line": "CLAIM_AMOUNT",
+     "message": "The claim of IDR 103,000 exceeds the receipt total of IDR 88,000, so under C4 the claim is rejected as submitted. The claimant should resubmit for no more than IDR 88,000.",
+     "evidence": {
+      "clause_text": "C4. Claimed amount must match the receipt: The amount claimed must equal the total printed on the receipt. A claim for more than the receipt total is rejected. A claim for less than the receipt total is acceptable (the claimant may choose not to claim some items)."
+     }
+    },
+    {
+     "source": "rules",
+     "type": "price_above_list",
+     "severity": "medium",
+     "clause_id": null,
+     "price_item": "roti",
+     "receipt_line": "1 Roti Keju Manis. 7.000",
+     "message": "The receipt shows IDR 7,000 for Roti Keju Manis, but the agreed maximum for the matching price-list row 'roti' is IDR 5,500. The treasurer should confirm the item or hold the excess for review.",
+     "evidence": {
+      "unit_price_paid": 7000.0,
+      "agreed_max_unit_price": 5500,
+      "price_list_item": "roti"
+     }
+    }
+   ],
+   "n_rule_issues": 2,
+   "n_dropped": 0,
+   "dropped": [],
+   "draft": "Dear Member 045,\n\nYour claim TES-045 for IDR 103,000 cannot be paid as submitted. The receipt total is IDR 88,000, so the claim is IDR 15,000 higher than the receipt, which breaks clause C4. To fix this, please resubmit the claim for no more than IDR 88,000.\n\nPlease also note the following. The receipt shows IDR 7,000 for Roti Keju Manis, but the agreed maximum for that item under the price list (row \"roti\") is IDR 5,500. Please check this item when you resubmit, or be prepared for the excess of IDR 1,500 to be held for review.\n\nKind regards,\nClub Treasurer",
+   "cost_usd": 0.001681,
+   "seconds": 8.37,
+   "cached": false
+  },
+  {
+   "claim_id": "TES-046",
+   "receipt_id": "test_046",
+   "image_path": "data/images/test/test_046.png",
+   "planted_error": "item_not_on_receipt",
+   "planted_detail": {
+    "item": "CHANGE TO CHICKEN BOX",
+    "price": 45000
+   },
+   "natural_flags": [],
+   "expected": "reject",
+   "predicted": "reject",
+   "decision_reason": "at least one high-severity issue with evidence",
+   "submitter": "Member 046",
+   "claimed_amount": 85000,
+   "currency": "IDR",
+   "receipt_total": 40000,
+   "readability": "clear",
+   "extraction_error": null,
+   "caught": {
+    "item_not_on_receipt": true
+   },
+   "verified_issues": [
+    {
+     "source": "maths",
+     "type": "claim_exceeds_receipt",
+     "severity": "high",
+     "clause_id": null,
+     "price_item": null,
+     "receipt_line": null,
+     "message": "Claimed 85000 but the receipt total is 40000",
+     "evidence": {
+      "claimed": 85000,
+      "receipt_total": 40000,
+      "difference": 45000
+     }
+    },
+    {
+     "source": "maths",
+     "type": "claimed_item_not_on_receipt",
+     "severity": "high",
+     "clause_id": null,
+     "price_item": null,
+     "receipt_line": null,
+     "message": "'CHANGE TO CHICKEN BOX' is claimed but no receipt line matches it",
+     "evidence": {
+      "claimed_name": "CHANGE TO CHICKEN BOX",
+      "closest": "S-Caramel Milk Tea",
+      "match_score": 30.769230769230774
+     }
+    }
+   ],
+   "n_rule_issues": 0,
+   "n_dropped": 0,
+   "dropped": [],
+   "draft": "Dear Member 046,\n\nClaim TES-046 for IDR 85,000 cannot be paid as submitted, so it has been rejected.\n\n- The claimed amount is IDR 85,000, but the receipt total is IDR 40,000, a difference of IDR 45,000.\n- The item \"CHANGE TO CHICKEN BOX\" is claimed, but no matching line appears on the receipt.\n\nTo resubmit, please claim only the amount shown on the receipt (IDR 40,000), or provide a receipt that includes the chicken box item.\n\nKind regards,\nClub Treasurer",
+   "cost_usd": 0.00108,
+   "seconds": 6.44,
+   "cached": false
+  },
+  {
+   "claim_id": "TES-047",
+   "receipt_id": "test_047",
+   "image_path": "data/images/test/test_047.png",
+   "planted_error": "inflated_amount",
+   "planted_detail": {
+    "delta": 22000
+   },
+   "natural_flags": [],
+   "expected": "reject",
+   "predicted": "reject",
+   "decision_reason": "at least one high-severity issue with evidence",
+   "submitter": "Member 047",
+   "claimed_amount": 85000,
+   "currency": "IDR",
+   "receipt_total": 63000,
+   "readability": "clear",
+   "extraction_error": null,
+   "caught": {
+    "inflated_amount": true
+   },
+   "verified_issues": [
+    {
+     "source": "maths",
+     "type": "claim_exceeds_receipt",
+     "severity": "high",
+     "clause_id": null,
+     "price_item": null,
+     "receipt_line": null,
+     "message": "Claimed 85000 but the receipt total is 63000",
+     "evidence": {
+      "claimed": 85000,
+      "receipt_total": 63000,
+      "difference": 22000
+     }
+    },
+    {
+     "source": "rules",
+     "type": "price_above_list",
+     "severity": "medium",
+     "clause_id": null,
+     "price_item": "large 1",
+     "receipt_line": "COPIA 1 /GB 1 45,000.00 / 2100252000358 45,000.00",
+     "message": "The unit price of 45,000 exceeds the agreed maximum for every COPIA 1 /GB price-list row (large 1 at 12,500 and dept01 at 24,500). Confirm the price or obtain approval before reimbursing it.",
+     "evidence": {
+      "unit_price_paid": 45000,
+      "agreed_max_unit_price": 12500,
+      "price_list_item": "large 1"
+     }
+    }
+   ],
+   "n_rule_issues": 1,
+   "n_dropped": 0,
+   "dropped": [],
+   "draft": "Subject: Expense claim TES-047 - cannot be paid as submitted\n\nDear Member 047,\n\nThank you for submitting claim TES-047. It cannot be paid as submitted, for two reasons.\n\n- The claimed amount is IDR 85,000, but the receipt total is IDR 63,000, a difference of IDR 22,000. Please claim no more than the receipt total.\n- The unit price on the COPIA 1 /GB line is IDR 45,000. This is above the agreed maximum of IDR 12,500 for the large 1 price-list item (the dept01 item is IDR 24,500, also below this price). The price has no clause reference, so please either confirm the price with the club or obtain approval before resubmitting.\n\nOnce the claim amount matches the receipt and the price is confirmed or approved, please resubmit it.\n\nKind regards,\nClub Treasurer",
+   "cost_usd": 0.001573,
+   "seconds": 17.36,
+   "cached": false
+  },
+  {
+   "claim_id": "TES-048",
+   "receipt_id": "test_048",
+   "image_path": "data/images/test/test_048.png",
+   "planted_error": "totals_mismatch",
+   "planted_detail": {
+    "item": "S-Hazelnut KOI Cafe",
+    "delta": 8000
+   },
+   "natural_flags": [],
+   "expected": "needs_review",
+   "predicted": "needs_review",
+   "decision_reason": "medium-severity issues need a human decision",
+   "submitter": "Member 048",
+   "claimed_amount": 25000,
+   "currency": "IDR",
+   "receipt_total": 25000,
+   "readability": "clear",
+   "extraction_error": null,
+   "caught": {
+    "totals_mismatch": true
+   },
+   "verified_issues": [
+    {
+     "source": "maths",
+     "type": "claim_lines_vs_amount",
+     "severity": "medium",
+     "clause_id": null,
+     "price_item": null,
+     "receipt_line": null,
+     "message": "Claim lines sum to 33000 but the claimed amount is 25000 (receipt tax + service = 2272)",
+     "evidence": {
+      "claim_line_sum": 33000,
+      "claimed": 25000,
+      "receipt_tax_and_service": 2272
+     }
+    }
+   ],
+   "n_rule_issues": 0,
+   "n_dropped": 0,
+   "dropped": [],
+   "draft": "Hello Member 048,\n\nYour expense claim TES-048 is on hold for a treasurer review. The claim lines add up to IDR 33,000, but the claimed amount is IDR 25,000. The receipt tax and service charges come to IDR 2,272, which does not account for the difference.\n\nPlease check the claim lines and the claimed amount, correct whichever is wrong, and resubmit the claim. If you believe the figures are right as they stand, reply to this message with an explanation and the treasurer will review it.\n\nKind regards,\nClub Treasurer",
+   "cost_usd": 0.001032,
+   "seconds": 4.39,
+   "cached": false
+  },
+  {
+   "claim_id": "TES-049",
+   "receipt_id": "test_049",
+   "image_path": "data/images/test/test_049.png",
+   "planted_error": null,
+   "planted_detail": null,
+   "natural_flags": [],
+   "expected": "approve",
+   "predicted": "approve",
+   "decision_reason": "no issues found and the receipt is clear",
+   "submitter": "Member 049",
+   "claimed_amount": 23000,
+   "currency": "IDR",
+   "receipt_total": 23000,
+   "readability": "clear",
+   "extraction_error": null,
+   "caught": {},
+   "verified_issues": [],
+   "n_rule_issues": 0,
+   "n_dropped": 0,
+   "dropped": [],
+   "draft": "Hello Member 049,\n\nYour expense claim TES-049 for IDR 23,000 has been approved and will be paid. The amount claimed matches the receipt total, and no issues were found.\n\nThank you for submitting your claim.\n\nKind regards,\nClub Treasurer",
+   "cost_usd": 0.000967,
+   "seconds": 3.68,
+   "cached": false
+  },
+  {
+   "claim_id": "TES-050",
+   "receipt_id": "test_050",
+   "image_path": "data/images/test/test_050.png",
+   "planted_error": null,
+   "planted_detail": null,
+   "natural_flags": [],
+   "expected": "approve",
+   "predicted": "approve",
+   "decision_reason": "no issues found and the receipt is clear",
+   "submitter": "Member 050",
+   "claimed_amount": 19500,
+   "currency": "IDR",
+   "receipt_total": 19500,
+   "readability": "clear",
+   "extraction_error": null,
+   "caught": {},
+   "verified_issues": [],
+   "n_rule_issues": 0,
+   "n_dropped": 0,
+   "dropped": [],
+   "draft": "Hello Member 050,\n\nYour expense claim TES-050 for IDR 19,500 has been approved and will be paid. The amount claimed matches the receipt total, and no issues were found.\n\nThank you for submitting your claim.",
+   "cost_usd": 0.001047,
+   "seconds": 5.0,
+   "cached": false
+  },
+  {
+   "claim_id": "TES-051",
+   "receipt_id": "test_051",
+   "image_path": "data/images/test/test_051.png",
+   "planted_error": "totals_mismatch",
+   "planted_detail": {
+    "item": "(TA) NASI GORENG",
+    "delta": 19000
+   },
+   "natural_flags": [
+    "receipt_inconsistent"
+   ],
+   "expected": "needs_review",
+   "predicted": "needs_review",
+   "decision_reason": "medium-severity issues need a human decision",
+   "submitter": "Member 051",
+   "claimed_amount": 334000,
+   "currency": "IDR",
+   "receipt_total": 334000,
+   "readability": "partly unclear",
+   "extraction_error": null,
+   "caught": {
+    "totals_mismatch": true,
+    "receipt_inconsistent": false
+   },
+   "verified_issues": [
+    {
+     "source": "maths",
+     "type": "claim_lines_vs_amount",
+     "severity": "medium",
+     "clause_id": null,
+     "price_item": null,
+     "receipt_line": null,
+     "message": "Claim lines sum to 322646 but the claimed amount is 334000 (receipt tax + service = 30365)",
+     "evidence": {
+      "claim_line_sum": 322646,
+      "claimed": 334000,
+      "receipt_tax_and_service": 30365
+     }
+    }
+   ],
+   "n_rule_issues": 0,
+   "n_dropped": 0,
+   "dropped": [],
+   "draft": "Dear Member 051,\n\nYour expense claim TES-051 is on hold for a human decision and has not been paid yet.\n\nThe claim lines add up to IDR 322,646, but the claimed amount is IDR 334,000. The difference matches the receipt tax and service charge of IDR 30,365 and is not included in the lines.\n\nTo proceed, please add the tax and service charge as a claim line, or confirm that the claimed amount should be reduced to IDR 322,646. Once you reply, we will review the claim again.\n\nKind regards,\nClub Treasurer",
+   "cost_usd": 0.00166,
+   "seconds": 7.8,
+   "cached": false
+  },
+  {
+   "claim_id": "TES-052",
+   "receipt_id": "test_052",
+   "image_path": "data/images/test/test_052.png",
+   "planted_error": "inflated_amount",
+   "planted_detail": {
+    "delta": 15000
+   },
+   "natural_flags": [],
+   "expected": "reject",
+   "predicted": "reject",
+   "decision_reason": "at least one high-severity issue with evidence",
+   "submitter": "Member 052",
+   "claimed_amount": 55000,
+   "currency": "IDR",
+   "receipt_total": 40000,
+   "readability": "clear",
+   "extraction_error": null,
+   "caught": {
+    "inflated_amount": true
+   },
+   "verified_issues": [
+    {
+     "source": "maths",
+     "type": "claim_exceeds_receipt",
+     "severity": "high",
+     "clause_id": null,
+     "price_item": null,
+     "receipt_line": null,
+     "message": "Claimed 55000 but the receipt total is 40000",
+     "evidence": {
+      "claimed": 55000,
+      "receipt_total": 40000,
+      "difference": 15000
+     }
+    }
+   ],
+   "n_rule_issues": 0,
+   "n_dropped": 0,
+   "dropped": [],
+   "draft": "Dear Member 052,\n\nThank you for submitting claim TES-052. We cannot pay it as submitted. You claimed IDR 55,000, but the receipt total is IDR 40,000, a difference of IDR 15,000.\n\nTo have this claim considered, please resubmit it with the claimed amount matching the receipt total of IDR 40,000, or send us a receipt that supports the full IDR 55,000.\n\nKind regards,\nClub Treasurer",
+   "cost_usd": 0.000929,
+   "seconds": 4.51,
+   "cached": false
+  },
+  {
+   "claim_id": "TES-053",
+   "receipt_id": "test_053",
+   "image_path": "data/images/test/test_053.png",
+   "planted_error": null,
+   "planted_detail": null,
+   "natural_flags": [],
+   "expected": "approve",
+   "predicted": "approve",
+   "decision_reason": "no issues found and the receipt is clear",
+   "submitter": "Member 053",
+   "claimed_amount": 123585,
+   "currency": "IDR",
+   "receipt_total": 123585,
+   "readability": "clear",
+   "extraction_error": null,
+   "caught": {},
+   "verified_issues": [],
+   "n_rule_issues": 0,
+   "n_dropped": 0,
+   "dropped": [],
+   "draft": "Hello Member 053,\n\nYour expense claim TES-053 for IDR 123,585 has been approved and will be paid. The amount you claimed matches the receipt total, and no issues were found.\n\nThank you for submitting your claim.\n\nKind regards,\nClub Treasurer",
+   "cost_usd": 0.001124,
+   "seconds": 4.45,
+   "cached": false
+  },
+  {
+   "claim_id": "TES-054",
+   "receipt_id": "test_054",
+   "image_path": "data/images/test/test_054.png",
+   "planted_error": "policy_breach",
+   "planted_detail": {
+    "clause": "C1",
+    "detail": "no purpose stated"
+   },
+   "natural_flags": [],
+   "expected": "needs_review",
+   "predicted": "needs_review",
+   "decision_reason": "medium-severity issues need a human decision",
+   "submitter": "Member 054",
+   "claimed_amount": 10000,
+   "currency": "IDR",
+   "receipt_total": 10000,
+   "readability": "clear",
+   "extraction_error": null,
+   "caught": {
+    "policy_breach": true
+   },
+   "verified_issues": [
+    {
+     "source": "rules",
+     "type": "purpose_missing",
+     "severity": "medium",
+     "clause_id": "C1",
+     "price_item": null,
+     "receipt_line": "CLAIM_AMOUNT",
+     "message": "The claim states no purpose, so under C1 it is held for review until the treasurer knows the approved club activity or business purpose for the IDR 10,000 expense.",
+     "evidence": {
+      "clause_text": "C1. Purpose of expense: Expenses are reimbursable only when incurred for an approved club activity or business purpose. The claim must state the purpose. Claims with no stated purpose are held for review."
+     }
+    }
+   ],
+   "n_rule_issues": 1,
+   "n_dropped": 0,
+   "dropped": [],
+   "draft": "Hello Member 054,\n\nYour expense claim TES-054 for IDR 10,000 is on hold for review. The claim does not state a purpose, and under clause C1 expenses are reimbursable only when incurred for an approved club activity or business purpose.\n\nTo move this forward, please reply with the club activity or business purpose for this IDR 10,000 expense. Once I have that, I can complete the review.\n\nThank you,\nClub Treasurer",
+   "cost_usd": 0.000859,
+   "seconds": 4.46,
+   "cached": false
+  },
+  {
+   "claim_id": "TES-055",
+   "receipt_id": "test_055",
+   "image_path": "data/images/test/test_055.png",
+   "planted_error": "wrong_quantity",
+   "planted_detail": {
+    "item": "ROYAL CHEESE TART",
+    "extra_qty": 1
+   },
+   "natural_flags": [],
+   "expected": "reject",
+   "predicted": "reject",
+   "decision_reason": "at least one high-severity issue with evidence",
+   "submitter": "Member 055",
+   "claimed_amount": 70000,
+   "currency": "IDR",
+   "receipt_total": 54000,
+   "readability": "clear",
+   "extraction_error": null,
+   "caught": {
+    "wrong_quantity": true
+   },
+   "verified_issues": [
+    {
+     "source": "maths",
+     "type": "claim_exceeds_receipt",
+     "severity": "high",
+     "clause_id": null,
+     "price_item": null,
+     "receipt_line": null,
+     "message": "Claimed 70000 but the receipt total is 54000",
+     "evidence": {
+      "claimed": 70000,
+      "receipt_total": 54000,
+      "difference": 16000
+     }
+    },
+    {
+     "source": "rules",
+     "type": "quantity_exceeds_receipt",
+     "severity": "medium",
+     "clause_id": "C9",
+     "price_item": "royal cheese tart",
+     "receipt_line": "2 ROYAL CHEESE TART 32,000",
+     "message": "The claim asks for 3 Royal Cheese Tarts but the receipt shows only 2, so the claimed quantity exceeds the receipt. Reduce the claim to 2 or obtain the missing receipt before paying.",
+     "evidence": {
+      "clause_text": "C9. Quantities: The quantity of any item claimed must not exceed the quantity shown on the receipt, and the same receipt may not be claimed twice.",
+      "unit_price_paid": 32000,
+      "agreed_max_unit_price": 18000,
+      "price_list_item": "royal cheese tart"
+     }
+    }
+   ],
+   "n_rule_issues": 1,
+   "n_dropped": 0,
+   "dropped": [],
+   "draft": "Dear Member 055,\n\nClaim TES-055 cannot be paid as submitted, so it has been rejected.\n\n- Amount: you claimed IDR 70,000, but the receipt total is IDR 54,000, a difference of IDR 16,000.\n- Quantity (clause C9): you claimed 3 Royal Cheese Tarts, but the receipt shows only 2 (2 ROYAL CHEESE TART 32,000). Under clause C9, the quantity claimed must not exceed the quantity on the receipt.\n\nTo resubmit, please either reduce the claim to match the receipt total of IDR 54,000 and 2 tarts, or send the receipt for the third tart if you have one. We will review it again once we receive the corrected claim.\n\nThank you,\nClub Treasurer",
+   "cost_usd": 0.001875,
+   "seconds": 9.47,
+   "cached": false
+  },
+  {
+   "claim_id": "TES-056",
+   "receipt_id": "test_056",
+   "image_path": "data/images/test/test_056.png",
+   "planted_error": null,
+   "planted_detail": null,
+   "natural_flags": [],
+   "expected": "approve",
+   "predicted": "approve",
+   "decision_reason": "no issues found and the receipt is clear",
+   "submitter": "Member 056",
+   "claimed_amount": 8999,
+   "currency": "IDR",
+   "receipt_total": 8999,
+   "readability": "clear",
+   "extraction_error": null,
+   "caught": {},
+   "verified_issues": [],
+   "n_rule_issues": 0,
+   "n_dropped": 0,
+   "dropped": [],
+   "draft": "Hello Member 056,\n\nYour expense claim TES-056 for IDR 8,999 has been approved and will be paid. The amount claimed matches the receipt total exactly, and no issues were found.\n\nThank you for submitting it.",
+   "cost_usd": 0.000971,
+   "seconds": 3.84,
+   "cached": false
+  },
+  {
+   "claim_id": "TES-057",
+   "receipt_id": "test_057",
+   "image_path": "data/images/test/test_057.png",
+   "planted_error": null,
+   "planted_detail": null,
+   "natural_flags": [],
+   "expected": "approve",
+   "predicted": "approve",
+   "decision_reason": "no issues found and the receipt is clear",
+   "submitter": "Member 057",
+   "claimed_amount": 42000,
+   "currency": "IDR",
+   "receipt_total": null,
+   "readability": "clear",
+   "extraction_error": null,
+   "caught": {},
+   "verified_issues": [],
+   "n_rule_issues": 0,
+   "n_dropped": 0,
+   "dropped": [],
+   "draft": "Hello Member 057,\n\nYour expense claim TES-057 for IDR 42,000 has been approved and will be paid.\n\nThank you for submitting it.\n\nKind regards,\nTreasurer",
+   "cost_usd": 0.000995,
+   "seconds": 5.29,
+   "cached": false
+  },
+  {
+   "claim_id": "TES-058",
+   "receipt_id": "test_058",
+   "image_path": "data/images/test/test_058.png",
+   "planted_error": "policy_breach",
+   "planted_detail": {
+    "clause": "C1",
+    "detail": "no purpose stated"
+   },
+   "natural_flags": [],
+   "expected": "needs_review",
+   "predicted": "needs_review",
+   "decision_reason": "medium-severity issues need a human decision",
+   "submitter": "Member 058",
+   "claimed_amount": 60500,
+   "currency": "IDR",
+   "receipt_total": 60500,
+   "readability": "partly unclear",
+   "extraction_error": null,
+   "caught": {
+    "policy_breach": true
+   },
+   "verified_issues": [
+    {
+     "source": "rules",
+     "type": "missing_purpose",
+     "severity": "medium",
+     "clause_id": "C1",
+     "price_item": null,
+     "receipt_line": "CLAIM_AMOUNT",
+     "message": "The claim has no stated purpose, so it cannot be confirmed as an approved club activity or business expense and is held for review. The treasurer should ask the submitter to state the purpose.",
+     "evidence": {
+      "clause_text": "C1. Purpose of expense: Expenses are reimbursable only when incurred for an approved club activity or business purpose. The claim must state the purpose. Claims with no stated purpose are held for review."
+     }
+    }
+   ],
+   "n_rule_issues": 1,
+   "n_dropped": 0,
+   "dropped": [],
+   "draft": "Dear Member 058,\n\nThank you for submitting claim TES-058 for IDR 60,500. The receipts total the same amount, so the figures match.\n\nThis claim is on hold for review. Under clause C1, expenses are reimbursable only when incurred for an approved club activity or business purpose, and the claim must state that purpose. Your claim does not state one.\n\nTo proceed, please reply with the purpose of this expense, including the club activity or business reason it relates to. Once we have it, the claim will be reviewed again.\n\nKind regards,\nClub Treasurer",
+   "cost_usd": 0.001301,
+   "seconds": 6.28,
+   "cached": false
+  },
+  {
+   "claim_id": "TES-059",
+   "receipt_id": "test_059",
+   "image_path": "data/images/test/test_059.png",
+   "planted_error": null,
+   "planted_detail": null,
+   "natural_flags": [
+    "above_500k",
+    "receipt_inconsistent"
+   ],
+   "expected": "needs_review",
+   "predicted": "needs_review",
+   "decision_reason": "medium-severity issues need a human decision",
+   "submitter": "Member 059",
+   "claimed_amount": 680500,
+   "currency": "IDR",
+   "receipt_total": 680500,
+   "readability": "clear",
+   "extraction_error": null,
+   "caught": {
+    "above_500k": false,
+    "receipt_inconsistent": false
+   },
+   "verified_issues": [
+    {
+     "source": "rules",
+     "type": "meal_claim_missing_headcount",
+     "severity": "medium",
+     "clause_id": "C12",
+     "price_item": null,
+     "receipt_line": "CLAIM_AMOUNT",
+     "message": "The claim is 680500 IDR for food items (including 7 portions of rice), which is above IDR 150,000 and the claim does not state the number of people. Confirm whether this is a meal and record the headcount, or the claim is held for review.",
+     "evidence": {
+      "clause_text": "C12. Meals and hospitality: Meals are reimbursable when they are part of an approved activity. Meal claims above IDR 150,000 per person are held for review. The number of people must be stated for any meal claim above IDR 150,000 in total."
+     }
+    }
+   ],
+   "n_rule_issues": 1,
+   "n_dropped": 0,
+   "dropped": [],
+   "draft": "Dear Member 059,\n\nClaim TES-059 for IDR 680,500 is on hold for review. The claim covers food items, including 7 portions of rice, and the total is above IDR 150,000, but the number of people is not stated (clause C12).\n\nTo release it, please confirm whether this was a meal for an approved activity and tell us the headcount. We will then review the claim again.\n\nKind regards,\nClub Treasurer",
+   "cost_usd": 0.002364,
+   "seconds": 10.22,
+   "cached": false
+  },
+  {
+   "claim_id": "TES-060",
+   "receipt_id": "test_060",
+   "image_path": "data/images/test/test_060.png",
+   "planted_error": null,
+   "planted_detail": null,
+   "natural_flags": [],
+   "expected": "approve",
+   "predicted": "approve",
+   "decision_reason": "no issues found and the receipt is clear",
+   "submitter": "Member 060",
+   "claimed_amount": 26250,
+   "currency": "IDR",
+   "receipt_total": 26250,
+   "readability": "clear",
+   "extraction_error": null,
+   "caught": {},
+   "verified_issues": [],
+   "n_rule_issues": 0,
+   "n_dropped": 0,
+   "dropped": [],
+   "draft": "Hello Member 060,\n\nYour expense claim TES-060 for IDR 26,250 has been approved and will be paid. The amount you claimed matches the receipt total of IDR 26,250, and no issues were found.\n\nThank you for submitting your claim.\n\nBest regards,\nClub Treasurer",
+   "cost_usd": 0.001095,
+   "seconds": 3.99,
+   "cached": false
+  },
+  {
+   "claim_id": "TES-061",
+   "receipt_id": "test_061",
+   "image_path": "data/images/test/test_061.png",
+   "planted_error": null,
+   "planted_detail": null,
+   "natural_flags": [
+    "receipt_inconsistent"
+   ],
+   "expected": "needs_review",
+   "predicted": "needs_review",
+   "decision_reason": "medium-severity issues need a human decision",
+   "submitter": "Member 061",
+   "claimed_amount": 24500,
+   "currency": "IDR",
+   "receipt_total": 24500,
+   "readability": "partly unclear",
+   "extraction_error": null,
+   "caught": {
+    "receipt_inconsistent": true
+   },
+   "verified_issues": [
+    {
+     "source": "maths",
+     "type": "lines_vs_totals",
+     "severity": "medium",
+     "clause_id": null,
+     "price_item": null,
+     "receipt_line": null,
+     "message": "Line items sum to 37500, but subtotal is 24500 and total is 24500",
+     "evidence": {
+      "line_sum": 37500,
+      "subtotal": 24500,
+      "total": 24500
+     }
+    },
+    {
+     "source": "maths",
+     "type": "claim_lines_vs_amount",
+     "severity": "medium",
+     "clause_id": null,
+     "price_item": null,
+     "receipt_line": null,
+     "message": "Claim lines sum to 37500 but the claimed amount is 24500",
+     "evidence": {
+      "claim_line_sum": 37500,
+      "claimed": 24500,
+      "receipt_tax_and_service": 0
+     }
+    }
+   ],
+   "n_rule_issues": 0,
+   "n_dropped": 0,
+   "dropped": [],
+   "draft": "Subject: Expense claim TES-061 is on hold\n\nDear Member 061,\n\nYour claim TES-061 for IDR 24,500 is on hold and will not be paid yet.\n\n- The line items on the receipt add up to IDR 37,500, but the subtotal and total on the receipt are both IDR 24,500.\n- The claim lines also add up to IDR 37,500, while the claimed amount is IDR 24,500.\n\nTo move this forward, please check the receipt and the claim lines, then resubmit with matching figures or send a corrected receipt. Once we have that, we will review the claim again.\n\nKind regards,\nClub Treasurer",
+   "cost_usd": 0.001625,
+   "seconds": 5.87,
+   "cached": false
+  },
+  {
+   "claim_id": "TES-062",
+   "receipt_id": "test_062",
+   "image_path": "data/images/test/test_062.png",
+   "planted_error": null,
+   "planted_detail": null,
+   "natural_flags": [],
+   "expected": "approve",
+   "predicted": "approve",
+   "decision_reason": "no issues found and the receipt is clear",
+   "submitter": "Member 062",
+   "claimed_amount": 48000,
+   "currency": "IDR",
+   "receipt_total": 48000,
+   "readability": "clear",
+   "extraction_error": null,
+   "caught": {},
+   "verified_issues": [],
+   "n_rule_issues": 0,
+   "n_dropped": 0,
+   "dropped": [],
+   "draft": "Hello Member 062,\n\nYour expense claim TES-062 for IDR 48,000 has been approved and will be paid. The amount claimed matches the receipt total of IDR 48,000, and no issues were found.\n\nThank you for submitting your claim.\n\nBest regards,\nClub Treasurer",
+   "cost_usd": 0.000856,
+   "seconds": 4.8,
+   "cached": false
+  },
+  {
+   "claim_id": "TES-063",
+   "receipt_id": "test_063",
+   "image_path": "data/images/test/test_063.png",
+   "planted_error": null,
+   "planted_detail": null,
+   "natural_flags": [],
+   "expected": "approve",
+   "predicted": "reject",
+   "decision_reason": "at least one high-severity issue with evidence",
+   "submitter": "Member 063",
+   "claimed_amount": 57000,
+   "currency": "IDR",
+   "receipt_total": 57000,
+   "readability": "clear",
+   "extraction_error": null,
+   "caught": {},
+   "verified_issues": [
+    {
+     "source": "maths",
+     "type": "claimed_qty_exceeds_receipt",
+     "severity": "high",
+     "clause_id": null,
+     "price_item": null,
+     "receipt_line": "Kopi Susu Kampung. x1 19.000",
+     "message": "Claimed 2 x 'Kopi Susu Kampung.' but the receipt shows 1",
+     "evidence": {
+      "claimed_qty": 2,
+      "receipt_qty": 1,
+      "receipt_item": "Kopi Susu Kampung"
+     }
+    }
+   ],
+   "n_rule_issues": 0,
+   "n_dropped": 0,
+   "dropped": [],
+   "draft": "Dear Member 063,\n\nThank you for submitting claim TES-063. We are unable to pay it as submitted.\n\nThe claim lists 2 x Kopi Susu Kampung, but the receipt shows only 1 (Kopi Susu Kampung x1, 19.000 IDR). The claimed amount of 57,000 IDR matches the receipt total, but the quantity does not.\n\nTo resubmit, please correct the quantity to 1 so it matches the receipt, or upload a receipt that shows both items. Once corrected, the claim can be reviewed again.\n\nKind regards,\nClub Treasurer",
+   "cost_usd": 0.001372,
+   "seconds": 5.49,
+   "cached": false
+  },
+  {
+   "claim_id": "TES-064",
+   "receipt_id": "test_064",
+   "image_path": "data/images/test/test_064.png",
+   "planted_error": null,
+   "planted_detail": null,
+   "natural_flags": [],
+   "expected": "approve",
+   "predicted": "approve",
+   "decision_reason": "no issues found and the receipt is clear",
+   "submitter": "Member 064",
+   "claimed_amount": 16000,
+   "currency": "IDR",
+   "receipt_total": 16000,
+   "readability": "clear",
+   "extraction_error": null,
+   "caught": {},
+   "verified_issues": [],
+   "n_rule_issues": 0,
+   "n_dropped": 0,
+   "dropped": [],
+   "draft": "Hello Member 064,\n\nYour expense claim TES-064 for IDR 16,000 has been approved and will be paid. The amount claimed matches the receipt total exactly, and no issues were found.\n\nThank you for submitting it.\n\nBest regards,\nClub Treasurer",
+   "cost_usd": 0.000994,
+   "seconds": 3.47,
+   "cached": false
+  },
+  {
+   "claim_id": "TES-065",
+   "receipt_id": "test_065",
+   "image_path": "data/images/test/test_065.png",
+   "planted_error": null,
+   "planted_detail": null,
+   "natural_flags": [],
+   "expected": "approve",
+   "predicted": "needs_review",
+   "decision_reason": "no issues found, but parts of the receipt were hard to read",
+   "submitter": "Member 065",
+   "claimed_amount": 13000,
+   "currency": "IDR",
+   "receipt_total": 13000,
+   "readability": "partly unclear",
+   "extraction_error": null,
+   "caught": {},
+   "verified_issues": [],
+   "n_rule_issues": 0,
+   "n_dropped": 0,
+   "dropped": [],
+   "draft": "Hello Member 065,\n\nYour expense claim TES-065 for IDR 13,000 is on hold. The amounts on your claim and receipt match, and no policy issues were found. However, parts of the receipt were hard to read, so we need a clearer copy before we can pay it.\n\nPlease send a clearer photo or scan of the receipt, with the full total and date visible. Once we have it, we will complete the review.\n\nThank you,\nClub Treasurer",
+   "cost_usd": 0.000893,
+   "seconds": 5.52,
+   "cached": false
+  },
+  {
+   "claim_id": "TES-066",
+   "receipt_id": "test_066",
+   "image_path": "data/images/test/test_066.png",
+   "planted_error": "inflated_amount",
+   "planted_detail": {
+    "delta": 7000
+   },
+   "natural_flags": [],
+   "expected": "reject",
+   "predicted": "reject",
+   "decision_reason": "at least one high-severity issue with evidence",
+   "submitter": "Member 066",
+   "claimed_amount": 47000,
+   "currency": "IDR",
+   "receipt_total": 40000,
+   "readability": "partly unclear",
+   "extraction_error": null,
+   "caught": {
+    "inflated_amount": true
+   },
+   "verified_issues": [
+    {
+     "source": "maths",
+     "type": "claim_exceeds_receipt",
+     "severity": "high",
+     "clause_id": null,
+     "price_item": null,
+     "receipt_line": null,
+     "message": "Claimed 47000 but the receipt total is 40000",
+     "evidence": {
+      "claimed": 47000,
+      "receipt_total": 40000,
+      "difference": 7000
+     }
+    },
+    {
+     "source": "rules",
+     "type": "claim_above_receipt_total",
+     "severity": "high",
+     "clause_id": "C4",
+     "price_item": null,
+     "receipt_line": "CLAIM_AMOUNT",
+     "message": "The claim is for 47000 but the receipt total is 40000. Under C4 a claim above the receipt total is rejected, so the claim should be reduced to 40000 or lower.",
+     "evidence": {
+      "clause_text": "C4. Claimed amount must match the receipt: The amount claimed must equal the total printed on the receipt. A claim for more than the receipt total is rejected. A claim for less than the receipt total is acceptable (the claimant may choose not to claim some items)."
+     }
+    },
+    {
+     "source": "rules",
+     "type": "packaging_fee_over_cap",
+     "severity": "high",
+     "clause_id": "C13",
+     "price_item": null,
+     "receipt_line": "PLASTIK 25 0",
+     "message": "The claim includes 7000 for PLASTIK 25, a bag or packaging charge. C13 caps these at IDR 5,000 per receipt and the excess is not reimbursed. The receipt prints this line at 0, so the 7000 claimed is not supported by the receipt.",
+     "evidence": {
+      "clause_text": "C13. Packaging and bag fees: Plastic bag, packaging and takeaway charges are reimbursable up to a total of IDR 5,000 per receipt. Amounts above this are not reimbursed."
+     }
+    }
+   ],
+   "n_rule_issues": 2,
+   "n_dropped": 0,
+   "dropped": [],
+   "draft": "Dear Member 066,\n\nClaim TES-066 cannot be paid as submitted. There are three problems:\n\n- You claimed IDR 47,000, but the receipt total is IDR 40,000. The difference of IDR 7,000 is not supported (difference 7000). Under C4, a claim above the receipt total is rejected.\n- The claim includes IDR 7,000 for PLASTIK 25, a bag or packaging charge. Under C13, these are reimbursable up to IDR 5,000 per receipt, and the excess is not reimbursed. The receipt also prints this line at IDR 0, so the IDR 7,000 is not supported by the receipt.\n\nTo fix this, please resubmit the claim for IDR 40,000 or less, matching the receipt total. If you only want to claim packaging, the maximum is IDR 5,000, and it must be supported by the receipt.\n\nKind regards,\nClub Treasurer",
+   "cost_usd": 0.001946,
+   "seconds": 8.61,
+   "cached": false
+  },
+  {
+   "claim_id": "TES-067",
+   "receipt_id": "test_067",
+   "image_path": "data/images/test/test_067.png",
+   "planted_error": "inflated_amount",
+   "planted_detail": {
+    "delta": 5000
+   },
+   "natural_flags": [],
+   "expected": "reject",
+   "predicted": "reject",
+   "decision_reason": "at least one high-severity issue with evidence",
+   "submitter": "Member 067",
+   "claimed_amount": 14500,
+   "currency": "IDR",
+   "receipt_total": 9500,
+   "readability": "partly unclear",
+   "extraction_error": null,
+   "caught": {
+    "inflated_amount": true
+   },
+   "verified_issues": [
+    {
+     "source": "maths",
+     "type": "claim_exceeds_receipt",
+     "severity": "high",
+     "clause_id": null,
+     "price_item": null,
+     "receipt_line": null,
+     "message": "Claimed 14500 but the receipt total is 9500",
+     "evidence": {
+      "claimed": 14500,
+      "receipt_total": 9500,
+      "difference": 5000
+     }
+    },
+    {
+     "source": "rules",
+     "type": "claim_above_receipt_total",
+     "severity": "high",
+     "clause_id": "C4",
+     "price_item": null,
+     "receipt_line": "CLAIM_AMOUNT",
+     "message": "The claim of 14500 exceeds the receipt total of 9500, and C4 says a claim above the receipt total is rejected. Reduce the claim to 9500 or less to match the receipt.",
+     "evidence": {
+      "clause_text": "C4. Claimed amount must match the receipt: The amount claimed must equal the total printed on the receipt. A claim for more than the receipt total is rejected. A claim for less than the receipt total is acceptable (the claimant may choose not to claim some items)."
+     }
+    }
+   ],
+   "n_rule_issues": 1,
+   "n_dropped": 0,
+   "dropped": [],
+   "draft": "Dear Member 067,\n\nClaim TES-067 cannot be paid as submitted. You claimed 14500 IDR, but the receipt total is 9500 IDR, a difference of 5000 IDR. Under clause C4, a claim for more than the receipt total is rejected.\n\nTo have this claim paid, please resubmit it for 9500 IDR or less, matching the receipt total. A claim for less than the receipt total is acceptable.\n\nKind regards,\nClub Treasurer",
+   "cost_usd": 0.001087,
+   "seconds": 5.58,
+   "cached": false
+  },
+  {
+   "claim_id": "TES-068",
+   "receipt_id": "test_068",
+   "image_path": "data/images/test/test_068.png",
+   "planted_error": "wrong_quantity",
+   "planted_detail": {
+    "item": "ICED TT",
+    "extra_qty": 2
+   },
+   "natural_flags": [],
+   "expected": "reject",
+   "predicted": "reject",
+   "decision_reason": "at least one high-severity issue with evidence",
+   "submitter": "Member 068",
+   "claimed_amount": 60000,
+   "currency": "IDR",
+   "receipt_total": 20000,
+   "readability": "clear",
+   "extraction_error": null,
+   "caught": {
+    "wrong_quantity": false
+   },
+   "verified_issues": [
+    {
+     "source": "maths",
+     "type": "claim_exceeds_receipt",
+     "severity": "high",
+     "clause_id": null,
+     "price_item": null,
+     "receipt_line": null,
+     "message": "Claimed 60000 but the receipt total is 20000",
+     "evidence": {
+      "claimed": 60000,
+      "receipt_total": 20000,
+      "difference": 40000
+     }
+    }
+   ],
+   "n_rule_issues": 0,
+   "n_dropped": 0,
+   "dropped": [],
+   "draft": "Hello Member 068,\n\nWe have reviewed expense claim TES-068 and it cannot be paid as submitted. You claimed IDR 60,000, but the receipt total is IDR 20,000, a difference of IDR 40,000.\n\nTo have this claim considered, please submit a claim for IDR 20,000 that matches the receipt, or send a corrected receipt that supports the full IDR 60,000.\n\nThank you,\nClub Treasurer",
+   "cost_usd": 0.000906,
+   "seconds": 3.84,
+   "cached": false
+  },
+  {
+   "claim_id": "TES-069",
+   "receipt_id": "test_069",
+   "image_path": "data/images/test/test_069.png",
+   "planted_error": "item_not_on_receipt",
+   "planted_detail": {
+    "item": "SPOOKY SOBORO",
+    "price": 45000
+   },
+   "natural_flags": [],
+   "expected": "reject",
+   "predicted": "reject",
+   "decision_reason": "at least one high-severity issue with evidence",
+   "submitter": "Member 069",
+   "claimed_amount": 119000,
+   "currency": "IDR",
+   "receipt_total": 74000,
+   "readability": "clear",
+   "extraction_error": null,
+   "caught": {
+    "item_not_on_receipt": true
+   },
+   "verified_issues": [
+    {
+     "source": "maths",
+     "type": "claim_exceeds_receipt",
+     "severity": "high",
+     "clause_id": null,
+     "price_item": null,
+     "receipt_line": null,
+     "message": "Claimed 119000 but the receipt total is 74000",
+     "evidence": {
+      "claimed": 119000,
+      "receipt_total": 74000,
+      "difference": 45000
+     }
+    },
+    {
+     "source": "maths",
+     "type": "claimed_item_not_on_receipt",
+     "severity": "high",
+     "clause_id": null,
+     "price_item": null,
+     "receipt_line": null,
+     "message": "'SPOOKY SOBORO' is claimed but no receipt line matches it",
+     "evidence": {
+      "claimed_name": "SPOOKY SOBORO",
+      "closest": "CUSTARD BRIOCHE",
+      "match_score": 35.71428571428571
+     }
+    },
+    {
+     "source": "rules",
+     "type": "claim_exceeds_claimed_vs_receipt",
+     "severity": "high",
+     "clause_id": "C4",
+     "price_item": null,
+     "receipt_line": "CLAIM_AMOUNT",
+     "message": "The claim is for IDR 119,000 but the receipt total is IDR 74,000. Under C4 a claim above the receipt total is rejected, so the claim should be reduced to the receipt total or rejected.",
+     "evidence": {
+      "clause_text": "C4. Claimed amount must match the receipt: The amount claimed must equal the total printed on the receipt. A claim for more than the receipt total is rejected. A claim for less than the receipt total is acceptable (the claimant may choose not to claim some items)."
+     }
+    }
+   ],
+   "n_rule_issues": 1,
+   "n_dropped": 0,
+   "dropped": [],
+   "draft": "Dear Member 069,\n\nYour expense claim TES-069 cannot be paid as submitted.\n\n- You claimed IDR 119,000, but the receipt total is IDR 74,000, a difference of IDR 45,000. Under clause C4, a claim above the receipt total is rejected.\n- \"SPOOKY SOBORO\" is claimed but does not appear on the receipt. The closest item is \"CUSTARD BRIOCHE\".\n\nTo resubmit, please either reduce the claimed amount to IDR 74,000 or send a receipt that supports the full IDR 119,000. Please also remove or correct the \"SPOOKY SOBORO\" item so it matches a line on the receipt.\n\nKind regards,\nClub Treasurer",
+   "cost_usd": 0.001815,
+   "seconds": 8.37,
+   "cached": false
+  },
+  {
+   "claim_id": "TES-070",
+   "receipt_id": "test_070",
+   "image_path": "data/images/test/test_070.png",
+   "planted_error": null,
+   "planted_detail": null,
+   "natural_flags": [
+    "above_500k",
+    "price_above_list"
+   ],
+   "expected": "needs_review",
+   "predicted": "needs_review",
+   "decision_reason": "medium-severity issues need a human decision",
+   "submitter": "Member 070",
+   "claimed_amount": 1565938,
+   "currency": "IDR",
+   "receipt_total": 1565938,
+   "readability": "partly unclear",
+   "extraction_error": null,
+   "caught": {
+    "above_500k": false,
+    "price_above_list": true
+   },
+   "verified_issues": [
+    {
+     "source": "rules",
+     "type": "meal_above_per_person_limit",
+     "severity": "medium",
+     "clause_id": "C12",
+     "price_item": null,
+     "receipt_line": "CLAIM_AMOUNT",
+     "message": "The claim is IDR 1,565,938 for 4 people, about IDR 391,484 per person, which is above the IDR 150,000 per-person meal limit. Hold it for treasurer review and confirm the meeting attendance.",
+     "evidence": {
+      "clause_text": "C12. Meals and hospitality: Meals are reimbursable when they are part of an approved activity. Meal claims above IDR 150,000 per person are held for review. The number of people must be stated for any meal claim above IDR 150,000 in total."
+     }
+    },
+    {
+     "source": "rules",
+     "type": "price_above_list",
+     "severity": "medium",
+     "clause_id": null,
+     "price_item": "bihun goreng jj",
+     "receipt_line": "1 BIHUN GORENG JJ 116,000",
+     "message": "The unit price of IDR 116,000 is above the agreed maximum of IDR 96,000 for bihun goreng jj. Check whether the price was agreed or query the supplier.",
+     "evidence": {
+      "unit_price_paid": 116000,
+      "agreed_max_unit_price": 96000,
+      "price_list_item": "bihun goreng jj"
+     }
+    }
+   ],
+   "n_rule_issues": 2,
+   "n_dropped": 0,
+   "dropped": [],
+   "draft": "Dear Member 070,\n\nThank you for submitting claim TES-070 for IDR 1,565,938. This claim is on hold for treasurer review and has not been paid yet.\n\nTwo points need checking:\n\n- Meal limit (clause C12): the claim covers 4 people, about IDR 391,484 per person, which is above the IDR 150,000 per-person meal limit. Please confirm the meeting attendance and the number of people who attended.\n- Unit price: the bihun goreng jj was charged at IDR 116,000, above the agreed maximum of IDR 96,000. Please confirm whether this price was agreed, or check with the supplier.\n\nOnce you send the attendance details and confirm the price, the treasurer can complete the review.\n\nKind regards,\nClub Treasurer",
+   "cost_usd": 0.002313,
+   "seconds": 10.93,
+   "cached": false
+  },
+  {
+   "claim_id": "TES-071",
+   "receipt_id": "test_071",
+   "image_path": "data/images/test/test_071.png",
+   "planted_error": null,
+   "planted_detail": null,
+   "natural_flags": [],
+   "expected": "approve",
+   "predicted": "approve",
+   "decision_reason": "no issues found and the receipt is clear",
+   "submitter": "Member 071",
+   "claimed_amount": 198000,
+   "currency": "IDR",
+   "receipt_total": null,
+   "readability": "clear",
+   "extraction_error": null,
+   "caught": {},
+   "verified_issues": [],
+   "n_rule_issues": 0,
+   "n_dropped": 0,
+   "dropped": [],
+   "draft": "Hello Member 071,\n\nYour expense claim TES-071 for IDR 198,000 has been approved and will be paid.\n\nBest regards,\nClub Treasurer",
+   "cost_usd": 0.001145,
+   "seconds": 4.92,
+   "cached": false
+  },
+  {
+   "claim_id": "TES-072",
+   "receipt_id": "test_072",
+   "image_path": "data/images/test/test_072.png",
+   "planted_error": "totals_mismatch",
+   "planted_detail": {
+    "item": "Choco Devil",
+    "delta": 6000
+   },
+   "natural_flags": [],
+   "expected": "needs_review",
+   "predicted": "needs_review",
+   "decision_reason": "medium-severity issues need a human decision",
+   "submitter": "Member 072",
+   "claimed_amount": 17500,
+   "currency": "IDR",
+   "receipt_total": 17500,
+   "readability": "clear",
+   "extraction_error": null,
+   "caught": {
+    "totals_mismatch": true
+   },
+   "verified_issues": [
+    {
+     "source": "maths",
+     "type": "claim_lines_vs_amount",
+     "severity": "medium",
+     "clause_id": null,
+     "price_item": null,
+     "receipt_line": null,
+     "message": "Claim lines sum to 21909 but the claimed amount is 17500 (receipt tax + service = 1591)",
+     "evidence": {
+      "claim_line_sum": 21909,
+      "claimed": 17500,
+      "receipt_tax_and_service": 1591
+     }
+    }
+   ],
+   "n_rule_issues": 0,
+   "n_dropped": 0,
+   "dropped": [],
+   "draft": "Hello Member 072,\n\nYour claim TES-072 for IDR 17,500 is on hold for review. The claim lines add up to IDR 21,909, but the claimed amount is IDR 17,500. The receipt includes IDR 1,591 in tax and service, which may account for part of the difference.\n\nPlease check the claim lines against your receipt and either correct the claimed amount or confirm which figure is right. Reply to this message with the corrected amount or any details, and we will review it again.\n\nKind regards,\nClub Treasurer",
+   "cost_usd": 0.001025,
+   "seconds": 5.38,
+   "cached": false
+  },
+  {
+   "claim_id": "TES-073",
+   "receipt_id": "test_073",
+   "image_path": "data/images/test/test_073.png",
+   "planted_error": "totals_mismatch",
+   "planted_detail": {
+    "item": "6001-Plastic Bag Small",
+    "delta": 2000
+   },
+   "natural_flags": [],
+   "expected": "needs_review",
+   "predicted": "needs_review",
+   "decision_reason": "medium-severity issues need a human decision",
+   "submitter": "Member 073",
+   "claimed_amount": 22000,
+   "currency": "IDR",
+   "receipt_total": 22000,
+   "readability": "clear",
+   "extraction_error": null,
+   "caught": {
+    "totals_mismatch": true
+   },
+   "verified_issues": [
+    {
+     "source": "maths",
+     "type": "claim_lines_vs_amount",
+     "severity": "medium",
+     "clause_id": null,
+     "price_item": null,
+     "receipt_line": null,
+     "message": "Claim lines sum to 24000 but the claimed amount is 22000",
+     "evidence": {
+      "claim_line_sum": 24000,
+      "claimed": 22000,
+      "receipt_tax_and_service": 0
+     }
+    }
+   ],
+   "n_rule_issues": 0,
+   "n_dropped": 0,
+   "dropped": [],
+   "draft": "Dear Member 073,\n\nYour expense claim TES-073 is on hold while a committee member reviews it.\n\nThe claim lines add up to IDR 24,000, but the claimed amount is IDR 22,000. The receipt total is IDR 22,000, and it shows no tax or service charge.\n\nPlease check the individual claim lines and the claimed amount. If the lines are correct, let us know which figure should be used, or send a corrected claim with matching totals. Once the difference is resolved, the claim will be reviewed again.\n\nKind regards,\nClub Treasurer",
+   "cost_usd": 0.000972,
+   "seconds": 4.59,
+   "cached": false
+  },
+  {
+   "claim_id": "TES-074",
+   "receipt_id": "test_074",
+   "image_path": "data/images/test/test_074.png",
+   "planted_error": null,
+   "planted_detail": null,
+   "natural_flags": [],
+   "expected": "approve",
+   "predicted": "approve",
+   "decision_reason": "no issues found and the receipt is clear",
+   "submitter": "Member 074",
+   "claimed_amount": 330264,
+   "currency": "IDR",
+   "receipt_total": 330264,
+   "readability": "clear",
+   "extraction_error": null,
+   "caught": {},
+   "verified_issues": [],
+   "n_rule_issues": 0,
+   "n_dropped": 0,
+   "dropped": [],
+   "draft": "Hello Member 074,\n\nYour expense claim TES-074 for IDR 330,264 has been approved and will be paid. The amount you claimed matches the receipt total, and no issues were found.\n\nThank you for submitting it.\n\nKind regards,\nClub Treasurer",
+   "cost_usd": 0.001329,
+   "seconds": 5.79,
+   "cached": false
+  },
+  {
+   "claim_id": "TES-075",
+   "receipt_id": "test_075",
+   "image_path": "data/images/test/test_075.png",
+   "planted_error": "totals_mismatch",
+   "planted_detail": {
+    "item": "SC/P SUPER SUPREME",
+    "delta": 16000
+   },
+   "natural_flags": [],
+   "expected": "needs_review",
+   "predicted": "reject",
+   "decision_reason": "at least one high-severity issue with evidence",
+   "submitter": "Member 075",
+   "claimed_amount": 282000,
+   "currency": "IDR",
+   "receipt_total": 282000,
+   "readability": "clear",
+   "extraction_error": null,
+   "caught": {
+    "totals_mismatch": true
+   },
+   "verified_issues": [
+    {
+     "source": "maths",
+     "type": "claim_lines_vs_amount",
+     "severity": "medium",
+     "clause_id": null,
+     "price_item": null,
+     "receipt_line": null,
+     "message": "Claim lines sum to 272363 but the claimed amount is 282000 (receipt tax + service = 25637)",
+     "evidence": {
+      "claim_line_sum": 272363,
+      "claimed": 282000,
+      "receipt_tax_and_service": 25637
+     }
+    },
+    {
+     "source": "rules",
+     "type": "claimed_line_exceeds_receipt",
+     "severity": "high",
+     "clause_id": "C4",
+     "price_item": null,
+     "receipt_line": "1 SC/P SUPER SUPREME 47,273",
+     "message": "The claim lists SC/P SUPER SUPREME at 63,273, which is 16,000 more than the receipt line of 47,273. Claiming more than the receipt shows is rejected, so the claimed line should be corrected to 47,273.",
+     "evidence": {
+      "clause_text": "C4. Claimed amount must match the receipt: The amount claimed must equal the total printed on the receipt. A claim for more than the receipt total is rejected. A claim for less than the receipt total is acceptable (the claimant may choose not to claim some items)."
+     }
+    }
+   ],
+   "n_rule_issues": 1,
+   "n_dropped": 0,
+   "dropped": [],
+   "draft": "Hello Member 075,\n\nYour claim TES-075 for IDR 282,000 cannot be paid as submitted.\n\n- SC/P SUPER SUPREME: you claimed 63,273, but the receipt line shows 47,273, which is 16,000 more than the receipt. Under clause C4, a claim for more than the receipt is rejected. The claimed line should be corrected to 47,273.\n- Claim lines total: the claim lines sum to 272,363, but the claimed amount is 282,000. The receipt tax and service is 25,637.\n\nTo resubmit, please correct the SC/P SUPER SUPREME line to 47,273, check that the claimed amount agrees with the claim lines and receipt, and send the updated claim.\n\nThank you,\nClub Treasurer",
+   "cost_usd": 0.002151,
+   "seconds": 13.06,
+   "cached": false
+  },
+  {
+   "claim_id": "TES-076",
+   "receipt_id": "test_076",
+   "image_path": "data/images/test/test_076.png",
+   "planted_error": null,
+   "planted_detail": null,
+   "natural_flags": [],
+   "expected": "approve",
+   "predicted": "approve",
+   "decision_reason": "no issues found and the receipt is clear",
+   "submitter": "Member 076",
+   "claimed_amount": 110000,
+   "currency": "IDR",
+   "receipt_total": null,
+   "readability": "clear",
+   "extraction_error": null,
+   "caught": {},
+   "verified_issues": [],
+   "n_rule_issues": 0,
+   "n_dropped": 0,
+   "dropped": [],
+   "draft": "Hello Member 076,\n\nYour expense claim TES-076 for IDR 110,000 has been approved and will be paid.\n\nThank you for submitting your claim and for keeping the receipt clear.\n\nBest regards,\nClub Treasurer",
+   "cost_usd": 0.001288,
+   "seconds": 4.45,
+   "cached": false
+  },
+  {
+   "claim_id": "TES-077",
+   "receipt_id": "test_077",
+   "image_path": "data/images/test/test_077.png",
+   "planted_error": null,
+   "planted_detail": null,
+   "natural_flags": [],
+   "expected": "approve",
+   "predicted": "approve",
+   "decision_reason": "no issues found and the receipt is clear",
+   "submitter": "Member 077",
+   "claimed_amount": 17000,
+   "currency": "IDR",
+   "receipt_total": 17000,
+   "readability": "clear",
+   "extraction_error": null,
+   "caught": {},
+   "verified_issues": [],
+   "n_rule_issues": 0,
+   "n_dropped": 0,
+   "dropped": [],
+   "draft": "Hello Member 077,\n\nYour expense claim TES-077 for IDR 17,000 has been approved and will be paid. The amount claimed matches the receipt total, and no issues were found.\n\nThank you for submitting your claim.\n\nKind regards,\nClub Treasurer",
+   "cost_usd": 0.000776,
+   "seconds": 3.58,
+   "cached": false
+  },
+  {
+   "claim_id": "TES-078",
+   "receipt_id": "test_078",
+   "image_path": "data/images/test/test_078.png",
+   "planted_error": null,
+   "planted_detail": null,
+   "natural_flags": [],
+   "expected": "approve",
+   "predicted": "needs_review",
+   "decision_reason": "medium-severity issues need a human decision",
+   "submitter": "Member 078",
+   "claimed_amount": 30000,
+   "currency": "IDR",
+   "receipt_total": 30000,
+   "readability": "clear",
+   "extraction_error": null,
+   "caught": {},
+   "verified_issues": [
+    {
+     "source": "maths",
+     "type": "claim_lines_vs_amount",
+     "severity": "medium",
+     "clause_id": null,
+     "price_item": null,
+     "receipt_line": null,
+     "message": "Claim lines sum to 25000 but the claimed amount is 30000",
+     "evidence": {
+      "claim_line_sum": 25000,
+      "claimed": 30000,
+      "receipt_tax_and_service": 0
+     }
+    }
+   ],
+   "n_rule_issues": 0,
+   "n_dropped": 0,
+   "dropped": [],
+   "draft": "Dear Member 078,\n\nYour expense claim TES-078 is on hold for review.\n\nThe claim lines add up to 25,000 IDR, but the claimed amount is 30,000 IDR. The receipt total is 30,000 IDR with no tax or service charge, so the difference of 5,000 IDR is not yet explained.\n\nTo release the claim, please check the amount and send a corrected claim. Make the claim lines add up to the amount you are claiming, or let us know if the 5,000 IDR is a separate item that needs its own line.\n\nKind regards,\nClub Treasurer",
+   "cost_usd": 0.001068,
+   "seconds": 5.53,
+   "cached": false
+  },
+  {
+   "claim_id": "TES-079",
+   "receipt_id": "test_079",
+   "image_path": "data/images/test/test_079.png",
+   "planted_error": "totals_mismatch",
+   "planted_detail": {
+    "item": "1001-Choco Bun",
+    "delta": 9000
+   },
+   "natural_flags": [],
+   "expected": "needs_review",
+   "predicted": "needs_review",
+   "decision_reason": "medium-severity issues need a human decision",
+   "submitter": "Member 079",
+   "claimed_amount": 22000,
+   "currency": "IDR",
+   "receipt_total": 22000,
+   "readability": "clear",
+   "extraction_error": null,
+   "caught": {
+    "totals_mismatch": true
+   },
+   "verified_issues": [
+    {
+     "source": "maths",
+     "type": "claim_lines_vs_amount",
+     "severity": "medium",
+     "clause_id": null,
+     "price_item": null,
+     "receipt_line": null,
+     "message": "Claim lines sum to 31000 but the claimed amount is 22000",
+     "evidence": {
+      "claim_line_sum": 31000,
+      "claimed": 22000,
+      "receipt_tax_and_service": 0
+     }
+    }
+   ],
+   "n_rule_issues": 0,
+   "n_dropped": 0,
+   "dropped": [],
+   "draft": "Subject: Expense claim TES-079 is on hold\n\nHello Member 079,\n\nYour expense claim TES-079 is on hold and has not been approved yet. The individual claim lines add up to IDR 31,000, but the total claimed amount is IDR 22,000. The receipt total is IDR 22,000, with no tax or service charges.\n\nTo move this forward, please check the line items and the claimed total, then resubmit the claim with matching figures. If the IDR 31,000 is correct, please confirm that and we will review the claim again.\n\nKind regards,\nClub Treasurer",
+   "cost_usd": 0.001028,
+   "seconds": 4.52,
+   "cached": false
+  },
+  {
+   "claim_id": "TES-080",
+   "receipt_id": "test_080",
+   "image_path": "data/images/test/test_080.png",
+   "planted_error": "inflated_amount",
+   "planted_detail": {
+    "delta": 5000
+   },
+   "natural_flags": [],
+   "expected": "reject",
+   "predicted": "reject",
+   "decision_reason": "at least one high-severity issue with evidence",
+   "submitter": "Member 080",
+   "claimed_amount": 30000,
+   "currency": "IDR",
+   "receipt_total": 25000,
+   "readability": "partly unclear",
+   "extraction_error": null,
+   "caught": {
+    "inflated_amount": true
+   },
+   "verified_issues": [
+    {
+     "source": "maths",
+     "type": "claim_exceeds_receipt",
+     "severity": "high",
+     "clause_id": null,
+     "price_item": null,
+     "receipt_line": null,
+     "message": "Claimed 30000 but the receipt total is 25000",
+     "evidence": {
+      "claimed": 30000,
+      "receipt_total": 25000,
+      "difference": 5000
+     }
+    }
+   ],
+   "n_rule_issues": 0,
+   "n_dropped": 0,
+   "dropped": [],
+   "draft": "Hello Member 080,\n\nYour expense claim TES-080 cannot be paid as submitted. You claimed IDR 30,000, but the receipt total is IDR 25,000, a difference of IDR 5,000.\n\nTo have this claim paid, please resubmit it with the claimed amount matching the receipt total of IDR 25,000, or send a corrected receipt that supports IDR 30,000.\n\nThank you,\nClub Treasurer",
+   "cost_usd": 0.000924,
+   "seconds": 4.7,
+   "cached": false
+  },
+  {
+   "claim_id": "TES-081",
+   "receipt_id": "test_081",
+   "image_path": "data/images/test/test_081.png",
+   "planted_error": "policy_breach",
+   "planted_detail": {
+    "clause": "C1",
+    "detail": "no purpose stated"
+   },
+   "natural_flags": [],
+   "expected": "needs_review",
+   "predicted": "needs_review",
+   "decision_reason": "medium-severity issues need a human decision",
+   "submitter": "Member 081",
+   "claimed_amount": 50000,
+   "currency": "IDR",
+   "receipt_total": 50000,
+   "readability": "clear",
+   "extraction_error": null,
+   "caught": {
+    "policy_breach": true
+   },
+   "verified_issues": [
+    {
+     "source": "rules",
+     "type": "purpose_missing",
+     "severity": "medium",
+     "clause_id": "C1",
+     "price_item": null,
+     "receipt_line": "CLAIM_AMOUNT",
+     "message": "The claim has no stated purpose, so it is held for review until the treasurer confirms it was for an approved club activity or business purpose.",
+     "evidence": {
+      "clause_text": "C1. Purpose of expense: Expenses are reimbursable only when incurred for an approved club activity or business purpose. The claim must state the purpose. Claims with no stated purpose are held for review."
+     }
+    }
+   ],
+   "n_rule_issues": 1,
+   "n_dropped": 0,
+   "dropped": [],
+   "draft": "Hello Member 081,\n\nYour claim TES-081 for IDR 50,000 is on hold for review. The claim does not state a purpose. Under clause C1, expenses are reimbursable only when incurred for an approved club activity or business purpose, and the claim must state that purpose.\n\nTo move this forward, please reply with the purpose of the expense, including the club activity or business reason it was for. Once the treasurer confirms this, the claim can be reviewed again.\n\nThank you,\nClub Treasurer",
+   "cost_usd": 0.001241,
+   "seconds": 5.44,
+   "cached": false
+  },
+  {
+   "claim_id": "TES-082",
+   "receipt_id": "test_082",
+   "image_path": "data/images/test/test_082.png",
+   "planted_error": "wrong_quantity",
+   "planted_detail": {
+    "item": "Strawberry Log Cake",
+    "extra_qty": 1
+   },
+   "natural_flags": [],
+   "expected": "reject",
+   "predicted": "reject",
+   "decision_reason": "at least one high-severity issue with evidence",
+   "submitter": "Member 082",
+   "claimed_amount": 490000,
+   "currency": "IDR",
+   "receipt_total": 385000,
+   "readability": "clear",
+   "extraction_error": null,
+   "caught": {
+    "wrong_quantity": true
+   },
+   "verified_issues": [
+    {
+     "source": "maths",
+     "type": "claim_exceeds_receipt",
+     "severity": "high",
+     "clause_id": null,
+     "price_item": null,
+     "receipt_line": null,
+     "message": "Claimed 490000 but the receipt total is 385000",
+     "evidence": {
+      "claimed": 490000,
+      "receipt_total": 385000,
+      "difference": 105000
+     }
+    },
+    {
+     "source": "maths",
+     "type": "claimed_qty_exceeds_receipt",
+     "severity": "high",
+     "clause_id": null,
+     "price_item": null,
+     "receipt_line": "Strawberry Log Cake 2x 105,000 210,000",
+     "message": "Claimed 3 x 'Strawberry Log Cake' but the receipt shows 2",
+     "evidence": {
+      "claimed_qty": 3,
+      "receipt_qty": 2,
+      "receipt_item": "Strawberry Log Cake"
+     }
+    },
+    {
+     "source": "rules",
+     "type": "price_above_list",
+     "severity": "medium",
+     "clause_id": "C5",
+     "price_item": "real chocolate roll",
+     "receipt_line": "Chocolate Log Cake 1x 115,000 115,000",
+     "message": "The Chocolate Log Cake was bought at 115,000 per unit, well above the agreed maximum of 18,000 for a real chocolate roll. The amount above 18,000 is not reimbursable and the claim is held for review.",
+     "evidence": {
+      "clause_text": "C5. Agreed price list: For items that appear on the agreed price list, the unit price paid must not exceed the agreed maximum unit price for that item. Any amount above the agreed maximum is not reimbursed and the claim is held for review.",
+      "unit_price_paid": 115000,
+      "agreed_max_unit_price": 18000,
+      "price_list_item": "real chocolate roll"
+     }
+    }
+   ],
+   "n_rule_issues": 1,
+   "n_dropped": 0,
+   "dropped": [],
+   "draft": "Subject: Expense claim TES-082 - cannot be paid as submitted\n\nHello Member 082,\n\nClaim TES-082 cannot be paid as submitted. Please review the points below.\n\n- You claimed 490,000 IDR, but the receipt total is 385,000 IDR, a difference of 105,000 IDR.\n- You claimed 3 x Strawberry Log Cake, but the receipt shows 2.\n- The Chocolate Log Cake was bought at 115,000 IDR per unit, above the agreed maximum of 18,000 IDR for a real chocolate roll (clause C5). The amount above 18,000 IDR is not reimbursable, and this item is held for review.\n\nTo resubmit, please correct the claimed amount and quantity to match the receipt. For the chocolate log cake, please either provide documentation for the price or claim no more than the agreed maximum.\n\nKind regards,\nClub Treasurer",
+   "cost_usd": 0.001425,
+   "seconds": 7.46,
+   "cached": false
+  },
+  {
+   "claim_id": "TES-083",
+   "receipt_id": "test_083",
+   "image_path": "data/images/test/test_083.png",
+   "planted_error": "item_not_on_receipt",
+   "planted_detail": {
+    "item": "Pork Belly Cheese Fries",
+    "price": 22000
+   },
+   "natural_flags": [],
+   "expected": "reject",
+   "predicted": "reject",
+   "decision_reason": "at least one high-severity issue with evidence",
+   "submitter": "Member 083",
+   "claimed_amount": 45000,
+   "currency": "IDR",
+   "receipt_total": 23000,
+   "readability": "clear",
+   "extraction_error": null,
+   "caught": {
+    "item_not_on_receipt": true
+   },
+   "verified_issues": [
+    {
+     "source": "maths",
+     "type": "claim_exceeds_receipt",
+     "severity": "high",
+     "clause_id": null,
+     "price_item": null,
+     "receipt_line": null,
+     "message": "Claimed 45000 but the receipt total is 23000",
+     "evidence": {
+      "claimed": 45000,
+      "receipt_total": 23000,
+      "difference": 22000
+     }
+    },
+    {
+     "source": "maths",
+     "type": "claimed_item_not_on_receipt",
+     "severity": "high",
+     "clause_id": null,
+     "price_item": null,
+     "receipt_line": null,
+     "message": "'Pork Belly Cheese Fries' is claimed but no receipt line matches it",
+     "evidence": {
+      "claimed_name": "Pork Belly Cheese Fries",
+      "closest": "COOKIES AND CREAM",
+      "match_score": 35.0
+     }
+    },
+    {
+     "source": "rules",
+     "type": "claim_exceeds_receipt_total",
+     "severity": "high",
+     "clause_id": "C4",
+     "price_item": null,
+     "receipt_line": "CLAIM_AMOUNT",
+     "message": "The claim is for IDR 45000 but the receipt total is IDR 23000. Under C4 a claim above the receipt total is rejected, so the claim should be corrected to match the receipt before resubmission.",
+     "evidence": {
+      "clause_text": "C4. Claimed amount must match the receipt: The amount claimed must equal the total printed on the receipt. A claim for more than the receipt total is rejected. A claim for less than the receipt total is acceptable (the claimant may choose not to claim some items)."
+     }
+    }
+   ],
+   "n_rule_issues": 1,
+   "n_dropped": 0,
+   "dropped": [],
+   "draft": "Subject: Expense claim TES-083 cannot be paid as submitted\n\nHello Member 083,\n\nClaim TES-083 cannot be paid as submitted. You claimed IDR 45000, but the receipt total is IDR 23000, a difference of IDR 22000. Under clause C4, a claim above the receipt total is rejected.\n\nThe item \"Pork Belly Cheese Fries\" is also claimed but does not appear on the receipt. The closest receipt line is \"COOKIES AND CREAM\".\n\nTo have this claim paid, please correct the claimed amount to IDR 23000 to match the receipt, and remove or verify the Pork Belly Cheese Fries item, then resubmit.\n\nKind regards,\nClub Treasurer",
+   "cost_usd": 0.001303,
+   "seconds": 5.73,
+   "cached": false
+  },
+  {
+   "claim_id": "TES-084",
+   "receipt_id": "test_084",
+   "image_path": "data/images/test/test_084.png",
+   "planted_error": "wrong_quantity",
+   "planted_detail": {
+    "item": "Arem Arem",
+    "extra_qty": 1
+   },
+   "natural_flags": [],
+   "expected": "reject",
+   "predicted": "reject",
+   "decision_reason": "at least one high-severity issue with evidence",
+   "submitter": "Member 084",
+   "claimed_amount": 51600,
+   "currency": "IDR",
+   "receipt_total": 39600,
+   "readability": "clear",
+   "extraction_error": null,
+   "caught": {
+    "wrong_quantity": true
+   },
+   "verified_issues": [
+    {
+     "source": "maths",
+     "type": "claim_exceeds_receipt",
+     "severity": "high",
+     "clause_id": null,
+     "price_item": null,
+     "receipt_line": null,
+     "message": "Claimed 51600 but the receipt total is 39600",
+     "evidence": {
+      "claimed": 51600,
+      "receipt_total": 39600,
+      "difference": 12000
+     }
+    },
+    {
+     "source": "maths",
+     "type": "claimed_qty_exceeds_receipt",
+     "severity": "high",
+     "clause_id": null,
+     "price_item": null,
+     "receipt_line": "2x @12.000 24.000",
+     "message": "Claimed 3 x 'Arem Arem' but the receipt shows 2",
+     "evidence": {
+      "claimed_qty": 3,
+      "receipt_qty": 2,
+      "receipt_item": "Arem Arem"
+     }
+    },
+    {
+     "source": "rules",
+     "type": "claim_exceeds_receipt_policy",
+     "severity": "high",
+     "clause_id": "C4",
+     "price_item": null,
+     "receipt_line": "CLAIM_AMOUNT",
+     "message": "The claim is for 51600 but the receipt total is 39600, so C4 requires the claim to be rejected. Reduce the claim to at most 39600 or submit a corrected receipt.",
+     "evidence": {
+      "clause_text": "C4. Claimed amount must match the receipt: The amount claimed must equal the total printed on the receipt. A claim for more than the receipt total is rejected. A claim for less than the receipt total is acceptable (the claimant may choose not to claim some items)."
+     }
+    }
+   ],
+   "n_rule_issues": 2,
+   "n_dropped": 1,
+   "dropped": [
+    {
+     "type": "claimed_qty_exceeds_receipt_policy",
+     "clause_id": "C9",
+     "price_item": "arem arem",
+     "receipt_line": "2x @12.000 24.000",
+     "why": "unit price 12000 is not above the agreed max 13500"
+    }
+   ],
+   "draft": "Hello Member 084,\n\nYour claim TES-084 for IDR 51,600 cannot be paid as submitted.\n\n- The receipt total is IDR 39,600, which is IDR 12,000 less than the amount claimed. Under clause C4, a claim for more than the receipt total is rejected.\n- You claimed 3 x Arem Arem, but the receipt shows 2 (2 x @12,000 = 24,000).\n\nTo fix this, reduce the claim to at most IDR 39,600, or submit a corrected receipt showing the correct quantity and total. Once we receive that, we will review the claim again.\n\nThank you,\nClub Treasurer",
+   "cost_usd": 0.001205,
+   "seconds": 6.66,
+   "cached": false
+  },
+  {
+   "claim_id": "TES-085",
+   "receipt_id": "test_085",
+   "image_path": "data/images/test/test_085.png",
+   "planted_error": null,
+   "planted_detail": null,
+   "natural_flags": [],
+   "expected": "approve",
+   "predicted": "needs_review",
+   "decision_reason": "medium-severity issues need a human decision",
+   "submitter": "Member 085",
+   "claimed_amount": 197450,
+   "currency": "IDR",
+   "receipt_total": 197450,
+   "readability": "partly unclear",
+   "extraction_error": null,
+   "caught": {},
+   "verified_issues": [
+    {
+     "source": "rules",
+     "type": "price_above_list",
+     "severity": "medium",
+     "clause_id": null,
+     "price_item": "ayam",
+     "receipt_line": "2 Ayam Pop 40.000",
+     "message": "Ayam Pop works out to IDR 20,000 per unit (40,000 / 2), above the agreed maximum of IDR 11,000 for the matched 'ayam' price row. Ask the claimant to explain the price or confirm the matched item.",
+     "evidence": {
+      "unit_price_paid": 20000.0,
+      "agreed_max_unit_price": 11000,
+      "price_list_item": "ayam"
+     }
+    },
+    {
+     "source": "rules",
+     "type": "price_above_list",
+     "severity": "medium",
+     "clause_id": null,
+     "price_item": "es teh",
+     "receipt_line": "1 Teh Es 7.000",
+     "message": "Teh Es costs IDR 7,000, above the agreed maximum of IDR 6,500 for the 'es teh' price row. The excess is IDR 500.",
+     "evidence": {
+      "unit_price_paid": 7000.0,
+      "agreed_max_unit_price": 6500,
+      "price_list_item": "es teh"
+     }
+    }
+   ],
+   "n_rule_issues": 2,
+   "n_dropped": 0,
+   "dropped": [],
+   "draft": "Subject: Expense claim TES-085 is on hold\n\nHello Member 085,\n\nYour claim TES-085 for IDR 197,450 matches the receipt total, but it is on hold for review. Two items are priced above the agreed maximums:\n\n- Ayam Pop: 2 units at IDR 40,000 total, which works out to IDR 20,000 per unit. The agreed maximum for the matched 'ayam' price row is IDR 11,000 per unit.\n- Teh Es: IDR 7,000 per unit, above the agreed maximum of IDR 6,500 for the 'es teh' price row. The excess is IDR 500.\n\nTo move this forward, please explain the Ayam Pop price or confirm which item it was matched to. You can also confirm the Teh Es price. Once we have your reply, a reviewer will make the final decision.\n\nKind regards,\nClub Treasurer",
+   "cost_usd": 0.003776,
+   "seconds": 12.14,
+   "cached": false
+  },
+  {
+   "claim_id": "TES-086",
+   "receipt_id": "test_086",
+   "image_path": "data/images/test/test_086.png",
+   "planted_error": null,
+   "planted_detail": null,
+   "natural_flags": [],
+   "expected": "approve",
+   "predicted": "needs_review",
+   "decision_reason": "no issues found, but parts of the receipt were hard to read",
+   "submitter": "Member 086",
+   "claimed_amount": 22000,
+   "currency": "IDR",
+   "receipt_total": 22000,
+   "readability": "partly unclear",
+   "extraction_error": null,
+   "caught": {},
+   "verified_issues": [],
+   "n_rule_issues": 0,
+   "n_dropped": 0,
+   "dropped": [],
+   "draft": "Hello Member 086,\n\nYour expense claim TES-086 for IDR 22,000 is on hold for review. The amount matches the receipt total, and no policy issues were found. However, parts of the receipt were hard to read, so we need a clearer copy before we can approve it.\n\nPlease send a clearer or higher-resolution photo or scan of the receipt, and we will review the claim again as soon as we receive it.\n\nThank you,\nClub Treasurer",
+   "cost_usd": 0.000795,
+   "seconds": 4.2,
+   "cached": false
+  },
+  {
+   "claim_id": "TES-087",
+   "receipt_id": "test_087",
+   "image_path": "data/images/test/test_087.png",
+   "planted_error": null,
+   "planted_detail": null,
+   "natural_flags": [],
+   "expected": "approve",
+   "predicted": "approve",
+   "decision_reason": "no issues found and the receipt is clear",
+   "submitter": "Member 087",
+   "claimed_amount": 40150,
+   "currency": "IDR",
+   "receipt_total": 40150,
+   "readability": "clear",
+   "extraction_error": null,
+   "caught": {},
+   "verified_issues": [],
+   "n_rule_issues": 0,
+   "n_dropped": 0,
+   "dropped": [],
+   "draft": "Hello Member 087,\n\nYour expense claim TES-087 for IDR 40,150 has been approved and will be paid. The amount claimed matches the receipt total, and no issues were found.\n\nThank you for submitting your claim.\n\nKind regards,\nClub Treasurer",
+   "cost_usd": 0.000971,
+   "seconds": 4.34,
+   "cached": false
+  },
+  {
+   "claim_id": "TES-088",
+   "receipt_id": "test_088",
+   "image_path": "data/images/test/test_088.png",
+   "planted_error": "item_not_on_receipt",
+   "planted_detail": {
+    "item": "Salmon Seaweed Bowl",
+    "price": 45000
+   },
+   "natural_flags": [],
+   "expected": "reject",
+   "predicted": "reject",
+   "decision_reason": "at least one high-severity issue with evidence",
+   "submitter": "Member 088",
+   "claimed_amount": 92000,
+   "currency": "IDR",
+   "receipt_total": 47000,
+   "readability": "clear",
+   "extraction_error": null,
+   "caught": {
+    "item_not_on_receipt": true
+   },
+   "verified_issues": [
+    {
+     "source": "maths",
+     "type": "claim_exceeds_receipt",
+     "severity": "high",
+     "clause_id": null,
+     "price_item": null,
+     "receipt_line": null,
+     "message": "Claimed 92000 but the receipt total is 47000",
+     "evidence": {
+      "claimed": 92000,
+      "receipt_total": 47000,
+      "difference": 45000
+     }
+    },
+    {
+     "source": "maths",
+     "type": "claimed_item_not_on_receipt",
+     "severity": "high",
+     "clause_id": null,
+     "price_item": null,
+     "receipt_line": null,
+     "message": "'Salmon Seaweed Bowl' is claimed but no receipt line matches it",
+     "evidence": {
+      "claimed_name": "Salmon Seaweed Bowl",
+      "closest": "ALMOND CREAM CHEESE",
+      "match_score": 47.36842105263158
+     }
+    },
+    {
+     "source": "rules",
+     "type": "claim_exceeds_receipt",
+     "severity": "high",
+     "clause_id": "C4",
+     "price_item": null,
+     "receipt_line": "CLAIM_AMOUNT",
+     "message": "The claim asks for IDR 92,000 but the receipt total is IDR 47,000. Under C4 a claim above the receipt total is rejected, so the claim should be corrected to match the receipt or reduced.",
+     "evidence": {
+      "clause_text": "C4. Claimed amount must match the receipt: The amount claimed must equal the total printed on the receipt. A claim for more than the receipt total is rejected. A claim for less than the receipt total is acceptable (the claimant may choose not to claim some items)."
+     }
+    }
+   ],
+   "n_rule_issues": 1,
+   "n_dropped": 0,
+   "dropped": [],
+   "draft": "Dear Member 088,\n\nYour expense claim TES-088 cannot be paid as submitted.\n\n- The claimed amount is IDR 92,000, but the receipt total is IDR 47,000, a difference of IDR 45,000. Under clause C4, a claim above the receipt total is rejected.\n- The item \"Salmon Seaweed Bowl\" is claimed, but no line on the receipt matches it. The closest receipt line is \"ALMOND CREAM CHEESE\".\n\nTo fix this, please correct the claimed amount to IDR 47,000 or less, and make sure each claimed item appears on the receipt. You are welcome to resubmit with the corrected claim.\n\nKind regards,\nClub Treasurer",
+   "cost_usd": 0.00122,
+   "seconds": 5.9,
+   "cached": false
+  },
+  {
+   "claim_id": "TES-089",
+   "receipt_id": "test_089",
+   "image_path": "data/images/test/test_089.png",
+   "planted_error": "item_not_on_receipt",
+   "planted_detail": {
+    "item": "Ice Kopi",
+    "price": 18000
+   },
+   "natural_flags": [],
+   "expected": "reject",
+   "predicted": "reject",
+   "decision_reason": "at least one high-severity issue with evidence",
+   "submitter": "Member 089",
+   "claimed_amount": 58000,
+   "currency": "IDR",
+   "receipt_total": 40000,
+   "readability": "clear",
+   "extraction_error": null,
+   "caught": {
+    "item_not_on_receipt": true
+   },
+   "verified_issues": [
+    {
+     "source": "maths",
+     "type": "claim_exceeds_receipt",
+     "severity": "high",
+     "clause_id": null,
+     "price_item": null,
+     "receipt_line": null,
+     "message": "Claimed 58000 but the receipt total is 40000",
+     "evidence": {
+      "claimed": 58000,
+      "receipt_total": 40000,
+      "difference": 18000
+     }
+    },
+    {
+     "source": "maths",
+     "type": "claimed_item_not_on_receipt",
+     "severity": "high",
+     "clause_id": null,
+     "price_item": null,
+     "receipt_line": null,
+     "message": "'Ice Kopi' is claimed but no receipt line matches it",
+     "evidence": {
+      "claimed_name": "Ice Kopi",
+      "closest": "XXL Crispy Chicken",
+      "match_score": 38.46153846153846
+     }
+    }
+   ],
+   "n_rule_issues": 0,
+   "n_dropped": 0,
+   "dropped": [],
+   "draft": "Dear Member 089,\n\nClaim TES-089 cannot be paid as submitted. Please review the following issues:\n\n- The claimed amount is IDR 58,000, but the receipt total is IDR 40,000, a difference of IDR 18,000.\n- \"Ice Kopi\" is claimed, but no matching line appears on the receipt.\n\nTo proceed, please resubmit the claim with an amount that matches the receipt total of IDR 40,000, or provide a receipt that includes the Ice Kopi item.\n\nKind regards,\nClub Treasurer",
+   "cost_usd": 0.001304,
+   "seconds": 4.99,
+   "cached": false
+  },
+  {
+   "claim_id": "TES-090",
+   "receipt_id": "test_090",
+   "image_path": "data/images/test/test_090.png",
+   "planted_error": "item_not_on_receipt",
+   "planted_detail": {
+    "item": "CHARGE TA",
+    "price": 15000
+   },
+   "natural_flags": [],
+   "expected": "reject",
+   "predicted": "reject",
+   "decision_reason": "at least one high-severity issue with evidence",
+   "submitter": "Member 090",
+   "claimed_amount": 44500,
+   "currency": "IDR",
+   "receipt_total": 29500,
+   "readability": "clear",
+   "extraction_error": null,
+   "caught": {
+    "item_not_on_receipt": true
+   },
+   "verified_issues": [
+    {
+     "source": "maths",
+     "type": "claim_exceeds_receipt",
+     "severity": "high",
+     "clause_id": null,
+     "price_item": null,
+     "receipt_line": null,
+     "message": "Claimed 44500 but the receipt total is 29500",
+     "evidence": {
+      "claimed": 44500,
+      "receipt_total": 29500,
+      "difference": 15000
+     }
+    },
+    {
+     "source": "maths",
+     "type": "claimed_item_not_on_receipt",
+     "severity": "high",
+     "clause_id": null,
+     "price_item": null,
+     "receipt_line": null,
+     "message": "'CHARGE TA' is claimed but no receipt line matches it",
+     "evidence": {
+      "claimed_name": "CHARGE TA",
+      "closest": "CIRENG PANDAWA",
+      "match_score": 43.47826086956522
+     }
+    }
+   ],
+   "n_rule_issues": 0,
+   "n_dropped": 0,
+   "dropped": [],
+   "draft": "Dear Member 090,\n\nClaim TES-090 cannot be paid as submitted.\n\n- The claimed amount is IDR 44,500, but the receipt total is IDR 29,500. The difference is IDR 15,000.\n- The item \"CHARGE TA\" is claimed, but no matching line appears on the receipt.\n\nTo resubmit, please make the claim match the receipt total of IDR 29,500, or provide a receipt that includes \"CHARGE TA\".\n\nKind regards,\nClub Treasurer",
+   "cost_usd": 0.00106,
+   "seconds": 4.99,
+   "cached": false
+  },
+  {
+   "claim_id": "TES-091",
+   "receipt_id": "test_091",
+   "image_path": "data/images/test/test_091.png",
+   "planted_error": "wrong_quantity",
+   "planted_detail": {
+    "item": "GORENGAN",
+    "extra_qty": 2
+   },
+   "natural_flags": [],
+   "expected": "reject",
+   "predicted": "reject",
+   "decision_reason": "at least one high-severity issue with evidence",
+   "submitter": "Member 091",
+   "claimed_amount": 23000,
+   "currency": "IDR",
+   "receipt_total": 21000,
+   "readability": "partly unclear",
+   "extraction_error": null,
+   "caught": {
+    "wrong_quantity": true
+   },
+   "verified_issues": [
+    {
+     "source": "maths",
+     "type": "claim_exceeds_receipt",
+     "severity": "high",
+     "clause_id": null,
+     "price_item": null,
+     "receipt_line": null,
+     "message": "Claimed 23000 but the receipt total is 21000",
+     "evidence": {
+      "claimed": 23000,
+      "receipt_total": 21000,
+      "difference": 2000
+     }
+    },
+    {
+     "source": "maths",
+     "type": "claimed_qty_exceeds_receipt",
+     "severity": "high",
+     "clause_id": null,
+     "price_item": null,
+     "receipt_line": "6 GORENGAN 6.000",
+     "message": "Claimed 8 x 'GORENGAN' but the receipt shows 6",
+     "evidence": {
+      "claimed_qty": 8,
+      "receipt_qty": 6,
+      "receipt_item": "GORENGAN"
+     }
+    },
+    {
+     "source": "rules",
+     "type": "receipt_partly_unclear",
+     "severity": "medium",
+     "clause_id": "C10",
+     "price_item": null,
+     "receipt_line": "RECEIPT_TOTAL",
+     "message": "The receipt is marked partly unclear, so the items and total may not be fully confirmable. Hold the claim for manual review before paying the 23000 claimed against the printed 21000 total.",
+     "evidence": {
+      "clause_text": "C10. Unreadable or damaged receipts: If the receipt is unreadable, torn, faded or partly missing so that items or totals cannot be confirmed, the claim is held for manual review. The checker must not guess missing values."
+     }
+    }
+   ],
+   "n_rule_issues": 1,
+   "n_dropped": 0,
+   "dropped": [],
+   "draft": "Hello Member 091,\n\nYour claim TES-091 cannot be paid as submitted. You claimed 23000 IDR, but the receipt total is 21000 IDR, a difference of 2000 IDR. You also claimed 8 x GORENGAN, while the receipt shows 6.\n\nThe receipt is also marked partly unclear under clause C10, so the items and total cannot be fully confirmed. Under that clause, the claim is held for manual review.\n\nTo resolve this, please submit a claim for 21000 IDR matching the receipt total and 6 GORENGAN, or send a clearer copy of the receipt showing all items and the total.\n\nThank you,\nClub Treasurer",
+   "cost_usd": 0.00123,
+   "seconds": 6.15,
+   "cached": false
+  },
+  {
+   "claim_id": "TES-092",
+   "receipt_id": "test_092",
+   "image_path": "data/images/test/test_092.png",
+   "planted_error": "wrong_quantity",
+   "planted_detail": {
+    "item": "- TICKET CP",
+    "extra_qty": 1
+   },
+   "natural_flags": [],
+   "expected": "reject",
+   "predicted": "reject",
+   "decision_reason": "at least one high-severity issue with evidence",
+   "submitter": "Member 092",
+   "claimed_amount": 300000,
+   "currency": "IDR",
+   "receipt_total": 240000,
+   "readability": "clear",
+   "extraction_error": null,
+   "caught": {
+    "wrong_quantity": true
+   },
+   "verified_issues": [
+    {
+     "source": "maths",
+     "type": "claim_exceeds_receipt",
+     "severity": "high",
+     "clause_id": null,
+     "price_item": null,
+     "receipt_line": null,
+     "message": "Claimed 300000 but the receipt total is 240000",
+     "evidence": {
+      "claimed": 300000,
+      "receipt_total": 240000,
+      "difference": 60000
+     }
+    },
+    {
+     "source": "maths",
+     "type": "claimed_qty_exceeds_receipt",
+     "severity": "high",
+     "clause_id": null,
+     "price_item": null,
+     "receipt_line": "901016 -TICKET CP / 4 60,000 240,000",
+     "message": "Claimed 5 x '- TICKET CP' but the receipt shows 4",
+     "evidence": {
+      "claimed_qty": 5,
+      "receipt_qty": 4,
+      "receipt_item": "TICKET CP"
+     }
+    }
+   ],
+   "n_rule_issues": 0,
+   "n_dropped": 0,
+   "dropped": [],
+   "draft": "Dear Member 092,\n\nClaim TES-092 cannot be paid as submitted.\n\n- The claimed amount is IDR 300,000, but the receipt total is IDR 240,000, a difference of IDR 60,000.\n- You claimed 5 x TICKET CP, but the receipt shows 4 at IDR 60,000 each (IDR 240,000).\n\nTo proceed, please resubmit the claim with an amount that matches the receipt, either IDR 240,000 for 4 tickets or a corrected claim supported by a receipt for 5 tickets.\n\nKind regards,\nClub Treasurer",
+   "cost_usd": 0.00098,
+   "seconds": 4.39,
+   "cached": false
+  },
+  {
+   "claim_id": "TES-093",
+   "receipt_id": "test_093",
+   "image_path": "data/images/test/test_093.png",
+   "planted_error": "wrong_quantity",
+   "planted_detail": {
+    "item": "THAI ICED TEA (L)",
+    "extra_qty": 1
+   },
+   "natural_flags": [],
+   "expected": "reject",
+   "predicted": "reject",
+   "decision_reason": "at least one high-severity issue with evidence",
+   "submitter": "Member 093",
+   "claimed_amount": 34362,
+   "currency": "IDR",
+   "receipt_total": 17999,
+   "readability": "clear",
+   "extraction_error": null,
+   "caught": {
+    "wrong_quantity": true
+   },
+   "verified_issues": [
+    {
+     "source": "maths",
+     "type": "claim_exceeds_receipt",
+     "severity": "high",
+     "clause_id": null,
+     "price_item": null,
+     "receipt_line": null,
+     "message": "Claimed 34362 but the receipt total is 17999",
+     "evidence": {
+      "claimed": 34362,
+      "receipt_total": 17999,
+      "difference": 16363
+     }
+    },
+    {
+     "source": "maths",
+     "type": "claimed_qty_exceeds_receipt",
+     "severity": "high",
+     "clause_id": null,
+     "price_item": null,
+     "receipt_line": "THAI ICED TEA (L)",
+     "message": "Claimed 2 x 'THAI ICED TEA (L)' but the receipt shows 1",
+     "evidence": {
+      "claimed_qty": 2,
+      "receipt_qty": 1,
+      "receipt_item": "THAI ICED TEA (L)"
+     }
+    }
+   ],
+   "n_rule_issues": 0,
+   "n_dropped": 0,
+   "dropped": [],
+   "draft": "Subject: Expense claim TES-093 cannot be paid as submitted\n\nHello Member 093,\n\nYour claim TES-093 for IDR 34,362 cannot be paid as submitted. There are two problems:\n\n- The claimed amount is IDR 34,362, but the receipt total is IDR 17,999, a difference of IDR 16,363.\n- You claimed 2 x THAI ICED TEA (L), but the receipt shows only 1.\n\nTo fix this, please resubmit the claim with an amount that matches the receipt total of IDR 17,999 and a quantity of 1 for THAI ICED TEA (L). If you believe the receipt is incomplete, please send a corrected or additional receipt with your resubmission.\n\nKind regards,\nClub Treasurer",
+   "cost_usd": 0.000964,
+   "seconds": 4.5,
+   "cached": false
+  },
+  {
+   "claim_id": "TES-094",
+   "receipt_id": "test_094",
+   "image_path": "data/images/test/test_094.png",
+   "planted_error": null,
+   "planted_detail": null,
+   "natural_flags": [],
+   "expected": "approve",
+   "predicted": "approve",
+   "decision_reason": "no issues found and the receipt is clear",
+   "submitter": "Member 094",
+   "claimed_amount": 140063,
+   "currency": "IDR",
+   "receipt_total": 140063,
+   "readability": "clear",
+   "extraction_error": null,
+   "caught": {},
+   "verified_issues": [],
+   "n_rule_issues": 0,
+   "n_dropped": 0,
+   "dropped": [],
+   "draft": "Hello Member 094,\n\nYour expense claim TES-094 for IDR 140,063 has been approved and will be paid. The amount claimed matches the receipt total, and no issues were found.\n\nThank you for submitting your claim.\n\nKind regards,\nClub Treasurer",
+   "cost_usd": 0.001173,
+   "seconds": 5.21,
+   "cached": false
+  },
+  {
+   "claim_id": "TES-095",
+   "receipt_id": "test_095",
+   "image_path": "data/images/test/test_095.png",
+   "planted_error": "inflated_amount",
+   "planted_detail": {
+    "delta": 13000
+   },
+   "natural_flags": [],
+   "expected": "reject",
+   "predicted": "reject",
+   "decision_reason": "at least one high-severity issue with evidence",
+   "submitter": "Member 095",
+   "claimed_amount": 74799,
+   "currency": "IDR",
+   "receipt_total": 61799,
+   "readability": "clear",
+   "extraction_error": null,
+   "caught": {
+    "inflated_amount": true
+   },
+   "verified_issues": [
+    {
+     "source": "maths",
+     "type": "claim_exceeds_receipt",
+     "severity": "high",
+     "clause_id": null,
+     "price_item": null,
+     "receipt_line": null,
+     "message": "Claimed 74799 but the receipt total is 61799",
+     "evidence": {
+      "claimed": 74799,
+      "receipt_total": 61799,
+      "difference": 13000
+     }
+    }
+   ],
+   "n_rule_issues": 0,
+   "n_dropped": 0,
+   "dropped": [],
+   "draft": "Hello Member 095,\n\nThank you for submitting claim TES-095. We cannot pay it as submitted. You claimed IDR 74,799, but the receipt total is IDR 61,799, a difference of IDR 13,000.\n\nTo resubmit, please correct the claimed amount so it matches the receipt total of IDR 61,799, or send a receipt that supports the full IDR 74,799.\n\nKind regards,\nClub Treasurer",
+   "cost_usd": 0.001204,
+   "seconds": 4.62,
+   "cached": false
+  },
+  {
+   "claim_id": "TES-096",
+   "receipt_id": "test_096",
+   "image_path": "data/images/test/test_096.png",
+   "planted_error": null,
+   "planted_detail": null,
+   "natural_flags": [],
+   "expected": "approve",
+   "predicted": "approve",
+   "decision_reason": "no issues found and the receipt is clear",
+   "submitter": "Member 096",
+   "claimed_amount": 41000,
+   "currency": "IDR",
+   "receipt_total": 41000,
+   "readability": "clear",
+   "extraction_error": null,
+   "caught": {},
+   "verified_issues": [],
+   "n_rule_issues": 0,
+   "n_dropped": 0,
+   "dropped": [],
+   "draft": "Hello Member 096,\n\nYour expense claim TES-096 for IDR 41,000 has been approved and will be paid. The amount claimed matches the receipt total of IDR 41,000, and we found no issues with the claim.\n\nThank you for submitting it.\n\nKind regards,\nClub Treasurer",
+   "cost_usd": 0.001092,
+   "seconds": 3.77,
+   "cached": false
+  },
+  {
+   "claim_id": "TES-097",
+   "receipt_id": "test_097",
+   "image_path": "data/images/test/test_097.png",
+   "planted_error": null,
+   "planted_detail": null,
+   "natural_flags": [],
+   "expected": "approve",
+   "predicted": "reject",
+   "decision_reason": "at least one high-severity issue with evidence",
+   "submitter": "Member 097",
+   "claimed_amount": 55000,
+   "currency": "IDR",
+   "receipt_total": 55000,
+   "readability": "partly unclear",
+   "extraction_error": null,
+   "caught": {},
+   "verified_issues": [
+    {
+     "source": "maths",
+     "type": "claimed_item_not_on_receipt",
+     "severity": "high",
+     "clause_id": null,
+     "price_item": null,
+     "receipt_line": null,
+     "message": "'SATE ATI GO' is claimed but no receipt line matches it",
+     "evidence": {
+      "claimed_name": "SATE ATI GO",
+      "closest": "SATECATIGO",
+      "match_score": 47.61904761904762
+     }
+    }
+   ],
+   "n_rule_issues": 0,
+   "n_dropped": 0,
+   "dropped": [],
+   "draft": "Hello Member 097,\n\nYour claim TES-097 for IDR 55,000 cannot be paid as submitted. The claimed item \"SATE ATI GO\" does not appear on the receipt. The closest receipt line is \"SATECATIGO\", which does not match the claimed name closely enough to accept.\n\nTo have this claim reconsidered, please check the item name against the receipt. If the purchase was made, send a corrected claim with the item name as it appears on the receipt, or send a receipt that shows the item clearly.\n\nThank you,\nClub Treasurer",
+   "cost_usd": 0.001357,
+   "seconds": 5.25,
+   "cached": false
+  },
+  {
+   "claim_id": "TES-098",
+   "receipt_id": "test_098",
+   "image_path": "data/images/test/test_098.png",
+   "planted_error": "item_not_on_receipt",
+   "planted_detail": {
+    "item": "Pdg Madness",
+    "price": 15000
+   },
+   "natural_flags": [],
+   "expected": "reject",
+   "predicted": "reject",
+   "decision_reason": "at least one high-severity issue with evidence",
+   "submitter": "Member 098",
+   "claimed_amount": 265690,
+   "currency": "IDR",
+   "receipt_total": 250690,
+   "readability": "partly unclear",
+   "extraction_error": null,
+   "caught": {
+    "item_not_on_receipt": true
+   },
+   "verified_issues": [
+    {
+     "source": "maths",
+     "type": "claim_exceeds_receipt",
+     "severity": "high",
+     "clause_id": null,
+     "price_item": null,
+     "receipt_line": null,
+     "message": "Claimed 265690 but the receipt total is 250690",
+     "evidence": {
+      "claimed": 265690,
+      "receipt_total": 250690,
+      "difference": 15000
+     }
+    },
+    {
+     "source": "maths",
+     "type": "claimed_item_not_on_receipt",
+     "severity": "high",
+     "clause_id": null,
+     "price_item": null,
+     "receipt_line": null,
+     "message": "'Pdg Madness' is claimed but no receipt line matches it",
+     "evidence": {
+      "claimed_name": "Pdg Madness",
+      "closest": "BLACK PEPPER MEATBALL PAS",
+      "match_score": 27.77777777777777
+     }
+    },
+    {
+     "source": "rules",
+     "type": "unreadable_receipt",
+     "severity": "medium",
+     "clause_id": "C10",
+     "price_item": null,
+     "receipt_line": "CLAIM_AMOUNT",
+     "message": "The receipt is marked partly unclear and the claimed item 'Pdg Madness' does not appear on it, so the claimed items cannot be fully confirmed. Hold the claim for manual review and check the original receipt before paying.",
+     "evidence": {
+      "clause_text": "C10. Unreadable or damaged receipts: If the receipt is unreadable, torn, faded or partly missing so that items or totals cannot be confirmed, the claim is held for manual review. The checker must not guess missing values."
+     }
+    }
+   ],
+   "n_rule_issues": 1,
+   "n_dropped": 0,
+   "dropped": [],
+   "draft": "Claim TES-098 cannot be paid as submitted.\n\n- The claimed amount is IDR 265,690, but the receipt total is IDR 250,690. The difference is IDR 15,000.\n- The item \"Pdg Madness\" is claimed but does not appear on the receipt. The closest receipt line is \"BLACK PEPPER MEATBALL PAS\".\n- The receipt is marked partly unclear (clause C10), so the claimed items cannot be fully confirmed.\n\nTo fix this, please correct the claimed amount to match the receipt total, or send a receipt that shows the \"Pdg Madness\" item. We will also check the original receipt before any payment.",
+   "cost_usd": 0.002407,
+   "seconds": 9.11,
+   "cached": false
+  },
+  {
+   "claim_id": "TES-099",
+   "receipt_id": "test_099",
+   "image_path": "data/images/test/test_099.png",
+   "planted_error": null,
+   "planted_detail": null,
+   "natural_flags": [
+    "receipt_inconsistent"
+   ],
+   "expected": "needs_review",
+   "predicted": "approve",
+   "decision_reason": "no issues found and the receipt is clear",
+   "submitter": "Member 099",
+   "claimed_amount": 75000,
+   "currency": "IDR",
+   "receipt_total": 75000,
+   "readability": "clear",
+   "extraction_error": null,
+   "caught": {
+    "receipt_inconsistent": false
+   },
+   "verified_issues": [],
+   "n_rule_issues": 0,
+   "n_dropped": 0,
+   "dropped": [],
+   "draft": "Hello Member 099,\n\nYour expense claim TES-099 for IDR 75,000 has been approved and will be paid. The amount you claimed matches the receipt total of IDR 75,000, and no issues were found.\n\nThank you for submitting your claim.\n\nKind regards,\nClub Treasurer",
+   "cost_usd": 0.001513,
+   "seconds": 5.5,
+   "cached": false
+  }
+ ]
+}

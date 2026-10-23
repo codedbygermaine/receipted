@@ -44,7 +44,7 @@ def check_document(
     claim = {"claim_id": claim_id, "submitter": submitter, "purpose": purpose, "amount": whole(amount),
              "currency": currency,
              "items": [{**it, "qty": whole(it.get("qty", 1)), "line_total": whole(it.get("line_total"))} for it in items or []]}
-    state = run_claim(path, claim, model=model)
+    state = run_claim(path, claim, model=model, register=True)
     receipt = state.get("receipt")
     return {
         "decision": state["decision"],

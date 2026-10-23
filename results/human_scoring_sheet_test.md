@@ -24,19 +24,19 @@ TONE — polite, neutral, treasurer-to-member.
 
 ---
 
-## TES-032  (decision: approve)
+## TES-032  (decision: needs_review)
 
 **Verified issues (the only facts the message may use):**
 
-- none
+- [medium] purpose_missing (C1): No purpose is stated on the claim; policy C1 requires one
 
 **Message:**
 
-> Hello Member 032,
+> Dear Member 032,
 > 
-> Your expense claim TES-032 for IDR 24,000 has been approved and will be paid. The amount claimed matches the receipt total, and no issues were found.
+> Thank you for submitting claim TES-032. Your claim for IDR 24,000 matches the receipt total, but it is currently on hold.
 > 
-> Thank you for submitting your claim.
+> The reason is that no purpose is stated on the claim, and policy C1 requires one. To release the claim, please reply with a short description of what the expense was for, and we will review it again.
 > 
 > Kind regards,
 > Club Treasurer
@@ -151,13 +151,17 @@ Accuracy: __   Evidence: __   Clarity: __   Tone: __
 
 **Message:**
 
-> Dear Member 045,
+> Subject: Expense claim TES-045 - not paid as submitted
 > 
-> Your claim TES-045 for IDR 103,000 cannot be paid as submitted. The receipt total is IDR 88,000, so the claim is IDR 15,000 higher than the receipt, which breaks clause C4. To fix this, please resubmit the claim for no more than IDR 88,000.
+> Hello Member 045,
 > 
-> Please also note the following. The receipt shows IDR 7,000 for Roti Keju Manis, but the agreed maximum for that item under the price list (row "roti") is IDR 5,500. Please check this item when you resubmit, or be prepared for the excess of IDR 1,500 to be held for review.
+> Your claim TES-045 cannot be paid as submitted. You claimed IDR 103,000, but the receipt total is IDR 88,000, a difference of IDR 15,000. Under clause C4, a claim cannot be higher than the receipt total.
 > 
-> Kind regards,
+> To fix this, please resubmit the claim for no more than IDR 88,000.
+> 
+> Also, the receipt shows IDR 7,000 for Roti Keju Manis, while the agreed maximum price for roti is IDR 5,500. Please check this item when you resubmit. If you paid the higher price, the treasurer will need to confirm it before any excess is paid.
+> 
+> Thank you,
 > Club Treasurer
 
 Accuracy: __   Evidence: __   Clarity: __   Tone: __
@@ -168,15 +172,15 @@ Accuracy: __   Evidence: __   Clarity: __   Tone: __
 
 **Verified issues (the only facts the message may use):**
 
-- [medium] missing_purpose (C1): The claim has no stated purpose, so it is held for review until the treasurer receives a purpose tied to an approved club activity or business need.
+- [medium] purpose_missing (C1): No purpose is stated on the claim; policy C1 requires one
 
 **Message:**
 
 > Hello Member 030,
 > 
-> Your expense claim TES-030 for IDR 31,500 is on hold for review. The claim does not state a purpose, and under clause C1 expenses are reimbursable only when incurred for an approved club activity or business purpose.
+> Your expense claim TES-030 for IDR 31,500 is on hold for review. The receipt total matches the claimed amount, but no purpose is stated on the claim, and policy C1 requires one.
 > 
-> To move this forward, please reply with the purpose of the expense and, if possible, the club activity or business need it relates to. Once I receive this, I will review the claim again.
+> To move this forward, please reply with a short description of what the expense was for. Once we have it, the claim will be looked at again.
 > 
 > Thank you,
 > Club Treasurer
@@ -219,12 +223,12 @@ Accuracy: __   Evidence: __   Clarity: __   Tone: __
 
 > Dear Member 046,
 > 
-> Claim TES-046 for IDR 85,000 cannot be paid as submitted, so it has been rejected.
+> Thank you for submitting claim TES-046. We cannot pay it as submitted, so it has been rejected.
 > 
-> - The claimed amount is IDR 85,000, but the receipt total is IDR 40,000, a difference of IDR 45,000.
+> - The claimed amount is 85000 IDR, but the receipt total is 40000 IDR. The difference is 45000 IDR.
 > - The item "CHANGE TO CHICKEN BOX" is claimed, but no matching line appears on the receipt.
 > 
-> To resubmit, please claim only the amount shown on the receipt (IDR 40,000), or provide a receipt that includes the chicken box item.
+> To have this claim reconsidered, please submit a claim for no more than the receipt total of 40000 IDR, and make sure every claimed item appears on the receipt. If the item was purchased, please provide a receipt that shows it.
 > 
 > Kind regards,
 > Club Treasurer
