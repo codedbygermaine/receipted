@@ -43,7 +43,7 @@ flowchart LR
 - **Each job goes to the right tool.** The image model reads the messy photo. Plain Python does the arithmetic, because language models are unreliable at maths and code is exact. Chroma finds the policy clauses and price rows that matter. The rule-check model may raise an issue only if it cites a clause and a receipt line.
 - **Every flag needs evidence.** The verifier, in plain Python, throws away any issue whose clause id does not exist in the policy, whose receipt line is not in the extraction, or whose price comparison does not hold when re-done in code. Dropped issues are counted and reported.
 - **It knows when to pass to a human.** Unreadable images and failed extractions skip the checks and go straight to *needs review*. Medium-severity findings also go to a person; only high-severity findings with evidence produce a reject.
-- **It is measured, not just demoed.** See the results below. Every number comes from a file in `results/` written by the scripts in `eval/`.
+- **It is measured, not just demoed.** See the results below. Every interactive decision is audit-logged, reviewers work from a queue, and the model's judgement step is voted. Every number comes from a file in `results/` written by the scripts in `eval/`.
 
 ### Human in the loop
 
@@ -234,6 +234,24 @@ Two different weaknesses. Haiku lists every zero-price topping on the salad-bar 
 ### Regression gate
 
 `eval/compare.py` lines up two runs claim by claim, lists every decision that changed (FIXED / BROKE / moved), prints the headline metrics side by side and exits non-zero if recall or decision accuracy fell or false alarms rose. The run-1 vs run-2 table above comes from it. The two models read receipts equally well; Haiku costs 30× less. The human-scoring sheet for 10 drafts is in `results/human_scoring_sheet_test.md`; agreement with the judge is reported once it is filled in.
+
+## Built the way production document systems are built
+
+After comparing with other student projects, I looked at how document-AI vendors and finance tools describe production practice (sources at the end of this section) and added the pieces that were missing:
+
+| Practice | What it looks like here |
+|---|---|
+| **Vote on model judgements** | The rule check runs 3 times and raises only issues a majority agree on; each issue records its vote count as evidence. Measured on one receipt before building: the same medicines were flagged in 4 of 5 single runs, so one run in five would have missed them. |
+| **Calibrate confidence on your own documents** | `eval/calibration.py`: on the validation split, items the model marks **high** are right 92% of the time (196 items), **medium** 97% (34), **low** 25% (4). "Low" means something; "medium" is as good as "high", so only low-confidence lines hold a claim. |
+| **A review screen, not a terminal** | The app's Review queue tab shows the receipt image, the extracted lines with confidence, every issue with its evidence, and Approve / Reject with a note; the decision resumes the paused LangGraph run and the member's message is written from it. |
+| **An audit trail** | Every interactive decision is one line in `data/audit_log.jsonl`: claim, amounts, currency, image fingerprint, decision and reason, issues with evidence, model and prompt versions, cost, time, and what the reviewer did. Shown in the Audit log tab. |
+| **Corrections flow back** | Reviewer decisions are written to `data/review_corrections.json` as labelled cases (agent decision, human decision, note), ready to replay in the next evaluation. |
+| **Rules beside scores** | Confidence alone misses confident errors, so the arithmetic, duplicate and claim checks run regardless of confidence, as the guidance recommends. |
+| **Regression tests on every push** | `.github/workflows/ci.yml` runs the 80 unit tests and the run-1 → run-2 regression gate on each push. |
+| **PII handled in code** | Card-like digit runs are masked in extracted lines before they reach a log, a draft or a screen; four medical invoices never entered the repo. |
+| **Policy per currency** | A receipt's currency selects the policy set: Rupiah receipts use the Indonesian policy and price list the project was measured on, Singapore receipts use an SGD policy with SGD thresholds and a price list built from my own receipts. |
+
+Sources: [Docsumo on human-in-the-loop review](https://www.docsumo.com/blog/human-in-the-loop-systems), [Parseur on HITL thresholds and calibration](https://parseur.com/blog/hitl-best-practices), [Extend's confidence-score guide](https://www.extend.ai/resources/document-processing-confidence-scores-guide), [LangChain's agent evaluation checklist](https://www.langchain.com/blog/agent-evaluation-readiness-checklist), [Brex's audit and review agents](https://ramp.com/blog/brex-vs-expensify-vs-ramp) (vendor description).
 
 ## Error analysis
 
