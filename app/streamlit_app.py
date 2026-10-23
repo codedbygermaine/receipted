@@ -78,6 +78,7 @@ h1 {font-size: 2.1rem; letter-spacing: -0.02em; margin-bottom: 0.1rem;}
 .rc-muted {color: #6b7280; font-size: 0.85rem;}
 div[data-testid="stMetric"] {background: #fff; border: 1px solid #e3e5e1; border-radius: 10px; padding: 10px 14px;}
 div[data-testid="stMetric"] label {font-size: 0.78rem;}
+div[data-testid="stMetricValue"] {font-size: 1.45rem;}
 </style>
 """
 
@@ -128,7 +129,7 @@ def headline_numbers() -> dict:
 
 def issue_card(i: dict) -> str:
     sev = i["severity"]; ev = i.get("evidence") or {}
-    numbers = {k: v for k, v in ev.items() if k not in ("clause_text",)}
+    numbers = {k: (round(v, 2) if isinstance(v, float) else v) for k, v in ev.items() if k not in ("clause_text",)}
     html = [f'<div class="rc-issue" style="border-left-color:{SEV[sev]}">',
             f'<div class="rc-head"><span class="rc-type">{i["type"].replace("_", " ").capitalize()}</span>'
             f'<span class="rc-sev" style="background:{SEV[sev]}">{sev}</span></div>',
