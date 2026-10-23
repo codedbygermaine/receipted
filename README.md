@@ -93,12 +93,20 @@ Every LLM response is cached on disk (keyed by input, prompt version and model),
 | mean cost per claim | $0.0013 |
 | mean seconds per claim (uncached) | 6.22 |
 
+### Drafts: LLM-as-judge (`claude-opus-5-5` scoring `claude-haiku-5-5` drafts, 1–5)
+
+| accuracy | evidence | clarity | tone | drafts with accuracy < 4 |
+|---|---|---|---|---|
+| 4.55 | 4.9 | 4.71 | 4.95 | 5 / 100 |
+
+_Human scoring sheet generated; agreement will be reported once it is filled in._
+
 ![errors caught per type](results/chart_recall_test.png)
 
 ![extraction by model](results/chart_models_test.png)
 <!-- /RESULTS -->
 
-The headline: **47 of 50 planted errors caught (94%)**, decision accuracy 81% on 100 claims, at about $0.0013 and 6 seconds per claim with Haiku 5.5. The two models read receipts equally well; Haiku costs 30× less. The human-scoring sheet for 10 drafts is in `results/human_scoring_sheet_test.md`; agreement with the judge is reported once it is filled in.
+The headline: **47 of 50 planted errors caught (94%)**, decision accuracy 81% on 100 claims, at about $0.0013 and 6 seconds per claim with Haiku 5.5. Drafts score 4.55 / 5 on accuracy and 4.9 / 5 on evidence from an Opus judge; the 5 weakest drafts all did a sum of their own in prose, which the maths check will phrase for them next time. The two models read receipts equally well; Haiku costs 30× less. The human-scoring sheet for 10 drafts is in `results/human_scoring_sheet_test.md`; agreement with the judge is reported once it is filled in.
 
 ## Error analysis
 

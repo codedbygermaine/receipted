@@ -1,6 +1,6 @@
 {
  "split": "test",
- "generated_at": "2026-10-23T13:42:31",
+ "generated_at": "2026-10-23T13:50:00",
  "extraction": {
   "claude-haiku-5-5": {
    "split": "test",
@@ -162,5 +162,59 @@
    "clear": 75
   }
  },
- "drafts": null
+ "drafts": {
+  "split": "test",
+  "agent_model": "claude-haiku-5-5",
+  "judge_model": "claude-opus-5-5",
+  "n_drafts": 100,
+  "mean_accuracy": 4.55,
+  "mean_evidence": 4.9,
+  "mean_clarity": 4.71,
+  "mean_tone": 4.95,
+  "dist_accuracy": {
+   "1": 2,
+   "2": 1,
+   "3": 2,
+   "4": 30,
+   "5": 65
+  },
+  "dist_evidence": {
+   "1": 0,
+   "2": 0,
+   "3": 1,
+   "4": 8,
+   "5": 91
+  },
+  "dist_clarity": {
+   "1": 0,
+   "2": 0,
+   "3": 6,
+   "4": 17,
+   "5": 77
+  },
+  "dist_tone": {
+   "1": 0,
+   "2": 0,
+   "3": 0,
+   "4": 5,
+   "5": 95
+  },
+  "n_accuracy_below_4": 5,
+  "judge_total_cost_usd": 1.3088,
+  "human_sample": [
+   "TES-032",
+   "TES-033",
+   "TES-099",
+   "TES-025",
+   "TES-068",
+   "TES-045",
+   "TES-030",
+   "TES-073",
+   "TES-046",
+   "TES-002"
+  ],
+  "human_vs_judge_agreement": {
+   "status": "human_scores not filled in yet"
+  }
+ }
 }

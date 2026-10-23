@@ -33,3 +33,11 @@
 | rule-check issues raised / dropped by verifier | 56 / 1 |
 | mean cost per claim | $0.0013 |
 | mean seconds per claim (uncached) | 6.22 |
+
+### Drafts: LLM-as-judge (`claude-opus-5-5` scoring `claude-haiku-5-5` drafts, 1–5)
+
+| accuracy | evidence | clarity | tone | drafts with accuracy < 4 |
+|---|---|---|---|---|
+| 4.55 | 4.9 | 4.71 | 4.95 | 5 / 100 |
+
+_Human scoring sheet generated; agreement will be reported once it is filled in._
