@@ -1,0 +1,17 @@
+name: tests and regression gate
+
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt && pip install -e .
+      # unit tests: no API calls, no network
+      - run: pytest -q
+      # regression gate on the committed evaluation results: run 1 -> run 2 must not have regressed
+      - run: python eval/compare.py results/run1_checks_test_claude-haiku-5-5.json results/checks_test_claude-haiku-5-5.json

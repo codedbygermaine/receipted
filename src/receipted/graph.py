@@ -14,7 +14,7 @@ from langgraph.checkpoint.sqlite import SqliteSaver
 from langgraph.graph import END, START, StateGraph
 from langgraph.types import Command, interrupt
 
-from receipted import llm, maths
+from receipted import audit, llm, maths
 from receipted.draft import write_draft
 from receipted.duplicates import duplicate_issue, find_duplicate, image_fingerprint, register
 from receipted.extract import ExtractionError, extract, prepare_image
@@ -241,7 +241,7 @@ def _finish(state, t0):
 
 
 def run_claim(image_path: str, claim: dict, model: str = llm.DEFAULT_MODEL, register: bool = False,
-              review: bool = False) -> dict:
+              review: bool = False, source: str = "cli") -> dict:
     """Run one receipt + claim through the graph. Returns the final state, with totals added.
     register=True records the claim for duplicate detection; eval runs leave it False.
     review=True pauses a needs_review claim for a person (resume with resume_review)."""
@@ -255,7 +255,10 @@ def run_claim(image_path: str, claim: dict, model: str = llm.DEFAULT_MODEL, regi
             _queue_write(_queue_read() + [thread_id])
     else:
         state = plain_graph().invoke(inputs)
-    return _finish(state, t0)
+    state = _finish(state, t0)
+    if register:  # interactive runs are logged; evaluation runs are not
+        audit.record(state, source=source)
+    return state
 
 
 def resume_review(claim_id: str, decision: str, note: str = "") -> dict:
@@ -264,7 +267,9 @@ def resume_review(claim_id: str, decision: str, note: str = "") -> dict:
     config = {"configurable": {"thread_id": claim_id}}
     state = review_graph().invoke(Command(resume={"decision": decision, "note": note}), config)
     _queue_write([t for t in _queue_read() if t != claim_id])
-    return _finish(state, t0)
+    state = _finish(state, t0)
+    audit.record(state, source="review", reviewer_note=note)
+    return state
 
 
 REVIEW_QUEUE = llm.ROOT / "data" / "review_queue.json"
@@ -291,7 +296,9 @@ def pending_reviews() -> list[dict]:
             still_waiting.append(tid)
             v = snap.values
             out.append({"claim_id": tid, "reason": v.get("decision_reason"), "amount": v.get("claim", {}).get("amount"),
-                        "submitter": v.get("claim", {}).get("submitter"),
-                        "issues": [(i["severity"], i["type"], i["message"]) for i in v.get("verified_issues", [])]})
+                        "submitter": v.get("claim", {}).get("submitter"), "purpose": v.get("claim", {}).get("purpose"),
+                        "image_path": v.get("image_path"), "receipt": v.get("receipt"),
+                        "issues": [(i["severity"], i["type"], i["message"]) for i in v.get("verified_issues", [])],
+                        "issues_full": v.get("verified_issues", [])})
     _queue_write(still_waiting)
     return out

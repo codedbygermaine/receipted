@@ -39,3 +39,5 @@ data/external/singapore/sg_16.jpg
 data/external/singapore/sg_17.jpg
 data/external/singapore/mapping.json
 data/external/singapore/labels_private.json
+data/audit_log.jsonl
+data/review_corrections.json

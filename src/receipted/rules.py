@@ -12,6 +12,7 @@ from pydantic import BaseModel, Field
 from receipted import llm
 
 PROMPT_VERSION = "v3"
+VOTES = 3  # independent rule-check runs; an issue must appear in a majority to be raised. 1 = no voting.
 
 ANCHORS = ("RECEIPT_TOTAL", "CLAIM_AMOUNT")  # allowed receipt_line values for whole-claim rules
 
@@ -69,11 +70,52 @@ def _format_facts(receipt: dict, claim: dict, maths_issues: list[dict], retrieve
     return "\n".join(lines)
 
 
+def _issue_key(issue: dict) -> tuple:
+    """Two runs raised 'the same' issue if they cite the same clause or price row on the same line."""
+    line = " ".join((issue.get("receipt_line") or "").lower().split())
+    return (issue.get("clause_id") or "", issue.get("price_item") or "", line)
+
+
+def majority(runs: list[list[dict]]) -> tuple[list[dict], dict]:
+    """Keep issues raised in at least half of the runs (rounded up). Returns (issues, vote counts)."""
+    needed = (len(runs) + 1) // 2
+    counts: dict[tuple, int] = {}
+    first: dict[tuple, dict] = {}
+    for run in runs:
+        seen = set()
+        for issue in run:
+            k = _issue_key(issue)
+            if k in seen:
+                continue
+            seen.add(k)
+            counts[k] = counts.get(k, 0) + 1
+            first.setdefault(k, issue)
+    kept = [{**first[k], "evidence": {**first[k].get("evidence", {}), "votes": f"{c}/{len(runs)}"}}
+            for k, c in counts.items() if c >= needed]
+    return kept, {"raised_in_any_run": len(counts), "kept_by_majority": len(kept)}
+
+
 def check_rules(receipt: dict, claim: dict, maths_issues: list[dict], retrieved: dict,
-                model: str = llm.DEFAULT_MODEL) -> tuple[list[dict], dict]:
-    """Returns (issues, meta). meta has tokens, latency, cost and whether it was cached."""
+                model: str = llm.DEFAULT_MODEL, votes: int = VOTES) -> tuple[list[dict], dict]:
+    """Returns (issues, meta). With votes > 1 the model is asked `votes` times and only issues that a majority
+    of runs agree on are raised; meta sums tokens and cost across the runs."""
     facts = _format_facts(receipt, claim, maths_issues, retrieved)
-    key = llm.cache_key(facts, PROMPT_VERSION, model, SYSTEM_PROMPT)
+    if votes > 1:
+        runs, metas = [], []
+        for v in range(votes):
+            issues, meta = _single_run(facts, model, vote=v)
+            runs.append(issues); metas.append(meta)
+        kept, tally = majority(runs)
+        meta = {"model": model, "votes": votes, **tally,
+                "input_tokens": sum(m["input_tokens"] for m in metas), "output_tokens": sum(m["output_tokens"] for m in metas),
+                "latency_s": round(sum(m["latency_s"] for m in metas), 2), "cost_usd": round(sum(m["cost_usd"] for m in metas), 6),
+                "cached": all(m["cached"] for m in metas)}
+        return kept, meta
+    return _single_run(facts, model, vote=0)
+
+
+def _single_run(facts: str, model: str, vote: int) -> tuple[list[dict], dict]:
+    key = llm.cache_key(facts, PROMPT_VERSION, model, SYSTEM_PROMPT, f"vote{vote}")
     hit = llm.cache_get("rules", key)
     if hit:
         return hit["issues"], {**hit["meta"], "cached": True}

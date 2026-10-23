@@ -6,6 +6,7 @@ with Pydantic, retry once if the reply is unusable, and cache the result on disk
 
 import base64
 import io
+import re
 import time
 from dataclasses import dataclass, asdict
 from pathlib import Path
@@ -55,13 +56,24 @@ class ExtractionResult:
     cached: bool
 
 
+CARD_RE = re.compile(r"(?<!\d)\d(?:[ -]?\d){12,18}(?!\d)")
+
+
+def mask_card_numbers(text: str) -> str:
+    """Replace anything that looks like a payment card number with a masked form. Prices never have 13+ digits."""
+    return CARD_RE.sub(lambda m: "[card ****" + re.sub(r"\D", "", m.group())[-4:] + "]", text or "")
+
+
 def tidy(receipt: dict) -> dict:
-    """Rupiah has no cents: show 16500, not 16500.0. Applied to fresh and cached results alike."""
+    """Rupiah has no cents: show 16500, not 16500.0. Applied to fresh and cached results alike.
+    Also masks card-like digit runs in printed lines, so a card number never reaches a log, a draft or a screen."""
     def fix(v):
         return int(v) if isinstance(v, float) and v.is_integer() else v
     for it in receipt["items"]:
         for k in ("qty", "unit_price", "line_total"):
             it[k] = fix(it.get(k))
+        it["raw_line"] = mask_card_numbers(it.get("raw_line") or "")
+        it["name"] = mask_card_numbers(it.get("name") or "")
     for k in ("subtotal", "tax", "service", "discount", "total"):
         receipt[k] = fix(receipt.get(k))
     return receipt

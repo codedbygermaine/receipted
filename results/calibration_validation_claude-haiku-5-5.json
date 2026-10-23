@@ -1,0 +1,38 @@
+{
+ "split": "validation",
+ "model": "claude-haiku-5-5",
+ "items": {
+  "high": {
+   "n": 196,
+   "correct": 181,
+   "accuracy": 0.923
+  },
+  "medium": {
+   "n": 34,
+   "correct": 33,
+   "accuracy": 0.971
+  },
+  "low": {
+   "n": 4,
+   "correct": 1,
+   "accuracy": 0.25
+  }
+ },
+ "totals": {
+  "high": {
+   "n": 96,
+   "correct": 95,
+   "accuracy": 0.99
+  },
+  "medium": {
+   "n": 3,
+   "correct": 3,
+   "accuracy": 1.0
+  },
+  "low": {
+   "n": 1,
+   "correct": 1,
+   "accuracy": 1.0
+  }
+ }
+}

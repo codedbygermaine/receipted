@@ -32,8 +32,8 @@ try:
 except Exception:  # no secrets file locally: receipted.llm falls back to .env
     pass
 
-from receipted import llm                       # noqa: E402
-from receipted.graph import run_claim           # noqa: E402
+from receipted import audit, llm                           # noqa: E402
+from receipted.graph import pending_reviews, resume_review, run_claim   # noqa: E402
 
 DAILY_CAP = 30                                  # uncached checks per day, so strangers can't run up the bill
 USAGE_FILE = ROOT / "data" / "usage.json"
@@ -93,7 +93,7 @@ st.set_page_config(page_title="Receipted", page_icon="🧾", layout="wide")
 st.title("Receipted")
 st.caption("Reads a receipt image, checks it against a claim, a price list and a policy, and flags problems only with evidence.")
 
-tab_check, tab_how = st.tabs(["Check a claim", "How it works"])
+tab_check, tab_review, tab_audit, tab_how = st.tabs(["Check a claim", "Review queue", "Audit log", "How it works"])
 
 with tab_check:
     left, right = st.columns([1, 1.4])
@@ -120,6 +120,7 @@ with tab_check:
         amount = st.number_input("Amount claimed (in the receipt's currency)", min_value=0.0, value=float(s_amount), step=0.5, format="%.2f")
         items_text = st.text_area("Items claimed, one per line: name, qty, line total", s_items, height=120)
         model = st.selectbox("Model", [llm.DEFAULT_MODEL, llm.LARGE_MODEL])
+        pause = st.checkbox("Pause for a reviewer when the decision is needs_review", value=True)
         run = st.button("Check this claim", type="primary", disabled=image_path is None)
 
     with right:
@@ -127,14 +128,16 @@ with tab_check:
             if usage_today() >= DAILY_CAP:
                 st.error(f"Daily limit of {DAILY_CAP} checks reached. Try again tomorrow.")
                 st.stop()
-            claim = {"claim_id": "DEMO", "submitter": submitter, "purpose": purpose,
+            claim = {"claim_id": f"DEMO-{dt.datetime.now().strftime('%H%M%S')}", "submitter": submitter, "purpose": purpose,
                      "amount": int(amount) if float(amount).is_integer() else float(amount),
                      "currency": "", "items": parse_items(items_text)}   # currency comes from the receipt
             with st.spinner("Reading the receipt and running the checks…"):
-                state = run_claim(image_path, claim, model=model, register=True)
+                state = run_claim(image_path, claim, model=model, register=True, review=pause, source="app")
             if not all(e.get("cached") for e in state["trace"] if "cost_usd" in e):
                 record_usage()
 
+            if state.get("paused_for_review"):
+                st.warning(f"Paused for a reviewer as {claim['claim_id']}. Open the **Review queue** tab to decide it.")
             label, colour = BADGE[state["decision"]]
             st.markdown(f"<span style='background:{colour};color:white;padding:6px 14px;border-radius:6px;"
                         f"font-weight:700;font-size:1.1em'>{label}</span> &nbsp; {state['decision_reason']}",
@@ -184,6 +187,57 @@ with tab_check:
                              use_container_width=True, hide_index=True)
         else:
             st.info("Pick a sample or upload a receipt, fill in the claim, and press **Check this claim**.")
+
+with tab_review:
+    st.subheader("Claims waiting for a person")
+    st.caption("What a reviewer sees: the receipt, the extracted lines with their confidence, each issue with its evidence, "
+               "and two buttons. The decision resumes the paused run and the draft is written from it.")
+    pending = pending_reviews()
+    if not pending:
+        st.info("Nothing waiting. Run a claim with the pause box ticked and a needs_review outcome to see one here.")
+    for pz in pending:
+        with st.container(border=True):
+            st.markdown(f"**{pz['claim_id']}** · {pz['submitter']} · claimed {pz['amount']} · purpose: {pz['purpose'] or '(none)'}")
+            st.caption(f"Why it is here: {pz['reason']}")
+            c1, c2 = st.columns([1, 1.6])
+            with c1:
+                if pz.get("image_path") and Path(pz["image_path"]).exists():
+                    st.image(pz["image_path"], width=300)
+            with c2:
+                rc = pz.get("receipt") or {}
+                if rc.get("items"):
+                    st.dataframe([{"qty": i["qty"], "item": i["name"], "line total": i["line_total"],
+                                   "confidence": i.get("confidence", "")} for i in rc["items"]],
+                                 use_container_width=True, hide_index=True, height=min(300, 40 + 35 * len(rc["items"])))
+                    st.caption(f"total {rc.get('total')} (confidence {rc.get('total_confidence', '?')})")
+                for i in pz["issues_full"]:
+                    ev = {k: v for k, v in (i.get("evidence") or {}).items() if k != "clause_text"}
+                    st.markdown(f"- **{i['severity'].upper()}** {i['type'].replace('_', ' ')}: {i['message']}"
+                                + (f"  \n  `{i['receipt_line']}`" if i.get("receipt_line") else "")
+                                + (f"  \n  evidence: {ev}" if ev else ""))
+            with st.form(key=f"review-{pz['claim_id']}"):
+                note = st.text_input("Reviewer note (goes into the message to the member)")
+                a, b = st.columns(2)
+                approve = a.form_submit_button("Approve", type="primary")
+                reject = b.form_submit_button("Reject")
+                if approve or reject:
+                    done = resume_review(pz["claim_id"], "approve" if approve else "reject", note)
+                    st.success(f"{pz['claim_id']} → {done['decision'].upper()}")
+                    st.text_area("Draft sent to the member", done["draft"], height=180)
+
+with tab_audit:
+    st.subheader("Every decision, with its evidence")
+    entries = audit.recent(30)
+    if not entries:
+        st.info("No decisions logged yet.")
+    else:
+        st.dataframe([{"time": e["at"], "source": e["source"], "claim": e["claim_id"], "amount": e["claimed_amount"],
+                       "currency": e["currency"], "decision": e["decision"], "human": e["reviewed_by_human"],
+                       "issues": len(e["issues"]), "dropped": e["dropped_by_verifier"],
+                       "model": (e.get("versions") or {}).get("model"), "cost $": e["cost_usd"]} for e in entries],
+                     use_container_width=True, hide_index=True)
+        st.caption("Each row is one line in data/audit_log.jsonl with the full issues, evidence, prompt versions and cost. "
+                   "Reviewer decisions are also written to data/review_corrections.json as labelled cases for later evaluation.")
 
 with tab_how:
     st.graphviz_chart("""
