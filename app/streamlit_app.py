@@ -13,6 +13,15 @@ from pathlib import Path
 
 import streamlit as st
 
+# Streamlit Community Cloud runs on Linux with a SQLite older than Chroma needs; swap in the
+# bundled pysqlite3 there. On a Mac the system SQLite is fine and the package is not installed.
+if sys.platform.startswith("linux"):
+    try:
+        __import__("pysqlite3")
+        sys.modules["sqlite3"] = sys.modules.pop("pysqlite3")
+    except ImportError:
+        pass
+
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))  # so the app runs on Streamlit Cloud without `pip install -e .`
 

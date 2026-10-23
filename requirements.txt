@@ -15,6 +15,7 @@ rapidfuzz>=3.9
 
 # Demo, tests, charts
 streamlit>=1.40
+pysqlite3-binary; sys_platform == "linux"   # newer SQLite for Chroma on Streamlit Cloud
 pytest>=8.0
 matplotlib>=3.9
 
