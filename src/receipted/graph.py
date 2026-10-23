@@ -113,6 +113,15 @@ def node_verify(state):
                         (f" ({[d['dropped_because'] for d in dropped]})" if dropped else "")}
 
 
+def low_confidence_lines(receipt) -> list[str]:
+    """Which lines that matter were read with low confidence? (Older cached extractions have no confidence
+    fields; they are treated as high so behaviour is unchanged for them.)"""
+    lows = [it["raw_line"] for it in receipt["items"] if it.get("confidence") == "low"]
+    if receipt.get("total_confidence") == "low":
+        lows.append("TOTAL")
+    return lows
+
+
 def decide(receipt, error, issues) -> tuple[str, str]:
     """The decision rule, kept separate so it is easy to read and test."""
     if error:
@@ -124,8 +133,11 @@ def decide(receipt, error, issues) -> tuple[str, str]:
         return "reject", "at least one high-severity issue with evidence"
     if "medium" in severities:
         return "needs_review", "medium-severity issues need a human decision"
+    lows = low_confidence_lines(receipt)
+    if lows:
+        return "needs_review", f"no issues found, but these lines were read with low confidence: {lows}"
     if receipt["readability"] == "partly unclear":
-        return "needs_review", "no issues found, but parts of the receipt were hard to read"
+        return "approve", "no issues found; parts of the receipt were hard to read but every item and the total were legible"
     return "approve", "no issues found and the receipt is clear"
 
 

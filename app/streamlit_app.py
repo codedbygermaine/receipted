@@ -137,10 +137,12 @@ with tab_check:
             st.subheader("Extracted from the receipt")
             if receipt:
                 st.dataframe([{"qty": i["qty"], "item": i["name"], "unit price": i["unit_price"],
-                               "line total": i["line_total"], "as printed": i["raw_line"]} for i in receipt["items"]],
+                               "line total": i["line_total"], "confidence": i.get("confidence", ""),
+                               "as printed": i["raw_line"]} for i in receipt["items"]],
                              use_container_width=True, hide_index=True)
                 st.caption(f"subtotal {receipt['subtotal']} · tax {receipt['tax']} · service {receipt['service']} · "
-                           f"discount {receipt['discount']} · **total {receipt['total']}** · readability: {receipt['readability']}")
+                           f"discount {receipt['discount']} · **total {receipt['total']}** "
+                           f"(confidence {receipt.get('total_confidence', '?')}) · readability: {receipt['readability']}")
             else:
                 st.warning(f"Extraction failed: {state.get('error')}")
 

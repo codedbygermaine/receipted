@@ -16,7 +16,7 @@ from pydantic import ValidationError
 from receipted import llm
 from receipted.schemas import Receipt
 
-PROMPT_VERSION = "v2"
+PROMPT_VERSION = "v3"
 MAX_EDGE = 1568  # the API downsizes anything larger, so sending more pixels only costs upload time
 
 SYSTEM_PROMPT = """You read photos of shop and restaurant receipts and return their contents as structured data.
@@ -30,7 +30,10 @@ Rules:
 - Report numbers exactly as printed on the receipt. Never compute a value that is not printed; use null instead.
 - A quantity like "1Prs", "x2", "2 x" means 1, 2, 2.
 - subtotal, tax, service, discount and total are the receipt's own printed summary lines, else null.
-- readability: "clear" if every number is legible; "partly unclear" if you had to guess any digit; "unreadable" if the receipt cannot be read."""
+- readability: "clear" if every number is legible; "partly unclear" if you had to guess any digit; "unreadable" if the receipt cannot be read.
+- Give each item a confidence, and the total a total_confidence: "high" only when every digit is plainly legible,
+  "medium" if a digit or word could be misread, "low" if you guessed or part of the line is hidden or blurred.
+  Blur elsewhere on the receipt (logo, address, footer) does not lower the confidence of a legible line."""
 
 USER_PROMPT = "Extract this receipt."
 

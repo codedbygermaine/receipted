@@ -1,8 +1,8 @@
 from receipted.graph import decide, route_after_extract
 
 
-def receipt(readability="clear"):
-    return {"items": [], "readability": readability, "total": 1}
+def receipt(readability="clear", items=None, total_confidence="high"):
+    return {"items": items or [], "readability": readability, "total": 1, "total_confidence": total_confidence}
 
 
 def issue(sev):
@@ -22,8 +22,20 @@ def test_approve_when_clean_and_clear():
     assert decide(receipt(), None, [issue("low")])[0] == "approve"
 
 
-def test_partly_unclear_goes_to_review_even_with_no_issues():
-    assert decide(receipt("partly unclear"), None, [])[0] == "needs_review"
+def test_partly_unclear_but_legible_lines_is_approved():
+    ok = [{"raw_line": "1 TEA 5,000", "confidence": "high"}]
+    assert decide(receipt("partly unclear", ok), None, [])[0] == "approve"
+
+
+def test_low_confidence_item_or_total_goes_to_review():
+    low_item = [{"raw_line": "1 TEA 5,0?0", "confidence": "low"}]
+    assert decide(receipt("partly unclear", low_item), None, [])[0] == "needs_review"
+    assert decide(receipt("clear", total_confidence="low"), None, [])[0] == "needs_review"
+
+
+def test_old_extractions_without_confidence_fields_still_work():
+    legacy = {"items": [{"raw_line": "1 TEA 5,000"}], "readability": "clear", "total": 1}
+    assert decide(legacy, None, [])[0] == "approve"
 
 
 def test_unreadable_or_failed_extraction_never_approves():

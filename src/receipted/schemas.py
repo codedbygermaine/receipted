@@ -13,6 +13,9 @@ class LineItem(BaseModel):
     unit_price: float | None = Field(description="Price per unit in whole currency units. null if not printed")
     line_total: float | None = Field(description="Line total as printed. null if not printed")
     raw_line: str = Field(description="The full line exactly as printed on the receipt")
+    confidence: Literal["high", "medium", "low"] = Field(
+        description="high = every digit of this line is plainly legible; medium = readable but a digit or word could be misread; low = guessed or partly hidden"
+    )
 
 
 class Receipt(BaseModel):
@@ -22,6 +25,9 @@ class Receipt(BaseModel):
     service: float | None = Field(description="Service charge as printed, else null")
     discount: float | None = Field(description="Receipt-level discount as a positive number, else null")
     total: float | None = Field(description="Grand total as printed, else null")
+    total_confidence: Literal["high", "medium", "low"] = Field(
+        description="How legible the printed total is (low if guessed, partly hidden or not printed)"
+    )
     currency: str = Field(description="Three-letter currency code, e.g. IDR")
     readability: Literal["clear", "partly unclear", "unreadable"] = Field(
         description="clear = every number legible; partly unclear = some guessed; unreadable = cannot extract"
