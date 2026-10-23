@@ -1,1 +1,103 @@
-[]
+[
+ {
+  "kind": "missed planted error",
+  "claim_id": "TES-032",
+  "receipt_id": "test_032",
+  "image": "data/images/test/test_032.png",
+  "planted": "policy_breach",
+  "planted_detail": {
+   "clause": "C1",
+   "detail": "no purpose stated"
+  },
+  "natural": [],
+  "expected": "needs_review",
+  "predicted": "approve",
+  "reason": "no issues found and the receipt is clear",
+  "readability": "clear",
+  "issues": [],
+  "dropped": []
+ },
+ {
+  "kind": "false alarm",
+  "claim_id": "TES-000",
+  "receipt_id": "test_000",
+  "image": "data/images/test/test_000.png",
+  "planted": null,
+  "planted_detail": null,
+  "natural": [],
+  "expected": "approve",
+  "predicted": "needs_review",
+  "reason": "medium-severity issues need a human decision",
+  "readability": "partly unclear",
+  "issues": [
+   [
+    "line_arithmetic",
+    null,
+    "2 x 60000 = 120000, but the line shows 60000"
+   ],
+   [
+    "price_above_list",
+    "dept01",
+    "The unit price of 60000 for TICKET CP is above the agreed maximum of 24500 for dept01. Check the unit price against the price list before approving."
+   ]
+  ],
+  "dropped": []
+ },
+ {
+  "kind": "false alarm",
+  "claim_id": "TES-004",
+  "receipt_id": "test_004",
+  "image": "data/images/test/test_004.png",
+  "planted": null,
+  "planted_detail": null,
+  "natural": [],
+  "expected": "approve",
+  "predicted": "needs_review",
+  "reason": "no issues found, but parts of the receipt were hard to read",
+  "readability": "partly unclear",
+  "issues": [],
+  "dropped": []
+ },
+ {
+  "kind": "false alarm",
+  "claim_id": "TES-011",
+  "receipt_id": "test_011",
+  "image": "data/images/test/test_011.png",
+  "planted": null,
+  "planted_detail": null,
+  "natural": [],
+  "expected": "approve",
+  "predicted": "needs_review",
+  "reason": "medium-severity issues need a human decision",
+  "readability": "clear",
+  "issues": [
+   [
+    "price_above_list",
+    "almond cream cheese",
+    "The receipt line totals 230,000 for one cake, while the closest retrieved price-list row (almond cream cheese) has an agreed maximum of 31,000. The price is well above the list and should be reviewed against the actual item."
+   ]
+  ],
+  "dropped": []
+ },
+ {
+  "kind": "false alarm",
+  "claim_id": "TES-012",
+  "receipt_id": "test_012",
+  "image": "data/images/test/test_012.png",
+  "planted": null,
+  "planted_detail": null,
+  "natural": [],
+  "expected": "approve",
+  "predicted": "reject",
+  "reason": "at least one high-severity issue with evidence",
+  "readability": "partly unclear",
+  "issues": [
+   [
+    "personal_item_clothing",
+    "C6",
+    "BLUS WANITA is clothing, which is a personal item and not reimbursable under C6. This 120,000 IDR line should be rejected, and the claim's stated purpose (food for volunteers) does not match the receipt."
+   ]
+  ],
+  "dropped": []
+ }
+]
