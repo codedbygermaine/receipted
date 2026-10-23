@@ -113,12 +113,20 @@ def check_claim(claim: dict, receipt: dict) -> list[dict]:
 
     claim_items = claim.get("items") or []
 
-    # 2. claim's own lines add up to its amount
+    # 2. claim's own lines add up to its amount. Claim forms list items before tax, so lines that
+    #    equal the receipt subtotal, or the amount once the receipt's tax and service are added, are fine.
     claimed_lines = [ci.get("line_total") for ci in claim_items if ci.get("line_total") is not None]
-    if claimed_lines and amount is not None and not close(sum(claimed_lines), amount):
-        issues.append(issue("claim_lines_vs_amount", "medium",
-                            f"Claim lines sum to {sum(claimed_lines)} but the claimed amount is {amount}",
-                            {"claim_line_sum": sum(claimed_lines), "claimed": amount}))
+    if claimed_lines and amount is not None:
+        line_sum_claim = sum(claimed_lines)
+        extras = (receipt.get("tax") or 0) + (receipt.get("service") or 0) - abs(receipt.get("discount") or 0)
+        acceptable = [amount, amount - extras]
+        if receipt.get("subtotal") is not None:
+            acceptable.append(receipt["subtotal"])
+        if not any(close(line_sum_claim, target) for target in acceptable):
+            issues.append(issue("claim_lines_vs_amount", "medium",
+                                f"Claim lines sum to {line_sum_claim} but the claimed amount is {amount}"
+                                + (f" (receipt tax + service = {extras})" if extras else ""),
+                                {"claim_line_sum": line_sum_claim, "claimed": amount, "receipt_tax_and_service": extras}))
 
     # 3. each claimed item exists on the receipt, with no more quantity than the receipt shows
     for ci in claim_items:

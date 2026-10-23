@@ -1,0 +1,19 @@
+  XX TES-000 clean                []                             expected=approve      got=needs_review issues=['line_arithmetic', 'price_above_list'] dropped=0
+  ok TES-001 wrong_quantity       []                             expected=reject       got=reject       issues=['claim_exceeds_receipt', 'claim_exceeds_receipt_total'] dropped=0
+  ok TES-002 wrong_quantity       ['receipt_inconsistent']       expected=reject       got=reject       issues=['claim_exceeds_receipt', 'claim_lines_vs_amount', 'claimed_qty_exceeds_receipt', 'claim_exceeds_receipt_policy', 'claimed_qty_exceeds_receipt_policy'] dropped=0
+  ok TES-003 clean                []                             expected=approve      got=approve      issues=[] dropped=0
+  XX TES-004 clean                []                             expected=approve      got=needs_review issues=['claim_lines_vs_amount'] dropped=0
+  ok TES-005 policy_breach        []                             expected=needs_review got=needs_review issues=['claim_lines_vs_amount', 'no_purpose_stated'] dropped=0
+  ok TES-006 inflated_amount      []                             expected=reject       got=reject       issues=['claim_exceeds_receipt'] dropped=0
+  ok TES-007 clean                ['receipt_inconsistent']       expected=needs_review got=needs_review issues=['claim_lines_vs_amount'] dropped=0
+  XX TES-008 clean                []                             expected=approve      got=needs_review issues=['claim_lines_vs_amount'] dropped=0
+  ok TES-009 policy_breach        []                             expected=needs_review got=needs_review issues=['no_purpose_stated'] dropped=0
+  ok TES-010 clean                []                             expected=approve      got=approve      issues=[] dropped=0
+  XX TES-011 clean                []                             expected=approve      got=needs_review issues=['price_above_list'] dropped=0
+  XX TES-012 clean                []                             expected=approve      got=reject       issues=['personal_item_clothing'] dropped=0
+  XX TES-013 clean                []                             expected=approve      got=needs_review issues=['totals_arithmetic', 'claim_lines_vs_amount'] dropped=0
+  ok TES-014 clean                ['price_above_list']           expected=needs_review got=needs_review issues=['totals_arithmetic', 'claim_lines_vs_amount', 'price_above_list'] dropped=0
+  ok TES-015 clean                []                             expected=approve      got=approve      issues=[] dropped=0
+
+[exited with code 144]
+  ok TES-016 item_not_on_receipt  []                             expected=reject       got=reject       issues=['claim_exceeds_receipt', 'claim_lines_vs_amount', 'claimed_item_not_on_receipt', 'claim_exceeds_receipt_total'] dropped=0

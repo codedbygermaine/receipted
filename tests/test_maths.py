@@ -97,3 +97,16 @@ def test_claim_lines_must_sum_to_amount():
     c = {"amount": 15000, "items": [{"name": "A", "qty": 1, "line_total": 10000},
                                     {"name": "B", "qty": 1, "line_total": 2000}]}
     assert types(check_claim(c, r)) == ["claim_lines_vs_amount"]
+
+
+def test_claim_lines_may_exclude_tax_and_service():
+    # items listed before tax, amount claimed including the receipt's tax and service: not an error
+    r = receipt([item("A", 1, None, 100000)], subtotal=100000, tax=10000, service=5000, total=115000)
+    c = {"amount": 115000, "items": [{"name": "A", "qty": 1, "line_total": 100000}]}
+    assert check_claim(c, r) == []
+
+
+def test_claim_lines_still_checked_when_no_tax_explains_gap():
+    r = receipt([item("A", 1, None, 100000)], subtotal=100000, tax=10000, total=110000)
+    c = {"amount": 110000, "items": [{"name": "A", "qty": 1, "line_total": 70000}]}
+    assert types(check_claim(c, r)) == ["claim_lines_vs_amount"]
