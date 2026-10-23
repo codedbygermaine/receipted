@@ -122,3 +122,18 @@
 **What the judge found on 100 test drafts (from `results/drafts_test_claude-haiku-5-5.json`).** Means out of 5: accuracy 4.55, evidence 4.90, clarity 4.71, tone 4.95; 5 of 100 drafts scored below 4 on accuracy. The five all share one slip: when the arithmetic check reported "claim lines sum to X but the amount is Y (receipt tax + service = Z)", the writer sometimes told the member that the difference "matches" the tax and service when the numbers did not actually agree. The draft model was adding a sum of its own instead of repeating the one it was given. That is exactly the failure the design tries to keep out of the LLM steps, and it crept back in through prose. Fix for next time: have the maths check state the comparison in words ("the gap of 11,000 is not explained by tax and service of 10,091") so the writer has nothing left to compute.
 
 **Interview answer: how do you know the drafts are good?** Two ways. A larger model scores every draft against a written rubric with the same facts the writer had, and ten drafts are scored by a person so the judge itself is checked. The judge's low scores were useful: they pointed at a concrete writer slip, which is the point of measuring instead of eyeballing.
+
+
+## Phase 7: MCP server
+
+**What we built.** `src/receipted/mcp_server.py` exposes one tool, `check_document(image_path, amount, submitter, purpose, items, …)`, over the Model Context Protocol using the official `mcp` Python SDK (v2, class `MCPServer`). It wraps `run_claim()` and returns a compact result: decision, reason, verified issues with evidence, dropped count, draft, cost and time. `scripts/mcp_client_test.py` spawns the server over stdio exactly as Claude Desktop does, lists the tools and calls the tool on a sample claim.
+
+**What MCP is, in one paragraph.** A standard way for an AI app (the client, e.g. Claude Desktop) to discover and call tools that someone else wrote (the server). The server describes each tool with a name, a description and a JSON schema for its inputs; the client's model reads those and decides when to call it; the call and the result travel as JSON messages over a pipe (stdio) or HTTP. The point is that the tool is written once and any MCP client can use it, instead of every app needing its own integration.
+
+**Why this design.** The server is a thin wrapper: no logic lives in it, so the CLI, the Streamlit app and the MCP tool all run the same graph and give the same answer. The tool returns a small, flat result rather than the full state because the calling model has to read it and reason about it; retrieval and trace blobs would only waste its context. Numbers arrive as JSON floats, so the wrapper converts whole numbers back to ints.
+
+**Likely interview questions.**
+- *What does the model on the other end actually see?* The tool's name, its docstring and the input schema that the SDK derives from the Python type hints. That text is the whole "API documentation" the model gets, which is why the docstring says what the tool returns and what `items` should look like.
+- *How did you test it?* Not by calling the Python function. The test script starts the server as a subprocess and talks the real protocol: initialise, list tools, call tool, parse the structured result. If the schema or transport were wrong, the test would fail even though the function works.
+
+**Trade-off.** stdio only. It is what Claude Desktop uses and needs no network or auth. Serving it over HTTP for other clients would need the SDK's streamable-http transport plus authentication, which is a separate piece of work.

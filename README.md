@@ -136,6 +136,28 @@ Reading the 10 flagged clean claims by hand, at least 3 are correct by the polic
 4. Try the extraction prompt without zero-priced bundle lines, on the validation split first.
 5. Expose `check_document(image, claim)` as an MCP tool, and test on Singapore receipts photographed by me.
 
+## Use from Claude Desktop (MCP)
+
+Receipted is also an MCP server, so Claude Desktop can call it as a tool. Add this to `claude_desktop_config.json` (Settings → Developer → Edit Config), with your own absolute paths, then restart Claude Desktop:
+
+```json
+{
+  "mcpServers": {
+    "receipted": {
+      "command": "/Users/you/receipted/.venv/bin/python",
+      "args": ["-m", "receipted.mcp_server"],
+      "cwd": "/Users/you/receipted"
+    }
+  }
+}
+```
+
+Then ask Claude something like *"Check /Users/you/receipt.jpg against a claim of 250,000 IDR for a committee dinner, 4 people, items: Sop Sui Jiao 1 × 33,000 …"* and it will call `check_document` and get back the decision, the verified issues with evidence and the draft message. To test the server without Claude Desktop:
+
+```bash
+.venv/bin/python scripts/mcp_client_test.py SAMPLE-002
+```
+
 ## Attribution and licence
 
 Receipt images and ground truth: **CORD v2** (`naver-clova-ix/cord-v2`, [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)). Park, S. et al. "CORD: A Consolidated Receipt Dataset for Post-OCR Parsing", Document Intelligence Workshop at NeurIPS 2019. The five demo sample images in `app/samples/` are from the same dataset.

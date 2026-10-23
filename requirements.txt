@@ -17,3 +17,6 @@ rapidfuzz>=3.9
 streamlit>=1.40
 pytest>=8.0
 matplotlib>=3.9
+
+# MCP server (Phase 7)
+mcp>=2.0
