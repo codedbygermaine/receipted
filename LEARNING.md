@@ -171,3 +171,12 @@
 - *What happens if the reviewer never answers?* The thread stays checkpointed; nothing is paid or sent. The queue list shows it. A deadline or reminder would be a scheduled job that reads the same queue.
 
 **Trade-off.** SQLite and a JSON queue file are fine for one laptop and are what the demo needs. Several reviewers on different machines would need a shared checkpoint store, which LangGraph supports with the same code and a different saver.
+
+
+## Phase 10: Confidence routing, measured
+
+**What we built.** Each extracted item and the total now carry a confidence (high / medium / low). The decision rule holds a clean claim only when a line that matters was read with low confidence. Measured on the validation split (prompt v3): 50/50 planted errors caught, 90% decisions right, 10/100 receipts partly unclear, and clean claims held for readability went from 2 (old rule) to 1 (new rule).
+
+**What the number actually says.** The feature saved one review on validation. That is small, and I say so. The larger effect was a prompt change made at the same time ("blur elsewhere does not lower the confidence of a legible line"), which cut the share of receipts called partly unclear. The test split, frozen at the earlier prompt, had 25 such receipts and 6 clean claims held for that reason, so the saving there is probably bigger, but I have not measured it and the README does not claim it.
+
+**Interview question.** *Why measure on validation and leave the test numbers alone?* Because changing the extraction prompt changes everything downstream, and re-running test again would be the third time; at some point "test" stops being a held-out set. Validation is the right place for a feature experiment, and the README labels it as such.

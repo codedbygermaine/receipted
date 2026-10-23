@@ -153,6 +153,19 @@ Does the model invent a total when there is none? Using CORD's word coordinates,
 
 Policy clause C9 forbids claiming the same receipt twice. `src/receipted/duplicates.py` keeps a local registry of claims the CLI, app or MCP tool approved or held (image fingerprint, receipt total, item names). A new claim with the same fingerprint, or a different photo with the same total and 80%+ of the same item names, is rejected under C9 with the earlier claim id as evidence. Rejected claims are not registered, so a corrected resubmission goes through. Evaluation runs never write to the registry.
 
+### Per-item confidence and what it saved
+
+Since the test run, extraction (prompt v3) returns a confidence of high / medium / low for every item and for the total, and a claim is held for a person only when a line that matters was read with low confidence, not whenever the photo is partly blurry. Measured on the validation split (`results/confidence_routing_validation.json`), not the test split, because the test numbers above were frozen at prompt v2:
+
+| validation, 100 claims, prompt v3 | |
+|---|---|
+| planted errors caught | 50 / 50 |
+| decision accuracy | 90% |
+| receipts marked "partly unclear" | 10 / 100 |
+| clean claims held for readability, old rule → new rule | 2 → 1 |
+
+Honest reading: the per-line rule saved one review here; most of the gain came from the prompt telling the model that blur on a logo or footer does not lower the confidence of a legible price line. The test split (prompt v2) had 25 receipts marked partly unclear and 6 clean claims held for that reason, so the saving there would be larger, but it has not been measured on test and is not claimed.
+
 ### Regression gate
 
 `eval/compare.py` lines up two runs claim by claim, lists every decision that changed (FIXED / BROKE / moved), prints the headline metrics side by side and exits non-zero if recall or decision accuracy fell or false alarms rose. The run-1 vs run-2 table above comes from it. The two models read receipts equally well; Haiku costs 30× less. The human-scoring sheet for 10 drafts is in `results/human_scoring_sheet_test.md`; agreement with the judge is reported once it is filled in.

@@ -1,0 +1,11 @@
+{
+ "split": "validation",
+ "prompt_version": "v3",
+ "n_clean_claims": 43,
+ "held_for_readability_old_rule": 2,
+ "held_for_low_confidence_new_rule": 1,
+ "reviews_saved": 1,
+ "planted_caught": "50/50",
+ "planted_approved_wrongly": [],
+ "decision_accuracy": 0.9
+}
