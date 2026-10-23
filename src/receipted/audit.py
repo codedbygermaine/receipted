@@ -13,6 +13,16 @@ from receipted import draft, extract, llm, rules
 
 AUDIT_PATH = llm.ROOT / "data" / "audit_log.jsonl"
 CORRECTIONS_PATH = llm.ROOT / "data" / "review_corrections.json"
+AUDIT_SAMPLE_RATE = 10   # 1 in N auto-approved claims is marked for a random human audit
+
+
+def is_audit_sample(fingerprint: str | None, decision: str | None, rate: int = AUDIT_SAMPLE_RATE) -> bool:
+    """Deterministic 1-in-N pick of auto-approved claims, keyed on the image fingerprint so the same
+    receipt gets the same answer. Pros audit a random slice of what was approved; it is how systematic
+    errors in the 'approve' bucket get found."""
+    if decision != "approve" or not fingerprint:
+        return False
+    return int(fingerprint[:8], 16) % rate == 0
 
 
 def record(state: dict, source: str, reviewer_note: str | None = None) -> dict:
@@ -30,6 +40,7 @@ def record(state: dict, source: str, reviewer_note: str | None = None) -> dict:
         "decision": state.get("decision"),
         "decision_reason": state.get("decision_reason"),
         "reviewed_by_human": bool(state.get("reviewed_by_human")),
+        "audit_sample": (not state.get("reviewed_by_human")) and is_audit_sample(state.get("fingerprint"), state.get("decision")),
         "reviewer_note": reviewer_note,
         "issues": [{k: i.get(k) for k in ("source", "type", "severity", "clause_id", "price_item", "receipt_line", "message")}
                    for i in state.get("verified_issues", [])],
@@ -55,6 +66,12 @@ def _add_correction(entry: dict) -> None:
                         "human_decision": entry["decision"], "reviewer_note": entry["reviewer_note"], "at": entry["at"],
                         "issues_shown": [i["type"] for i in entry["issues"]]})
     CORRECTIONS_PATH.write_text(json.dumps(corrections, indent=1, ensure_ascii=False))
+
+
+def audit_samples() -> list[dict]:
+    """Approved claims picked for a random audit that nobody has looked at yet."""
+    seen_reviewed = {e["claim_id"] for e in recent(100000) if e.get("reviewed_by_human")}
+    return [e for e in recent(100000) if e.get("audit_sample") and e["claim_id"] not in seen_reviewed]
 
 
 def recent(n: int = 50) -> list[dict]:

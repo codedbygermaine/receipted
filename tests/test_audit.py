@@ -18,3 +18,12 @@ def test_audit_record_and_correction(tmp_path, monkeypatch):
     corr = json.loads((tmp_path / "corr.json").read_text())
     assert corr == [{**corr[0]}] and corr[0]["human_decision"] == "approve" and corr[0]["reviewer_note"] == "ok"
     assert audit.recent(1)[0]["source"] == "review"
+
+
+def test_audit_sample_is_deterministic_one_in_n():
+    from receipted.audit import is_audit_sample
+    picks = sum(is_audit_sample(f"{i:016x}", "approve", rate=10) for i in range(1000))
+    assert 80 <= picks <= 120                        # about 1 in 10
+    assert is_audit_sample("00000000abcdef00", "approve") is True
+    assert is_audit_sample("00000000abcdef00", "reject") is False
+    assert is_audit_sample(None, "approve") is False

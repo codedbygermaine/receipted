@@ -228,6 +228,10 @@ with tab_review:
 with tab_audit:
     st.subheader("Every decision, with its evidence")
     entries = audit.recent(30)
+    samples = audit.audit_samples()
+    if samples:
+        st.warning(f"{len(samples)} auto-approved claim(s) picked for a random audit (1 in {audit.AUDIT_SAMPLE_RATE}): "
+                   + ", ".join(e["claim_id"] for e in samples[:10]) + ". A reviewer should spot-check these against the receipt.")
     if not entries:
         st.info("No decisions logged yet.")
     else:
