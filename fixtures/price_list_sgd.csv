@@ -1,0 +1,53 @@
+# Price list written for testing Receipted in Singapore. Built from the prices on 20 receipts I photographed
+# (data/external/singapore). agreed_max_unit_price = typical price x 1.10, rounded up to 10 cents. Currency: SGD.
+item,agreed_max_unit_price,typical_price_seen,times_seen
+(s) cbs (v),9.9,9.0,1
+actal tablet 20's,5.3,4.8,1
+add onsen tamago,2.2,2.0,1
+b&l renu 355mlx2+1,31.1,28.25,1
+bibimbap,15.3,13.9,1
+book.activity.a5 journal.glitz,19.8,18.0,1
+brioche,19.8,18.0,1
+brown rice green tea (hot),5.5,5.0,1
+brussels salad,29.7,27.0,1
+cheesecake cube - original,11.0,10.0,1
+chocolat bar,1.4,1.2,1
+chocolate mint bar,1.4,1.2,1
+cpi uji matcha,3.0,2.7,1
+denim round neck shift mini dress-417,64.9,59.0,1
+duck guksu lunch set,30.9,28.0,1
+eggs benedict,30.9,28.0,1
+fig jujube salad,27.6,25.0,1
+freshly milked ice bar,1.7,1.5,1
+genmaicha mochi,17.6,16.0,1
+gourmand citron white tea candle 210g,15.4,13.93,1
+gourmand freesia & litchi candle 210g,11.0,9.95,1
+iced strawberry matcha latte,8.8,8.0,1
+imodium cap 6's,8.4,7.55,1
+kaminomoto ss serum,24.1,21.9,1
+kinoko pasta (v),19.8,18.0,1
+lean chicken bowl,11.4,10.3,1
+light poke bowl,13.1,11.9,1
+lyocell cut out toga fit & flare maxi,82.5,75.0,1
+matcha cloud,7.2,6.5,2
+mentaiko premium buta,20.8,18.9,1
+mortadella & burrata,22.0,20.0,1
+not coffee,9.4,8.5,1
+optrex eye lotion,14.9,13.5,1
+pesto & mozzarella,17.6,16.0,1
+prem buta don,19.7,17.9,1
+safra movie perks every day,14.9,13.5,1
+service fee,12.2,11.0,1
+sesame soba,0.6,0.5,1
+spicy chicken bulgogi,13.8,12.5,1
+symmetry breakfast,33.0,30.0,1
+tamago sando (v),14.3,13.0,1
+teas,6.6,6.0,1
+truffle & eggs sando,19.8,18.0,1
+turkish eggs,17.6,16.0,1
+vegan power bowl (vg),11.4,10.3,1
+veggie daily bowl,10.3,9.3,5
+w21 transparent plas,5.1,4.55,2
+w22 unscented baby w,3.9,3.5,2
+w25 xfw cotton buds,2.5,2.2,1
+yaechae bibimbap lunch set,26.4,24.0,1

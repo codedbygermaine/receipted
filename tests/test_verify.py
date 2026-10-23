@@ -69,3 +69,11 @@ def test_maths_issues_pass_through():
          "clause_id": None, "price_item": None, "evidence": {"claimed": 1, "receipt_total": 0}}
     kept, dropped = verify([m], RECEIPT, CLAUSES, PRICES)
     assert kept == [m] and dropped == []
+
+
+def test_clause_issue_that_also_names_a_price_row_is_not_price_checked():
+    # a C3 (alcohol) issue on a line whose price is under the agreed max must survive
+    prices = {"bir bintang": {"item": "bir bintang", "agreed_max_unit_price": 40000}}
+    i = rule(clause_id="C3", price_item="bir bintang", receipt_line="2 BIR BINTANG 70,000")
+    kept, dropped = verify([i], RECEIPT, CLAUSES, prices)
+    assert len(kept) == 1 and dropped == [] and kept[0]["evidence"]["price_list_item"] == "bir bintang"

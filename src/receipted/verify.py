@@ -73,7 +73,12 @@ def verify(issues: list[dict], receipt: dict, clauses: dict, price_list: dict) -
         evidence = dict(issue.get("evidence") or {})
         if clause is not None:
             evidence["clause_text"] = f"{clause['id']}. {clause['title']}: {clause['text']}"
-        if price_row is not None:
+        # The numeric price re-check applies only to price-list issues (no clause, or the price-list clause C5).
+        # A C6 "personal item" issue that also names a price row is about the clause, not the price.
+        is_price_issue = price_row is not None and (clause is None or clause["id"] == "C5")
+        if price_row is not None and not is_price_issue:
+            evidence["price_list_item"] = price_row["item"]
+        if is_price_issue:
             score = price_name_score(price_row["item"], item["name"]) if item is not None else 0
             if score < PRICE_NAME_THRESHOLD:
                 dropped.append({**issue, "dropped_because":

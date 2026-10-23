@@ -60,9 +60,9 @@ def _format_facts(receipt: dict, claim: dict, maths_issues: list[dict], retrieve
                  f"readability={receipt['readability']}")
     lines.append("ARITHMETIC ISSUES ALREADY FOUND BY CODE:")
     lines += [f"- {m['type']} ({m['severity']}): {m['message']}" for m in maths_issues] or ["- none"]
-    lines.append("POLICY CLAUSES (retrieved):")
+    lines.append(f"POLICY CLAUSES (retrieved; amounts in this policy are in {retrieved.get('policy_set', 'IDR')}):")
     lines += [f"- {c['id']}. {c['title']}: {c['text']}" for c in retrieved["clauses"]]
-    lines.append("PRICE LIST ROWS (retrieved per receipt item; agreed_max_unit_price in IDR):")
+    lines.append(f"PRICE LIST ROWS (retrieved per receipt item; agreed_max_unit_price in {retrieved.get('policy_set', 'IDR')}):")
     for name, rows in retrieved["price_rows"].items():
         lines.append(f"- for receipt item '{name}': " +
                      "; ".join(f"'{r['item']}' max {r['agreed_max_unit_price']}" for r in rows))

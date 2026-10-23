@@ -38,16 +38,22 @@ from receipted.graph import run_claim           # noqa: E402
 DAILY_CAP = 30                                  # uncached checks per day, so strangers can't run up the bill
 USAGE_FILE = ROOT / "data" / "usage.json"
 SAMPLES = {
-    "Bakery, 3 items, clean claim": ("app/samples/validation_000.jpg", 45500,
+    "SG brunch for 3, claim matches (SGD)": ("data/external/singapore/sg_24.jpg", 101.90, "Team brunch, 3 people",
+                                              "Eggs Benedict, 1, 28.00\nBrussels Salad, 1, 27.00\nSymmetry Breakfast, 1, 30.00"),
+    "SG pharmacy with medicines, personal items (SGD)": ("data/external/singapore/sg_09.jpg", 20.40, "Supplies for event",
+                                                         "W22 Unscented Baby Wipes, 2, 3.50\nW21 Transparent Plasters, 2, 4.55\nActal Tablet, 1, 4.80\nImodium Cap, 1, 7.55"),
+    "SG cafe, over-claimed (SGD)": ("data/external/singapore/sg_23.jpg", 130.00, "Committee lunch, 4 people", ""),
+    "SG cinema tickets, no purpose (SGD)": ("data/external/singapore/sg_03.jpg", 67.50, "", "SAFRA Movie Perks, 5, 67.50"),
+    "Bakery, 3 items, clean claim (IDR)": ("app/samples/validation_000.jpg", 45500,
                                      "Snacks for orientation booth, 5 people",
                                      "Real Ganache, 1, 16500\nEgg Tart, 1, 13000\nPizza Toast, 1, 16000"),
-    "Restaurant, inflated claim + beer not on receipt": ("app/samples/validation_025.jpg", 250000,
+    "Restaurant, inflated claim + beer not on receipt (IDR)": ("app/samples/validation_025.jpg", 250000,
                                                         "Committee dinner, 4 people",
                                                         "Sop Sui Jiao, 1, 33000\nHa Kaou Udang, 1, 28000\nSiomay Kombinasi, 2, 46000\nBir Bintang, 2, 70000"),
-    "Cafe, hot tea above price list": ("app/samples/validation_045.jpg", 287760,
+    "Cafe, hot tea above price list (IDR)": ("app/samples/validation_045.jpg", 287760,
                                        "Refreshments for committee meeting, 6 people", ""),
-    "Cinema ticket, no purpose stated": ("app/samples/validation_090.jpg", 70000, "", "Regular, 2, 70000"),
-    "Fast food, claim matches": ("app/samples/validation_004.jpg", 41000, "Lunch for volunteers, 1 person",
+    "Cinema ticket, no purpose stated (IDR)": ("app/samples/validation_090.jpg", 70000, "", "Regular, 2, 70000"),
+    "Fast food, claim matches (IDR)": ("app/samples/validation_004.jpg", 41000, "Lunch for volunteers, 1 person",
                                  "BBQ Chicken, 1, 41000"),
 }
 BADGE = {"approve": ("APPROVE", "#0ca30c"), "needs_review": ("NEEDS REVIEW", "#fab219"), "reject": ("REJECT", "#d03b3b")}
@@ -111,7 +117,7 @@ with tab_check:
         st.subheader("2. Claim")
         submitter = st.text_input("Submitter", "A. Member")
         purpose = st.text_input("Purpose (e.g. 'Team lunch, 4 people')", s_purpose)
-        amount = st.number_input("Amount claimed (IDR)", min_value=0, value=int(s_amount), step=500)
+        amount = st.number_input("Amount claimed (in the receipt's currency)", min_value=0.0, value=float(s_amount), step=0.5, format="%.2f")
         items_text = st.text_area("Items claimed, one per line: name, qty, line total", s_items, height=120)
         model = st.selectbox("Model", [llm.DEFAULT_MODEL, llm.LARGE_MODEL])
         run = st.button("Check this claim", type="primary", disabled=image_path is None)
@@ -121,8 +127,9 @@ with tab_check:
             if usage_today() >= DAILY_CAP:
                 st.error(f"Daily limit of {DAILY_CAP} checks reached. Try again tomorrow.")
                 st.stop()
-            claim = {"claim_id": "DEMO", "submitter": submitter, "purpose": purpose, "amount": int(amount),
-                     "currency": "IDR", "items": parse_items(items_text)}
+            claim = {"claim_id": "DEMO", "submitter": submitter, "purpose": purpose,
+                     "amount": int(amount) if float(amount).is_integer() else float(amount),
+                     "currency": "", "items": parse_items(items_text)}   # currency comes from the receipt
             with st.spinner("Reading the receipt and running the checks…"):
                 state = run_claim(image_path, claim, model=model, register=True)
             if not all(e.get("cached") for e in state["trace"] if "cost_usd" in e):

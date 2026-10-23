@@ -97,7 +97,7 @@ def node_maths(state):
 def node_retrieve(state):
     retrieved = retrieve_for(state["receipt"], state["claim"])
     return {"retrieved": retrieved,
-            "_summary": f"{len(retrieved['clauses'])} clauses {[c['id'] for c in retrieved['clauses']]}, "
+            "_summary": f"{retrieved['policy_set']} policy: {len(retrieved['clauses'])} clauses {[c['id'] for c in retrieved['clauses']]}, "
                         f"price rows for {len(retrieved['price_rows'])} items"}
 
 
@@ -111,8 +111,9 @@ def node_rules(state):
 
 @traced("verify")
 def node_verify(state):
+    cur = state["receipt"].get("currency")
     kept, dropped = verify(state["maths_issues"] + state["rule_issues"], state["receipt"],
-                           load_policy_clauses(), load_price_list())
+                           load_policy_clauses(cur), load_price_list(cur))
     return {"verified_issues": kept, "dropped_issues": dropped,
             "_summary": f"kept {len(kept)}, dropped {len(dropped)}" +
                         (f" ({[d['dropped_because'] for d in dropped]})" if dropped else "")}
