@@ -305,6 +305,24 @@ Then ask Claude something like *"Check /Users/you/receipt.jpg against a claim of
 .venv/bin/python scripts/mcp_client_test.py SAMPLE-002
 ```
 
+## HTTP API on AWS Lambda
+
+The same checker as a web endpoint, for anything that can send an HTTP request (a club's web form, a spreadsheet macro, another service). `api/app.py` is a FastAPI app; on AWS it runs as a Lambda container image with a public function URL, pay-per-request. Every call needs the token in `X-Api-Token`, and a daily cap stops a public URL from running up the bill.
+
+```bash
+curl -s -X POST "$URL/check" -H "X-Api-Token: $TOKEN" \
+  -F image=@receipt.jpg \
+  -F 'claim={"claim_id":"C-1","submitter":"A. Member","purpose":"Team lunch, 3 people","amount":101.90}'
+```
+
+The reply is JSON: decision, reason, currency, receipt total, extracted items with confidence, every verified issue with its evidence, the draft message, cost and time. Deploying is one script once the AWS CLI is signed in and Docker is running:
+
+```bash
+RECEIPTED_API_TOKEN=choose-a-token ANTHROPIC_API_KEY=sk-ant-... ./api/deploy.sh
+```
+
+It builds the image (policy index and embedding model baked in, so cold starts download nothing), pushes it to ECR, creates or updates the Lambda in the Singapore region, and prints the URL. Run locally with `RECEIPTED_API_TOKEN=dev uvicorn api.app:app`.
+
 ## Attribution and licence
 
 Receipt images and ground truth: **CORD v2** (`naver-clova-ix/cord-v2`, [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)). Park, S. et al. "CORD: A Consolidated Receipt Dataset for Post-OCR Parsing", Document Intelligence Workshop at NeurIPS 2019. The five demo sample images in `app/samples/` are from the same dataset.
