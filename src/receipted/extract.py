@@ -52,6 +52,18 @@ class ExtractionResult:
     cached: bool
 
 
+def tidy(receipt: dict) -> dict:
+    """Rupiah has no cents: show 16500, not 16500.0. Applied to fresh and cached results alike."""
+    def fix(v):
+        return int(v) if isinstance(v, float) and v.is_integer() else v
+    for it in receipt["items"]:
+        for k in ("qty", "unit_price", "line_total"):
+            it[k] = fix(it.get(k))
+    for k in ("subtotal", "tax", "service", "discount", "total"):
+        receipt[k] = fix(receipt.get(k))
+    return receipt
+
+
 def prepare_image(path: str | Path) -> tuple[bytes, str]:
     """Resize to the model's limit and JPEG-encode. Returns (bytes, media_type)."""
     img = Image.open(path).convert("RGB")
@@ -83,6 +95,7 @@ def extract(image_path: str | Path, model: str = llm.DEFAULT_MODEL, use_cache: b
     if use_cache:
         hit = llm.cache_get("extract", key)
         if hit:
+            hit["receipt"] = tidy(hit["receipt"])
             return ExtractionResult(**{**hit, "cached": True})
 
     image_b64 = base64.standard_b64encode(image_bytes).decode()
@@ -109,7 +122,7 @@ def extract(image_path: str | Path, model: str = llm.DEFAULT_MODEL, use_cache: b
             nudge = "Reply with valid JSON matching the schema only."
             continue
         result = ExtractionResult(
-            receipt=receipt.model_dump(),
+            receipt=tidy(receipt.model_dump()),
             model=model,
             prompt_version=PROMPT_VERSION,
             input_tokens=total_in,

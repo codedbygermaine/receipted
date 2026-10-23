@@ -56,7 +56,7 @@ def chart_recall(checks, split):
     ax.set_yticks(list(y)); ax.set_yticklabels(labels, color=INK)
     ax.set_xlim(0, 118); ax.set_xticks([0, 25, 50, 75, 100])
     ax.set_xlabel("errors caught (recall)", color=INK2, fontsize=9)
-    ax.set_title(f"Errors caught per type, {split} split, {s['model']} (n={s['n_claims']} claims)", loc="left", fontsize=11, color=INK)
+    ax.set_title(f"Errors caught per type ({split}, {s['model'].replace('claude-', '')}, n={s['n_claims']} claims)", loc="left", fontsize=11, color=INK)
     fig.tight_layout()
     fig.savefig(RES / f"chart_recall_{split}.png", dpi=160)
     plt.close(fig)
