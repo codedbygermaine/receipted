@@ -7,7 +7,7 @@
 | `claude-haiku-5-5` | 100 | 0.92 (0.87–0.95) | 0.88 | 0.95 | 97% | 96% | 97% | 3.68s | $0.0006 |
 | `claude-opus-5-5` | 100 | 0.92 (0.88–0.95) | 0.88 | 0.95 | 97% | 98% | 100% | 4.13s | $0.0186 |
 
-### Checks: full agent on 100 synthetic claims (`claude-haiku-5-5`)
+### Checks: full agent on 100 test claims with planted errors (`claude-haiku-5-5`)
 
 | planted error | n | caught | recall (95% CI) |
 |---|---|---|---|

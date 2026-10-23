@@ -1,4 +1,4 @@
-# SYNTHETIC price list for testing Receipted. Built from item names and prices in the CORD v2 train split
+# Price list written for testing Receipted. Built from item names and prices in the CORD v2 train split
 # (CC BY 4.0). agreed_max_unit_price = median observed price x 1.10, rounded up. Currency: IDR.
 item,agreed_max_unit_price,typical_price_seen,times_seen_in_train
 nasi putih,11000,9900,26

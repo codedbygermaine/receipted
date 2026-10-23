@@ -112,7 +112,7 @@ def results_table(extraction, checks, drafts, split):
     if checks:
         s = checks["summary"]
         rows = checks["claims"]
-        md += [f"\n### Checks: full agent on {s['n_claims']} synthetic claims (`{s['model']}`)\n",
+        md += [f"\n### Checks: full agent on {s['n_claims']} test claims with planted errors (`{s['model']}`)\n",
                "| planted error | n | caught | recall (95% CI) |", "|---|---|---|---|"]
         for t, d in s["planted"].items():
             flags = [1 if r["caught"].get(t) else 0 for r in rows if r["planted_error"] == t]

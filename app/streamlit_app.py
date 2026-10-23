@@ -203,8 +203,8 @@ in the policy, whose receipt line is not in the extraction, or whose price compa
 **It knows when to pass to a human.** If the receipt is unreadable, or the extraction fails validation twice, the
 checks are skipped and the claim goes straight to *needs review* instead of being guessed at.
 
-**It is measured.** Extraction is scored against CORD ground truth; the checks are scored on 100 synthetic claims
+**It is measured.** Extraction is scored against CORD ground truth; the checks are scored on 100 test claims I wrote
 with planted errors; the drafts are scored by a larger model against a written rubric. See the README for numbers.
 
-*Data: CORD v2 (CC BY 4.0). The claims, price list and policy are synthetic test fixtures.*
+*Data: CORD v2 (CC BY 4.0). The claims, price list and policy were written by me for testing.*
 """)

@@ -203,3 +203,16 @@
 **Why the big model doesn't help here.** The pipeline was designed so that the model's jobs are narrow: read the image, decide whether a retrieved clause applies to a line, write a short note from given facts. Haiku does those about as well as Opus. The hard parts, arithmetic, evidence checking, the decision rule, are code, and code does not get better with a bigger model. Opus's extra capability shows up as stricter policy reading (more C12 headcount flags), which on synthetic claims with random headcounts looks like false alarms.
 
 **Interview answer, final form: small or large model?** Small. I measured both on reading (equal), and both on the whole task (equal on catching errors, Haiku slightly better on decisions, 30x cheaper, 2x faster). The right place for a larger model is a fallback for receipts the small one marks unclear, which is a routing rule and cheap to add. A system designed to make the LLM's job small is a system where the small model wins.
+
+
+## Phase 13: My own receipts
+
+**What we measured.** 24 Singapore receipts I photographed, covered and labelled: Haiku read 23/24 totals with item F1 0.79; Opus 21/24 with item F1 0.95. Currency, GST and service charge were right on every receipt for both. Four clinic invoices were used locally and not published.
+
+**What the two models got wrong, and why it is interesting.** Haiku's problem is over-listing: a salad bar prints each topping as "1.00 X Guacamole" with no price, and Haiku returns it as an item at 0. That costs precision but never money, because a zero line changes no total. Opus's problem is caution: a pharmacy receipt prints SUBTOTAL, then the card amount, and never the word TOTAL; Opus returns null, which is honest and still wrong for the user. Neither is a hallucination; both are judgement calls about what counts as an item or a total, and the right answer depends on who is asking.
+
+**What the set exposed in my code.** Percentage discounts applied per line on invoices (a 50% consultation, a 100% free consult) make quantity × unit cost disagree with the printed line, so the arithmetic check fires. The CORD data had no such receipts, so the schema has no per-line discount field. That is the next change, and it will be tested on these receipts after being built, not before.
+
+**Interview answer: did you test it on data from a different country?** Yes, two ways: ten licensed receipts from the UK, US and Australia, and 24 of my own from Singapore. Item extraction and currency detection held up. What broke was my code's assumptions, not the model: a whole-unit tolerance from rupiah, and no field for per-line discounts. I fixed the first and measured again; the second is on the list.
+
+**Privacy.** Even with names covered, a clinic invoice says what was treated. Those four files are gitignored and their numbers are reported only in aggregate. Deciding that took longer than labelling them, and it is the right call for a public repo under my name.

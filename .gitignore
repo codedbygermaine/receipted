@@ -31,3 +31,11 @@ Receipted_build_brief.md
 data/claims_registry.json
 data/review_checkpoints.sqlite
 data/review_queue.json
+
+# Personal medical invoices in the Singapore set: used locally for testing, never published
+data/external/singapore/sg_14.jpg
+data/external/singapore/sg_15.jpg
+data/external/singapore/sg_16.jpg
+data/external/singapore/sg_17.jpg
+data/external/singapore/mapping.json
+data/external/singapore/labels_private.json

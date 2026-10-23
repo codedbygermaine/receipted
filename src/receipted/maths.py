@@ -16,8 +16,10 @@ NO_CENTS_CURRENCIES = {"IDR", "JPY", "KRW", "VND", "HUF", "CLP", "ISK", "TWD"}
 
 
 def tolerance_for(currency: str | None) -> float:
-    """Whole-unit currencies (rupiah, yen) round to the unit; everything else prints cents."""
-    return TOL_ABS if (currency or "IDR").upper() in NO_CENTS_CURRENCIES else 0.01
+    """Whole-unit currencies (rupiah, yen) round to the unit. Cent currencies get 5 cents, because
+    several countries (Singapore among them) round cash totals to the nearest 5 cents and print a
+    'rounding' line of a cent or two."""
+    return TOL_ABS if (currency or "IDR").upper() in NO_CENTS_CURRENCIES else 0.05
 
 
 def close(a, b, tol_abs: float = TOL_ABS) -> bool:

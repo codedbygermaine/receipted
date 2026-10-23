@@ -1,0 +1,532 @@
+[
+ {
+  "file": "sg_01.jpg",
+  "currency": "SGD",
+  "notes": "Chateraise bakery; qty x unit on a second line under each item; 9% GST inclusive, so subtotal equals total",
+  "items": [
+   {
+    "name": "Chocolate Mint Bar",
+    "qty": 6,
+    "line_total": 7.2
+   },
+   {
+    "name": "Freshly Milked Ice Bar",
+    "qty": 6,
+    "line_total": 9.0
+   },
+   {
+    "name": "CPI Uji Matcha",
+    "qty": 3,
+    "line_total": 8.1
+   }
+  ],
+  "subtotal": 24.3,
+  "tax": 2.01,
+  "service": null,
+  "discount": null,
+  "total": 24.3
+ },
+ {
+  "file": "sg_02.jpg",
+  "currency": "SGD",
+  "notes": "Korean restaurant; two dishes each with a 0.00 modifier line; 10% service charge then 9% GST on top",
+  "items": [
+   {
+    "name": "Bibimbap",
+    "qty": 1,
+    "line_total": 13.9
+   },
+   {
+    "name": "Spicy Chicken Bulgogi",
+    "qty": 1,
+    "line_total": 12.5
+   }
+  ],
+  "subtotal": 26.4,
+  "tax": 2.61,
+  "service": 2.64,
+  "discount": null,
+  "total": 31.65
+ },
+ {
+  "file": "sg_03.jpg",
+  "currency": "SGD",
+  "notes": "Cinema tickets on a watermarked receipt; one line, qty 5 at 13.50; GST inclusive",
+  "items": [
+   {
+    "name": "SAFRA Movie Perks Every Day",
+    "qty": 5,
+    "line_total": 67.5
+   }
+  ],
+  "subtotal": null,
+  "tax": null,
+  "service": null,
+  "discount": null,
+  "total": 67.5
+ },
+ {
+  "file": "sg_04.jpg",
+  "currency": "SGD",
+  "notes": "Stationery shop tax invoice; GST shown as included in the sale total",
+  "items": [
+   {
+    "name": "BOOK.ACTIVITY.A5 JOURNAL.GLITZ",
+    "qty": 1,
+    "line_total": 18.0
+   }
+  ],
+  "subtotal": null,
+  "tax": 1.49,
+  "service": null,
+  "discount": null,
+  "total": 18.0
+ },
+ {
+  "file": "sg_05.jpg",
+  "currency": "SGD",
+  "notes": "Poke bowl shop; qty x unit printed on a line under the item; GST inclusive; explicit 0.00 discount line",
+  "items": [
+   {
+    "name": "Light Poke Bowl",
+    "qty": 2,
+    "line_total": 23.8
+   },
+   {
+    "name": "Sesame Soba",
+    "qty": 2,
+    "line_total": 1.0
+   }
+  ],
+  "subtotal": 24.8,
+  "tax": 2.05,
+  "service": null,
+  "discount": 0.0,
+  "total": 24.8
+ },
+ {
+  "file": "sg_06.jpg",
+  "currency": "SGD",
+  "notes": "Cafe with S$ prefix on every price; modifiers with prices folded into the item line; GST included",
+  "items": [
+   {
+    "name": "Mortadella & Burrata",
+    "qty": 1,
+    "line_total": 20.0
+   },
+   {
+    "name": "Pesto & Mozzarella",
+    "qty": 1,
+    "line_total": 16.0
+   },
+   {
+    "name": "Turkish Eggs",
+    "qty": 1,
+    "line_total": 16.0
+   },
+   {
+    "name": "Genmaicha Mochi",
+    "qty": 1,
+    "line_total": 16.0
+   },
+   {
+    "name": "Teas",
+    "qty": 1,
+    "line_total": 6.0
+   },
+   {
+    "name": "Not Coffee",
+    "qty": 1,
+    "line_total": 8.5
+   }
+  ],
+  "subtotal": null,
+  "tax": 6.81,
+  "service": null,
+  "discount": null,
+  "total": 82.5
+ },
+ {
+  "file": "sg_07.jpg",
+  "currency": "SGD",
+  "notes": "Low-resolution clothing receipt; one item; GST shown as an amount on a tax-exclusive basis after the total",
+  "items": [
+   {
+    "name": "Denim Round Neck Shift Mini Dress-417",
+    "qty": 1,
+    "line_total": 59.0
+   }
+  ],
+  "subtotal": null,
+  "tax": 4.87,
+  "service": null,
+  "discount": null,
+  "total": 59.0
+ },
+ {
+  "file": "sg_08.jpg",
+  "currency": "SGD",
+  "notes": "Japanese restaurant; priced add-on under an item; 10% service then 9% GST; QR code at the bottom",
+  "items": [
+   {
+    "name": "Mentaiko Premium Buta",
+    "qty": 1,
+    "line_total": 18.9
+   },
+   {
+    "name": "Prem Buta Don",
+    "qty": 1,
+    "line_total": 17.9
+   },
+   {
+    "name": "Add Onsen Tamago",
+    "qty": 1,
+    "line_total": 2.0
+   }
+  ],
+  "subtotal": 38.8,
+  "tax": 3.84,
+  "service": 3.88,
+  "discount": null,
+  "total": 46.52
+ },
+ {
+  "file": "sg_09.jpg",
+  "currency": "SGD",
+  "notes": "Pharmacy; PLU code line above each item; buy-1-get-1 discounts as negative lines; two medicines (policy C6); GST inclusive; loyalty number covered",
+  "items": [
+   {
+    "name": "W22 Unscented Baby W",
+    "qty": 1,
+    "line_total": 3.5
+   },
+   {
+    "name": "W22 Unscented Baby W",
+    "qty": 1,
+    "line_total": 3.5
+   },
+   {
+    "name": "W21 Transparent Plas",
+    "qty": 1,
+    "line_total": 4.55
+   },
+   {
+    "name": "W21 Transparent Plas",
+    "qty": 1,
+    "line_total": 4.55
+   },
+   {
+    "name": "Actal Tablet 20's",
+    "qty": 1,
+    "line_total": 4.8
+   },
+   {
+    "name": "Imodium Cap 6's",
+    "qty": 1,
+    "line_total": 7.55
+   }
+  ],
+  "subtotal": 20.4,
+  "tax": 1.69,
+  "service": null,
+  "discount": 8.05,
+  "total": 20.4
+ },
+ {
+  "file": "sg_10.jpg",
+  "currency": "SGD",
+  "notes": "Salad bar; three identical bowls each followed by many zero-price modifier lines; GST inclusive; card details covered",
+  "items": [
+   {
+    "name": "Veggie Daily Bowl",
+    "qty": 1,
+    "line_total": 9.3
+   },
+   {
+    "name": "Veggie Daily Bowl",
+    "qty": 1,
+    "line_total": 9.3
+   },
+   {
+    "name": "Veggie Daily Bowl",
+    "qty": 1,
+    "line_total": 9.3
+   }
+  ],
+  "subtotal": 27.9,
+  "tax": 2.31,
+  "service": null,
+  "discount": null,
+  "total": 27.9
+ },
+ {
+  "file": "sg_11.jpg",
+  "currency": "SGD",
+  "notes": "Salad bar; two bowls with zero-price modifier lines; GST inclusive; card details covered",
+  "items": [
+   {
+    "name": "Veggie Daily Bowl",
+    "qty": 1,
+    "line_total": 9.3
+   },
+   {
+    "name": "Veggie Daily Bowl",
+    "qty": 1,
+    "line_total": 9.3
+   }
+  ],
+  "subtotal": 18.6,
+  "tax": 1.54,
+  "service": null,
+  "discount": null,
+  "total": 18.6
+ },
+ {
+  "file": "sg_12.jpg",
+  "currency": "SGD",
+  "notes": "Pharmacy; PLU line above each item; eye lotion and hair serum (personal items, policy C6); GST inclusive; loyalty number covered",
+  "items": [
+   {
+    "name": "Optrex Eye Lotion",
+    "qty": 1,
+    "line_total": 13.5
+   },
+   {
+    "name": "Kaminomoto SS Serum",
+    "qty": 1,
+    "line_total": 21.9
+   }
+  ],
+  "subtotal": 35.4,
+  "tax": 2.93,
+  "service": null,
+  "discount": null,
+  "total": 35.4
+ },
+ {
+  "file": "sg_13.jpg",
+  "currency": "SGD",
+  "notes": "Home goods shop; each item spans four lines (code, name, qty x unit, promo discount); net line prices; tax summary shows amount and 9% tax included; name and customer code covered",
+  "items": [
+   {
+    "name": "Gourmand Citron White Tea Candle 210g",
+    "qty": 1,
+    "line_total": 13.93
+   },
+   {
+    "name": "Gourmand Freesia & Litchi Candle 210g",
+    "qty": 1,
+    "line_total": 9.95
+   }
+  ],
+  "subtotal": 23.88,
+  "tax": 1.97,
+  "service": null,
+  "discount": null,
+  "total": 23.88
+ },
+ {
+  "file": "sg_18.jpg",
+  "currency": "SGD",
+  "notes": "Pharmacy; two items with qty 3 at a unit price, each followed by a multi-buy discount line; cash paid with change; GST inclusive",
+  "items": [
+   {
+    "name": "B&L Renu 355mlx2+1",
+    "qty": 3,
+    "line_total": 84.75
+   },
+   {
+    "name": "W25 XFW Cotton Buds",
+    "qty": 3,
+    "line_total": 6.6
+   }
+  ],
+  "subtotal": 56.35,
+  "tax": 4.65,
+  "service": null,
+  "discount": 35.0,
+  "total": 56.35
+ },
+ {
+  "file": "sg_19.jpg",
+  "currency": "SGD",
+  "notes": "Bakery; one item, qty 10 x 1.20 on the line below; GST inclusive",
+  "items": [
+   {
+    "name": "Chocolat Bar",
+    "qty": 10,
+    "line_total": 12.0
+   }
+  ],
+  "subtotal": 12.0,
+  "tax": 0.99,
+  "service": null,
+  "discount": null,
+  "total": 12.0
+ },
+ {
+  "file": "sg_20.jpg",
+  "currency": "SGD",
+  "notes": "Korean restaurant; qty 3 item with 'each' price under it; a 0.00 line; the service fee is printed as an item line and included in the subtotal; tax added after",
+  "items": [
+   {
+    "name": "Brown Rice Green Tea (Hot)",
+    "qty": 3,
+    "line_total": 15.0
+   },
+   {
+    "name": "Yaechae Bibimbap Lunch Set",
+    "qty": 1,
+    "line_total": 24.0
+   },
+   {
+    "name": "Duck Guksu Lunch Set",
+    "qty": 1,
+    "line_total": 28.0
+   },
+   {
+    "name": "Fig Jujube Salad",
+    "qty": 1,
+    "line_total": 25.0
+   },
+   {
+    "name": "Brioche",
+    "qty": 1,
+    "line_total": 18.0
+   },
+   {
+    "name": "Fire Mains",
+    "qty": 1,
+    "line_total": 0.0
+   },
+   {
+    "name": "Service Fee",
+    "qty": 1,
+    "line_total": 11.0
+   }
+  ],
+  "subtotal": 121.0,
+  "tax": 10.89,
+  "service": null,
+  "discount": null,
+  "total": 131.89
+ },
+ {
+  "file": "sg_21.jpg",
+  "currency": "SGD",
+  "notes": "Low-resolution clothing receipt; one item; paid partly by voucher; GST shown as an amount on a tax-exclusive basis after the total",
+  "items": [
+   {
+    "name": "Lyocell Cut Out Toga Fit & Flare Maxi",
+    "qty": 1,
+    "line_total": 75.0
+   }
+  ],
+  "subtotal": null,
+  "tax": 6.19,
+  "service": null,
+  "discount": null,
+  "total": 75.0
+ },
+ {
+  "file": "sg_22.jpg",
+  "currency": "SGD",
+  "notes": "Salad shop pickup receipt; two items; no GST line; subtotal equals total",
+  "items": [
+   {
+    "name": "Vegan Power Bowl (VG)",
+    "qty": 1,
+    "line_total": 10.3
+   },
+   {
+    "name": "Lean Chicken Bowl",
+    "qty": 1,
+    "line_total": 10.3
+   }
+  ],
+  "subtotal": 20.6,
+  "tax": null,
+  "service": null,
+  "discount": null,
+  "total": 20.6
+ },
+ {
+  "file": "sg_23.jpg",
+  "currency": "SGD",
+  "notes": "Cafe with S$ prefix; eight items, some with a flavour line under them; 10% service then 9% GST",
+  "items": [
+   {
+    "name": "Kinoko Pasta (v)",
+    "qty": 1,
+    "line_total": 18.0
+   },
+   {
+    "name": "Tamago Sando (v)",
+    "qty": 1,
+    "line_total": 13.0
+   },
+   {
+    "name": "Truffle & Eggs Sando",
+    "qty": 1,
+    "line_total": 18.0
+   },
+   {
+    "name": "(S) CBS (v)",
+    "qty": 1,
+    "line_total": 9.0
+   },
+   {
+    "name": "Matcha Cloud",
+    "qty": 1,
+    "line_total": 5.5
+   },
+   {
+    "name": "Matcha Cloud",
+    "qty": 1,
+    "line_total": 6.5
+   },
+   {
+    "name": "Iced Strawberry Matcha Latte",
+    "qty": 1,
+    "line_total": 8.0
+   },
+   {
+    "name": "Cheesecake Cube - Original",
+    "qty": 1,
+    "line_total": 10.0
+   }
+  ],
+  "subtotal": 88.0,
+  "tax": 7.92,
+  "service": 8.8,
+  "discount": null,
+  "total": 104.72
+ },
+ {
+  "file": "sg_24.jpg",
+  "currency": "SGD",
+  "notes": "Brunch restaurant; 10% service then 9% GST; a -0.02 rounding line between TTL and TOTAL (Singapore rounds cash to 5 cents)",
+  "items": [
+   {
+    "name": "Eggs Benedict",
+    "qty": 1,
+    "line_total": 28.0
+   },
+   {
+    "name": "Brussels Salad",
+    "qty": 1,
+    "line_total": 27.0
+   },
+   {
+    "name": "Symmetry Breakfast",
+    "qty": 1,
+    "line_total": 30.0
+   }
+  ],
+  "subtotal": 85.0,
+  "tax": 8.42,
+  "service": 8.5,
+  "discount": null,
+  "total": 101.9
+ }
+]

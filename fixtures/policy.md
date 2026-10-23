@@ -1,6 +1,6 @@
-# Expense Reimbursement Policy (SYNTHETIC)
+# Expense Reimbursement Policy (written for testing)
 
-> This policy is a synthetic test fixture written for the Receipted project. It imitates the rules of a
+> This policy was written for the Receipted project as a test fixture. It imitates the rules of a
 > student club or small business so the checker has something realistic to enforce. Amounts are in
 > Indonesian Rupiah (IDR) because the test receipts are Indonesian. It is not a real organisation's policy.
 

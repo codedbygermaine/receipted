@@ -54,6 +54,8 @@ def match_items(gt_items, ex_items, tol):
 def main(set_name, model):
     base = ROOT / "data" / "external" / set_name
     labels = json.load(open(base / "labels.json"))
+    if (base / "labels_private.json").exists():   # receipts used locally but never published
+        labels += json.load(open(base / "labels_private.json"))
     rows = []
     for lab in labels:
         path = base / lab["file"]
@@ -92,8 +94,10 @@ def main(set_name, model):
                "mean_latency_s": round(statistics.mean([r["latency_s"] for r in rows if r["latency_s"]]), 2),
                "total_cost_usd": round(sum(r["cost_usd"] for r in rows), 4),
                "readability_counts": {k: sum(1 for r in rows if r.get("readability") == k) for k in ("clear", "partly unclear", "unreadable")}}
+    private = {l["file"] for l in labels if l.get("private")}
+    summary["private_receipts_in_summary_but_not_listed"] = len(private)
     out = ROOT / "results" / f"external_{set_name}_{model}.json"
-    out.write_text(json.dumps({"summary": summary, "receipts": rows}, indent=1))
+    out.write_text(json.dumps({"summary": summary, "receipts": [r for r in rows if r["file"] not in private]}, indent=1))
     print("\nSUMMARY", json.dumps(summary, indent=1)); print("written to", out.relative_to(ROOT))
 
 

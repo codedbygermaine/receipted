@@ -1,4 +1,4 @@
-"""Build SYNTHETIC claims for a split from the ground truth, with planted errors and labels.
+"""Build test claims for a split from the ground truth, with planted errors and labels.
 
 Half the claims are clean. Each of the rest gets exactly one planted error, spread evenly over:
   inflated_amount      claim amount above the receipt total (one claim line raised to match)
@@ -190,7 +190,7 @@ def main(split):
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(json.dumps(claims, indent=1, ensure_ascii=False))
 
-    print(f"Wrote {len(claims)} SYNTHETIC claims to {out.relative_to(ROOT)}")
+    print(f"Wrote {len(claims)} test claims to {out.relative_to(ROOT)}")
     print("planted errors:", dict(Counter(c["labels"]["planted_error"] or "clean" for c in claims)))
     print("natural flags: ", dict(Counter(f for c in claims for f in c["labels"]["natural_flags"])))
     print("expected decisions:", dict(Counter(c["labels"]["expected_decision"] for c in claims)))

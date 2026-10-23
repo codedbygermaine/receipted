@@ -1,4 +1,4 @@
-"""Build the SYNTHETIC price list from item names and prices seen in the CORD *train* split only.
+"""Build the test price list from item names and prices seen in the CORD *train* split only.
 
 For each frequent item name we take the median observed unit price and set the agreed maximum
 a little above it, rounded to a sensible rupiah figure. The validation and test splits are never
@@ -65,7 +65,7 @@ if __name__ == "__main__":
 
     out = ROOT / "fixtures" / "price_list.csv"
     with open(out, "w", newline="") as f:
-        f.write("# SYNTHETIC price list for testing Receipted. Built from item names and prices in the CORD v2 train split\n")
+        f.write("# Price list written for testing Receipted. Built from item names and prices in the CORD v2 train split\n")
         f.write("# (CC BY 4.0). agreed_max_unit_price = median observed price x 1.10, rounded up. Currency: IDR.\n")
         w = csv.DictWriter(f, fieldnames=list(rows[0].keys()))
         w.writeheader()

@@ -4,7 +4,7 @@ An AI agent that reads receipt and invoice images, checks them against a claim r
 
 **Live demo:** https://receipted.streamlit.app · **Stack:** Python, Claude API (Haiku 5.5 / Opus 5.5), LangGraph, Chroma, Streamlit, pytest
 
-**At a glance** (test split, 100 real receipts, 100 synthetic claims; every number from `results/`):
+**At a glance** (test split, 100 real receipts, 100 test claims I wrote with known planted errors; every number from `results/`):
 
 | | |
 |---|---|
@@ -90,7 +90,7 @@ Every LLM response is cached on disk (keyed by input, prompt version and model),
 | `claude-haiku-5-5` | 100 | 0.92 (0.87–0.95) | 0.88 | 0.95 | 97% | 96% | 97% | 3.68s | $0.0006 |
 | `claude-opus-5-5` | 100 | 0.92 (0.88–0.95) | 0.88 | 0.95 | 97% | 98% | 100% | 4.13s | $0.0186 |
 
-### Checks: full agent on 100 synthetic claims (`claude-haiku-5-5`)
+### Checks: full agent on 100 test claims with planted errors (`claude-haiku-5-5`)
 
 | planted error | n | caught | recall (95% CI) |
 |---|---|---|---|
@@ -210,6 +210,22 @@ Sources (all Wikimedia Commons):
 | [Receipt_for_my_BBC_Micro__51333059914_.j](https://commons.wikimedia.org/wiki/File%3AReceipt%20for%20my%20BBC%20Micro%20%2851333059914%29.jpg) | GBP | CC BY-SA 2.0 |
 | [TK_Maxx__Trafford_Retail_Park_receipt__2](https://commons.wikimedia.org/wiki/File%3ATK%20Maxx%2C%20Trafford%20Retail%20Park%20receipt%20%282013-05-12%29.jpg) | GBP | Public domain |
 
+### Singapore receipts, photographed by me
+
+Twenty-four of my own receipts from 2025 and 2026: bakeries, cafés, Korean and Japanese restaurants, a pharmacy, a stationery shop, clothing, cinema tickets, a salad bar whose receipts list every topping, and four clinic invoices. SGD with cents, 9% GST sometimes included and sometimes added, 10% service charges, multi-buy discounts, PLU codes above item names, a 5-cent rounding line, one receipt paid partly by voucher. Card digits, loyalty numbers and names were covered with solid black before anything left my phone. Twenty are in `data/external/singapore/`; the four clinic invoices are health information and stay on my machine, so the numbers below include them but the repo does not. Labels were written by hand from the images (`labels.json`).
+
+| 24 receipts, 68 items | Haiku 5.5 | Opus 5.5 |
+|---|---|---|
+| currency identified | 100% | 100% |
+| total correct | 96% (23/24) | 88% (21/24) |
+| item recall | 0.99 | 0.99 |
+| item precision | 0.66 | 0.92 |
+| item F1 | 0.79 | 0.95 |
+| receipts where the arithmetic check fired | 6 | 5 |
+| cost for the set | $0.019 | $0.523 |
+
+Two different weaknesses. Haiku lists every zero-price topping on the salad-bar receipts ("1.00 X Guacamole", no price) as an item, which drags its precision to 0.66 while it still reads 23 of 24 totals. Opus leaves the toppings out, but on the three pharmacy receipts, which print SUBTOTAL and a card line and no word TOTAL, it declines to name a total at all. Both read the currency, the GST and the service charge correctly every time. The arithmetic check fired on six receipts, all for the same reason: a percentage discount applied per line on clinic invoices (qty × unit cost ≠ the discounted line), which the extraction schema has no field for yet. Nothing was changed after seeing these results.
+
 ### Regression gate
 
 `eval/compare.py` lines up two runs claim by claim, lists every decision that changed (FIXED / BROKE / moved), prints the headline metrics side by side and exits non-zero if recall or decision accuracy fell or false alarms rose. The run-1 vs run-2 table above comes from it. The two models read receipts equally well; Haiku costs 30× less. The human-scoring sheet for 10 drafts is in `results/human_scoring_sheet_test.md`; agreement with the judge is reported once it is filled in.
@@ -224,11 +240,11 @@ The five worst real failures, with image ids and causes, are in [results/error_a
 4. **A missed tax line turned into a false alarm**: the human-review route caught it, at the cost of a reviewer's look.
 5. **A wrong quantity caught only as "claim exceeds receipt"**: right decision, incomplete explanation, because the item's quantity or name did not match.
 
-Reading the 10 flagged clean claims by hand, at least 3 are correct by the policy as written and were missed by the synthetic labels (a women's blouse under C6, a dinner above the per-person cap, `Teh Es` above the `es teh` row). The 24% false-alarm figure is therefore an upper bound; the genuinely wrong flags are closer to 4 or 5 of 41.
+Reading the 10 flagged clean claims by hand, at least 3 are correct by the policy as written and were missed by my test labels (a women's blouse under C6, a dinner above the per-person cap, `Teh Es` above the `es teh` row). The 24% false-alarm figure is therefore an upper bound; the genuinely wrong flags are closer to 4 or 5 of 41.
 
 ## Limitations
 
-- **The claims, price list, policy and planted errors are synthetic.** Built by me, on top of real CORD images, and labelled as such throughout. The planted error types are the ones I thought of.
+- **The claims, price list, policy and planted errors were written by me.** Real receipts, test claims I built on top of them, labelled as such throughout. The planted error types are the ones I thought of.
 - **Indonesian receipts only.** CORD has no store name or date fields, so the deadline clause (C11) is not checked and duplicates cannot be detected.
 - **Ground truth is imperfect.** Some CORD labels disagree with what the receipt prints (word order, zero-priced lines, "Sub Total" as total), so part of the measured extraction error is label noise.
 - **One bug was fixed during the test run.** The claim-lines check mis-flagged clean claims whose items were listed before tax; found on the first 17 test claims, fixed, run restarted. The partial first run is kept in `results/checks_test_run1_partial.log`.
@@ -242,7 +258,7 @@ Done since the first test run: the name-similarity guard, space-insensitive matc
 2. Pause-and-resume for human review using LangGraph checkpoints, with a small reviewer CLI, instead of stopping at needs_review.
 3. Route receipts Haiku marks "partly unclear" to Opus and measure the trade-off.
 4. Move the two-approver threshold (C7) into a deterministic check; the rule check raised it on only 1 of 3 claims.
-5. Singapore receipts photographed by me, with an SGD policy and price list, to test a second country's format.
+5. A per-line discount field in the extraction schema, so percentage discounts on invoices stop tripping the arithmetic check; and a rule for receipts that print only a subtotal and a payment line.
 
 ## Use from Claude Desktop (MCP)
 
@@ -270,4 +286,4 @@ Then ask Claude something like *"Check /Users/you/receipt.jpg against a claim of
 
 Receipt images and ground truth: **CORD v2** (`naver-clova-ix/cord-v2`, [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)). Park, S. et al. "CORD: A Consolidated Receipt Dataset for Post-OCR Parsing", Document Intelligence Workshop at NeurIPS 2019. The five demo sample images in `app/samples/` are from the same dataset.
 
-The claim records, price list, policy document and planted errors are **synthetic test fixtures** created for this project on top of the real CORD images, and are labelled as synthetic wherever they appear. Everything else in this repository is by Germaine Koh. Built with Claude Code.
+The claim records, price list, policy document and planted errors were **written by me for testing**, on top of the real CORD images; the files say so in their headers. Everything else in this repository is by Germaine Koh. Built with Claude Code.
