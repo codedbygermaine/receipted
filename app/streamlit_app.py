@@ -149,7 +149,7 @@ with tab_check:
                 st.dataframe([{"qty": i["qty"], "item": i["name"], "unit price": i["unit_price"],
                                "line total": i["line_total"], "confidence": i.get("confidence", ""),
                                "as printed": i["raw_line"]} for i in receipt["items"]],
-                             use_container_width=True, hide_index=True)
+                             width="stretch", hide_index=True)
                 st.caption(f"subtotal {receipt['subtotal']} · tax {receipt['tax']} · service {receipt['service']} · "
                            f"discount {receipt['discount']} · **total {receipt['total']}** "
                            f"(confidence {receipt.get('total_confidence', '?')}) · readability: {receipt['readability']}")
@@ -184,7 +184,7 @@ with tab_check:
                 st.dataframe([{"node": e["node"], "seconds": e["seconds"], "tokens in": e.get("input_tokens"),
                                "tokens out": e.get("output_tokens"), "cost $": e.get("cost_usd"),
                                "cached": e.get("cached"), "summary": e["summary"]} for e in state["trace"]],
-                             use_container_width=True, hide_index=True)
+                             width="stretch", hide_index=True)
         else:
             st.info("Pick a sample or upload a receipt, fill in the claim, and press **Check this claim**.")
 
@@ -208,7 +208,7 @@ with tab_review:
                 if rc.get("items"):
                     st.dataframe([{"qty": i["qty"], "item": i["name"], "line total": i["line_total"],
                                    "confidence": i.get("confidence", "")} for i in rc["items"]],
-                                 use_container_width=True, hide_index=True, height=min(300, 40 + 35 * len(rc["items"])))
+                                 width="stretch", hide_index=True, height=min(300, 40 + 35 * len(rc["items"])))
                     st.caption(f"total {rc.get('total')} (confidence {rc.get('total_confidence', '?')})")
                 for i in pz["issues_full"]:
                     ev = {k: v for k, v in (i.get("evidence") or {}).items() if k != "clause_text"}
@@ -235,7 +235,7 @@ with tab_audit:
                        "currency": e["currency"], "decision": e["decision"], "human": e["reviewed_by_human"],
                        "issues": len(e["issues"]), "dropped": e["dropped_by_verifier"],
                        "model": (e.get("versions") or {}).get("model"), "cost $": e["cost_usd"]} for e in entries],
-                     use_container_width=True, hide_index=True)
+                     width="stretch", hide_index=True)
         st.caption("Each row is one line in data/audit_log.jsonl with the full issues, evidence, prompt versions and cost. "
                    "Reviewer decisions are also written to data/review_corrections.json as labelled cases for later evaluation.")
 
