@@ -1,0 +1,33 @@
+{
+ "split": "validation",
+ "haiku": {
+  "planted caught": "50/50",
+  "decision accuracy": 0.9,
+  "false alarms (clean flagged)": "8/43",
+  "held for readability only": 1,
+  "rule issues raised / dropped": "53 / 3",
+  "natural: above_500k / packaging / price_list": "1/2 / 1/2 / 2/2",
+  "mean cost per claim": "$0.0014",
+  "total cost": "$0.13",
+  "mean seconds per claim": 6.14,
+  "readability": {
+   "clear": 90,
+   "partly unclear": 10
+  }
+ },
+ "opus": {
+  "planted caught": "50/50",
+  "decision accuracy": 0.88,
+  "false alarms (clean flagged)": "9/43",
+  "held for readability only": 2,
+  "rule issues raised / dropped": "63 / 2",
+  "natural: above_500k / packaging / price_list": "1/2 / 1/2 / 2/2",
+  "mean cost per claim": "$0.0437",
+  "total cost": "$4.37",
+  "mean seconds per claim": 14.29,
+  "readability": {
+   "clear": 92,
+   "partly unclear": 8
+  }
+ }
+}

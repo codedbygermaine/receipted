@@ -194,3 +194,12 @@
 **What the set taught.** Three things the Indonesian data could never show: (1) the model leaves quantity empty when a receipt does not print one, which is what the prompt asks, so an evaluation must treat "not printed" as 1 only when the label says 1; (2) the arithmetic tolerance of one whole unit, right for rupiah, would have ignored a 99-cent error on a dollar receipt, so tolerance now follows the currency; (3) a fuel receipt labels its only amount "Amount", and both models declined to call it the total, an honest abstention that still counts as a miss.
 
 **Interview question.** *Your training data was all one country. Does it generalise?* On ten receipts from three other countries, item extraction was as good as on the Indonesian test split and the currency was always right. The misses were a blurry digit and an unusual label for the total, not the format. What did not generalise was my own code: a tolerance constant that assumed whole-unit prices.
+
+
+## Phase 12: Opus on the whole pipeline
+
+**What we measured.** The same 100 validation claims through the full agent with Opus 5.5 at every LLM step. Result: 50/50 planted errors caught (same as Haiku), decision accuracy 88% vs 90%, false alarms 9 vs 8, $0.044 vs $0.0014 per claim, 14 s vs 6 s.
+
+**Why the big model doesn't help here.** The pipeline was designed so that the model's jobs are narrow: read the image, decide whether a retrieved clause applies to a line, write a short note from given facts. Haiku does those about as well as Opus. The hard parts, arithmetic, evidence checking, the decision rule, are code, and code does not get better with a bigger model. Opus's extra capability shows up as stricter policy reading (more C12 headcount flags), which on synthetic claims with random headcounts looks like false alarms.
+
+**Interview answer, final form: small or large model?** Small. I measured both on reading (equal), and both on the whole task (equal on catching errors, Haiku slightly better on decisions, 30x cheaper, 2x faster). The right place for a larger model is a fallback for receipts the small one marks unclear, which is a routing rule and cheap to add. A system designed to make the LLM's job small is a system where the small model wins.

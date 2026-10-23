@@ -166,6 +166,21 @@ Since the test run, extraction (prompt v3) returns a confidence of high / medium
 
 Honest reading: the per-line rule saved one review here; most of the gain came from the prompt telling the model that blur on a logo or footer does not lower the confidence of a legible price line. The test split (prompt v2) had 25 receipts marked partly unclear and 6 clean claims held for that reason, so the saving there would be larger, but it has not been measured on test and is not claimed.
 
+### Which model to deploy: the full pipeline, not just extraction
+
+Extraction alone showed the two models level. To see whether a larger model helps the *checks* and *drafts*, the 100 validation claims were run through the whole agent with Opus 5.5 doing the extraction, rule check and draft (`results/model_comparison_full_pipeline_validation.json`). Validation, not test, so the test numbers stay a two-run story.
+
+| 100 validation claims | Haiku 5.5 | Opus 5.5 |
+|---|---|---|
+| planted errors caught | 50/50 | 50/50 |
+| decision accuracy | 90% | 88% |
+| clean claims flagged | 8/43 | 9/43 |
+| rule-check issues raised / dropped | 53 / 3 | 63 / 2 |
+| mean cost per claim | $0.0014 | $0.0437 |
+| mean seconds per claim | 6.14 | 14.29 |
+
+Opus raises more policy issues (it is stricter about meal headcounts under C12) and is a little better at reading blurry digits, but it catches no more planted errors, makes one more false alarm, and costs 30 times as much per claim at twice the latency. The decision is Haiku, with the money saved spent on a human reviewer for the handful of claims that are held.
+
 ### Unseen formats: receipts from four other countries
 
 The system was built and tuned on Indonesian receipts. To see how it handles formats it has never seen, I took 10 receipt photos from Wikimedia Commons under reusable licences (UK, Australia, USA; pounds and dollars with cents; VAT and sales tax; one handwritten; one fuel receipt priced per gallon; one with 20 items at $0.9999), wrote the labels by hand from the images, and ran both models (`eval/eval_external.py`, `data/external/commons/`).
