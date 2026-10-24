@@ -22,7 +22,7 @@ export default function Inbox() {
       setSel(want && d.pending.some(p => p.job_id === want) ? want : d.pending[0]?.job_id ?? null)
     } catch (e) { console.error(e); setError(true) }
   }
-  useEffect(() => { load() }, [])   // eslint-disable-line react-hooks/exhaustive-deps
+  useEffect(() => { load(); const onFocus = () => load(); window.addEventListener("focus", onFocus); return () => window.removeEventListener("focus", onFocus) }, [])   // eslint-disable-line react-hooks/exhaustive-deps
 
   const pending = data?.pending ?? []
   const current = pending.find(p => p.job_id === sel) ?? null
@@ -40,7 +40,6 @@ export default function Inbox() {
     <div>
       <div className={`${mobileOpen ? "hidden lg:flex" : "flex"} items-baseline justify-between`}>
         <h1 className="text-2xl font-semibold tracking-tight sm:text-3xl">Inbox{data ? ` (${pending.length})` : ""}</h1>
-        <button type="button" onClick={() => load()} className="-my-1 py-1 text-sm text-foreground/60 hover:text-foreground">Refresh</button>
       </div>
       {error && <p className="mt-4 text-sm text-foreground/70">The inbox couldn't load. Try Refresh in a moment.</p>}
 

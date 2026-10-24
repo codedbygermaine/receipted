@@ -21,15 +21,17 @@ export default function Claim() {
   const [busy, setBusy] = useState(false)
   const [elapsed, setElapsed] = useState(0)
   const [dragging, setDragging] = useState(false)
+  const [hovered, setHovered] = useState<Sample | null>(null)
   const fileInput = useRef<HTMLInputElement>(null)
   const amountInput = useRef<HTMLInputElement>(null)
+  const whoInput = useRef<HTMLInputElement>(null)
   const lightbox = useRef<HTMLDialogElement>(null)
 
   useEffect(() => { warmUp() }, [])   // the server loads its model while the visitor fills in the form
 
   function pickSample(s: Sample) {
-    setSample(s); setFile(null); setPreview(sampleImage(s))
-    setPurpose(s.claim.purpose); setAmount(String(s.claim.amount))
+    setSample(s); setFile(null); setPreview(sampleImage(s)); setHovered(null)
+    setPurpose(s.claim.purpose); setAmount(s.currency === "IDR" ? String(s.claim.amount) : s.claim.amount.toFixed(2))
   }
   function pickFile(f: File) {
     if (!/^image\/(jpeg|png)$/.test(f.type)) { toast("JPG or PNG only."); return }
@@ -41,8 +43,9 @@ export default function Claim() {
   async function submit() {
     if (!preview) { toast("Pick a receipt first."); return }
     if (!(Number(amount) > 0)) { amountInput.current?.focus(); return }
+    if (!who.trim()) { whoInput.current?.focus(); return }
     const claim: ClaimInput = {
-      submitter: who.trim() || "A member", purpose: purpose.trim(), amount: Number(amount),
+      submitter: who.trim(), purpose: purpose.trim(), amount: Number(amount),
       items: sample ? sample.claim.items : [],   // the sample claims carry their items so the quantity checks have something to check
     }
     setBusy(true); setElapsed(0)
@@ -68,13 +71,13 @@ export default function Claim() {
       <h1 className="text-2xl font-semibold tracking-tight sm:text-3xl">Claim an expense</h1>
 
       <h2 className="mb-3 mt-8 text-base font-semibold">Your receipt</h2>
-      <div className="grid grid-cols-3 gap-3 sm:grid-cols-6">
+      <div className="relative grid grid-cols-3 gap-3 sm:grid-cols-6" onMouseLeave={() => setHovered(null)}>
+        {/* the full receipt, readable, while the pointer rests on a card; centred over the grid so it never runs off the page */}
+        {hovered && <img src={sampleImage(hovered)} alt="" className="pointer-events-none absolute left-1/2 top-0 z-30 w-[280px] max-w-[90%] -translate-x-1/2 rounded-lg border bg-white shadow-2xl" />}
         {SAMPLES.map(s => (
-          <button key={s.id} type="button" onClick={() => pickSample(s)} aria-pressed={sample?.id === s.id}
-            className={`group relative overflow-visible rounded-lg border bg-card text-left transition-colors hover:border-foreground/30 ${sample?.id === s.id ? "border-foreground bg-muted/40" : ""}`}>
-            <img src={sampleThumb(s)} alt="" className="aspect-[4/5] w-full rounded-t-lg object-cover object-top" />
-            {/* the full receipt, readable, while the pointer rests on the card */}
-            <img src={sampleImage(s)} alt="" className="pointer-events-none absolute left-1/2 top-0 z-30 hidden w-[280px] max-w-[80vw] -translate-x-1/2 rounded-lg border bg-white shadow-2xl group-hover:block" />
+          <button key={s.id} type="button" onClick={() => pickSample(s)} onMouseEnter={() => setHovered(s)} onFocus={() => setHovered(s)} onBlur={() => setHovered(null)} aria-pressed={sample?.id === s.id}
+            className={`rounded-lg border bg-card text-left transition-colors hover:border-foreground/30 ${sample?.id === s.id ? "border-foreground bg-muted/40" : ""}`}>
+            <img src={sampleThumb(s)} alt="" title={s.credit} className="aspect-[4/5] w-full rounded-t-lg object-cover object-top" />
             <div className="p-2 leading-tight">
               <div className="text-xs font-medium">{s.title}</div>
               <div className="mt-0.5 text-xs text-foreground/60">{s.where}</div>
@@ -99,7 +102,8 @@ export default function Claim() {
       <Lightbox ref={lightbox} src={preview} />
       {file && <p className="mt-2 rounded-md bg-amber-50 px-3 py-2 text-sm text-amber-900">This is a public demo. Your photo will be visible in the treasurer inbox for seven days, so cover card numbers and names first.</p>}
 
-      <h2 className="mb-3 mt-8 text-base font-semibold">What you're claiming</h2>
+      <h2 className="mb-1 mt-8 text-base font-semibold">What you're claiming</h2>
+      <p className="mb-3 text-sm text-foreground/60">{sample ? "A sample claim is filled in. Change anything." : "\u00a0"}</p>
       <div className="grid gap-5 sm:grid-cols-2">
         <div className="grid gap-2">
           <Label htmlFor="purpose">What was it for?</Label>
@@ -114,7 +118,7 @@ export default function Claim() {
         </div>
         <div className="grid gap-2">
           <Label htmlFor="who">Your name</Label>
-          <Input id="who" value={who} onChange={e => setWho(e.target.value)} placeholder="Optional" />
+          <Input ref={whoInput} id="who" value={who} onChange={e => setWho(e.target.value)} />
         </div>
       </div>
 
