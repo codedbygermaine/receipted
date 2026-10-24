@@ -67,6 +67,7 @@ async def check(image: UploadFile = File(...), claim: str = Form(...), model: st
     claim_obj.setdefault("items", [])
 
     suffix = Path(image.filename or "receipt.jpg").suffix or ".jpg"
+    llm.DATA_DIR.mkdir(parents=True, exist_ok=True)   # on Lambda nothing exists under /tmp until we create it
     with tempfile.NamedTemporaryFile(delete=False, suffix=suffix, dir=str(llm.DATA_DIR)) as tmp:
         tmp.write(await image.read())
         path = tmp.name

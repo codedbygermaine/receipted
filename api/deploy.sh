@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Build the image, push it to ECR, and create or update the Lambda function with a public URL.
+# Build the image, push it to ECR, create or update the Lambda function, and expose it through API Gateway.
 # Needs: aws CLI signed in (aws sts get-caller-identity works), docker running, and these env vars:
 #   RECEIPTED_API_TOKEN   token callers must send in X-Api-Token
 #   ANTHROPIC_API_KEY     the Claude API key (set in the Lambda's environment; never printed)
@@ -39,10 +39,15 @@ else
     --role "$ROLE_ARN" --architectures "$ARCH" --timeout 120 --memory-size 2048 --region "$REGION" --environment "$ENV" >/dev/null
   aws lambda wait function-active --function-name "$NAME" --region "$REGION"
 fi
-aws lambda get-function-url-config --function-name "$NAME" --region "$REGION" >/dev/null 2>&1 || \
-  aws lambda create-function-url-config --function-name "$NAME" --auth-type NONE --region "$REGION" >/dev/null
-aws lambda add-permission --function-name "$NAME" --region "$REGION" --statement-id public-url --action lambda:InvokeFunctionUrl \
-  --principal '*' --function-url-auth-type NONE >/dev/null 2>&1 || true
-URL=$(aws lambda get-function-url-config --function-name "$NAME" --region "$REGION" --query FunctionUrl --output text)
+# Public endpoint through API Gateway (HTTP API, payload format 2.0). New AWS accounts block public Lambda
+# function URLs, and a gateway is the conventional front door anyway.
+API_ID=$(aws apigatewayv2 get-apis --region "$REGION" --query "Items[?Name=='$NAME'].ApiId | [0]" --output text)
+if [ "$API_ID" = "None" ] || [ -z "$API_ID" ]; then
+  FN_ARN=$(aws lambda get-function --function-name "$NAME" --region "$REGION" --query Configuration.FunctionArn --output text)
+  API_ID=$(aws apigatewayv2 create-api --name "$NAME" --protocol-type HTTP --target "$FN_ARN" --region "$REGION" --query ApiId --output text)
+fi
+aws lambda add-permission --function-name "$NAME" --region "$REGION" --statement-id apigw-invoke --action lambda:InvokeFunction \
+  --principal apigateway.amazonaws.com --source-arn "arn:aws:execute-api:$REGION:$ACCOUNT:$API_ID/*" >/dev/null 2>&1 || true
+URL="https://$API_ID.execute-api.$REGION.amazonaws.com"
 echo "deployed: $URL"
-echo "try: curl ${URL}health"
+echo "try: curl $URL/health"

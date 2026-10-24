@@ -2,7 +2,7 @@
 
 An AI agent that reads receipt and invoice images, checks them against a claim record, a price list and a policy document, flags problems with cited evidence, and drafts a reply to the submitter.
 
-**Live demo:** https://receipted.streamlit.app · **Stack:** Python, Claude API (Haiku 5.5 / Opus 5.5), LangGraph, Chroma, Streamlit, pytest
+**Live demo:** https://receipted.streamlit.app · **API:** AWS Lambda + API Gateway (Singapore) · **Stack:** Python, Claude API (Haiku 5.5 / Opus 5.5), LangGraph, Chroma, FastAPI, Streamlit, Docker, pytest, GitHub Actions
 
 **At a glance** (test split, 100 real receipts, 100 test claims I wrote with known planted errors; every number from `results/`):
 
@@ -307,7 +307,7 @@ Then ask Claude something like *"Check /Users/you/receipt.jpg against a claim of
 
 ## HTTP API on AWS Lambda
 
-The same checker as a web endpoint, for anything that can send an HTTP request (a club's web form, a spreadsheet macro, another service). `api/app.py` is a FastAPI app; on AWS it runs as a Lambda container image with a public function URL, pay-per-request. Every call needs the token in `X-Api-Token`, and a daily cap stops a public URL from running up the bill.
+The same checker as a web endpoint, for anything that can send an HTTP request (a club's web form, a spreadsheet macro, another service). `api/app.py` is a FastAPI app; on AWS it runs as a Lambda container image behind API Gateway in the Singapore region, pay-per-request. Live at `https://72dxv5aw0m.execute-api.ap-southeast-1.amazonaws.com` (health check is open; checks need the token). Every call needs the token in `X-Api-Token`, and a daily cap stops a public URL from running up the bill.
 
 ```bash
 curl -s -X POST "$URL/check" -H "X-Api-Token: $TOKEN" \
@@ -321,7 +321,7 @@ The reply is JSON: decision, reason, currency, receipt total, extracted items wi
 RECEIPTED_API_TOKEN=choose-a-token ANTHROPIC_API_KEY=sk-ant-... ./api/deploy.sh
 ```
 
-It builds the image (policy index and embedding model baked in, so cold starts download nothing), pushes it to ECR, creates or updates the Lambda in the Singapore region, and prints the URL. Run locally with `RECEIPTED_API_TOKEN=dev uvicorn api.app:app`.
+It builds the image (policy index and embedding model baked in, so cold starts download nothing), pushes it to ECR, creates or updates the Lambda and its API Gateway in the Singapore region, and prints the URL. Run locally with `RECEIPTED_API_TOKEN=dev uvicorn api.app:app`.
 
 ## Attribution and licence
 
