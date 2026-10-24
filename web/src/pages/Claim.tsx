@@ -100,7 +100,7 @@ export default function Claim() {
         </div>
       </label>
       <Lightbox ref={lightbox} src={preview} />
-      {file && <p className="mt-2 rounded-md bg-amber-50 px-3 py-2 text-sm text-amber-900">This is a public demo. Your photo will be visible in the treasurer inbox for seven days, so cover card numbers and names first.</p>}
+      {file && <p className="mt-2 rounded-md bg-amber-50 px-3 py-2 text-sm text-amber-900">This is a public demo. Your photo will be visible in the approvals inbox for seven days, so cover card numbers and names first.</p>}
 
       <h2 className="mb-1 mt-8 text-base font-semibold">What you're claiming</h2>
       <p className="mb-3 text-sm text-foreground/60">{sample ? "A sample claim is filled in. Change anything." : "\u00a0"}</p>

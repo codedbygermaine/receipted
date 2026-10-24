@@ -4,7 +4,7 @@ Three ways in, all on the same checker.
 
 ## The web demo
 
-The web demo at https://codedbygermaine.github.io/receipted/ is a small React app (`web/`: Vite, Tailwind and shadcn/ui, published by GitHub Pages) that talks to this API. It has two sides: a member picks or uploads a receipt, fills in the claim and gets a verdict where every issue points at a receipt line and a policy clause; a treasurer sees the held claims in an inbox with the receipt and the evidence, and their approve/reject writes the reply. The page carries a separate demo token with its own small daily cap, so anyone can try it and the worst a stranger can do is use up a day of demo budget. API Gateway caps a request at 30 s, so a check runs as a background job: `POST /check` returns 202 and a job id, the page polls `GET /jobs/{id}`, and results live in S3 for seven days.
+The web demo at https://codedbygermaine.github.io/receipted/ is a small React app (`web/`: Vite, Tailwind and shadcn/ui, published by GitHub Pages) that talks to this API. It has two sides: a claimant picks or uploads a receipt, fills in the claim and gets a verdict where every issue points at a receipt line and a policy clause; an approver sees the held claims in an inbox with the receipt and the evidence, and their approve/reject writes the reply. The page carries a separate demo token with its own small daily cap, so anyone can try it and the worst a stranger can do is use up a day of demo budget. API Gateway caps a request at 30 s, so a check runs as a background job: `POST /check` returns 202 and a job id, the page polls `GET /jobs/{id}`, and results live in S3 for seven days.
 
 ## HTTP API on AWS Lambda
 

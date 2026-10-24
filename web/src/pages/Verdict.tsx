@@ -52,7 +52,7 @@ export default function Verdict() {
           <Button variant="ghost" size="sm" className="absolute right-2 top-2" onClick={() => { navigator.clipboard.writeText(r.draft); toast("Copied") }}>Copy</Button>
         </div>
       </details>
-      {held && <p className="mt-6 text-sm"><Link to="/inbox" className="text-foreground/70 underline underline-offset-2 hover:text-foreground">Open the treasurer inbox</Link></p>}
+      {held && <p className="mt-6 text-sm"><Link to="/inbox" className="text-foreground/70 underline underline-offset-2 hover:text-foreground">Open the approvals inbox</Link></p>}
     </div>
   )
 }

@@ -219,7 +219,7 @@ def job_status(job_id: str, x_api_token: str = Header(default="")):
 
 @app.get("/jobs/{job_id}/image")
 def job_image(job_id: str, x_api_token: str = Header(default="")):
-    """The receipt image for a job, base64, so the treasurer inbox can show it."""
+    """The receipt image for a job, base64, so the approvals inbox can show it."""
     _auth(x_api_token)
     if not ASYNC:
         raise HTTPException(status_code=404, detail="images are stored only in async mode")
@@ -234,12 +234,12 @@ def job_image(job_id: str, x_api_token: str = Header(default="")):
 class Decision(BaseModel):
     decision: str   # approve | reject
     note: str = ""
-    reviewer: str = "treasurer"
+    reviewer: str = "Finance"
 
 
 @app.get("/inbox")
 def inbox(x_api_token: str = Header(default="")):
-    """Claims waiting for a treasurer: job results whose decision is needs_review and that nobody has decided."""
+    """Claims waiting for an approver: job results whose decision is needs_review and that nobody has decided."""
     _auth(x_api_token)
     if not ASYNC:
         return {"pending": [], "decided": []}
@@ -268,7 +268,7 @@ def inbox(x_api_token: str = Header(default="")):
 
 @app.post("/jobs/{job_id}/decide")
 def decide_job(job_id: str, body: Decision, x_api_token: str = Header(default="")):
-    """A treasurer decides a held claim. The reply to the member is rewritten from the human decision."""
+    """An approver decides a held claim. The reply to the claimant is rewritten from the human decision."""
     _auth(x_api_token)
     if body.decision not in ("approve", "reject"):
         raise HTTPException(status_code=400, detail="decision must be approve or reject")

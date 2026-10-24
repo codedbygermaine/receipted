@@ -5,7 +5,7 @@
 > Singapore dollars (SGD). It is not a real organisation's policy.
 
 ### C1. Purpose of expense
-Expenses are reimbursable only when incurred for an approved club activity or business purpose. The claim must state the purpose. Claims with no stated purpose are held for review.
+Expenses are reimbursable only when incurred for an approved business or team activity. The claim must state the purpose. Claims with no stated purpose are held for review.
 
 ### C2. Original itemised receipt required
 Every claim must be supported by an original receipt that lists each item purchased with its price. A receipt that shows only a grand total, or a card slip on its own, is not sufficient and the claim is held for review until an itemised receipt is provided.
@@ -20,7 +20,7 @@ The amount claimed must equal the total printed on the receipt. A claim for more
 For items that appear on the agreed price list, the unit price paid must not exceed the agreed maximum unit price for that item. Any amount above the agreed maximum is not reimbursed and the claim is held for review.
 
 ### C6. Personal and non-business items
-Personal items are not reimbursable: toiletries, skincare and cosmetics, clothing, phone top-ups, gift cards, games, lottery, medicines and medical or dental treatment for personal use, and gifts for individuals. Such items are rejected. Items that may serve the activity (first-aid supplies, medicines for an event kit, cleaning products) are held for review until the club purpose is confirmed.
+Personal items are not reimbursable: toiletries, skincare and cosmetics, clothing, phone top-ups, gift cards, games, lottery, medicines and medical or dental treatment for personal use, and gifts for individuals. Such items are rejected. Items that may serve the activity (first-aid supplies, medicines for an event kit, cleaning products) are held for review until the business purpose is confirmed.
 
 ### C7. Two approvers above SGD 500
 Any single claim above SGD 500 requires sign-off from two approvers before payment. The checker must mark such claims for review rather than approving them automatically.

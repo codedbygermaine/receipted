@@ -49,7 +49,7 @@ def line_sum(receipt: dict):
 
 
 # Obvious personal-use items (policy C6). A plain word list: transparent, testable, and it holds the claim for a
-# person to confirm rather than rejecting, because an event's first-aid kit is a legitimate club purchase.
+# person to confirm rather than rejecting, because an event's first-aid kit is a legitimate business purchase.
 PERSONAL_ITEM_WORDS = (
     "tablet", "tablets", "capsule", "capsules", "caps", "syrup", "paracetamol", "panadol", "ibuprofen", "imodium", "actal",
     "antacid", "lozenge", "plaster", "plasters", "bandage", "ointment", "cream", "lotion", "serum", "shampoo", "conditioner",
@@ -67,7 +67,7 @@ def check_personal_items(receipt: dict) -> list[dict]:
         hits = [w for w in PERSONAL_ITEM_WORDS if w in name]
         if hits and (it.get("line_total") or 0) > 0:
             issues.append({**issue("possible_personal_item", "medium",
-                                   f"'{it['name']}' looks like a personal-use item ({hits[0]}); policy C6 excludes these unless the club purpose is confirmed",
+                                   f"'{it['name']}' looks like a personal-use item ({hits[0]}); policy C6 excludes these unless the business purpose is confirmed",
                                    {"matched_word": hits[0], "line_total": it.get("line_total")},
                                    receipt_line=it.get("raw_line")),
                            "clause_id": "C6"})

@@ -3,18 +3,18 @@
 const STEPS = [
   ["Reads the receipt", "The photo becomes a list of items and prices."],
   ["Does the maths", "Do the items add up to the total? Does the claim match the receipt?"],
-  ["Looks up the rules", "The club's policy and its agreed prices."],
+  ["Looks up the rules", "Your expense policy and agreed supplier prices."],
   ["Checks each line", "Is anything on the receipt against a rule? Every flag has to name the line and the rule."],
   ["Double-checks", "A flag that doesn't match the receipt is thrown away."],
-  ["Decides", "Approve, hold for the treasurer, or reject."],
-  ["Writes the reply", "A short message to the member saying what happens next."],
+  ["Decides", "Approve, hold for an approver, or reject."],
+  ["Writes the reply", "A short message to the claimant saying what happens next."],
 ]
 const RULES = [
   "The claim must say what the money was for.",
   "The amount claimed can't be more than the receipt total.",
   "No alcohol or tobacco.",
-  "No personal items. Medicines and first-aid supplies are held until the club purpose is confirmed.",
-  "Meals over $40 a person are held for the treasurer.",
+  "No personal items. Medicines and first-aid supplies are held until the business purpose is confirmed.",
+  "Meals over $40 a person are held for an approver.",
   "Claims over $500 need two approvers.",
   "A receipt can't be claimed twice.",
 ]
@@ -24,7 +24,7 @@ export default function About() {
   return (
     <div className="mx-auto max-w-2xl">
       <h1 className="text-2xl font-semibold tracking-tight sm:text-3xl">How it works</h1>
-      <p className="mt-3 text-lg text-foreground/70">In a club, members pay for things and claim the money back. The treasurer checks every claim by hand. Receipted does the checking: you give it the receipt photo and the claim, and it tells you whether the claim can be paid and why.</p>
+      <p className="mt-3 text-lg text-foreground/70">Someone pays for something for work and claims the money back. Before it is paid, a person in finance checks the claim by hand. Receipted does the checking: you give it the receipt photo and the claim, and it tells you whether the claim can be paid and why.</p>
 
       <h2 className="mt-10 text-base font-semibold">What happens when you press Check</h2>
       <ol className="mt-4 grid gap-3">
@@ -33,7 +33,7 @@ export default function About() {
         ))}
       </ol>
 
-      <h2 className="mt-10 text-base font-semibold">The club's rules it checks against</h2>
+      <h2 className="mt-10 text-base font-semibold">The expense policy it checks against</h2>
       <ul className="mt-3 grid gap-1.5 text-sm text-foreground/80">{RULES.map(r => <li key={r}>{r}</li>)}</ul>
 
       <h2 className="mt-10 text-base font-semibold">How well it does</h2>

@@ -5,7 +5,7 @@ import { clauseText, groupIssues, issueTitle, money, tidyMessage } from "@/lib/f
 const norm = (s: string | null | undefined) => (s || "").replace(/\s+/g, " ").trim().toLowerCase()
 
 /** The receipt photo beside only what matters: the flagged lines, each with the sentence that explains it.
-    Everything else on the receipt folds away. Shared by the member's verdict and the treasurer's inbox. */
+    Everything else on the receipt folds away. Shared by the claimant's verdict and the approvals inbox. */
 export function ClaimReview({ r, image, muted = false }: { r: Result; image: string | null; muted?: boolean }) {
   const groups = groupIssues(r.verified_issues)
   const flaggedItems = new Set<number>()

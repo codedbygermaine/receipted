@@ -1,4 +1,4 @@
-/* Turns the API's internal vocabulary into words a member or treasurer would use. */
+/* Turns the API's internal vocabulary into words a claimant or approver would use. */
 import type { Decision, Issue } from "./api"
 
 export function money(v: number | null | undefined, cur: string | null | undefined) {
@@ -10,7 +10,7 @@ export function money(v: number | null | undefined, cur: string | null | undefin
 
 export const DECISION: Record<Decision, { label: string; tone: "ok" | "hold" | "no" }> = {
   approve: { label: "Approved", tone: "ok" },
-  needs_review: { label: "A treasurer needs to look", tone: "hold" },
+  needs_review: { label: "Needs an approver's decision", tone: "hold" },
   reject: { label: "Can't be paid as filed", tone: "no" },
 }
 

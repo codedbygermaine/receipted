@@ -8,7 +8,7 @@ import { decide, getInbox, getJobImage, type Result } from "@/lib/api"
 import { ago, claimTime, groupIssues, issueTitle, money } from "@/lib/format"
 import { ClaimReview } from "@/components/ClaimReview"
 
-/* The treasurer's queue. One list, one claim at a time, the decision last. */
+/* The approver's queue. One list, one claim at a time, the decision last. */
 export default function Inbox() {
   const [data, setData] = useState<{ pending: Result[]; decided: Result[] } | null>(null)
   const [error, setError] = useState(false)
@@ -27,7 +27,7 @@ export default function Inbox() {
   const pending = data?.pending ?? []
   const current = pending.find(p => p.job_id === sel) ?? null
 
-  /** After a decision the row leaves the queue and the next claim opens, so the treasurer never hunts. */
+  /** After a decision the row leaves the queue and the next claim opens, so the approver never hunts. */
   function settled(jobId: string, res: Result) {
     const i = pending.findIndex(p => p.job_id === jobId)
     const next = pending[i + 1] ?? pending[i - 1] ?? null
@@ -39,7 +39,7 @@ export default function Inbox() {
   return (
     <div>
       <div className={`${mobileOpen ? "hidden lg:flex" : "flex"} items-baseline justify-between`}>
-        <h1 className="text-2xl font-semibold tracking-tight sm:text-3xl">Inbox{data ? ` (${pending.length})` : ""}</h1>
+        <h1 className="text-2xl font-semibold tracking-tight sm:text-3xl">Approvals{data ? ` (${pending.length})` : ""}</h1>
       </div>
       {error && <p className="mt-4 text-sm text-foreground/70">The inbox couldn't load. Try Refresh in a moment.</p>}
 
@@ -93,7 +93,7 @@ function Claim({ r, onBack, onSettled }: { r: Result; onBack: () => void; onSett
   const nav = useNavigate()
   const [img, setImg] = useState<string | null>(null)
   const [note, setNote] = useState("")
-  const [who, setWho] = useState("Treasurer")
+  const [who, setWho] = useState("Finance")
   const [editWho, setEditWho] = useState(false)
   const [busy, setBusy] = useState<"approve" | "reject" | null>(null)
   const [confirmReject, setConfirmReject] = useState(false)
@@ -102,7 +102,7 @@ function Claim({ r, onBack, onSettled }: { r: Result; onBack: () => void; onSett
   async function go(decision: "approve" | "reject") {
     setBusy(decision)
     try {
-      const res = await decide(r.job_id!, decision, note.trim(), who.trim() || "Treasurer")
+      const res = await decide(r.job_id!, decision, note.trim(), who.trim() || "Finance")
       toast(decision === "approve" ? `Approved. ${r.submitter} gets the reply.` : `Rejected. ${r.submitter} gets the reply.`, { action: { label: "Read it", onClick: () => nav(`/claim/${r.job_id}`) } })
       onSettled(r.job_id!, res)
     } catch (e) { console.error(e); toast.error("That didn't save. Try again in a moment."); setBusy(null) }
@@ -110,7 +110,7 @@ function Claim({ r, onBack, onSettled }: { r: Result; onBack: () => void; onSett
 
   return (
     <article>
-      <button type="button" onClick={onBack} className="-ml-1 mb-3 inline-flex items-center gap-1 text-sm text-foreground/60 hover:text-foreground lg:hidden"><ArrowLeft className="size-4" /> Inbox</button>
+      <button type="button" onClick={onBack} className="-ml-1 mb-3 inline-flex items-center gap-1 text-sm text-foreground/60 hover:text-foreground lg:hidden"><ArrowLeft className="size-4" /> Approvals</button>
       <h2 className="text-lg font-semibold">{r.submitter} claims {money(r.claimed_amount, r.currency)}</h2>
       <p className="mt-0.5 text-sm text-foreground/60">{r.purpose ? `${r.purpose}, ` : "No purpose given, "}{ago(claimTime(r.claim_id))}</p>
 

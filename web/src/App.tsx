@@ -7,7 +7,7 @@ import Verdict from "@/pages/Verdict"
 import Inbox from "@/pages/Inbox"
 import About from "@/pages/About"
 
-const TITLES: Record<string, string> = { "/": "Receipted", "/claim": "Claim an expense", "/inbox": "Inbox", "/about": "How it works" }
+const TITLES: Record<string, string> = { "/": "Receipted", "/claim": "Submit a claim", "/inbox": "Approvals", "/about": "How it works" }
 
 /** On each route change: scroll to top, set the document title, move focus to the page so screen readers announce it. */
 function RouteEffects({ main }: { main: React.RefObject<HTMLElement | null> }) {
@@ -36,8 +36,8 @@ export default function App() {
             <span>Receipted</span>
           </Link>
           <nav className="ml-auto flex items-center gap-0.5 text-sm">
-            <NavLink to="/claim" className={navClass}><span className="sm:hidden">Members</span><span className="hidden sm:inline">For members</span></NavLink>
-            <NavLink to="/inbox" className={navClass}><span className="sm:hidden">Treasurers</span><span className="hidden sm:inline">For treasurers</span></NavLink>
+            <NavLink to="/claim" className={navClass}><span className="sm:hidden">Claim</span><span className="hidden sm:inline">Submit a claim</span></NavLink>
+            <NavLink to="/inbox" className={navClass}><span className="sm:hidden">Approve</span><span className="hidden sm:inline">Approve claims</span></NavLink>
             <NavLink to="/about" className={navClass}><span className="sm:hidden">About</span><span className="hidden sm:inline">How it works</span></NavLink>
           </nav>
         </div>
