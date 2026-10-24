@@ -1,5 +1,5 @@
 /* Turns the API's internal vocabulary into words a member or treasurer would use. */
-import type { Decision, Issue, Result } from "./api"
+import type { Decision, Issue } from "./api"
 
 export function money(v: number | null | undefined, cur: string | null | undefined) {
   if (v == null) return "—"
@@ -8,19 +8,10 @@ export function money(v: number | null | undefined, cur: string | null | undefin
   return c ? `${c} ${n}` : n
 }
 
-export const DECISION: Record<Decision, { label: string; tone: "ok" | "hold" | "no"; next: string }> = {
-  approve: { label: "Approved", tone: "ok", next: "Nothing more to do. The payment will follow." },
-  needs_review: { label: "A treasurer needs to look", tone: "hold", next: "The items below need a person's decision. If you can confirm the club purpose, mention it when you hear from the treasurer." },
-  reject: { label: "Can't be paid as filed", tone: "no", next: "Read why below. You can file a corrected claim with the right amount or items." },
-}
-
-/** One plain sentence explaining the decision, in place of the system's reason string. */
-export function plainReason(r: Result) {
-  const n = groupIssues(r.verified_issues).length
-  if (r.decision === "approve") return n ? "The small points below didn't change the outcome." : "The receipt matches the claim and nothing breaks the policy."
-  if (r.decision === "reject") return n === 1 ? "One problem rules this claim out." : `${n} problems rule this claim out.`
-  if (!n) return "A line on the receipt couldn't be read confidently, so a person checks it."
-  return n === 1 ? "One item needs a person's judgement." : `${n} items need a person's judgement.`
+export const DECISION: Record<Decision, { label: string; tone: "ok" | "hold" | "no" }> = {
+  approve: { label: "Approved", tone: "ok" },
+  needs_review: { label: "A treasurer needs to look", tone: "hold" },
+  reject: { label: "Can't be paid as filed", tone: "no" },
 }
 
 export const SEVERITY: Record<Issue["severity"], { label: string; tone: "no" | "hold" | "note" }> = {

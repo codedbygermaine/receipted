@@ -5,7 +5,7 @@ import { toast } from "sonner"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { getJob, getJobImage, type Result } from "@/lib/api"
-import { DECISION, groupIssues, money, plainReason, shortRef } from "@/lib/format"
+import { DECISION, groupIssues, money, shortRef } from "@/lib/format"
 import { IssueCard } from "@/components/IssueCard"
 import { ReceiptPanel } from "@/components/ReceiptPanel"
 
@@ -52,8 +52,7 @@ export default function Verdict() {
           <span className="mt-0.5 grid size-9 shrink-0 place-items-center rounded-full bg-white/70"><Icon className="size-5" /></span>
           <div>
             <h1 className="text-2xl font-semibold tracking-tight">{d.label}</h1>
-            <p className="mt-1 text-[15px]">{r.human ? `Decided by ${r.human.reviewer}${r.human.note ? `: ${r.human.note}` : "."}` : plainReason(r)}</p>
-            {!r.human && <p className="mt-2 text-sm opacity-80">{d.next}</p>}
+            {r.human && <p className="mt-1 text-[15px]">Decided by {r.human.reviewer}{r.human.note ? `: ${r.human.note}` : ""}</p>}
           </div>
         </div>
         <div className="mt-4 flex flex-wrap gap-x-6 gap-y-1 text-sm">
@@ -76,22 +75,15 @@ export default function Verdict() {
         <Card><CardContent className="p-4"><ReceiptPanel src={img} items={r.items} total={r.receipt_total} currency={r.currency} readability={r.readability} highlight={point} /></CardContent></Card>
       </section>
 
-      <section className="mt-8">
-        <div className="mb-3 flex items-center justify-between gap-3">
-          <h2 className="text-base font-semibold">{held ? "The message you've been sent" : "Your reply"}</h2>
-          <Button variant="outline" size="sm" onClick={copy}>Copy</Button>
-        </div>
-        <div className="rounded-xl border bg-card p-5 text-[15px] leading-relaxed whitespace-pre-wrap">{r.draft}</div>
-        {held && <p className="mt-3 text-sm text-foreground/70">A treasurer's decision will replace it. Playing the treasurer too? <Link to="/inbox" className="underline underline-offset-2">Open the inbox</Link>, this claim is waiting there.</p>}
-      </section>
-
-      <details className="mt-10 text-xs text-foreground/60">
-        <summary className="cursor-pointer py-1">Under the hood</summary>
-        <div className="mt-2 grid gap-1">
-          <div>Model {r.model} · cost {(r.total_cost_usd * 100).toFixed(2)}¢ · {r.total_seconds.toFixed(1)} s{r.dropped_by_verifier ? ` · ${r.dropped_by_verifier} flag${r.dropped_by_verifier > 1 ? "s were" : " was"} discarded because it couldn't be matched to a receipt line or a rule` : ""}</div>
-          {r.trace && <div>Time per step: {r.trace.filter(t => t.seconds >= 0.1).map(t => `${t.node.replace(/_/g, " ")} ${t.seconds.toFixed(1)} s${t.cached ? " (cached)" : ""}`).join(" · ")}</div>}
+      <details className="mt-8 group">
+        <summary className="cursor-pointer list-none text-sm font-medium text-foreground/70 hover:text-foreground">
+          <span className="group-open:hidden">{held ? "Read the message you've been sent" : "Read the full message"}</span><span className="hidden group-open:inline">Hide the message</span>
+        </summary>
+        <div className="relative mt-3 rounded-xl border bg-card p-5 text-[15px] leading-relaxed whitespace-pre-wrap">{r.draft}
+          <Button variant="outline" size="sm" className="absolute right-3 top-3" onClick={copy}>Copy</Button>
         </div>
       </details>
+      {held && <p className="mt-6 text-sm text-foreground/70">Playing the treasurer too? <Link to="/inbox" className="underline underline-offset-2">Open the inbox</Link>, this claim is waiting there.</p>}
     </div>
   )
 }

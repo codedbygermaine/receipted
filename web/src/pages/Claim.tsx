@@ -71,7 +71,6 @@ export default function Claim() {
   return (
     <div className="mx-auto max-w-3xl">
       <h1 className="text-2xl font-semibold tracking-tight sm:text-3xl">Claim an expense</h1>
-      <p className="mt-1 text-foreground/70">Three steps, about ten seconds. The first check of the day takes a little longer.</p>
 
       <Step n={1} title="Your receipt" />
       <div className="grid grid-cols-3 gap-3 sm:grid-cols-6">
@@ -117,32 +116,31 @@ export default function Claim() {
           <div className="grid gap-2">
             <Label htmlFor="purpose">What was it for?</Label>
             <Input id="purpose" value={purpose} onChange={e => setPurpose(e.target.value)} placeholder="e.g. Team lunch, 3 people" />
-            <p className="text-xs text-foreground/60">For meals, say how many people. The policy has a limit per person.</p>
           </div>
           <div className="grid gap-2">
-            <Label htmlFor="amount">Amount {currency ? `(${currency})` : ""}</Label>
-            <Input id="amount" type="number" inputMode="decimal" step="0.01" min="0" value={amount} onChange={e => setAmount(e.target.value)} placeholder="0.00" />
-            <p className="text-xs text-foreground/60">{currency ? "The sample receipts are in this currency." : "In the receipt's currency."}</p>
+            <Label htmlFor="amount">Amount</Label>
+            <div className="relative">
+              <span className="pointer-events-none absolute inset-y-0 left-3 flex items-center text-sm text-foreground/60">{currency === "IDR" ? "Rp" : "$"}</span>
+              <Input id="amount" type="number" inputMode="decimal" step="0.01" min="0" value={amount} onChange={e => setAmount(e.target.value)} placeholder="0.00" className={currency === "IDR" ? "pl-9" : "pl-7"} />
+            </div>
           </div>
           <div className="grid gap-2">
             <Label htmlFor="who">Your name</Label>
-            <Input id="who" value={who} onChange={e => setWho(e.target.value)} placeholder="So the reply can be addressed to you" />
+            <Input id="who" value={who} onChange={e => setWho(e.target.value)} />
           </div>
           <div className="sm:col-span-2">
             <Collapsible open={itemsOpen} onOpenChange={setItemsOpen}>
               <CollapsibleTrigger className="-mx-1 flex items-center gap-1 rounded px-1 py-1.5 text-sm font-medium text-foreground/70 hover:text-foreground">
                 <ChevronDown className={`size-4 transition-transform ${itemsOpen ? "rotate-180" : ""}`} />
-                {rows.length ? `Items you're claiming (${rows.length})` : "Add the items you're claiming"} <span className="font-normal">· optional</span>
+                {rows.length ? `Items (${rows.length})` : "Add items"} <span className="font-normal">· optional</span>
               </CollapsibleTrigger>
               <CollapsibleContent className="mt-3">
-                <p className="mb-3 text-xs text-foreground/60">Listing items lets the checker confirm each one is on the receipt and the quantities match. Skip it to check the total only.</p>
                 <div className="grid gap-2">
-                  <div className="grid grid-cols-[1fr_64px_96px_32px] gap-2 px-1 text-xs font-medium text-foreground/60"><span>Item</span><span className="text-right">Qty</span><span className="text-right">Total</span><span /></div>
                   {rows.map((r, i) => (
                     <div key={i} className="grid grid-cols-[1fr_64px_96px_32px] items-center gap-2">
                       <Input value={r.name} aria-label="Item" placeholder="Item" onChange={e => setRows(rs => rs.map((x, j) => j === i ? { ...x, name: e.target.value } : x))} />
-                      <Input value={r.qty} aria-label="Quantity" inputMode="numeric" className="text-right" onChange={e => setRows(rs => rs.map((x, j) => j === i ? { ...x, qty: e.target.value } : x))} />
-                      <Input value={r.total} aria-label="Line total" inputMode="decimal" className="text-right" onChange={e => setRows(rs => rs.map((x, j) => j === i ? { ...x, total: e.target.value } : x))} />
+                      <Input value={r.qty} aria-label="Quantity" placeholder="Qty" inputMode="numeric" className="text-right" onChange={e => setRows(rs => rs.map((x, j) => j === i ? { ...x, qty: e.target.value } : x))} />
+                      <Input value={r.total} aria-label="Line total" placeholder="Total" inputMode="decimal" className="text-right" onChange={e => setRows(rs => rs.map((x, j) => j === i ? { ...x, total: e.target.value } : x))} />
                       <Button variant="ghost" size="icon" aria-label="Remove item" onClick={() => setRows(rs => rs.filter((_, j) => j !== i))}><X className="size-4" /></Button>
                     </div>
                   ))}
@@ -159,9 +157,7 @@ export default function Claim() {
         <Button size="lg" disabled={!ready || busy} onClick={submit}>
           {busy ? <><Loader2 className="size-4 animate-spin" /> Checking…</> : "Check my claim"}
         </Button>
-        <span className="text-sm text-foreground/70" aria-live="polite">
-          {busy ? stage : !preview ? "Pick a receipt first." : !(Number(amount) > 0) ? "Enter the amount you're claiming." : "You'll get the answer here. A treasurer only hears about it if something needs a person."}
-        </span>
+        {busy && <span className="text-sm text-foreground/70" aria-live="polite">{stage}</span>}
       </div>
     </div>
   )

@@ -1,28 +1,24 @@
 # Receipted
 
-An AI agent that reads receipt and invoice images, checks them against a claim record, a price list and a policy document, flags problems with cited evidence, and drafts a reply to the submitter.
+An agent that checks an expense claim against a receipt photo, a price list and a written policy, flags problems only when it can point at the receipt line and the rule, and writes the reply.
 
-**Live demo:** https://codedbygermaine.github.io/receipted/ (member flow and treasurer inbox on the AWS API; the earlier Streamlit version is at https://receipted.streamlit.app) · **API:** AWS Lambda + API Gateway (Singapore) · **Stack:** Python, Claude API (Haiku 5.5 / Opus 5.5), LangGraph, Chroma, FastAPI, Streamlit, Docker, pytest, GitHub Actions
-
-**At a glance** (test split, 100 real receipts, 100 test claims I wrote with known planted errors; every number from `results/`):
-
-| | |
-|---|---|
-| Planted errors caught | **48 / 50** (95% CI in the results table) |
-| Decision accuracy | 83% |
-| Clean claims wrongly flagged | 8 / 41 (upper bound; several are real breaches the labels missed) |
-| Item F1, Haiku 5.5 vs Opus 5.5 | 0.92 vs 0.92, at $0.0006 vs $0.0186 per receipt |
-| Draft quality, Opus judge (1–5) | accuracy 4.6, evidence 4.89, clarity 4.73, tone 4.98; a human scored 10 of them and agreed with the judge within 1 point on 39 of 40 scores |
-| Hallucination probe (total masked, 98 receipts) | 84% abstained; 13% read a second printed copy; 3% put the subtotal in the total slot; 0 fabricated digits |
-| Cost and time per claim | $0.0013, 4.82 s |
+**Try it:** https://codedbygermaine.github.io/receipted/ · **Case study:** [docs/case-study.md](docs/case-study.md) · **Stack:** Python, Claude API (Haiku 5.5 / Opus 5.5), LangGraph, Chroma, FastAPI on AWS Lambda, React + shadcn/ui, pytest, GitHub Actions
 
 ![Receipted demo](docs/demo_screenshot.jpg)
 
-## The problem
+## At a glance
 
-Finance teams, club treasurers and procurement staff check receipts and supplier bills by hand: does the claim match the receipt, do the numbers add up, is the price what we agreed, does it break a policy rule? It is slow, and mistakes slip through. Off-the-shelf tools read invoices well, but a team's own price list and policy are where the checking errors happen, and small teams don't pay for enterprise software.
+Test split: 100 real receipts (CORD v2), 100 test claims I wrote with known planted errors. Every number comes from a file in `results/` written by a script in `eval/`; the full tables, intervals and both test runs are in [docs/evaluation.md](docs/evaluation.md).
 
-A multimodal Claude model extracts line items and totals from the image. Plain Python then does the arithmetic checks, because code is exact and language models are not. Relevant policy clauses and price-list rows are retrieved from a local Chroma store, an LLM rule check must cite a clause and a receipt line for every issue it raises, and a verifier drops any issue whose evidence does not exist. The agent decides approve / needs_review / reject, sends unreadable documents to a human, and is measured on extraction accuracy, errors caught, false alarms, latency and cost.
+| | |
+|---|---|
+| Planted errors caught | **48 / 50** (95% CI 90–100%) |
+| Decision accuracy | 83% |
+| Clean claims wrongly flagged | 8 / 41, an upper bound: at least 3 are real breaches the labels missed |
+| Item F1, Haiku 5.5 vs Opus 5.5 | 0.92 vs 0.92, at $0.0006 vs $0.0186 per receipt |
+| Draft quality, Opus judge (1–5) | accuracy 4.6, evidence 4.89, clarity 4.73, tone 4.98; a human agreed within 1 point on 39 of 40 scores |
+| Hallucination probe, total masked on 98 receipts | 84% abstained, 0 fabricated digits |
+| Cost and time per claim | $0.0013, 4.82 s |
 
 ## How it works
 
@@ -35,298 +31,33 @@ flowchart LR
     D --> E[rule_check<br/>LLM, must cite clause + receipt line]
     E --> V[verify<br/>Python drops issues without real evidence]
     V --> F[decide<br/>approve / needs_review / reject]
-    F -->|needs_review, in review mode| H[human_review<br/>pause, checkpoint, resume]
+    F -->|needs_review| H[human_review<br/>pause, checkpoint, resume]
     H --> G
     F --> G[draft<br/>message to submitter]
 ```
 
-- **Each job goes to the right tool.** The image model reads the messy photo. Plain Python does the arithmetic, because language models are unreliable at maths and code is exact. Chroma finds the policy clauses and price rows that matter. The rule-check model may raise an issue only if it cites a clause and a receipt line.
-- **Every flag needs evidence.** The verifier, in plain Python, throws away any issue whose clause id does not exist in the policy, whose receipt line is not in the extraction, or whose price comparison does not hold when re-done in code. Dropped issues are counted and reported.
-- **It knows when to pass to a human.** Unreadable images and failed extractions skip the checks and go straight to *needs review*. Medium-severity findings also go to a person; only high-severity findings with evidence produce a reject.
-- **It is measured, not just demoed.** See the results below. Every interactive decision is audit-logged, reviewers work from a queue, and the model's judgement step is voted. Every number comes from a file in `results/` written by the scripts in `eval/`.
+- **Each job goes to the right tool.** The image model reads the messy photo. Plain Python does the arithmetic, because code is exact and models are not. Chroma finds the policy clauses and price rows that matter, for the receipt's currency.
+- **Every flag needs evidence.** The rule-check model may raise an issue only if it cites a clause and a receipt line. A verifier in plain Python drops any issue whose clause does not exist, whose line is not in the extraction, or whose price comparison does not hold when redone in code. Dropped issues are counted.
+- **It knows when to pass to a person.** Unreadable images go straight to review. Medium-severity findings are held for a treasurer; only high-severity findings with evidence produce a reject. A held claim pauses the LangGraph run at a checkpoint and resumes from the treasurer's decision.
+- **It is built like a production system.** Votes on the model's judgement for large claims, confidence calibrated on real documents, an audit record for every decision, reviewer corrections kept as labelled cases, card numbers masked in code, a regression gate in CI. Details and sources in [docs/production.md](docs/production.md).
 
-### Human in the loop
-
-Run a claim with `--review` and a needs_review decision pauses the graph instead of ending it: LangGraph checkpoints the whole state to SQLite under the claim id and stops before the draft. A reviewer lists what is waiting, decides, and the graph resumes from the checkpoint and writes the draft from the human's decision and note:
-
-```bash
-python -m receipted.run --sample SAMPLE-003 --review          # pauses: hot tea above the price list
-python -m receipted.review list                                # what is waiting, with issues and evidence
-python -m receipted.review resolve SAMPLE-003 approve "Cafe confirmed the price; one-off"
-```
-
-## How to run
+## Run it
 
 ```bash
 git clone https://github.com/codedbygermaine/receipted && cd receipted
 python3 -m venv .venv && .venv/bin/pip install -r requirements.txt && .venv/bin/pip install -e .
-cp .env.example .env            # then put your ANTHROPIC_API_KEY in .env
-.venv/bin/python data/prepare.py          # downloads CORD v2 (~2 GB) and writes data/images + data/gt
-.venv/bin/python -m receipted.run --sample SAMPLE-002        # one claim, end to end
-.venv/bin/streamlit run app/streamlit_app.py                 # the demo
-.venv/bin/pytest                                             # 63 tests
+cp .env.example .env                                  # put your ANTHROPIC_API_KEY in .env
+.venv/bin/python data/prepare.py                      # downloads CORD v2 (~2 GB)
+.venv/bin/python -m receipted.run --sample SAMPLE-002 # one claim, end to end
+.venv/bin/pytest                                      # 86 tests
 ```
 
-Reproduce the evaluation (test split, prompts frozen; each script prints a cost estimate first):
+To reproduce the evaluation, run the scripts in `eval/` in the order listed in [docs/evaluation.md](docs/evaluation.md); each prints a cost estimate first, and every model response is cached so re-runs are free. The web demo (`web/`), the HTTP API on AWS Lambda (`api/`) and the MCP server for Claude Desktop are described in [docs/integrations.md](docs/integrations.md).
 
-```bash
-.venv/bin/python eval/make_claims.py --split test
-.venv/bin/python eval/eval_extraction.py --split test --model claude-haiku-5-5 --yes
-.venv/bin/python eval/eval_extraction.py --split test --model claude-opus-5-5 --yes
-.venv/bin/python eval/eval_checks.py --split test --yes
-.venv/bin/python eval/eval_drafts.py --split test --yes
-.venv/bin/python eval/report.py --split test
-```
+## What went wrong, honestly
 
-Every LLM response is cached on disk (keyed by input, prompt version and model), so re-runs are free.
-
-<!-- RESULTS -->
-## Results (test split)
-
-### Extraction vs CORD ground truth
-
-| model | receipts | item F1 (95% CI) | item precision | item recall | total correct | subtotal correct | tax correct | mean latency | mean cost / receipt |
-|---|---|---|---|---|---|---|---|---|---|
-| `claude-haiku-5-5` | 100 | 0.92 (0.87–0.95) | 0.88 | 0.95 | 97% | 96% | 97% | 3.68s | $0.0006 |
-| `claude-opus-5-5` | 100 | 0.92 (0.88–0.95) | 0.88 | 0.95 | 97% | 98% | 100% | 4.13s | $0.0186 |
-
-### Checks: full agent on 100 test claims with planted errors (`claude-haiku-5-5`)
-
-| planted error | n | caught | recall (95% CI) |
-|---|---|---|---|
-| inflated amount | 10 | 10 | 100% (95% CI 100–100%) |
-| wrong quantity | 10 | 8 | 80% (95% CI 50–100%) |
-| item not on receipt | 10 | 10 | 100% (95% CI 100–100%) |
-| totals mismatch | 10 | 10 | 100% (95% CI 100–100%) |
-| policy breach | 10 | 10 | 100% (95% CI 100–100%) |
-| **all planted errors** | 50 | 48 | **96% (95% CI 90–100%)** |
-
-| natural breach (from ground truth) | n | caught | recall |
-|---|---|---|---|
-| price above list | 3 | 3 | 100% |
-| above 500k | 3 | 1 | 33% |
-| packaging over 5000 | 2 | 0 | 0% |
-| receipt inconsistent | 9 | 3 | 33% |
-
-| metric | value |
-|---|---|
-| decision accuracy (approve / needs_review / reject) | 83% (95% CI 76–90%) |
-| clean claims (no planted error, no natural breach) | 41 |
-| false alarms: clean claim flagged with an issue | 8 (20% (95% CI 7–32%)) |
-| clean claims held only because the receipt was hard to read | 6 |
-| rule-check issues raised / dropped by verifier | 48 / 4 |
-| mean cost per claim | $0.0013 |
-| mean seconds per claim (uncached) | 4.82 |
-
-### Run 1 vs run 2 (same test claims, before and after the fixes from the error analysis)
-
-| metric | run 1 | run 2 |
-|---|---|---|
-| planted errors caught | 47/50 | 48/50 |
-| decision accuracy | 81% | 83% |
-| false alarms (clean claims flagged) | 10/41 | 8/41 |
-| rule-check issues dropped by verifier | 1 | 4 |
-| mean cost per claim | $0.0013 | $0.0013 |
-
-Run 2 is reported because the three fixes were motivated by failures seen in run 1; both are kept so the effect is visible and the second run is not mistaken for a first.
-
-### Drafts: LLM-as-judge (`claude-opus-5-5` scoring `claude-haiku-5-5` drafts, 1–5)
-
-| accuracy | evidence | clarity | tone | drafts with accuracy < 4 |
-|---|---|---|---|---|
-| 4.6 | 4.89 | 4.73 | 4.98 | 4 / 100 |
-
-| human vs judge (10 drafts) | exact agreement | within 1 point |
-|---|---|---|
-| accuracy | 80% | 100% |
-| evidence | 90% | 100% |
-| clarity | 70% | 90% |
-| tone | 100% | 100% |
-
-![errors caught per type](results/chart_recall_test.png)
-
-![extraction by model](results/chart_models_test.png)
-<!-- /RESULTS -->
-
-The headline (run 2): **48 of 50 planted errors caught (96%, 95% CI 90–100%)**, decision accuracy 83% on 100 claims, 8 of 41 clean claims flagged, at about $0.0013 and 5 seconds per claim with Haiku 5.5. Intervals are bootstrap 95% CIs over the 100 claims; with a test set this size a single percentage overstates what is known, so every headline carries one.
-
-### Hallucination probe
-
-Does the model invent a total when there is none? Using CORD's word coordinates, `eval/hallucination_probe.py` paints a white box over the printed total on real receipts and extracts again. On the 98 validation receipts that print a total, Haiku returned `null` for 82 (84%). In 13 cases it returned the true total anyway: those receipts print the same amount a second time (a cash-tendered line, an ITEMS line, a card slip), so the model read the other copy, which is correct. In the remaining 3 it returned a wrong number, and all 3 were the same mistake: the printed subtotal placed in the total slot on a tax-exclusive receipt. So the failure mode is field confusion, not fabricated digits. Result file: `results/hallucination_probe_validation_claude-haiku-5-5.json`.
-
-### Duplicate receipts
-
-Policy clause C9 forbids claiming the same receipt twice. `src/receipted/duplicates.py` keeps a local registry of claims the CLI, app or MCP tool approved or held (image fingerprint, receipt total, item names). A new claim with the same fingerprint, or a different photo with the same total and 80%+ of the same item names, is rejected under C9 with the earlier claim id as evidence. Rejected claims are not registered, so a corrected resubmission goes through. Evaluation runs never write to the registry.
-
-### Per-item confidence and what it saved
-
-Since the test run, extraction (prompt v3) returns a confidence of high / medium / low for every item and for the total, and a claim is held for a person only when a line that matters was read with low confidence, not whenever the photo is partly blurry. Measured on the validation split (`results/confidence_routing_validation.json`), not the test split, because the test numbers above were frozen at prompt v2:
-
-| validation, 100 claims, prompt v3 | |
-|---|---|
-| planted errors caught | 50 / 50 |
-| decision accuracy | 90% |
-| receipts marked "partly unclear" | 10 / 100 |
-| clean claims held for readability, old rule → new rule | 2 → 1 |
-
-Honest reading: the per-line rule saved one review here; most of the gain came from the prompt telling the model that blur on a logo or footer does not lower the confidence of a legible price line. The test split (prompt v2) had 25 receipts marked partly unclear and 6 clean claims held for that reason, so the saving there would be larger, but it has not been measured on test and is not claimed.
-
-### Which model to deploy: the full pipeline, not just extraction
-
-Extraction alone showed the two models level. To see whether a larger model helps the *checks* and *drafts*, the 100 validation claims were run through the whole agent with Opus 5.5 doing the extraction, rule check and draft (`results/model_comparison_full_pipeline_validation.json`). Validation, not test, so the test numbers stay a two-run story.
-
-| 100 validation claims | Haiku 5.5 | Opus 5.5 |
-|---|---|---|
-| planted errors caught | 50/50 | 50/50 |
-| decision accuracy | 90% | 88% |
-| clean claims flagged | 8/43 | 9/43 |
-| rule-check issues raised / dropped | 53 / 3 | 63 / 2 |
-| mean cost per claim | $0.0014 | $0.0437 |
-| mean seconds per claim | 6.14 | 14.29 |
-
-Opus raises more policy issues (it is stricter about meal headcounts under C12) and is a little better at reading blurry digits, but it catches no more planted errors, makes one more false alarm, and costs 30 times as much per claim at twice the latency. The decision is Haiku, with the money saved spent on a human reviewer for the handful of claims that are held.
-
-### Unseen formats: receipts from four other countries
-
-The system was built and tuned on Indonesian receipts. To see how it handles formats it has never seen, I took 10 receipt photos from Wikimedia Commons under reusable licences (UK, Australia, USA; pounds and dollars with cents; VAT and sales tax; one handwritten; one fuel receipt priced per gallon; one with 20 items at $0.9999), wrote the labels by hand from the images, and ran both models (`eval/eval_external.py`, `data/external/commons/`).
-
-| 10 receipts, 51 items | Haiku 5.5 | Opus 5.5 |
-|---|---|---|
-| currency identified | 100% | 100% |
-| item F1 (name + quantity + price, cent-level tolerance) | 0.99 | 0.99 |
-| total correct | 80% | 90% |
-| mean latency | 5.29s | 6.69s |
-| cost for the set | $0.009 | $0.268 |
-
-The two misses are instructive: Haiku read a blurry "$2.18" as "$2.13" (Opus read it correctly and marked the receipt partly unclear), and both models left the total empty on a fuel receipt whose only amount is labelled "Amount" rather than "Total". This set also exposed a real bug for cent-based currencies: the arithmetic tolerance was a whole unit (fine for rupiah, useless for dollars), so it now depends on the receipt's currency. Singapore receipts photographed by me are the next step; the same script runs them.
-
-Sources (all Wikimedia Commons):
-
-| file | currency | licence |
-|---|---|---|
-| [99_cents_only_store_receipt_2021.jpg](https://commons.wikimedia.org/wiki/File%3A99%20cents%20only%20store%20receipt%202021.jpg) | USD | CC BY-SA 4.0 |
-| [Cline_s_Hallmark_recipt_2010-11-20.jpg](https://commons.wikimedia.org/wiki/File%3ACline%27s%20Hallmark%20recipt%202010-11-20.jpg) | USD | Public domain |
-| [Family_Dollar_store_receipt.jpg](https://commons.wikimedia.org/wiki/File%3AFamily%20Dollar%20store%20receipt.jpg) | USD | CC BY-SA 3.0 |
-| [Harpoon_Harry_s__Key_West__Florida_-__In](https://commons.wikimedia.org/wiki/File%3AHarpoon%20Harry%E2%80%99s%2C%20Key%20West%2C%20Florida%20-%20%E2%80%9CIn%20God%20We%20Trust%E2%80%9D%20receipt.jpg) | USD | CC BY 2.0 |
-| [L_Oro_di_Napoli_-_January_2025_-_Sarah_S](https://commons.wikimedia.org/wiki/File%3AL%27Oro%20di%20Napoli%20-%20January%202025%20-%20Sarah%20Stierch%2022.jpg) | USD | CC0 |
-| [Love_s_207__Coachella__California___2011](https://commons.wikimedia.org/wiki/File%3ALove%27s%20207%20%28Coachella%2C%20California%29%20%282011-12-31%29.jpg) | USD | Public domain |
-| [Pink_Peacock_receipt.jpg](https://commons.wikimedia.org/wiki/File:Pink_Peacock_receipt.jpg) | GBP | CC BY-SA 4.0 |
-| [Receipt-woolworth.jpg](https://commons.wikimedia.org/wiki/File:Receipt-woolworth.jpg) | AUD | CC BY-SA 4.0 |
-| [Receipt_for_my_BBC_Micro__51333059914_.j](https://commons.wikimedia.org/wiki/File%3AReceipt%20for%20my%20BBC%20Micro%20%2851333059914%29.jpg) | GBP | CC BY-SA 2.0 |
-| [TK_Maxx__Trafford_Retail_Park_receipt__2](https://commons.wikimedia.org/wiki/File%3ATK%20Maxx%2C%20Trafford%20Retail%20Park%20receipt%20%282013-05-12%29.jpg) | GBP | Public domain |
-
-### Singapore receipts, photographed by me
-
-Twenty-four of my own receipts from 2025 and 2026: bakeries, cafés, Korean and Japanese restaurants, a pharmacy, a stationery shop, clothing, cinema tickets, a salad bar whose receipts list every topping, and four clinic invoices. SGD with cents, 9% GST sometimes included and sometimes added, 10% service charges, multi-buy discounts, PLU codes above item names, a 5-cent rounding line, one receipt paid partly by voucher. Card digits, loyalty numbers and names were covered with solid black before anything left my phone. Twenty are in `data/external/singapore/`; the four clinic invoices are health information and stay on my machine, so the numbers below include them but the repo does not. Labels were written by hand from the images (`labels.json`).
-
-| 24 receipts, 68 items | Haiku 5.5 | Opus 5.5 |
-|---|---|---|
-| currency identified | 100% | 100% |
-| total correct | 96% (23/24) | 88% (21/24) |
-| item recall | 0.99 | 0.99 |
-| item precision | 0.66 | 0.92 |
-| item F1 | 0.79 | 0.95 |
-| receipts where the arithmetic check fired | 6 | 5 |
-| cost for the set | $0.019 | $0.523 |
-
-Two different weaknesses. Haiku lists every zero-price topping on the salad-bar receipts ("1.00 X Guacamole", no price) as an item, which drags its precision to 0.66 while it still reads 23 of 24 totals. Opus leaves the toppings out, but on the three pharmacy receipts, which print SUBTOTAL and a card line and no word TOTAL, it declines to name a total at all. Both read the currency, the GST and the service charge correctly every time. The arithmetic check fired on six receipts, all for the same reason: a percentage discount applied per line on clinic invoices (qty × unit cost ≠ the discounted line), which the extraction schema has no field for yet. Nothing was changed after seeing these results.
-
-### Regression gate
-
-`eval/compare.py` lines up two runs claim by claim, lists every decision that changed (FIXED / BROKE / moved), prints the headline metrics side by side and exits non-zero if recall or decision accuracy fell or false alarms rose. The run-1 vs run-2 table above comes from it. The two models read receipts equally well; Haiku costs 30× less. The human-scoring sheet for 10 drafts is in `results/human_scoring_sheet_test.md`; agreement with the judge is reported once it is filled in.
-
-## Built the way production document systems are built
-
-After comparing with other student projects, I looked at how document-AI vendors and finance tools describe production practice (sources at the end of this section) and added the pieces that were missing:
-
-| Practice | What it looks like here |
-|---|---|
-| **Vote on model judgements, where it matters** | The rule check can run 3 times and raise only issues a majority agree on, with the vote count as evidence. On one receipt the same medicines were flagged in 4 of 5 single runs, so one run in five would have missed them. Measured on all 100 validation claims (`results/voting_validation.json`), voting everywhere was a wash: errors caught 50/50 → 49/50 (the one that flipped was still rejected), decision accuracy 90% → 91%, false alarms unchanged, cost $0.13 → $0.25. So voting is applied only to claims above the two-approver threshold (IDR 500,000 / SGD 500), where a single run's variance costs the most. |
-| **Calibrate confidence on your own documents** | `eval/calibration.py`: on the validation split, items the model marks **high** are right 92% of the time (196 items), **medium** 97% (34), **low** 25% (4). "Low" means something; "medium" is as good as "high", so only low-confidence lines hold a claim. |
-| **A review screen, not a terminal** | The app's Review queue tab shows the receipt image, the extracted lines with confidence, every issue with its evidence, and Approve / Reject with a note; the decision resumes the paused LangGraph run and the member's message is written from it. |
-| **An audit trail** | Every interactive decision is one line in `data/audit_log.jsonl`: claim, amounts, currency, image fingerprint, decision and reason, issues with evidence, model and prompt versions, cost, time, and what the reviewer did. Shown in the Audit log tab. |
-| **Corrections flow back, approvals get spot-checked** | Reviewer decisions are written to `data/review_corrections.json` as labelled cases (agent decision, human decision, note), ready to replay in the next evaluation. One in ten auto-approved claims is marked for a random human audit, so errors in the "approve" bucket cannot stay invisible. |
-| **Rules beside scores** | Confidence alone misses confident errors, so the arithmetic, duplicate and claim checks run regardless of confidence, as the guidance recommends. |
-| **Regression tests on every push** | `.github/workflows/ci.yml` runs the 80 unit tests and the run-1 → run-2 regression gate on each push. |
-| **PII handled in code** | Card-like digit runs are masked in extracted lines before they reach a log, a draft or a screen; four medical invoices never entered the repo. |
-| **Policy per currency** | A receipt's currency selects the policy set: Rupiah receipts use the Indonesian policy and price list the project was measured on, Singapore receipts use an SGD policy with SGD thresholds and a price list built from my own receipts. |
-
-Sources: [Docsumo on human-in-the-loop review](https://www.docsumo.com/blog/human-in-the-loop-systems), [Parseur on HITL thresholds and calibration](https://parseur.com/blog/hitl-best-practices), [Extend's confidence-score guide](https://www.extend.ai/resources/document-processing-confidence-scores-guide), [LangChain's agent evaluation checklist](https://www.langchain.com/blog/agent-evaluation-readiness-checklist), [Brex's audit and review agents](https://ramp.com/blog/brex-vs-expensify-vs-ramp) (vendor description).
-
-## Error analysis
-
-The five worst real failures, with image ids and causes, are in [results/error_analysis.md](results/error_analysis.md). In short:
-
-1. **A false reject from a name with no spaces** (`SATE ATI GO` vs the printed `SATECATIGO`): the fuzzy matcher depends on token boundaries. Fix: compare with spaces stripped too.
-2. **A price-list row matched to the wrong product** (a 230,000 cake vs `almond cream cheese`): the verifier checks that the row exists and the arithmetic holds, not that it is the same product. Largest source of false alarms. Fix: a name-similarity guard in the verifier.
-3. **A missing purpose that went unflagged** on 1 of 10 claims: a model applies a rule most of the time, not every time. Fix: a one-line deterministic check.
-4. **A missed tax line turned into a false alarm**: the human-review route caught it, at the cost of a reviewer's look.
-5. **A wrong quantity caught only as "claim exceeds receipt"**: right decision, incomplete explanation, because the item's quantity or name did not match.
-
-Reading the 10 flagged clean claims by hand, at least 3 are correct by the policy as written and were missed by my test labels (a women's blouse under C6, a dinner above the per-person cap, `Teh Es` above the `es teh` row). The 24% false-alarm figure is therefore an upper bound; the genuinely wrong flags are closer to 4 or 5 of 41.
-
-## Limitations
-
-- **The claims, price list, policy and planted errors were written by me.** Real receipts, test claims I built on top of them, labelled as such throughout. The planted error types are the ones I thought of.
-- **Indonesian receipts only.** CORD has no store name or date fields, so the deadline clause (C11) is not checked and duplicates cannot be detected.
-- **Ground truth is imperfect.** Some CORD labels disagree with what the receipt prints (word order, zero-priced lines, "Sub Total" as total), so part of the measured extraction error is label noise.
-- **One bug was fixed during the test run.** The claim-lines check mis-flagged clean claims whose items were listed before tax; found on the first 17 test claims, fixed, run restarted. The partial first run is kept in `results/checks_test_run1_partial.log`.
-- **The judge is a model.** Opus scores Haiku's drafts against a rubric; the human-agreement number exists to check the judge.
-
-## What I'd do next
-
-Done since the first test run: the name-similarity guard, space-insensitive matching, the deterministic purpose check (together: run 2 above), duplicate-receipt detection, the hallucination probe, confidence intervals, the regression gate and the MCP server. Still open:
-
-1. Per-item confidence and quoted evidence in the extraction schema, so only uncertain items go to a human; measure how many of the 25% "partly unclear" holds that saves.
-2. Pause-and-resume for human review using LangGraph checkpoints, with a small reviewer CLI, instead of stopping at needs_review.
-3. Route receipts Haiku marks "partly unclear" to Opus and measure the trade-off.
-4. Move the two-approver threshold (C7) into a deterministic check; the rule check raised it on only 1 of 3 claims.
-5. A per-line discount field in the extraction schema, so percentage discounts on invoices stop tripping the arithmetic check; and a rule for receipts that print only a subtotal and a payment line.
-
-## Use from Claude Desktop (MCP)
-
-Receipted is also an MCP server, so Claude Desktop can call it as a tool. Add this to `claude_desktop_config.json` (Settings → Developer → Edit Config), with your own absolute paths, then restart Claude Desktop:
-
-```json
-{
-  "mcpServers": {
-    "receipted": {
-      "command": "/Users/you/receipted/.venv/bin/python",
-      "args": ["-m", "receipted.mcp_server"],
-      "cwd": "/Users/you/receipted"
-    }
-  }
-}
-```
-
-Then ask Claude something like *"Check /Users/you/receipt.jpg against a claim of 250,000 IDR for a committee dinner, 4 people, items: Sop Sui Jiao 1 × 33,000 …"* and it will call `check_document` and get back the decision, the verified issues with evidence and the draft message. To test the server without Claude Desktop:
-
-```bash
-.venv/bin/python scripts/mcp_client_test.py SAMPLE-002
-```
-
-## HTTP API on AWS Lambda
-
-The same checker as a web endpoint, for anything that can send an HTTP request (a club's web form, a spreadsheet macro, another service). `api/app.py` is a FastAPI app; on AWS it runs as a Lambda container image behind API Gateway in the Singapore region, pay-per-request. Live at `https://72dxv5aw0m.execute-api.ap-southeast-1.amazonaws.com` (health check is open; checks need the token). Every call needs the token in `X-Api-Token`, and a daily cap stops a public URL from running up the bill.
-
-The web demo at https://codedbygermaine.github.io/receipted/ is a small React app (`web/`: Vite, Tailwind and shadcn/ui, published by GitHub Pages) that talks to this API. It has two sides: a member picks or uploads a receipt, fills in the claim and gets a verdict where every issue points at a receipt line and a policy clause; a treasurer sees the held claims in an inbox with the receipt and the evidence, and their approve/reject writes the reply. The page carries a separate demo token with its own small daily cap, so anyone can try it and the worst a stranger can do is use up a day of demo budget. API Gateway caps a request at 30 s, so a check runs as a background job: `POST /check` returns 202 and a job id, the page polls `GET /jobs/{id}`, and results live in S3 for seven days.
-
-```bash
-curl -s -X POST "$URL/check" -H "X-Api-Token: $TOKEN" \
-  -F image=@receipt.jpg \
-  -F 'claim={"claim_id":"C-1","submitter":"A. Member","purpose":"Team lunch, 3 people","amount":101.90}'
-```
-
-The reply is JSON: decision, reason, currency, receipt total, extracted items with confidence, every verified issue with its evidence, the draft message, cost and time. Deploying is one script once the AWS CLI is signed in and Docker is running:
-
-```bash
-RECEIPTED_API_TOKEN=choose-a-token ANTHROPIC_API_KEY=sk-ant-... ./api/deploy.sh
-```
-
-It builds the image (policy index and embedding model baked in, so cold starts download nothing), pushes it to ECR, creates or updates the Lambda and its API Gateway in the Singapore region, and prints the URL. Run locally with `RECEIPTED_API_TOKEN=dev uvicorn api.app:app`.
+The five worst failures, with image ids and causes, are in [results/error_analysis.md](results/error_analysis.md): a fuzzy matcher that depended on spaces, a price row matched to the wrong product, a rule the model applied nine times out of ten. One bug was fixed during the test run (found on the first 17 claims, disclosed, the partial log kept). The judge is a model, so a human scored a sample to check it. The claims, price list, policy and planted errors were written by me for testing; the receipts are real. Dates are not checked, because the dataset has none. The learning log of every phase, with the trade-offs and the interview questions each one raised, is [LEARNING.md](LEARNING.md).
 
 ## Attribution and licence
 
-Receipt images and ground truth: **CORD v2** (`naver-clova-ix/cord-v2`, [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)). Park, S. et al. "CORD: A Consolidated Receipt Dataset for Post-OCR Parsing", Document Intelligence Workshop at NeurIPS 2019. The five demo sample images in `app/samples/` are from the same dataset.
-
-The claim records, price list, policy document and planted errors were **written by me for testing**, on top of the real CORD images; the files say so in their headers. Everything else in this repository is by Germaine Koh. Built with Claude Code.
+Receipt images and ground truth: **CORD v2** (`naver-clova-ix/cord-v2`, [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)). Park, S. et al. "CORD: A Consolidated Receipt Dataset for Post-OCR Parsing", Document Intelligence Workshop at NeurIPS 2019. Ten further receipts are from Wikimedia Commons under the licences listed in [docs/evaluation.md](docs/evaluation.md); the Singapore receipts are my own. The claim records, price lists, policies and planted errors were **written by me for testing**, on top of the real images; the files say so in their headers. Everything else in this repository is by Germaine Koh. Built with Claude Code.

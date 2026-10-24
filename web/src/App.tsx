@@ -44,7 +44,7 @@ export default function App() {
         </Routes>
       </main>
       <footer className="mx-auto w-full max-w-5xl px-4 py-6 text-xs text-foreground/60 sm:px-6">
-        A portfolio project by Germaine · public demo with a shared daily budget · <Link to="/about" className="underline underline-offset-2">sources and limits</Link>
+        A portfolio project by Germaine
       </footer>
       <Toaster richColors position="bottom-center" />
     </div>

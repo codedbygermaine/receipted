@@ -1,0 +1,188 @@
+# Evaluation
+
+Everything measured about Receipted, in full. The README carries only the headline; every number here is written by a script in `eval/` into a file in `results/`, and the block between the RESULTS markers is copied from `results/results_table.md` by `eval/inject_readme.py`. Prompts were tuned on the CORD validation split and frozen before the test split was touched; the test split was run twice, and both runs are reported.
+
+<!-- RESULTS -->
+## Results (test split)
+
+### Extraction vs CORD ground truth
+
+| model | receipts | item F1 (95% CI) | item precision | item recall | total correct | subtotal correct | tax correct | mean latency | mean cost / receipt |
+|---|---|---|---|---|---|---|---|---|---|
+| `claude-haiku-5-5` | 100 | 0.92 (0.87–0.95) | 0.88 | 0.95 | 97% | 96% | 97% | 3.68s | $0.0006 |
+| `claude-opus-5-5` | 100 | 0.92 (0.88–0.95) | 0.88 | 0.95 | 97% | 98% | 100% | 4.13s | $0.0186 |
+
+### Checks: full agent on 100 test claims with planted errors (`claude-haiku-5-5`)
+
+| planted error | n | caught | recall (95% CI) |
+|---|---|---|---|
+| inflated amount | 10 | 10 | 100% (95% CI 100–100%) |
+| wrong quantity | 10 | 8 | 80% (95% CI 50–100%) |
+| item not on receipt | 10 | 10 | 100% (95% CI 100–100%) |
+| totals mismatch | 10 | 10 | 100% (95% CI 100–100%) |
+| policy breach | 10 | 10 | 100% (95% CI 100–100%) |
+| **all planted errors** | 50 | 48 | **96% (95% CI 90–100%)** |
+
+| natural breach (from ground truth) | n | caught | recall |
+|---|---|---|---|
+| price above list | 3 | 3 | 100% |
+| above 500k | 3 | 1 | 33% |
+| packaging over 5000 | 2 | 0 | 0% |
+| receipt inconsistent | 9 | 3 | 33% |
+
+| metric | value |
+|---|---|
+| decision accuracy (approve / needs_review / reject) | 83% (95% CI 76–90%) |
+| clean claims (no planted error, no natural breach) | 41 |
+| false alarms: clean claim flagged with an issue | 8 (20% (95% CI 7–32%)) |
+| clean claims held only because the receipt was hard to read | 6 |
+| rule-check issues raised / dropped by verifier | 48 / 4 |
+| mean cost per claim | $0.0013 |
+| mean seconds per claim (uncached) | 4.82 |
+
+### Run 1 vs run 2 (same test claims, before and after the fixes from the error analysis)
+
+| metric | run 1 | run 2 |
+|---|---|---|
+| planted errors caught | 47/50 | 48/50 |
+| decision accuracy | 81% | 83% |
+| false alarms (clean claims flagged) | 10/41 | 8/41 |
+| rule-check issues dropped by verifier | 1 | 4 |
+| mean cost per claim | $0.0013 | $0.0013 |
+
+Run 2 is reported because the three fixes were motivated by failures seen in run 1; both are kept so the effect is visible and the second run is not mistaken for a first.
+
+### Drafts: LLM-as-judge (`claude-opus-5-5` scoring `claude-haiku-5-5` drafts, 1–5)
+
+| accuracy | evidence | clarity | tone | drafts with accuracy < 4 |
+|---|---|---|---|---|
+| 4.6 | 4.89 | 4.73 | 4.98 | 4 / 100 |
+
+| human vs judge (10 drafts) | exact agreement | within 1 point |
+|---|---|---|
+| accuracy | 80% | 100% |
+| evidence | 90% | 100% |
+| clarity | 70% | 90% |
+| tone | 100% | 100% |
+
+![errors caught per type](../results/chart_recall_test.png)
+
+![extraction by model](../results/chart_models_test.png)
+<!-- /RESULTS -->
+
+The headline (run 2): **48 of 50 planted errors caught (96%, 95% CI 90–100%)**, decision accuracy 83% on 100 claims, 8 of 41 clean claims flagged, at about $0.0013 and 5 seconds per claim with Haiku 5.5. Intervals are bootstrap 95% CIs over the 100 claims; with a test set this size a single percentage overstates what is known, so every headline carries one.
+
+### Hallucination probe
+
+Does the model invent a total when there is none? Using CORD's word coordinates, `eval/hallucination_probe.py` paints a white box over the printed total on real receipts and extracts again. On the 98 validation receipts that print a total, Haiku returned `null` for 82 (84%). In 13 cases it returned the true total anyway: those receipts print the same amount a second time (a cash-tendered line, an ITEMS line, a card slip), so the model read the other copy, which is correct. In the remaining 3 it returned a wrong number, and all 3 were the same mistake: the printed subtotal placed in the total slot on a tax-exclusive receipt. So the failure mode is field confusion, not fabricated digits. Result file: `results/hallucination_probe_validation_claude-haiku-5-5.json`.
+
+### Duplicate receipts
+
+Policy clause C9 forbids claiming the same receipt twice. `src/receipted/duplicates.py` keeps a local registry of claims the CLI, app or MCP tool approved or held (image fingerprint, receipt total, item names). A new claim with the same fingerprint, or a different photo with the same total and 80%+ of the same item names, is rejected under C9 with the earlier claim id as evidence. Rejected claims are not registered, so a corrected resubmission goes through. Evaluation runs never write to the registry.
+
+### Per-item confidence and what it saved
+
+Since the test run, extraction (prompt v3) returns a confidence of high / medium / low for every item and for the total, and a claim is held for a person only when a line that matters was read with low confidence, not whenever the photo is partly blurry. Measured on the validation split (`results/confidence_routing_validation.json`), not the test split, because the test numbers above were frozen at prompt v2:
+
+| validation, 100 claims, prompt v3 | |
+|---|---|
+| planted errors caught | 50 / 50 |
+| decision accuracy | 90% |
+| receipts marked "partly unclear" | 10 / 100 |
+| clean claims held for readability, old rule → new rule | 2 → 1 |
+
+Honest reading: the per-line rule saved one review here; most of the gain came from the prompt telling the model that blur on a logo or footer does not lower the confidence of a legible price line. The test split (prompt v2) had 25 receipts marked partly unclear and 6 clean claims held for that reason, so the saving there would be larger, but it has not been measured on test and is not claimed.
+
+### Which model to deploy: the full pipeline, not just extraction
+
+Extraction alone showed the two models level. To see whether a larger model helps the *checks* and *drafts*, the 100 validation claims were run through the whole agent with Opus 5.5 doing the extraction, rule check and draft (`results/model_comparison_full_pipeline_validation.json`). Validation, not test, so the test numbers stay a two-run story.
+
+| 100 validation claims | Haiku 5.5 | Opus 5.5 |
+|---|---|---|
+| planted errors caught | 50/50 | 50/50 |
+| decision accuracy | 90% | 88% |
+| clean claims flagged | 8/43 | 9/43 |
+| rule-check issues raised / dropped | 53 / 3 | 63 / 2 |
+| mean cost per claim | $0.0014 | $0.0437 |
+| mean seconds per claim | 6.14 | 14.29 |
+
+Opus raises more policy issues (it is stricter about meal headcounts under C12) and is a little better at reading blurry digits, but it catches no more planted errors, makes one more false alarm, and costs 30 times as much per claim at twice the latency. The decision is Haiku, with the money saved spent on a human reviewer for the handful of claims that are held.
+
+### Unseen formats: receipts from four other countries
+
+The system was built and tuned on Indonesian receipts. To see how it handles formats it has never seen, I took 10 receipt photos from Wikimedia Commons under reusable licences (UK, Australia, USA; pounds and dollars with cents; VAT and sales tax; one handwritten; one fuel receipt priced per gallon; one with 20 items at $0.9999), wrote the labels by hand from the images, and ran both models (`eval/eval_external.py`, `data/external/commons/`).
+
+| 10 receipts, 51 items | Haiku 5.5 | Opus 5.5 |
+|---|---|---|
+| currency identified | 100% | 100% |
+| item F1 (name + quantity + price, cent-level tolerance) | 0.99 | 0.99 |
+| total correct | 80% | 90% |
+| mean latency | 5.29s | 6.69s |
+| cost for the set | $0.009 | $0.268 |
+
+The two misses are instructive: Haiku read a blurry "$2.18" as "$2.13" (Opus read it correctly and marked the receipt partly unclear), and both models left the total empty on a fuel receipt whose only amount is labelled "Amount" rather than "Total". This set also exposed a real bug for cent-based currencies: the arithmetic tolerance was a whole unit (fine for rupiah, useless for dollars), so it now depends on the receipt's currency. Singapore receipts photographed by me are the next step; the same script runs them.
+
+Sources (all Wikimedia Commons):
+
+| file | currency | licence |
+|---|---|---|
+| [99_cents_only_store_receipt_2021.jpg](https://commons.wikimedia.org/wiki/File%3A99%20cents%20only%20store%20receipt%202021.jpg) | USD | CC BY-SA 4.0 |
+| [Cline_s_Hallmark_recipt_2010-11-20.jpg](https://commons.wikimedia.org/wiki/File%3ACline%27s%20Hallmark%20recipt%202010-11-20.jpg) | USD | Public domain |
+| [Family_Dollar_store_receipt.jpg](https://commons.wikimedia.org/wiki/File%3AFamily%20Dollar%20store%20receipt.jpg) | USD | CC BY-SA 3.0 |
+| [Harpoon_Harry_s__Key_West__Florida_-__In](https://commons.wikimedia.org/wiki/File%3AHarpoon%20Harry%E2%80%99s%2C%20Key%20West%2C%20Florida%20-%20%E2%80%9CIn%20God%20We%20Trust%E2%80%9D%20receipt.jpg) | USD | CC BY 2.0 |
+| [L_Oro_di_Napoli_-_January_2025_-_Sarah_S](https://commons.wikimedia.org/wiki/File%3AL%27Oro%20di%20Napoli%20-%20January%202025%20-%20Sarah%20Stierch%2022.jpg) | USD | CC0 |
+| [Love_s_207__Coachella__California___2011](https://commons.wikimedia.org/wiki/File%3ALove%27s%20207%20%28Coachella%2C%20California%29%20%282011-12-31%29.jpg) | USD | Public domain |
+| [Pink_Peacock_receipt.jpg](https://commons.wikimedia.org/wiki/File:Pink_Peacock_receipt.jpg) | GBP | CC BY-SA 4.0 |
+| [Receipt-woolworth.jpg](https://commons.wikimedia.org/wiki/File:Receipt-woolworth.jpg) | AUD | CC BY-SA 4.0 |
+| [Receipt_for_my_BBC_Micro__51333059914_.j](https://commons.wikimedia.org/wiki/File%3AReceipt%20for%20my%20BBC%20Micro%20%2851333059914%29.jpg) | GBP | CC BY-SA 2.0 |
+| [TK_Maxx__Trafford_Retail_Park_receipt__2](https://commons.wikimedia.org/wiki/File%3ATK%20Maxx%2C%20Trafford%20Retail%20Park%20receipt%20%282013-05-12%29.jpg) | GBP | Public domain |
+
+### Singapore receipts, photographed by me
+
+Twenty-four of my own receipts from 2025 and 2026: bakeries, cafés, Korean and Japanese restaurants, a pharmacy, a stationery shop, clothing, cinema tickets, a salad bar whose receipts list every topping, and four clinic invoices. SGD with cents, 9% GST sometimes included and sometimes added, 10% service charges, multi-buy discounts, PLU codes above item names, a 5-cent rounding line, one receipt paid partly by voucher. Card digits, loyalty numbers and names were covered with solid black before anything left my phone. Twenty are in `data/external/singapore/`; the four clinic invoices are health information and stay on my machine, so the numbers below include them but the repo does not. Labels were written by hand from the images (`labels.json`).
+
+| 24 receipts, 68 items | Haiku 5.5 | Opus 5.5 |
+|---|---|---|
+| currency identified | 100% | 100% |
+| total correct | 96% (23/24) | 88% (21/24) |
+| item recall | 0.99 | 0.99 |
+| item precision | 0.66 | 0.92 |
+| item F1 | 0.79 | 0.95 |
+| receipts where the arithmetic check fired | 6 | 5 |
+| cost for the set | $0.019 | $0.523 |
+
+Two different weaknesses. Haiku lists every zero-price topping on the salad-bar receipts ("1.00 X Guacamole", no price) as an item, which drags its precision to 0.66 while it still reads 23 of 24 totals. Opus leaves the toppings out, but on the three pharmacy receipts, which print SUBTOTAL and a card line and no word TOTAL, it declines to name a total at all. Both read the currency, the GST and the service charge correctly every time. The arithmetic check fired on six receipts, all for the same reason: a percentage discount applied per line on clinic invoices (qty × unit cost ≠ the discounted line), which the extraction schema has no field for yet. Nothing was changed after seeing these results.
+
+### Regression gate
+
+`eval/compare.py` lines up two runs claim by claim, lists every decision that changed (FIXED / BROKE / moved), prints the headline metrics side by side and exits non-zero if recall or decision accuracy fell or false alarms rose. The run-1 vs run-2 table above comes from it. The two models read receipts equally well; Haiku costs 30× less. The human-scoring sheet for 10 drafts is in `results/human_scoring_sheet_test.md`; agreement with the judge is reported once it is filled in.
+
+## Error analysis
+
+The five worst real failures, with image ids and causes, are in [results/error_analysis.md](../results/error_analysis.md). In short:
+
+1. **A false reject from a name with no spaces** (`SATE ATI GO` vs the printed `SATECATIGO`): the fuzzy matcher depends on token boundaries. Fix: compare with spaces stripped too.
+2. **A price-list row matched to the wrong product** (a 230,000 cake vs `almond cream cheese`): the verifier checks that the row exists and the arithmetic holds, not that it is the same product. Largest source of false alarms. Fix: a name-similarity guard in the verifier.
+3. **A missing purpose that went unflagged** on 1 of 10 claims: a model applies a rule most of the time, not every time. Fix: a one-line deterministic check.
+4. **A missed tax line turned into a false alarm**: the human-review route caught it, at the cost of a reviewer's look.
+5. **A wrong quantity caught only as "claim exceeds receipt"**: right decision, incomplete explanation, because the item's quantity or name did not match.
+
+Reading the 10 flagged clean claims by hand, at least 3 are correct by the policy as written and were missed by my test labels (a women's blouse under C6, a dinner above the per-person cap, `Teh Es` above the `es teh` row). The 24% false-alarm figure is therefore an upper bound; the genuinely wrong flags are closer to 4 or 5 of 41.
+
+## Limitations
+
+- **The claims, price list, policy and planted errors were written by me.** Real receipts, test claims I built on top of them, labelled as such throughout. The planted error types are the ones I thought of.
+- **Indonesian receipts only.** CORD has no store name or date fields, so the deadline clause (C11) is not checked and duplicates cannot be detected.
+- **Ground truth is imperfect.** Some CORD labels disagree with what the receipt prints (word order, zero-priced lines, "Sub Total" as total), so part of the measured extraction error is label noise.
+- **One bug was fixed during the test run.** The claim-lines check mis-flagged clean claims whose items were listed before tax; found on the first 17 test claims, fixed, run restarted. The partial first run is kept in `results/checks_test_run1_partial.log`.
+- **The judge is a model.** Opus scores Haiku's drafts against a rubric; the human-agreement number exists to check the judge.
+
+## What I'd do next
+
+Done since the first test run: the name-similarity guard, space-insensitive matching, the deterministic purpose check (together: run 2 above), duplicate-receipt detection, the hallucination probe, confidence intervals, the regression gate and the MCP server. Still open:
+
+1. Per-item confidence and quoted evidence in the extraction schema, so only uncertain items go to a human; measure how many of the 25% "partly unclear" holds that saves.
+2. Pause-and-resume for human review using LangGraph checkpoints, with a small reviewer CLI, instead of stopping at needs_review.
+3. Route receipts Haiku marks "partly unclear" to Opus and measure the trade-off.
+4. Move the two-approver threshold (C7) into a deterministic check; the rule check raised it on only 1 of 3 claims.
+5. A per-line discount field in the extraction schema, so percentage discounts on invoices stop tripping the arithmetic check; and a rule for receipts that print only a subtotal and a payment line.

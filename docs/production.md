@@ -1,0 +1,17 @@
+# Built the way production document systems are built
+
+After comparing with other student projects, I looked at how document-AI vendors and finance tools describe production practice (sources at the end of this section) and added the pieces that were missing:
+
+| Practice | What it looks like here |
+|---|---|
+| **Vote on model judgements, where it matters** | The rule check can run 3 times and raise only issues a majority agree on, with the vote count as evidence. On one receipt the same medicines were flagged in 4 of 5 single runs, so one run in five would have missed them. Measured on all 100 validation claims (`results/voting_validation.json`), voting everywhere was a wash: errors caught 50/50 → 49/50 (the one that flipped was still rejected), decision accuracy 90% → 91%, false alarms unchanged, cost $0.13 → $0.25. So voting is applied only to claims above the two-approver threshold (IDR 500,000 / SGD 500), where a single run's variance costs the most. |
+| **Calibrate confidence on your own documents** | `eval/calibration.py`: on the validation split, items the model marks **high** are right 92% of the time (196 items), **medium** 97% (34), **low** 25% (4). "Low" means something; "medium" is as good as "high", so only low-confidence lines hold a claim. |
+| **A review screen, not a terminal** | The app's Review queue tab shows the receipt image, the extracted lines with confidence, every issue with its evidence, and Approve / Reject with a note; the decision resumes the paused LangGraph run and the member's message is written from it. |
+| **An audit trail** | Every interactive decision is one line in `data/audit_log.jsonl`: claim, amounts, currency, image fingerprint, decision and reason, issues with evidence, model and prompt versions, cost, time, and what the reviewer did. Shown in the Audit log tab. |
+| **Corrections flow back, approvals get spot-checked** | Reviewer decisions are written to `data/review_corrections.json` as labelled cases (agent decision, human decision, note), ready to replay in the next evaluation. One in ten auto-approved claims is marked for a random human audit, so errors in the "approve" bucket cannot stay invisible. |
+| **Rules beside scores** | Confidence alone misses confident errors, so the arithmetic, duplicate and claim checks run regardless of confidence, as the guidance recommends. |
+| **Regression tests on every push** | `.github/workflows/ci.yml` runs the 80 unit tests and the run-1 → run-2 regression gate on each push. |
+| **PII handled in code** | Card-like digit runs are masked in extracted lines before they reach a log, a draft or a screen; four medical invoices never entered the repo. |
+| **Policy per currency** | A receipt's currency selects the policy set: Rupiah receipts use the Indonesian policy and price list the project was measured on, Singapore receipts use an SGD policy with SGD thresholds and a price list built from my own receipts. |
+
+Sources: [Docsumo on human-in-the-loop review](https://www.docsumo.com/blog/human-in-the-loop-systems), [Parseur on HITL thresholds and calibration](https://parseur.com/blog/hitl-best-practices), [Extend's confidence-score guide](https://www.extend.ai/resources/document-processing-confidence-scores-guide), [LangChain's agent evaluation checklist](https://www.langchain.com/blog/agent-evaluation-readiness-checklist), [Brex's audit and review agents](https://ramp.com/blog/brex-vs-expensify-vs-ramp) (vendor description).

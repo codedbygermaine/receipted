@@ -31,7 +31,7 @@ export function ReceiptPanel({ src, items, total, currency, readability, highlig
       <div className="min-w-0">
         <div className="flex flex-wrap items-baseline justify-between gap-2 text-sm">
           <div><span className="text-foreground/70">Receipt total</span> <span className="font-semibold">{money(total, currency)}</span></div>
-          <div className="text-xs text-foreground/60">{items.length} lines read{readability && readability !== "clear" ? ` · photo ${readability}` : ""}{unsure ? ` · ${unsure} hard to read` : ""}</div>
+          {(unsure > 0 || (readability && readability !== "clear")) && <div className="text-xs text-foreground/60">{readability && readability !== "clear" ? `photo ${readability}` : ""}{readability && readability !== "clear" && unsure ? " · " : ""}{unsure ? `${unsure} hard to read` : ""}</div>}
         </div>
         <Table className="mt-2 text-sm">
           <TableHeader><TableRow>{anyQty && <TableHead className="w-10 text-right">Qty</TableHead>}<TableHead>Item</TableHead><TableHead className="text-right">Total</TableHead></TableRow></TableHeader>
