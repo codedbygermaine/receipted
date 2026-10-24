@@ -5,10 +5,11 @@ the draft reply, and a trace with timings and cost. The Review queue tab is what
 """
 
 import datetime as dt
+import hashlib
 import json
 import os
 import sys
-import tempfile
+import uuid
 from pathlib import Path
 
 import streamlit as st
@@ -30,8 +31,10 @@ try:
 except Exception:
     pass
 
-from receipted import audit, llm                                          # noqa: E402
+from receipted import audit, llm, rules                                   # noqa: E402
 from receipted.graph import pending_reviews, resume_review, run_claim     # noqa: E402
+
+rules.VOTES = 3   # the demo favours consistent answers over a fraction of a cent: every rule check is a 3-run majority
 
 DAILY_CAP = 30
 USAGE_FILE = llm.DATA_DIR / "usage.json"
@@ -41,9 +44,9 @@ SAMPLES = [
     ("Brunch for 3", "data/external/singapore/sg_24.jpg", 101.90, "Team brunch, 3 people",
      "Eggs Benedict, 1, 28.00\nBrussels Salad, 1, 27.00\nSymmetry Breakfast, 1, 30.00", "clean claim → approve"),
     ("Pharmacy run", "data/external/singapore/sg_09.jpg", 20.40, "Supplies for event",
-     "W22 Unscented Baby Wipes, 2, 3.50\nW21 Transparent Plasters, 2, 4.55\nActal Tablet, 1, 4.80\nImodium Cap, 1, 7.55", "medicines → personal items (C6)"),
+     "W22 Unscented Baby Wipes, 1, 3.50\nW21 Transparent Plasters, 1, 4.55\nActal Tablet, 1, 4.80\nImodium Cap, 1, 7.55", "medicines → held under C6 (personal items)"),
     ("Café, over-claimed", "data/external/singapore/sg_23.jpg", 130.00, "Committee lunch, 4 people", "", "claim above receipt → reject"),
-    ("Cinema, no purpose", "data/external/singapore/sg_03.jpg", 67.50, "", "SAFRA Movie Perks, 5, 67.50", "no purpose → needs review"),
+    ("Cinema, no purpose", "data/external/singapore/sg_03.jpg", 67.50, "", "SAFRA Movie Perks, 5, 67.50", "no purpose stated → held (C1)"),
     ("Bakery (IDR)", "app/samples/validation_000.jpg", 45500, "Snacks for orientation booth, 5 people",
      "Real Ganache, 1, 16500\nEgg Tart, 1, 13000\nPizza Toast, 1, 16000", "clean claim → approve"),
     ("Dinner + beer (IDR)", "app/samples/validation_025.jpg", 250000, "Committee dinner, 4 people",
@@ -96,18 +99,37 @@ def record_usage() -> None:
     USAGE_FILE.write_text(json.dumps({"date": str(dt.date.today()), "count": usage_today() + 1}))
 
 
-def parse_items(text: str) -> list[dict]:
-    items = []
-    for line in text.strip().splitlines():
-        parts = [p.strip() for p in line.split(",")]
-        if not parts or not parts[0]:
+def parse_items(text: str) -> tuple[list[dict], list[str]]:
+    """'name, qty, line total' per line. The name may contain commas: numbers are taken from the right.
+    Returns (items, problems)."""
+    items, problems = [], []
+    for n, line in enumerate(text.strip().splitlines(), 1):
+        if not line.strip():
             continue
-        item = {"name": parts[0], "qty": 1, "line_total": None}
-        for key, idx in (("qty", 1), ("line_total", 2)):
-            if len(parts) > idx and parts[idx]:
-                v = float(parts[idx]); item[key] = int(v) if v.is_integer() else v
+        parts = [p.strip() for p in line.split(",")]
+        nums = []
+        while len(parts) > 1 and len(nums) < 2:
+            try:
+                nums.insert(0, float(parts[-1].replace("S$", "").replace("$", "")))
+                parts.pop()
+            except ValueError:
+                break
+        name = ", ".join(parts).strip()
+        if not name:
+            problems.append(f"line {n}: no item name"); continue
+        item = {"name": name, "qty": 1, "line_total": None}
+        if len(nums) == 2:
+            item["qty"], item["line_total"] = nums
+        elif len(nums) == 1:
+            item["line_total"] = nums[0]
+        for k in ("qty", "line_total"):
+            v = item[k]
+            if isinstance(v, float) and v.is_integer():
+                item[k] = int(v)
+        if item["qty"] is not None and item["qty"] <= 0:
+            problems.append(f"line {n}: quantity must be above zero")
         items.append(item)
-    return items
+    return items, problems
 
 
 def money(v, cur):
@@ -216,14 +238,19 @@ with tab_check:
         choice = st.radio("Sample receipts", labels + ["Upload my own"], horizontal=True, label_visibility="collapsed")
         image_path, s_amount, s_purpose, s_items, s_expect = None, 0.0, "", "", ""
         if choice == "Upload my own":
-            upload = st.file_uploader("Photo of the receipt", type=["png", "jpg", "jpeg"])
+            upload = st.file_uploader("Photo of the receipt (JPG or PNG)", type=["png", "jpg", "jpeg"])
+            st.caption("Public demo: an uploaded receipt and its verdict are visible to other visitors in the Review queue "
+                       "and Audit log until the next redeploy. Use test receipts, and cover card numbers and names.")
             if upload is not None:
-                tmp = tempfile.NamedTemporaryFile(delete=False, suffix=Path(upload.name).suffix); tmp.write(upload.getvalue()); tmp.close()
-                image_path = Path(tmp.name)
+                data = upload.getvalue()
+                updir = llm.DATA_DIR / "uploads"; updir.mkdir(parents=True, exist_ok=True)
+                image_path = updir / (hashlib.sha256(data).hexdigest()[:16] + (Path(upload.name).suffix.lower() or ".jpg"))
+                if not image_path.exists():
+                    image_path.write_bytes(data)
         else:
             _, s_path, s_amount, s_purpose, s_items, s_expect = SAMPLES[labels.index(choice)]
             image_path = ROOT / s_path
-            st.caption(f"Expected: {s_expect}")
+            st.caption(f"Usually: {s_expect}")
         if image_path is not None:
             st.image(str(image_path), width=300)
 
@@ -235,20 +262,40 @@ with tab_check:
         with st.expander("Options"):
             model = st.selectbox("Model", [llm.DEFAULT_MODEL, llm.LARGE_MODEL])
             pause = st.checkbox("Pause for a reviewer when the decision is needs_review", value=True)
+            st.caption("Uploaded receipts are remembered, so claiming the same receipt twice is caught (policy C9). "
+                       "Sample receipts are not, so you can re-run them freely.")
         run = st.button("Check this claim", type="primary", disabled=image_path is None, width="stretch")
 
     with right:
         if run:
-            if usage_today() >= DAILY_CAP:
-                st.error(f"Daily limit of {DAILY_CAP} checks reached on this demo. Try again tomorrow.")
+            items, problems = parse_items(items_text)
+            if problems:
+                st.error("Please fix the items list: " + "; ".join(problems))
                 st.stop()
-            claim = {"claim_id": f"DEMO-{dt.datetime.now().strftime('%H%M%S')}", "submitter": submitter, "purpose": purpose,
-                     "amount": int(amount) if float(amount).is_integer() else float(amount), "currency": "", "items": parse_items(items_text)}
-            with st.status("Reading the receipt and running the checks…", expanded=False) as status:
-                state = run_claim(image_path, claim, model=model, register=True, review=pause, source="app")
-                status.update(label=f"Done in {state['total_seconds']:.0f}s", state="complete")
+            if usage_today() >= DAILY_CAP:
+                st.error(f"This public demo has a shared budget of {DAILY_CAP} live checks per day and it has been used up for today. "
+                         "The sample receipts still work from cache; new uploads will work again tomorrow.")
+                st.stop()
+            is_upload = choice == "Upload my own"   # samples are re-run endlessly: never treat them as real submissions
+            claim = {"claim_id": f"DEMO-{dt.datetime.now():%Y%m%d-%H%M%S}-{uuid.uuid4().hex[:4]}", "submitter": submitter,
+                     "purpose": purpose, "amount": int(amount) if float(amount).is_integer() else float(amount),
+                     "currency": "", "items": items}
+            try:
+                with st.status("Reading the receipt and running the checks…", expanded=False) as status:
+                    state = run_claim(image_path, claim, model=model, register=is_upload, check_duplicates=is_upload,
+                                      review=pause, source="app")
+                    status.update(label=f"Done in {state['total_seconds']:.0f}s", state="complete")
+            except Exception as e:
+                st.error(f"The check could not finish: {type(e).__name__}: {str(e)[:300]}")
+                st.stop()
             if not all(e.get("cached") for e in state["trace"] if "cost_usd" in e):
                 record_usage()
+            st.session_state["last_result"] = (state, claim)
+            st.session_state.setdefault("my_claims", []).append(claim["claim_id"])
+            render_result(state, claim)
+        elif "last_result" in st.session_state:
+            state, claim = st.session_state["last_result"]
+            st.caption("Your last result. Press Check this claim to run again.")
             render_result(state, claim)
         else:
             st.markdown('<div class="rc-step">Verdict</div>', unsafe_allow_html=True)
@@ -264,15 +311,23 @@ with tab_review:
     st.markdown('<div class="rc-step">Claims waiting for a person</div>', unsafe_allow_html=True)
     st.caption("The reviewer sees the receipt, the extracted lines with their confidence, each issue with its evidence, and decides. "
                "The decision resumes the paused run and the member's reply is written from it.")
+    st.caption("Public demo: this queue is shared by every visitor and anyone may act as the reviewer. "
+               "Decisions made here are logged as demo reviews and are not used as evaluation data.")
     try:
         pending = pending_reviews()
     except Exception as e:
         st.error(f"Review queue unavailable: {type(e).__name__}: {e}"); pending = []
+    mine = set(st.session_state.get("my_claims", []))
+    yours = [pz for pz in pending if pz["claim_id"] in mine]
+    others = [pz for pz in pending if pz["claim_id"] not in mine]
     if not pending:
         st.info("Nothing waiting. Run a claim with the pause option on and a needs-review outcome to see one here.")
-    for pz in pending:
+
+    def review_card(pz):
+        rc = pz.get("receipt") or {}
+        cur = rc.get("currency") or ""
         with st.container(border=True):
-            st.markdown(f"**{pz['claim_id']}** · {pz['submitter']} · claimed {pz['amount']} · purpose: {pz['purpose'] or '(none)'}")
+            st.markdown(f"**{pz['claim_id']}** · {pz['submitter']} · claimed {cur} {pz['amount']} · purpose: {pz['purpose'] or '(none)'}")
             st.caption(f"Why it is here: {pz['reason']}")
             c1, c2 = st.columns([1, 1.7])
             with c1:
@@ -291,9 +346,23 @@ with tab_review:
                 approve = a.form_submit_button("Approve", type="primary", width="stretch")
                 reject = b.form_submit_button("Reject", width="stretch")
                 if approve or reject:
-                    done = resume_review(pz["claim_id"], "approve" if approve else "reject", note)
-                    st.success(f"{pz['claim_id']} → {done['decision'].upper()}")
-                    st.markdown(f'<div class="rc-draft">{done["draft"]}</div>', unsafe_allow_html=True)
+                    try:
+                        done = resume_review(pz["claim_id"], "approve" if approve else "reject", note, source="demo-review")
+                        st.success(f"{pz['claim_id']} → {done['decision'].upper()}")
+                        st.markdown(f'<div class="rc-draft">{done["draft"]}</div>', unsafe_allow_html=True)
+                    except ValueError as e:
+                        st.warning(f"Someone decided this one just before you: {e}")
+                    except Exception as e:
+                        st.error(f"Could not resume this claim: {type(e).__name__}: {str(e)[:200]}")
+
+    if yours:
+        st.markdown('<div class="rc-step">Your claims</div>', unsafe_allow_html=True)
+        for pz in yours:
+            review_card(pz)
+    if others:
+        with st.expander(f"{len(others)} claim(s) paused by other visitors (showing up to 10)", expanded=not yours):
+            for pz in others[:10]:
+                review_card(pz)
 
 with tab_audit:
     st.markdown('<div class="rc-step">Every decision, with its evidence</div>', unsafe_allow_html=True)
@@ -311,8 +380,8 @@ with tab_audit:
                        "currency": e["currency"], "decision": e["decision"], "by a person": e["reviewed_by_human"],
                        "spot-check": e.get("audit_sample", False), "issues": len(e["issues"]), "dropped": e["dropped_by_verifier"],
                        "cost $": e["cost_usd"]} for e in entries], width="stretch", hide_index=True)
-        st.caption("Each row is one line in data/audit_log.jsonl with the full issues, evidence, prompt versions and cost. "
-                   "Reviewer decisions are also written to data/review_corrections.json as labelled cases for the next evaluation.")
+        st.caption("Each row is one record in an append-only JSON-lines log with the full issues, evidence, prompt versions and cost. "
+                   "Reviewer decisions in real use become labelled cases for the next evaluation; demo reviews are logged but excluded.")
 
 with tab_how:
     st.graphviz_chart("""

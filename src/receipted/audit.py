@@ -53,7 +53,7 @@ def record(state: dict, source: str, reviewer_note: str | None = None) -> dict:
     AUDIT_PATH.parent.mkdir(parents=True, exist_ok=True)
     with open(AUDIT_PATH, "a") as f:
         f.write(json.dumps(entry, ensure_ascii=False) + "\n")
-    if entry["reviewed_by_human"]:
+    if entry["reviewed_by_human"] and source != "demo-review":   # a stranger's click on a public demo is not a label
         _add_correction(entry)
     return entry
 

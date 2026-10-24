@@ -54,7 +54,7 @@ def main(split, model, limit, yes):
     rows = []
     for c in claims:
         agent_claim = {k: c[k] for k in CLAIM_FIELDS}
-        state = run_claim(ROOT / c["image_path"], agent_claim, model=model)
+        state = run_claim(ROOT / c["image_path"], agent_claim, model=model, source="eval")
         labels = c["labels"]
         issues = state["verified_issues"]
         all_labels = ([labels["planted_error"]] if labels["planted_error"] else []) + labels["natural_flags"]

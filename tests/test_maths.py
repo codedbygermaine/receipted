@@ -135,3 +135,11 @@ def test_tolerance_depends_on_currency():
     assert check_receipt(rounded) == []
     idr = receipt([item("A", 1, None, 10000)], subtotal=10000, total=10001)
     assert check_receipt(idr) == []
+
+
+def test_personal_items_are_held_for_confirmation_under_c6():
+    r = receipt([item("ACTAL TABLET 20'S", 1, None, 4.80, raw="Plu# 10043 ACTAL TABLET 4.80"), item("Nasi Goreng", 1, None, 8.00)],
+                subtotal=12.80, total=12.80)
+    found = [i for i in check_receipt(r) if i["type"] == "possible_personal_item"]
+    assert len(found) == 1 and found[0]["clause_id"] == "C6" and found[0]["severity"] == "medium"
+    assert found[0]["receipt_line"] == "Plu# 10043 ACTAL TABLET 4.80"

@@ -25,7 +25,7 @@ def write_draft(claim: dict, receipt: dict | None, decision: str, reason: str, i
         "claim_id": claim.get("claim_id"),
         "submitter": claim.get("submitter", "member"),
         "claimed_amount": claim.get("amount"),
-        "currency": claim.get("currency", "IDR"),
+        "currency": claim.get("currency") or (receipt or {}).get("currency") or "IDR",
         "receipt_total": receipt.get("total") if receipt else None,
         "decision": decision,
         "decision_reason": reason,

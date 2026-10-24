@@ -20,7 +20,7 @@ The amount claimed must equal the total printed on the receipt. A claim for more
 For items that appear on the agreed price list, the unit price paid must not exceed the agreed maximum unit price for that item. Any amount above the agreed maximum is not reimbursed and the claim is held for review.
 
 ### C6. Personal and non-business items
-Personal items are not reimbursable: toiletries, clothing, phone credit (pulsa), gift cards, games, lottery, medicines for personal use, and gifts for individuals. Such items are rejected.
+Personal items are not reimbursable: toiletries, clothing, phone credit (pulsa), gift cards, games, lottery, medicines for personal use, and gifts for individuals. Such items are rejected. Items that may serve the activity (first-aid supplies, medicines for an event kit, cleaning products) are held for review until the club purpose is confirmed.
 
 ### C7. Two approvers above IDR 500,000
 Any single claim above IDR 500,000 requires sign-off from two approvers before payment. The checker must mark such claims for review rather than approving them automatically.

@@ -28,6 +28,8 @@ class State(TypedDict, total=False):
     claim: dict
     model: str
     register: bool            # remember this claim for duplicate detection (CLI/app/MCP yes, eval runs no)
+    check_duplicates: bool    # consult the registry at all (off for demo samples, which are re-run endlessly)
+    log: bool                 # write the decision to the audit log (eval runs: no)
     review: bool              # pause for a human when the decision is needs_review (CLI --review)
     reviewed_by_human: bool
     fingerprint: str
@@ -70,8 +72,10 @@ def node_extract(state):
     try:
         r = extract(state["image_path"], model=state["model"])
     except ExtractionError as e:
-        return {"receipt": None, "error": str(e), "extraction_meta": {},
-                "_summary": f"extraction failed: {e}"}
+        return {"receipt": None, "error": str(e), "extraction_meta": {}, "_summary": f"extraction failed: {e}"}
+    except Exception as e:  # unreadable file, image library error, API error: still a clean "needs a person" path
+        return {"receipt": None, "error": f"{type(e).__name__}: {str(e)[:200]}", "extraction_meta": {},
+                "_summary": f"extraction failed: {type(e).__name__}"}
     meta = {k: getattr(r, k) for k in ("model", "input_tokens", "output_tokens", "latency_s", "cost_usd", "attempts", "cached")}
     fingerprint = image_fingerprint(prepare_image(state["image_path"])[0])
     return {"receipt": r.receipt, "error": None, "extraction_meta": meta, "fingerprint": fingerprint,
@@ -87,9 +91,10 @@ def route_after_extract(state) -> str:
 @traced("maths_check")
 def node_maths(state):
     issues = maths.check_receipt(state["receipt"]) + maths.check_claim(state["claim"], state["receipt"])
-    match = find_duplicate(state["fingerprint"], state["receipt"], claim_id=state["claim"].get("claim_id"))
-    if match:
-        issues.append(duplicate_issue(match))
+    if state.get("check_duplicates", True):
+        match = find_duplicate(state["fingerprint"], state["receipt"], claim_id=state["claim"].get("claim_id"))
+        if match:
+            issues.append(duplicate_issue(match))
     return {"maths_issues": issues, "_summary": f"{len(issues)} issues: {[i['type'] for i in issues]}"}
 
 
@@ -243,34 +248,47 @@ def _finish(state, t0):
 
 
 def run_claim(image_path: str, claim: dict, model: str = llm.DEFAULT_MODEL, register: bool = False,
-              review: bool = False, source: str = "cli") -> dict:
+              review: bool = False, source: str = "cli", check_duplicates: bool | None = None,
+              log: bool | None = None) -> dict:
     """Run one receipt + claim through the graph. Returns the final state, with totals added.
     register=True records the claim for duplicate detection; eval runs leave it False.
     review=True pauses a needs_review claim for a person (resume with resume_review)."""
     t0 = time.perf_counter()
+    if check_duplicates is None:
+        check_duplicates = register   # a run that is not recorded is not checked against the record either
+    if log is None:
+        log = source != "eval"        # evaluation runs stay out of the audit log
     inputs = {"image_path": str(image_path), "claim": claim, "model": model, "register": register,
-              "review": review, "reviewed_by_human": False, "fingerprint": "", "trace": []}
+              "check_duplicates": check_duplicates, "log": log, "review": review, "reviewed_by_human": False,
+              "fingerprint": "", "trace": []}
     if review:
         thread_id = claim.get("claim_id") or str(image_path)
         state = review_graph().invoke(inputs, {"configurable": {"thread_id": thread_id}})
         if "__interrupt__" in state:
-            _queue_write(_queue_read() + [thread_id])
+            try:
+                _queue_write(_queue_read() + [thread_id])
+            except (OSError, ValueError):
+                _queue_write([thread_id])
     else:
         state = plain_graph().invoke(inputs)
     state = _finish(state, t0)
-    if register:  # interactive runs are logged; evaluation runs are not
+    if log:
         audit.record(state, source=source)
     return state
 
 
-def resume_review(claim_id: str, decision: str, note: str = "") -> dict:
-    """Resume a paused claim with a person's decision. Returns the final state, draft included."""
+def resume_review(claim_id: str, decision: str, note: str = "", source: str = "review") -> dict:
+    """Resume a paused claim with a person's decision. Returns the final state, draft included.
+    Raises ValueError if the claim is not waiting (already decided, or never paused)."""
     t0 = time.perf_counter()
     config = {"configurable": {"thread_id": claim_id}}
+    snap = review_graph().get_state(config)
+    if not snap.next or "human_review" not in snap.next:
+        raise ValueError(f"{claim_id} is not waiting for review (already decided?)")
     state = review_graph().invoke(Command(resume={"decision": decision, "note": note}), config)
     _queue_write([t for t in _queue_read() if t != claim_id])
     state = _finish(state, t0)
-    audit.record(state, source="review", reviewer_note=note)
+    audit.record(state, source=source, reviewer_note=note)
     return state
 
 
@@ -279,7 +297,10 @@ REVIEW_QUEUE = llm.DATA_DIR / "review_queue.json"
 
 def _queue_read() -> list[str]:
     import json
-    return json.loads(REVIEW_QUEUE.read_text()) if REVIEW_QUEUE.exists() else []
+    try:
+        return json.loads(REVIEW_QUEUE.read_text()) if REVIEW_QUEUE.exists() else []
+    except (OSError, ValueError):
+        return []
 
 
 def _queue_write(ids: list[str]) -> None:

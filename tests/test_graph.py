@@ -54,3 +54,10 @@ def test_review_routing_only_pauses_needs_review_in_review_mode():
     assert route_after_decide({"review": True, "decision": "needs_review"}) == "human_review"
     assert route_after_decide({"review": True, "decision": "approve"}) == "draft"
     assert route_after_decide({"review": False, "decision": "needs_review"}) == "draft"
+
+
+def test_duplicate_check_defaults_follow_register():
+    import inspect
+    from receipted.graph import run_claim
+    sig = inspect.signature(run_claim)
+    assert sig.parameters["check_duplicates"].default is None and sig.parameters["register"].default is False
