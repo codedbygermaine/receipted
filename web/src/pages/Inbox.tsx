@@ -38,9 +38,9 @@ export default function Inbox() {
 
   return (
     <div>
-      <div className="flex items-baseline justify-between">
+      <div className={`${mobileOpen ? "hidden lg:flex" : "flex"} items-baseline justify-between`}>
         <h1 className="text-2xl font-semibold tracking-tight sm:text-3xl">Inbox{data ? ` (${pending.length})` : ""}</h1>
-        <button type="button" onClick={() => load()} className="text-sm text-foreground/60 hover:text-foreground">Refresh</button>
+        <button type="button" onClick={() => load()} className="-my-1 py-1 text-sm text-foreground/60 hover:text-foreground">Refresh</button>
       </div>
       {error && <p className="mt-4 text-sm text-foreground/70">The inbox couldn't load. Try Refresh in a moment.</p>}
 
@@ -54,10 +54,10 @@ export default function Inbox() {
                 const g = groupIssues(p.verified_issues); const on = sel === p.job_id
                 return (
                   <button key={p.job_id} type="button" onClick={() => { setSel(p.job_id!); setMobileOpen(true) }} aria-current={on || undefined}
-                    className={`block w-full px-3 py-3 text-left transition-colors ${on ? "bg-muted" : "hover:bg-muted/50"}`}>
-                    <div className="flex items-baseline justify-between gap-3"><span className="font-medium tabular-nums">{money(p.claimed_amount, p.currency)}</span><span className="shrink-0 text-xs text-foreground/50">{ago(claimTime(p.claim_id))}</span></div>
+                    className={`block w-full border-l-2 px-3 py-3 text-left transition-colors ${on ? "border-foreground bg-muted" : "border-transparent hover:bg-muted/50"}`}>
+                    <div className="flex items-baseline justify-between gap-3"><span className="font-medium tabular-nums">{money(p.claimed_amount, p.currency)}</span><span className="shrink-0 text-xs text-foreground/60">{ago(claimTime(p.claim_id))}</span></div>
                     <div className="mt-0.5 truncate text-sm text-foreground/70">{p.submitter}{p.purpose ? `, ${p.purpose}` : ""}</div>
-                    <div className="mt-0.5 truncate text-sm text-foreground/50">{g.length ? issueTitle(g[0].issue) + (g.length > 1 ? ` and ${g.length - 1} more` : "") : "A line was hard to read"}</div>
+                    <div className="mt-0.5 truncate text-sm text-foreground/60">{g.length ? issueTitle(g[0].issue) + (g.length > 1 ? ` and ${g.length - 1} more` : "") : "A line was hard to read"}</div>
                   </button>
                 )
               })}
@@ -65,14 +65,14 @@ export default function Inbox() {
           )}
           {data && data.decided.length > 0 && (
             <details className="mt-6 text-sm">
-              <summary className="cursor-pointer py-1 text-foreground/60 hover:text-foreground">Decided recently ({data.decided.length})</summary>
+              <summary className="cursor-pointer py-1 text-foreground/60 hover:text-foreground">Decided recently</summary>
               <ul className="mt-1 divide-y border-y">
                 {data.decided.slice(0, 10).map(p => {
                   const final = p.human?.decision ?? p.decision
                   return (
                     <li key={p.job_id}><Link to={`/claim/${p.job_id}`} className="flex items-baseline justify-between gap-3 px-3 py-2 hover:bg-muted/50">
                       <span className="truncate text-foreground/80">{p.submitter}, {money(p.claimed_amount, p.currency)}</span>
-                      <span className="shrink-0 text-xs text-foreground/50">{final === "approve" ? "approved" : "rejected"}{p.human ? ` by ${p.human.reviewer}` : ""}</span>
+                      <span className="shrink-0 text-xs text-foreground/60">{final === "approve" ? "approved" : "rejected"}{p.human ? ` by ${p.human.reviewer}` : ""}</span>
                     </Link></li>
                   )
                 })}
@@ -83,7 +83,7 @@ export default function Inbox() {
 
         <div className={`min-w-0 ${mobileOpen ? "" : "hidden lg:block"}`}>
           {current ? <Claim key={current.job_id} r={current} onBack={() => setMobileOpen(false)} onSettled={settled} />
-            : data && pending.length === 0 ? null : <p className="pt-2 text-sm text-foreground/50">Select a claim.</p>}
+            : data && pending.length === 0 ? null : <p className="pt-2 text-sm text-foreground/60">Select a claim.</p>}
         </div>
       </div>
     </div>
@@ -97,6 +97,7 @@ function Claim({ r, onBack, onSettled }: { r: Result; onBack: () => void; onSett
   const [who, setWho] = useState("Treasurer")
   const [editWho, setEditWho] = useState(false)
   const [busy, setBusy] = useState<"approve" | "reject" | null>(null)
+  const [confirmReject, setConfirmReject] = useState(false)
   useEffect(() => { getJobImage(r.job_id!).then(setImg).catch(() => {}) }, [r.job_id])
 
   async function go(decision: "approve" | "reject") {
@@ -109,7 +110,7 @@ function Claim({ r, onBack, onSettled }: { r: Result; onBack: () => void; onSett
   }
 
   return (
-    <article className="enter">
+    <article>
       <button type="button" onClick={onBack} className="-ml-1 mb-3 inline-flex items-center gap-1 text-sm text-foreground/60 hover:text-foreground lg:hidden"><ArrowLeft className="size-4" /> Inbox</button>
       <h2 className="text-lg font-semibold">{r.submitter} claims {money(r.claimed_amount, r.currency)}</h2>
       <p className="mt-0.5 text-sm text-foreground/60">{r.purpose ? `${r.purpose}, ` : "No purpose given, "}{ago(claimTime(r.claim_id))}</p>
@@ -124,11 +125,13 @@ function Claim({ r, onBack, onSettled }: { r: Result; onBack: () => void; onSett
       <div className="mt-8 border-t pt-6">
         <Input value={note} onChange={e => setNote(e.target.value)} placeholder="Add a note for the reply" aria-label="Note for the reply" />
         <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-2">
-          <Button size="lg" disabled={!!busy} onClick={() => go("approve")}>{busy === "approve" ? <Loader2 className="size-4 animate-spin" /> : null} Approve</Button>
-          <Button size="lg" variant="ghost" disabled={!!busy} onClick={() => go("reject")}>{busy === "reject" ? <Loader2 className="size-4 animate-spin" /> : null} Reject</Button>
+          <Button size="lg" disabled={!!busy} onClick={() => go("approve")}>{busy === "approve" ? <Loader2 className="size-4 animate-spin motion-reduce:animate-none" /> : null} Approve</Button>
+          {confirmReject
+            ? <span className="inline-flex items-center gap-2 text-sm"><span>Reject {r.submitter}'s claim?</span><Button size="sm" variant="destructive" disabled={!!busy} onClick={() => go("reject")}>{busy === "reject" ? <Loader2 className="size-4 animate-spin motion-reduce:animate-none" /> : null} Reject</Button><Button size="sm" variant="ghost" onClick={() => setConfirmReject(false)}>Cancel</Button></span>
+            : <Button size="lg" variant="ghost" disabled={!!busy} onClick={() => setConfirmReject(true)}>Reject</Button>}
           <span className="ml-auto text-sm text-foreground/60">
-            {editWho ? <Input autoFocus value={who} onChange={e => setWho(e.target.value)} onBlur={() => setEditWho(false)} aria-label="Signed by" className="h-8 w-36" />
-              : <>Signed by {who} <button type="button" onClick={() => setEditWho(true)} className="underline-offset-2 hover:underline">change</button></>}
+            {editWho ? <Input autoFocus value={who} onChange={e => setWho(e.target.value)} onBlur={() => setEditWho(false)} onKeyDown={e => e.key === "Enter" && setEditWho(false)} aria-label="Signed by" className="h-8 w-36" />
+              : <>Signed by <button type="button" onClick={() => setEditWho(true)} className="-my-1 py-1 underline decoration-dotted underline-offset-2 hover:text-foreground">{who}</button></>}
           </span>
         </div>
       </div>

@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import type { Issue, Item, Result } from "@/lib/api"
 import { clauseText, groupIssues, issueTitle, money, tidyMessage } from "@/lib/format"
 
@@ -17,25 +17,25 @@ export function ClaimReview({ r, image, muted = false }: { r: Result; image: str
   const rest = r.items.filter((_, i) => !flaggedItems.has(i))
 
   return (
-    <div className="grid gap-6 sm:grid-cols-[200px_1fr]">
+    <div className="grid grid-cols-[96px_1fr] gap-4 sm:grid-cols-[200px_1fr] sm:gap-6">
       <Photo src={image} />
       <div className="min-w-0">
         <div className="flex items-baseline justify-between text-sm">
           <span className="text-foreground/60">Receipt total</span>
-          <span className="font-mono tabular-nums">{money(r.receipt_total, r.currency)}</span>
+          <span className="tabular-nums">{money(r.receipt_total, r.currency)}</span>
         </div>
         {rows.length > 0 ? (
           <div className="mt-3 divide-y border-y">
             {rows.map(({ g, item }, k) => <Flagged key={k} issue={g.issue} also={g.also} item={item} currency={r.currency} muted={muted} />)}
           </div>
         ) : (
-          <p className="mt-3 text-sm text-foreground/70">No rule was broken. A line was hard to read, so a person checks the numbers.</p>
+          <p className="mt-3 text-sm text-foreground/70">No rule broken. A line was hard to read.</p>
         )}
         {rest.length > 0 && (
           <details className="mt-3 text-sm">
-            <summary className="cursor-pointer py-1 text-foreground/60 hover:text-foreground">{rows.length ? `${rest.length} other line${rest.length === 1 ? "" : "s"}` : `${rest.length} line${rest.length === 1 ? "" : "s"} read`}</summary>
+            <summary className="cursor-pointer py-1 text-foreground/60 hover:text-foreground">{rows.length ? "Other lines" : "Lines read"}</summary>
             <ul className="mt-1 divide-y">
-              {rest.map((it, i) => <li key={i} className={`flex justify-between gap-4 py-1.5 ${(it.line_total ?? 0) < 0 ? "text-foreground/50" : "text-foreground/80"}`}><span className="min-w-0 break-words">{it.name}{it.confidence && it.confidence !== "high" ? <span className="ml-2 text-xs text-foreground/50">hard to read</span> : null}</span><span className="shrink-0 font-mono text-xs tabular-nums">{money(it.line_total, null)}</span></li>)}
+              {rest.map((it, i) => <li key={i} className={`flex justify-between gap-4 py-1.5 ${(it.line_total ?? 0) < 0 ? "text-foreground/60" : "text-foreground/80"}`}><span className="min-w-0 break-words">{it.name}{it.confidence && it.confidence !== "high" ? <span className="ml-2 text-xs text-foreground/60">hard to read</span> : null}</span><span className="shrink-0 text-xs tabular-nums">{money(it.line_total, null)}</span></li>)}
             </ul>
           </details>
         )}
@@ -52,35 +52,40 @@ function Flagged({ issue, also, item, currency, muted }: { issue: Issue; also: s
     <div className={`py-3 ${muted ? "text-foreground/70" : ""}`}>
       <div className="flex items-baseline justify-between gap-4">
         <span className="min-w-0 break-words font-medium">{title}</span>
-        {item && <span className="shrink-0 font-mono text-sm tabular-nums">{money(item.line_total, currency)}</span>}
+        {item && <span className="shrink-0 text-sm tabular-nums">{money(item.line_total, currency)}</span>}
       </div>
       <p className="mt-1 text-sm text-foreground/80">{tidyMessage(issue.message, item?.name)}</p>
       {also.map((m, k) => <p key={k} className="mt-1 text-sm text-foreground/60">{tidyMessage(m, item?.name)}</p>)}
       {clause && (
-        <div className="mt-1.5">
-          <button type="button" onClick={() => setOpen(o => !o)} className="text-xs text-foreground/60 underline-offset-2 hover:text-foreground hover:underline">{open ? "Hide the rule" : `Rule ${issue.clause_id || ""}`.trim()}</button>
-          {open && <p className="enter mt-1.5 text-sm leading-relaxed text-foreground/70">{clause}</p>}
+        <div className="mt-1">
+          <button type="button" onClick={() => setOpen(o => !o)} className="-my-1 py-1 text-xs text-foreground/60 underline-offset-2 hover:text-foreground hover:underline">{open ? "Hide the rule" : `Rule ${issue.clause_id || ""}`.trim()}</button>
+          {open && <p className="mt-1.5 text-sm leading-relaxed text-foreground/70">{clause}</p>}
         </div>
       )}
     </div>
   )
 }
 
-/** The receipt photo. Hover rests a readable copy over the page; click opens it full size. */
-function Photo({ src }: { src: string | null }) {
-  const [big, setBig] = useState(false)
+/** The receipt photo; click opens it full size in a real dialog (Escape closes, focus is trapped by the platform). */
+export function Photo({ src, className = "" }: { src: string | null; className?: string }) {
+  const dlg = useRef<HTMLDialogElement>(null)
   if (!src) return <div className="aspect-[3/4] w-full animate-pulse rounded-md bg-muted" />
   return (
-    <div className="group relative">
-      <button type="button" onClick={() => setBig(b => !b)} aria-label={big ? "Shrink the receipt" : "Enlarge the receipt"} className="block w-full">
+    <div className={className}>
+      <button type="button" onClick={() => dlg.current?.showModal()} aria-label="Enlarge the receipt" className="block w-full cursor-zoom-in rounded-md">
         <img src={src} alt="Receipt photo" className="w-full rounded-md border bg-white" />
       </button>
-      <img src={src} alt="" className="pointer-events-none absolute left-0 top-0 z-30 hidden w-[380px] max-w-[85vw] rounded-md border bg-white shadow-2xl group-hover:block" />
-      {big && (
-        <div className="fixed inset-0 z-50 flex cursor-zoom-out items-center justify-center bg-black/60 p-4" onClick={() => setBig(false)}>
-          <img src={src} alt="Receipt photo, enlarged" className="enter max-h-full max-w-full rounded-md bg-white" />
-        </div>
-      )}
+      <Lightbox ref={dlg} src={src} />
     </div>
+  )
+}
+
+export function Lightbox({ ref, src }: { ref: React.RefObject<HTMLDialogElement | null>; src: string | null }) {
+  useEffect(() => { if (!src) ref.current?.close() }, [src, ref])
+  return (
+    <dialog ref={ref} onClick={e => { if (e.target === e.currentTarget) e.currentTarget.close() }}
+      className="m-auto max-h-dvh max-w-[100vw] cursor-zoom-out bg-transparent p-4 backdrop:bg-black/60">
+      {src && <img src={src} alt="Receipt photo, enlarged" className="enter max-h-[92dvh] max-w-full rounded-md bg-white" />}
+    </dialog>
   )
 }

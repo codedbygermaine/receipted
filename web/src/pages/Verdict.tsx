@@ -4,7 +4,7 @@ import { ArrowLeft } from "lucide-react"
 import { toast } from "sonner"
 import { Button } from "@/components/ui/button"
 import { getJob, getJobImage, type Result } from "@/lib/api"
-import { DECISION, money, shortRef } from "@/lib/format"
+import { DECISION, money } from "@/lib/format"
 import { ClaimReview } from "@/components/ClaimReview"
 
 /* The claim page hands its result over in memory so the verdict shows instantly; a direct visit to the link
@@ -36,15 +36,12 @@ export default function Verdict() {
 
   return (
     <div className="enter mx-auto max-w-3xl">
-      <div className="mb-6 flex items-center justify-between gap-3">
-        <Link to="/claim" className="inline-flex items-center gap-1 text-sm text-foreground/60 hover:text-foreground"><ArrowLeft className="size-4" /> Check another</Link>
-        <span className="text-xs text-foreground/50" title={r.claim_id}>Ref {shortRef(r.claim_id)}</span>
-      </div>
+      <Link to="/claim" className="mb-6 inline-flex items-center gap-1 py-1 text-sm text-foreground/60 hover:text-foreground"><ArrowLeft className="size-4" /> Check another</Link>
 
       <h1 className={`text-3xl font-semibold tracking-tight ${WORD[d.tone]}`}>{d.label}</h1>
-      <p className="mt-2 text-foreground/70">
+      <p className="mt-2 max-w-xl text-foreground/70">
         {r.human ? <>Decided by {r.human.reviewer}{r.human.note ? `: ${r.human.note.replace(/[.\s]+$/, "")}` : ""}. </> : null}
-        Claimed {money(r.claimed_amount, r.currency)}{r.purpose ? ` for ${r.purpose.toLowerCase()}` : ""}.
+        Claimed {money(r.claimed_amount, r.currency)}{r.purpose ? ` for ${r.purpose}` : ""}.
       </p>
 
       <div className="mt-8"><ClaimReview r={r} image={img} muted={!!r.human} /></div>
@@ -55,7 +52,7 @@ export default function Verdict() {
           <Button variant="ghost" size="sm" className="absolute right-2 top-2" onClick={() => { navigator.clipboard.writeText(r.draft); toast("Copied") }}>Copy</Button>
         </div>
       </details>
-      {held && <p className="mt-6 text-sm text-foreground/60">Playing the treasurer too? <Link to="/inbox" className="underline underline-offset-2">Open the inbox</Link>, this claim is waiting there.</p>}
+      {held && <p className="mt-6 text-sm"><Link to="/inbox" className="text-foreground/70 underline underline-offset-2 hover:text-foreground">Open the treasurer inbox</Link></p>}
     </div>
   )
 }

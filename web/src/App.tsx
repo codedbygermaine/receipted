@@ -1,4 +1,4 @@
-import { useEffect } from "react"
+import { useEffect, useRef } from "react"
 import { Link, NavLink, Route, Routes, useLocation } from "react-router-dom"
 import { Toaster } from "@/components/ui/sonner"
 import Landing from "@/pages/Landing"
@@ -7,20 +7,29 @@ import Verdict from "@/pages/Verdict"
 import Inbox from "@/pages/Inbox"
 import About from "@/pages/About"
 
-function ScrollToTop() {
+const TITLES: Record<string, string> = { "/": "Receipted", "/claim": "Claim an expense", "/inbox": "Inbox", "/about": "How it works" }
+
+/** On each route change: scroll to top, set the document title, move focus to the page so screen readers announce it. */
+function RouteEffects({ main }: { main: React.RefObject<HTMLElement | null> }) {
   const { pathname } = useLocation()
-  useEffect(() => { window.scrollTo(0, 0) }, [pathname])
+  useEffect(() => {
+    window.scrollTo(0, 0)
+    const base = pathname.startsWith("/claim/") ? "Your claim" : TITLES[pathname] ?? "Receipted"
+    document.title = base === "Receipted" ? base : `${base}, Receipted`
+    main.current?.focus({ preventScroll: true })
+  }, [pathname, main])
   return null
 }
 
 const navClass = ({ isActive }: { isActive: boolean }) =>
-  `whitespace-nowrap rounded-full px-2.5 py-1.5 sm:px-3 ${isActive ? "bg-muted font-medium" : "text-foreground/70 hover:text-foreground"}`
+  `whitespace-nowrap rounded-full px-2.5 py-1.5 sm:px-3 ${isActive ? "bg-muted text-foreground" : "text-foreground/70 hover:text-foreground"}`
 
 export default function App() {
+  const main = useRef<HTMLElement>(null)
   return (
     <div className="min-h-dvh flex flex-col bg-background text-foreground">
-      <ScrollToTop />
-      <header className="sticky top-0 z-20 border-b bg-background/85 backdrop-blur">
+      <RouteEffects main={main} />
+      <header className="sticky top-0 z-20 border-b bg-background">
         <div className="mx-auto flex max-w-5xl items-center gap-3 px-4 py-3 sm:px-6">
           <Link to="/" className="flex shrink-0 items-center gap-2 font-semibold tracking-tight">
             <span className="grid size-7 place-items-center rounded-md bg-primary text-primary-foreground text-sm font-bold">R</span>
@@ -33,7 +42,7 @@ export default function App() {
           </nav>
         </div>
       </header>
-      <main className="mx-auto w-full max-w-5xl flex-1 px-4 py-8 sm:px-6">
+      <main ref={main} tabIndex={-1} className="mx-auto w-full max-w-5xl flex-1 px-4 py-8 outline-none sm:px-6">
         <Routes>
           <Route path="/" element={<Landing />} />
           <Route path="/claim" element={<Claim />} />
@@ -43,10 +52,8 @@ export default function App() {
           <Route path="*" element={<Landing />} />
         </Routes>
       </main>
-      <footer className="mx-auto w-full max-w-5xl px-4 py-6 text-xs text-foreground/60 sm:px-6">
-        A project by Germaine
-      </footer>
-      <Toaster richColors position="bottom-center" />
+      <footer className="mx-auto w-full max-w-5xl px-4 py-6 text-xs text-foreground/60 sm:px-6">A project by Germaine</footer>
+      <Toaster position="bottom-center" />
     </div>
   )
 }
