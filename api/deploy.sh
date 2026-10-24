@@ -29,7 +29,21 @@ if ! aws iam get-role --role-name "$ROLE_NAME" >/dev/null 2>&1; then
   sleep 10   # IAM propagation
 fi
 ROLE_ARN=$(aws iam get-role --role-name "$ROLE_NAME" --query Role.Arn --output text)
-ENV="Variables={ANTHROPIC_API_KEY=$ANTHROPIC_API_KEY,RECEIPTED_API_TOKEN=$RECEIPTED_API_TOKEN,RECEIPTED_DATA_DIR=/tmp/receipted,RECEIPTED_CHROMA_EPHEMERAL=1,HOME=/var/task/home}"
+
+echo "== s3 bucket for job inputs and results =="
+BUCKET="$NAME-jobs-$ACCOUNT"
+aws s3api head-bucket --bucket "$BUCKET" 2>/dev/null || \
+  aws s3api create-bucket --bucket "$BUCKET" --region "$REGION" --create-bucket-configuration LocationConstraint="$REGION" >/dev/null
+aws s3api put-public-access-block --bucket "$BUCKET" --public-access-block-configuration \
+  BlockPublicAcls=true,IgnorePublicAcls=true,BlockPublicPolicy=true,RestrictPublicBuckets=true
+aws s3api put-bucket-lifecycle-configuration --bucket "$BUCKET" --lifecycle-configuration \
+  '{"Rules":[{"ID":"expire-jobs","Status":"Enabled","Filter":{"Prefix":"jobs/"},"Expiration":{"Days":7}}]}'
+aws iam put-role-policy --role-name "$ROLE_NAME" --policy-name "$NAME-jobs" --policy-document "{
+  \"Version\":\"2012-10-17\",\"Statement\":[
+   {\"Effect\":\"Allow\",\"Action\":[\"s3:GetObject\",\"s3:PutObject\"],\"Resource\":\"arn:aws:s3:::$BUCKET/jobs/*\"},
+   {\"Effect\":\"Allow\",\"Action\":\"lambda:InvokeFunction\",\"Resource\":\"arn:aws:lambda:$REGION:$ACCOUNT:function:$NAME\"}]}"
+
+ENV="Variables={ANTHROPIC_API_KEY=$ANTHROPIC_API_KEY,RECEIPTED_API_TOKEN=$RECEIPTED_API_TOKEN,RECEIPTED_DATA_DIR=/tmp/receipted,RECEIPTED_CHROMA_EPHEMERAL=1,RECEIPTED_BAKED_HOME=/var/task/home,RECEIPTED_ASYNC=1,RECEIPTED_BUCKET=$BUCKET}"
 if aws lambda get-function --function-name "$NAME" --region "$REGION" >/dev/null 2>&1; then
   aws lambda update-function-code --function-name "$NAME" --image-uri "$REPO:latest" --region "$REGION" >/dev/null
   aws lambda wait function-updated --function-name "$NAME" --region "$REGION"
@@ -50,4 +64,4 @@ aws lambda add-permission --function-name "$NAME" --region "$REGION" --statement
   --principal apigateway.amazonaws.com --source-arn "arn:aws:execute-api:$REGION:$ACCOUNT:$API_ID/*" >/dev/null 2>&1 || true
 URL="https://$API_ID.execute-api.$REGION.amazonaws.com"
 echo "deployed: $URL"
-echo "try: curl $URL/health"
+echo "try: curl $URL/health   (POST /check returns 202 + job id; poll GET /jobs/<id>)"

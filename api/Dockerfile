@@ -6,6 +6,7 @@ FROM public.ecr.aws/lambda/python:3.12
 # Lambda's filesystem is read-only except /tmp: everything Receipted writes goes there.
 ENV RECEIPTED_DATA_DIR=/tmp/receipted \
     RECEIPTED_CHROMA_EPHEMERAL=1 \
+    RECEIPTED_BAKED_HOME=/var/task/home \
     HOME=/var/task/home \
     PYTHONPATH=/var/task/src
 
