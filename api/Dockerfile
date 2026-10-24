@@ -5,7 +5,6 @@ FROM public.ecr.aws/lambda/python:3.12
 
 # Lambda's filesystem is read-only except /tmp: everything Receipted writes goes there.
 ENV RECEIPTED_DATA_DIR=/tmp/receipted \
-    RECEIPTED_CHROMA_EPHEMERAL=1 \
     RECEIPTED_BAKED_HOME=/var/task/home \
     HOME=/var/task/home \
     PYTHONPATH=/var/task/src
@@ -17,7 +16,9 @@ COPY src ./src
 COPY fixtures ./fixtures
 COPY api/app.py ./api/app.py
 
-# Warm the embedding model into the image (chroma downloads it to $HOME/.cache on first use)
-RUN mkdir -p /var/task/home && python -c "import sys; sys.path.insert(0,'src'); from receipted.retrieve import collections; collections(); collections(currency='SGD')"
+# Build the policy index into the image: a persistent Chroma store at /var/task/chroma_db (copied to /tmp at
+# runtime, since Chroma writes to its store) and the embedding model it downloads into $HOME/.cache.
+RUN mkdir -p /var/task/home && RECEIPTED_CHROMA_PATH=/var/task/chroma_db python -c "import sys; sys.path.insert(0,'src'); from receipted.retrieve import collections; collections(); collections(currency='SGD')" \
+    && chmod -R a+rX /var/task/home /var/task/chroma_db   # the build runs as root; Lambda runs as another user and must read these
 
 CMD ["api.app.handler"]

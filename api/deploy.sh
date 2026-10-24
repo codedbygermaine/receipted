@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 # Build the image, push it to ECR, create or update the Lambda function, and expose it through API Gateway.
 # Needs: aws CLI signed in (aws sts get-caller-identity works), docker running, and these env vars:
-#   RECEIPTED_API_TOKEN   token callers must send in X-Api-Token
+#   RECEIPTED_API_TOKEN   token callers must send in X-Api-Token (full access)
+#   RECEIPTED_DEMO_TOKEN  token embedded in the public web demo (separate, smaller daily cap); optional
 #   ANTHROPIC_API_KEY     the Claude API key (set in the Lambda's environment; never printed)
 set -euo pipefail
 REGION="${AWS_REGION:-ap-southeast-1}"          # Singapore
@@ -40,17 +41,18 @@ aws s3api put-bucket-lifecycle-configuration --bucket "$BUCKET" --lifecycle-conf
   '{"Rules":[{"ID":"expire-jobs","Status":"Enabled","Filter":{"Prefix":"jobs/"},"Expiration":{"Days":7}}]}'
 aws iam put-role-policy --role-name "$ROLE_NAME" --policy-name "$NAME-jobs" --policy-document "{
   \"Version\":\"2012-10-17\",\"Statement\":[
-   {\"Effect\":\"Allow\",\"Action\":[\"s3:GetObject\",\"s3:PutObject\"],\"Resource\":\"arn:aws:s3:::$BUCKET/jobs/*\"},
+   {\"Effect\":\"Allow\",\"Action\":[\"s3:GetObject\",\"s3:PutObject\"],\"Resource\":[\"arn:aws:s3:::$BUCKET/jobs/*\",\"arn:aws:s3:::$BUCKET/usage/*\"]},
+   {\"Effect\":\"Allow\",\"Action\":\"s3:ListBucket\",\"Resource\":\"arn:aws:s3:::$BUCKET\"},
    {\"Effect\":\"Allow\",\"Action\":\"lambda:InvokeFunction\",\"Resource\":\"arn:aws:lambda:$REGION:$ACCOUNT:function:$NAME\"}]}"
 
-ENV="Variables={ANTHROPIC_API_KEY=$ANTHROPIC_API_KEY,RECEIPTED_API_TOKEN=$RECEIPTED_API_TOKEN,RECEIPTED_DATA_DIR=/tmp/receipted,RECEIPTED_CHROMA_EPHEMERAL=1,RECEIPTED_BAKED_HOME=/var/task/home,RECEIPTED_ASYNC=1,RECEIPTED_BUCKET=$BUCKET}"
+ENV="Variables={ANTHROPIC_API_KEY=$ANTHROPIC_API_KEY,RECEIPTED_API_TOKEN=$RECEIPTED_API_TOKEN,RECEIPTED_DATA_DIR=/tmp/receipted,RECEIPTED_CHROMA_EPHEMERAL=1,RECEIPTED_BAKED_HOME=/var/task/home,RECEIPTED_ASYNC=1,RECEIPTED_BUCKET=$BUCKET,RECEIPTED_DEMO_TOKEN=${RECEIPTED_DEMO_TOKEN:-},RECEIPTED_DEMO_DAILY_CAP=40}"
 if aws lambda get-function --function-name "$NAME" --region "$REGION" >/dev/null 2>&1; then
   aws lambda update-function-code --function-name "$NAME" --image-uri "$REPO:latest" --region "$REGION" >/dev/null
   aws lambda wait function-updated --function-name "$NAME" --region "$REGION"
-  aws lambda update-function-configuration --function-name "$NAME" --region "$REGION" --environment "$ENV" --timeout 120 --memory-size 2048 >/dev/null
+  aws lambda update-function-configuration --function-name "$NAME" --region "$REGION" --environment "$ENV" --timeout 120 --memory-size 3008 >/dev/null
 else
   aws lambda create-function --function-name "$NAME" --package-type Image --code ImageUri="$REPO:latest" \
-    --role "$ROLE_ARN" --architectures "$ARCH" --timeout 120 --memory-size 2048 --region "$REGION" --environment "$ENV" >/dev/null
+    --role "$ROLE_ARN" --architectures "$ARCH" --timeout 120 --memory-size 3008 --region "$REGION" --environment "$ENV" >/dev/null
   aws lambda wait function-active --function-name "$NAME" --region "$REGION"
 fi
 # Public endpoint through API Gateway (HTTP API, payload format 2.0). New AWS accounts block public Lambda

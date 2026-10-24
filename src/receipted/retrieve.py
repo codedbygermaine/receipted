@@ -8,13 +8,14 @@ would need to be for a 40-page policy, and it also gives the verifier an allowli
 
 import csv
 import os
+from pathlib import Path
 import re
 
 import chromadb
 
 from receipted.llm import ROOT
 
-CHROMA_PATH = ROOT / "chroma_db"
+CHROMA_PATH = Path(os.environ.get("RECEIPTED_CHROMA_PATH", ROOT / "chroma_db"))   # override on read-only runtimes
 CHROMA_EPHEMERAL = os.environ.get("RECEIPTED_CHROMA_EPHEMERAL") == "1"   # build in memory (read-only runtimes)
 
 # One policy and price list per currency. A receipt's currency picks the set; unknown currencies use IDR,
@@ -98,7 +99,11 @@ def retrieve_prices(item_name: str, k: int = 3, currency: str | None = None) -> 
 
 
 def retrieve_for(receipt: dict, claim: dict, k_policy_per_item: int = 2, k_policy_claim: int = 5) -> dict:
-    """Everything the rule check needs: clauses relevant to the items and the claim, price rows per item."""
+    """Everything the rule check needs: clauses relevant to the items and the claim, price rows per item.
+
+    All the texts go to Chroma in two batched queries (one for policy, one for prices) rather than one query per
+    item: the embedding model then runs once per batch instead of once per text, which on a small CPU is the
+    difference between 6 s and well under 1 s."""
     seen, clause_hits = set(), []
 
     def add(hits):
@@ -111,10 +116,18 @@ def retrieve_for(receipt: dict, claim: dict, k_policy_per_item: int = 2, k_polic
     claim_text = f"expense claim, purpose: {purpose}. amount {claim.get('amount')}. items: " + \
                  ", ".join(ci["name"] for ci in claim.get("items") or [])
     cur = receipt.get("currency")
-    add(retrieve_policy(claim_text, k_policy_claim, currency=cur))
+    policy, price, clauses, prices = collections(currency=cur)
+    names = [it["name"] for it in receipt["items"] if it["name"]]
+
+    # Policy: the claim text first (wants k_policy_claim hits), then each item name (wants k_policy_per_item).
+    res = policy.query(query_texts=[claim_text] + names, n_results=min(k_policy_claim, policy.count()))
+    for qi, (ids, dists) in enumerate(zip(res["ids"], res["distances"])):
+        k = k_policy_claim if qi == 0 else k_policy_per_item
+        add([{**clauses[cid], "distance": round(d, 3)} for cid, d in list(zip(ids, dists))[:k]])
+
     price_hits = {}
-    for it in receipt["items"]:
-        if it["name"]:
-            add(retrieve_policy(it["name"], k_policy_per_item, currency=cur))
-            price_hits[it["name"]] = retrieve_prices(it["name"], 3, currency=cur)
+    if names:
+        res = price.query(query_texts=names, n_results=min(3, price.count()))
+        for name, ids, dists in zip(names, res["ids"], res["distances"]):
+            price_hits[name] = [{**prices[pid], "distance": round(d, 3)} for pid, d in zip(ids, dists)]
     return {"clauses": clause_hits, "price_rows": price_hits, "policy_set": policy_set_for(cur)}
