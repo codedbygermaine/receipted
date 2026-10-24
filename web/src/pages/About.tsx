@@ -1,7 +1,7 @@
 import { Card, CardContent } from "@/components/ui/card"
 
 /* Numbers come from results/ in the repository (results_table.md), the same files the README reads. */
-const STEPS = [["Read", "photo → line items"], ["Add up", "arithmetic in code"], ["Look up", "policy and prices"], ["Judge", "model cites a rule and a line"], ["Verify", "code drops unproven flags"], ["Decide", "approve · hold · reject"], ["Reply", "message to the member"]]
+const STEPS = [["Read", "photo → line items"], ["Add up", "arithmetic in code"], ["Look up", "policy and prices"], ["Judge", "model cites a rule and a line"], ["Verify", "code drops unproven flags"], ["Decide", "approve, hold or reject"], ["Reply", "message to the member"]]
 
 export default function About() {
   return (

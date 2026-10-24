@@ -79,3 +79,14 @@ export function groupIssues(issues: Issue[]): IssueGroup[] {
 
 /** "API-20261024172752-7aee" → "7aee": a reference a person can read out; the full id stays in a tooltip. */
 export const shortRef = (claimId: string) => claimId.split("-").pop() || claimId
+
+/** The deterministic checks quote the item name and join clauses with semicolons; on screen the name is already
+    the heading, so drop the quote and write sentences. */
+export function tidyMessage(msg: string, itemName?: string | null) {
+  let m = msg.trim()
+  if (itemName) m = m.replace(new RegExp("^'" + itemName.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + "'\\s+", "i"), "")
+  m = m.replace(/^'[^']+'\s+/, "")
+  m = m.replace(/;\s+/g, ". ")
+  m = m.replace(/(^|[.!?]\s+)([a-z])/g, (_, a, c) => a + c.toUpperCase())   // sentence case
+  return /[.!?]$/.test(m) ? m : m + "."
+}
