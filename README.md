@@ -2,7 +2,7 @@
 
 An AI agent that reads receipt and invoice images, checks them against a claim record, a price list and a policy document, flags problems with cited evidence, and drafts a reply to the submitter.
 
-**Live demo:** https://receipted.streamlit.app · **API:** AWS Lambda + API Gateway (Singapore) · **Stack:** Python, Claude API (Haiku 5.5 / Opus 5.5), LangGraph, Chroma, FastAPI, Streamlit, Docker, pytest, GitHub Actions
+**Live demo:** https://codedbygermaine.github.io/receipted/ (member flow and treasurer inbox on the AWS API; the earlier Streamlit version is at https://receipted.streamlit.app) · **API:** AWS Lambda + API Gateway (Singapore) · **Stack:** Python, Claude API (Haiku 5.5 / Opus 5.5), LangGraph, Chroma, FastAPI, Streamlit, Docker, pytest, GitHub Actions
 
 **At a glance** (test split, 100 real receipts, 100 test claims I wrote with known planted errors; every number from `results/`):
 
@@ -308,6 +308,8 @@ Then ask Claude something like *"Check /Users/you/receipt.jpg against a claim of
 ## HTTP API on AWS Lambda
 
 The same checker as a web endpoint, for anything that can send an HTTP request (a club's web form, a spreadsheet macro, another service). `api/app.py` is a FastAPI app; on AWS it runs as a Lambda container image behind API Gateway in the Singapore region, pay-per-request. Live at `https://72dxv5aw0m.execute-api.ap-southeast-1.amazonaws.com` (health check is open; checks need the token). Every call needs the token in `X-Api-Token`, and a daily cap stops a public URL from running up the bill.
+
+The web demo at https://codedbygermaine.github.io/receipted/ is a small React app (`web/`: Vite, Tailwind and shadcn/ui, published by GitHub Pages) that talks to this API. It has two sides: a member picks or uploads a receipt, fills in the claim and gets a verdict where every issue points at a receipt line and a policy clause; a treasurer sees the held claims in an inbox with the receipt and the evidence, and their approve/reject writes the reply. The page carries a separate demo token with its own small daily cap, so anyone can try it and the worst a stranger can do is use up a day of demo budget. API Gateway caps a request at 30 s, so a check runs as a background job: `POST /check` returns 202 and a job id, the page polls `GET /jobs/{id}`, and results live in S3 for seven days.
 
 ```bash
 curl -s -X POST "$URL/check" -H "X-Api-Token: $TOKEN" \

@@ -28,3 +28,7 @@ The planted error was one extra unit of `Y.B.BAT`. The agent rejected the claim,
 - A trailing "1" printed after the item name is folded into the name (test_018).
 - One quantity left blank although the raw line starts with "2" (test_055). A real slip, on a clear image.
 - One blurry `Tetes` read as `Tefes` (test_071).
+
+## Seen in the live demo (25 Oct 2026): a misspelling in a reply
+
+A reply drafted by Haiku 5.5 for a held claim opened with "Your claym API-… is on hold for review". One occurrence in the demo so far, none found in the cached evaluation drafts (`grep claym data/cache` is empty), and the judge never saw it, so the reply-quality scores stand. The draft is written by the model end to end; a fixed, templated opening sentence would remove this class of error but would also change the output the judge scored, so it is left as it is and recorded here as a known risk. If it recurs, the fix is a templated first line plus a spell check on the draft before it is shown.
