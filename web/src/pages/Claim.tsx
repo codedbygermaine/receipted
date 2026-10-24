@@ -43,7 +43,7 @@ export default function Claim() {
   async function submit() {
     if (!preview) { toast("Pick a receipt first."); return }
     if (!(Number(amount) > 0)) { amountInput.current?.focus(); return }
-    if (!who.trim()) { whoInput.current?.focus(); return }
+    if (!who.trim()) { whoInput.current?.focus(); toast("Add your name so the reply can be addressed to you."); return }
     const claim: ClaimInput = {
       submitter: who.trim(), purpose: purpose.trim(), amount: Number(amount),
       items: sample ? sample.claim.items : [],   // the sample claims carry their items so the quantity checks have something to check

@@ -1,9 +1,25 @@
-"""Bootstrap confidence intervals. With only 100 test receipts a single percentage hides a lot of
-uncertainty; resampling the claims with replacement and recomputing the metric a few thousand times
-shows how much the number could move on a different 100.
+"""Confidence intervals. With only 100 test receipts a single percentage hides a lot of uncertainty.
+
+Two kinds are used:
+- wilson_ci for plain proportions (caught / not caught, right / wrong). The Wilson score interval stays honest at
+  the edges: 10 of 10 gives 72–100%, not the 100–100% a bootstrap returns when every resample is identical.
+- bootstrap_ci for statistics that are not a simple proportion (item F1), by resampling the receipts.
 """
 
+import math
 import random
+
+
+def wilson_ci(successes, n, level=0.95):
+    """Wilson score interval for a proportion. Returns (point, low, high) or (None, None, None) if n is 0."""
+    if not n:
+        return None, None, None
+    z = 1.959963984540054 if level == 0.95 else 2.5758293035489004
+    p = successes / n
+    denom = 1 + z * z / n
+    centre = (p + z * z / (2 * n)) / denom
+    half = z * math.sqrt(p * (1 - p) / n + z * z / (4 * n * n)) / denom
+    return p, max(0.0, centre - half), min(1.0, centre + half)
 
 
 def bootstrap_ci(values, statistic=None, n_boot=4000, seed=0, level=0.95):

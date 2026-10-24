@@ -59,6 +59,16 @@ PERSONAL_ITEM_WORDS = (
 )
 
 
+def _amt(v, receipt: dict | None = None) -> str:
+    """An amount the way a person would read it: the receipt's currency, two decimals for cent currencies."""
+    if v is None:
+        return "nothing"
+    cur = (receipt or {}).get("currency") or ""
+    whole = cur in ("IDR", "JPY", "KRW", "VND")
+    n = f"{round(v):,}" if whole else f"{v:,.2f}"
+    return f"{cur} {n}".strip()
+
+
 def check_personal_items(receipt: dict) -> list[dict]:
     """Deterministic C6 screen: items whose printed name contains a personal-use word are held for confirmation."""
     issues = []
@@ -100,8 +110,9 @@ def check_receipt(receipt: dict) -> list[dict]:
     if ls is not None:
         targets = [v for v in (sub, total) if v is not None]
         if targets and not any(close(ls, v, tol) for v in targets):
+            shows = " and ".join(f"a {k} of {_amt(v, receipt)}" for k, v in (("subtotal", sub), ("total", total)) if v is not None)
             issues.append(issue("lines_vs_totals", "medium",
-                                f"Line items sum to {ls}, but subtotal is {sub} and total is {total}",
+                                f"The items add up to {_amt(ls, receipt)}, but the receipt shows {shows}",
                                 {"line_sum": ls, "subtotal": sub, "total": total}))
 
     issues += check_personal_items(receipt)
@@ -110,9 +121,11 @@ def check_receipt(receipt: dict) -> list[dict]:
     if sub is not None and total is not None:
         expected = sub + (tax or 0) + (svc or 0) - abs(disc or 0)
         if not close(expected, total, tol) and not close(sub, total, tol):
+            parts = [f"subtotal {_amt(sub, receipt)}"] + [f"{k} {_amt(v, receipt)}" for k, v in (("tax", tax), ("service", svc)) if v] \
+                    + ([f"minus discount {_amt(abs(disc), receipt)}"] if disc else [])
             issues.append(issue("totals_arithmetic", "medium",
-                                f"{sub} + tax {tax or 0} + service {svc or 0} - discount {abs(disc or 0)} = {expected}, "
-                                f"but total shows {total}",
+                                f"{' plus '.join(parts[:1] + parts[1:]).replace('plus minus', 'minus')} comes to {_amt(expected, receipt)}, "
+                                f"but the receipt total shows {_amt(total, receipt)}",
                                 {"subtotal": sub, "tax": tax, "service": svc, "discount": disc,
                                  "expected": expected, "total": total}))
     return issues

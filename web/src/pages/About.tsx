@@ -18,7 +18,7 @@ const RULES = [
   "Claims over $500 need two approvers.",
   "A receipt can't be claimed twice.",
 ]
-const NUMBERS = [["Planted errors caught", "48 of 50"], ["Decisions right", "83%"], ["Receipt totals read correctly", "97%"], ["Made-up numbers", "0"], ["Cost per claim", "$0.0013"]]
+const NUMBERS = [["Planted errors caught", "48 of 50"], ["Clean claims wrongly flagged", "8 of 41"], ["Decisions right", "83%"], ["Receipt totals read correctly", "97%"], ["Fabricated digits when the total was hidden", "0 of 98"], ["Cost per claim", "$0.0013"]]
 
 export default function About() {
   return (

@@ -12,9 +12,9 @@ Test split: 100 real receipts (CORD v2), 100 test claims I wrote with known plan
 
 | | |
 |---|---|
-| Planted errors caught | **48 / 50** (95% CI 90–100%) |
+| Planted errors caught | **48 / 50** (95% CI 87–99%) |
 | Decision accuracy | 83% |
-| Clean claims wrongly flagged | 8 / 41, an upper bound: at least 3 are real breaches the labels missed |
+| Clean claims wrongly flagged | 8 / 41, an upper bound: at least 3 of them are real breaches my labels missed |
 | Item F1, Haiku 5.5 vs Opus 5.5 | 0.92 vs 0.92, at $0.0006 vs $0.0186 per receipt |
 | Draft quality, Opus judge (1–5) | accuracy 4.6, evidence 4.89, clarity 4.73, tone 4.98; a human agreed within 1 point on 39 of 40 scores |
 | Hallucination probe, total masked on 98 receipts | 84% abstained, 0 fabricated digits |

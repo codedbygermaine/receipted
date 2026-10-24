@@ -16,12 +16,12 @@ Everything measured about Receipted, in full. The README carries only the headli
 
 | planted error | n | caught | recall (95% CI) |
 |---|---|---|---|
-| inflated amount | 10 | 10 | 100% (95% CI 100–100%) |
-| wrong quantity | 10 | 8 | 80% (95% CI 50–100%) |
-| item not on receipt | 10 | 10 | 100% (95% CI 100–100%) |
-| totals mismatch | 10 | 10 | 100% (95% CI 100–100%) |
-| policy breach | 10 | 10 | 100% (95% CI 100–100%) |
-| **all planted errors** | 50 | 48 | **96% (95% CI 90–100%)** |
+| inflated amount | 10 | 10 | 100% (95% CI 72–100%) |
+| wrong quantity | 10 | 8 | 80% (95% CI 49–94%) |
+| item not on receipt | 10 | 10 | 100% (95% CI 72–100%) |
+| totals mismatch | 10 | 10 | 100% (95% CI 72–100%) |
+| policy breach | 10 | 10 | 100% (95% CI 72–100%) |
+| **all planted errors** | 50 | 48 | **96% (95% CI 87–99%)** |
 
 | natural breach (from ground truth) | n | caught | recall |
 |---|---|---|---|
@@ -32,9 +32,9 @@ Everything measured about Receipted, in full. The README carries only the headli
 
 | metric | value |
 |---|---|
-| decision accuracy (approve / needs_review / reject) | 83% (95% CI 76–90%) |
+| decision accuracy (approve / needs_review / reject) | 83% (95% CI 74–89%) |
 | clean claims (no planted error, no natural breach) | 41 |
-| false alarms: clean claim flagged with an issue | 8 (20% (95% CI 7–32%)) |
+| false alarms: clean claim flagged with an issue | 8 (20% (95% CI 10–34%)) |
 | clean claims held only because the receipt was hard to read | 6 |
 | rule-check issues raised / dropped by verifier | 48 / 4 |
 | mean cost per claim | $0.0013 |
@@ -70,7 +70,7 @@ Run 2 is reported because the three fixes were motivated by failures seen in run
 ![extraction by model](../results/chart_models_test.png)
 <!-- /RESULTS -->
 
-The headline (run 2): **48 of 50 planted errors caught (96%, 95% CI 90–100%)**, decision accuracy 83% on 100 claims, 8 of 41 clean claims flagged, at about $0.0013 and 5 seconds per claim with Haiku 5.5. Intervals are bootstrap 95% CIs over the 100 claims; with a test set this size a single percentage overstates what is known, so every headline carries one.
+The headline (run 2): **48 of 50 planted errors caught (96%, 95% CI 87–99%)**, decision accuracy 83% (95% CI 74–89%) on 100 claims, 8 of 41 clean claims flagged (20%, 95% CI 10–34%), at about $0.0013 and 5 seconds per claim with Haiku 5.5. Intervals are Wilson score intervals for proportions and bootstrap intervals for item F1; with a test set this size a single percentage overstates what is known, so every headline carries one.
 
 ### Hallucination probe
 
@@ -167,22 +167,25 @@ The five worst real failures, with image ids and causes, are in [results/error_a
 4. **A missed tax line turned into a false alarm**: the human-review route caught it, at the cost of a reviewer's look.
 5. **A wrong quantity caught only as "claim exceeds receipt"**: right decision, incomplete explanation, because the item's quantity or name did not match.
 
-Reading the 10 flagged clean claims by hand, at least 3 are correct by the policy as written and were missed by my test labels (a women's blouse under C6, a dinner above the per-person cap, `Teh Es` above the `es teh` row). The 24% false-alarm figure is therefore an upper bound; the genuinely wrong flags are closer to 4 or 5 of 41.
+Reading run 1's 10 flagged clean claims by hand, at least 3 are correct by the policy as written and were missed by my test labels (a women's blouse under C6, a dinner above the per-person cap, `Teh Es` above the `es teh` row). All three are still flagged in run 2 (TES-012, TES-020, TES-085), so run 2's 8 of 41 (20%) is an upper bound too; the genuinely wrong flags are closer to 4 or 5 of 41.
 
 ## Limitations
 
 - **The claims, price list, policy and planted errors were written by me.** Real receipts, test claims I built on top of them, labelled as such throughout. The planted error types are the ones I thought of.
-- **Indonesian receipts only.** CORD has no store name or date fields, so the deadline clause (C11) is not checked and duplicates cannot be detected.
+- **The test numbers are for Indonesian receipts.** CORD is the only set with ground truth at this size. Receipts from Singapore, the UK, the US and Australia were evaluated separately and on smaller sets (above), with hand-written labels.
+- **Dates are not checked.** CORD has no date field, so the 30-day deadline clause (C11) is left to the reviewer. Duplicates are detected by image fingerprint and by matching total and item names, not by date.
 - **Ground truth is imperfect.** Some CORD labels disagree with what the receipt prints (word order, zero-priced lines, "Sub Total" as total), so part of the measured extraction error is label noise.
 - **One bug was fixed during the test run.** The claim-lines check mis-flagged clean claims whose items were listed before tax; found on the first 17 test claims, fixed, run restarted. The partial first run is kept in `results/checks_test_run1_partial.log`.
+- **The headline test numbers are at extraction prompt v2.** Per-item confidence (prompt v3) came later and was measured on the validation split only; the deployed system runs v3.
 - **The judge is a model.** Opus scores Haiku's drafts against a rubric; the human-agreement number exists to check the judge.
+- **Intervals are Wilson score intervals** for proportions and bootstrap for item F1. An earlier version of this document used bootstrap intervals for everything, which gave 100–100% for 10 of 10; the observed counts are unchanged.
 
 ## What I'd do next
 
-Done since the first test run: the name-similarity guard, space-insensitive matching, the deterministic purpose check (together: run 2 above), duplicate-receipt detection, the hallucination probe, confidence intervals, the regression gate and the MCP server. Still open:
+Done since the first test run: the name-similarity guard, space-insensitive matching, the deterministic purpose check (together: run 2 above), duplicate-receipt detection, the hallucination probe, confidence intervals, the regression gate, per-item confidence with routing measured on validation, pause-and-resume for human review, a review inbox, the MCP server, the HTTP API and the web front end. Still open:
 
-1. Per-item confidence and quoted evidence in the extraction schema, so only uncertain items go to a human; measure how many of the 25% "partly unclear" holds that saves.
-2. Pause-and-resume for human review using LangGraph checkpoints, with a small reviewer CLI, instead of stopping at needs_review.
-3. Route receipts Haiku marks "partly unclear" to Opus and measure the trade-off.
-4. Move the two-approver threshold (C7) into a deterministic check; the rule check raised it on only 1 of 3 claims.
-5. A per-line discount field in the extraction schema, so percentage discounts on invoices stop tripping the arithmetic check; and a rule for receipts that print only a subtotal and a payment line.
+1. **A reviewer pilot.** Time to a correct decision with and without the checker, unnecessary reviews, and the reasons for overrides. Benchmarks say the checks are right; only a pilot says they save anyone time.
+2. Route receipts Haiku marks "partly unclear" to Opus and measure the trade-off.
+3. Move the two-approver threshold (C7) into a deterministic check; the rule check raised it on only 1 of 3 claims.
+4. A per-line discount field in the extraction schema, so percentage discounts on invoices stop tripping the arithmetic check; and a rule for receipts that print only a subtotal and a payment line. Priced add-ons listed both inside a dish line and as their own line (seen on two Singapore restaurant receipts) double-count the same way.
+5. Date checking once a receipt source with dates is available.

@@ -11,12 +11,12 @@
 
 | planted error | n | caught | recall (95% CI) |
 |---|---|---|---|
-| inflated amount | 10 | 10 | 100% (95% CI 100–100%) |
-| wrong quantity | 10 | 8 | 80% (95% CI 50–100%) |
-| item not on receipt | 10 | 10 | 100% (95% CI 100–100%) |
-| totals mismatch | 10 | 10 | 100% (95% CI 100–100%) |
-| policy breach | 10 | 10 | 100% (95% CI 100–100%) |
-| **all planted errors** | 50 | 48 | **96% (95% CI 90–100%)** |
+| inflated amount | 10 | 10 | 100% (95% CI 72–100%) |
+| wrong quantity | 10 | 8 | 80% (95% CI 49–94%) |
+| item not on receipt | 10 | 10 | 100% (95% CI 72–100%) |
+| totals mismatch | 10 | 10 | 100% (95% CI 72–100%) |
+| policy breach | 10 | 10 | 100% (95% CI 72–100%) |
+| **all planted errors** | 50 | 48 | **96% (95% CI 87–99%)** |
 
 | natural breach (from ground truth) | n | caught | recall |
 |---|---|---|---|
@@ -27,9 +27,9 @@
 
 | metric | value |
 |---|---|
-| decision accuracy (approve / needs_review / reject) | 83% (95% CI 76–90%) |
+| decision accuracy (approve / needs_review / reject) | 83% (95% CI 74–89%) |
 | clean claims (no planted error, no natural breach) | 41 |
-| false alarms: clean claim flagged with an issue | 8 (20% (95% CI 7–32%)) |
+| false alarms: clean claim flagged with an issue | 8 (20% (95% CI 10–34%)) |
 | clean claims held only because the receipt was hard to read | 6 |
 | rule-check issues raised / dropped by verifier | 48 / 4 |
 | mean cost per claim | $0.0013 |

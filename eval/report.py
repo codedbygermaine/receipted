@@ -16,7 +16,7 @@ import matplotlib.pyplot as plt
 
 import sys
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from stats import bootstrap_ci, fmt_ci  # noqa: E402
+from stats import bootstrap_ci, fmt_ci, wilson_ci  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[1]
 RES = ROOT / "results"
@@ -116,9 +116,9 @@ def results_table(extraction, checks, drafts, split):
                "| planted error | n | caught | recall (95% CI) |", "|---|---|---|---|"]
         for t, d in s["planted"].items():
             flags = [1 if r["caught"].get(t) else 0 for r in rows if r["planted_error"] == t]
-            md.append(f"| {t.replace('_', ' ')} | {d['n']} | {d['caught']} | {fmt_ci(*bootstrap_ci(flags))} |")
+            md.append(f"| {t.replace('_', ' ')} | {d['n']} | {d['caught']} | {fmt_ci(*wilson_ci(sum(flags), len(flags)))} |")
         all_flags = [1 if r["caught"].get(r["planted_error"]) else 0 for r in rows if r["planted_error"]]
-        md.append(f"| **all planted errors** | {len(all_flags)} | {sum(all_flags)} | **{fmt_ci(*bootstrap_ci(all_flags))}** |")
+        md.append(f"| **all planted errors** | {len(all_flags)} | {sum(all_flags)} | **{fmt_ci(*wilson_ci(sum(all_flags), len(all_flags)))}** |")
         md += ["\n| natural breach (from ground truth) | n | caught | recall |", "|---|---|---|---|"]
         md += [f"| {t.replace('_', ' ')} | {d['n']} | {d['caught']} | {pct(d['recall'])} |" for t, d in s["natural"].items() if d["n"]]
         fa = s["false_alarms"]
@@ -126,9 +126,9 @@ def results_table(extraction, checks, drafts, split):
         clean = [r for r in rows if not r["planted_error"] and not r["natural_flags"]]
         fa_flags = [1 if r["verified_issues"] else 0 for r in clean]
         md += ["\n| metric | value |", "|---|---|",
-               f"| decision accuracy (approve / needs_review / reject) | {fmt_ci(*bootstrap_ci(dec))} |",
+               f"| decision accuracy (approve / needs_review / reject) | {fmt_ci(*wilson_ci(sum(dec), len(dec)))} |",
                f"| clean claims (no planted error, no natural breach) | {fa['n_clean_claims']} |",
-               f"| false alarms: clean claim flagged with an issue | {fa['flagged_with_an_issue']} ({fmt_ci(*bootstrap_ci(fa_flags))}) |",
+               f"| false alarms: clean claim flagged with an issue | {fa['flagged_with_an_issue']} ({fmt_ci(*wilson_ci(sum(fa_flags), len(fa_flags)))}) |",
                f"| clean claims held only because the receipt was hard to read | {fa['held_for_readability_only']} |",
                f"| rule-check issues raised / dropped by verifier | {s['verifier']['rule_issues_raised']} / {s['verifier']['dropped']} |",
                f"| mean cost per claim | ${s['mean_cost_usd_per_claim']:.4f} |",
