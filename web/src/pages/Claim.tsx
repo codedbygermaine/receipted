@@ -1,31 +1,23 @@
 import { useEffect, useRef, useState } from "react"
 import { useNavigate } from "react-router-dom"
-import { ChevronDown, ImagePlus, Loader2, Plus, X } from "lucide-react"
+import { ImagePlus, Loader2 } from "lucide-react"
 import { toast } from "sonner"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
-import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible"
 import { ApiError, submitClaim, waitForJob, warmUp, type ClaimInput } from "@/lib/api"
 import { SAMPLES, sampleImage, sampleThumb, type Sample } from "@/lib/samples"
 import { rememberResult } from "@/pages/Verdict"
-
-type Row = { name: string; qty: string; total: string }
-const toRows = (s: Sample): Row[] => s.claim.items.map(i => ({ name: i.name, qty: String(i.qty), total: i.line_total == null ? "" : String(i.line_total) }))
 
 export default function Claim() {
   const nav = useNavigate()
   const [sample, setSample] = useState<Sample | null>(null)
   const [file, setFile] = useState<File | null>(null)
   const [preview, setPreview] = useState<string | null>(null)
-  const [zoom, setZoom] = useState(false)
   const [purpose, setPurpose] = useState("")
   const [amount, setAmount] = useState("")
   const [who, setWho] = useState("")
-  const [rows, setRows] = useState<Row[]>([])
-  const [itemsOpen, setItemsOpen] = useState(false)
   const [busy, setBusy] = useState(false)
   const [elapsed, setElapsed] = useState(0)
   const [dragging, setDragging] = useState(false)
@@ -35,12 +27,12 @@ export default function Claim() {
 
   function pickSample(s: Sample) {
     setSample(s); setFile(null); setPreview(sampleImage(s))
-    setPurpose(s.claim.purpose); setAmount(String(s.claim.amount)); setWho(s.claim.submitter); setRows(toRows(s)); setItemsOpen(false)
+    setPurpose(s.claim.purpose); setAmount(String(s.claim.amount))
   }
   function pickFile(f: File) {
     if (!/^image\/(jpeg|png)$/.test(f.type)) { toast.error("Please use a JPG or PNG photo."); return }
     if (f.size > 8 * 1024 * 1024) { toast.error("That photo is over 8 MB. Please use a smaller one."); return }
-    setSample(null); setFile(f); setPreview(URL.createObjectURL(f)); setRows([]); setItemsOpen(false)
+    setSample(null); setFile(f); setPreview(URL.createObjectURL(f))
   }
   const currency = sample?.currency ?? null
   const ready = !!preview && Number(amount) > 0
@@ -48,7 +40,7 @@ export default function Claim() {
   async function submit() {
     const claim: ClaimInput = {
       submitter: who.trim() || "A member", purpose: purpose.trim(), amount: Number(amount),
-      items: rows.filter(r => r.name.trim()).map(r => ({ name: r.name.trim(), qty: r.qty === "" ? 1 : Number(r.qty), line_total: r.total === "" ? null : Number(r.total) })),
+      items: sample ? sample.claim.items : [],   // the sample claims carry their items so the quantity checks have something to check
     }
     setBusy(true); setElapsed(0)
     const timer = setInterval(() => setElapsed(e => e + 1), 1000)
@@ -76,8 +68,10 @@ export default function Claim() {
       <div className="grid grid-cols-3 gap-3 sm:grid-cols-6">
         {SAMPLES.map(s => (
           <button key={s.id} type="button" onClick={() => pickSample(s)} aria-pressed={sample?.id === s.id}
-            className={`group overflow-hidden rounded-lg border bg-card text-left transition-all hover:border-foreground/30 focus-visible:outline-2 focus-visible:outline-ring ${sample?.id === s.id ? "ring-2 ring-primary border-transparent" : ""}`}>
-            <img src={sampleThumb(s)} alt="" className="aspect-[4/5] w-full object-cover object-top" />
+            className={`group relative overflow-visible rounded-lg border bg-card text-left transition-colors hover:border-foreground/30 focus-visible:outline-2 focus-visible:outline-ring ${sample?.id === s.id ? "border-foreground bg-muted/40" : ""}`}>
+            <img src={sampleThumb(s)} alt="" className="aspect-[4/5] w-full rounded-t-lg object-cover object-top" />
+            {/* the full receipt, readable, while the pointer rests on the card */}
+            <img src={sampleImage(s)} alt="" className="pointer-events-none absolute left-1/2 top-1/2 z-30 hidden w-[280px] max-w-[80vw] -translate-x-1/2 -translate-y-1/2 rounded-lg border bg-white shadow-2xl group-hover:block" />
             <div className="p-2 leading-tight">
               <div className="text-xs font-medium">{s.title}</div>
               <div className="mt-0.5 text-xs text-foreground/60">{s.where}</div>
@@ -86,29 +80,18 @@ export default function Claim() {
         ))}
       </div>
 
-      <div className="mt-3 grid gap-3 sm:grid-cols-[1fr_auto]">
-        <label
-          onDragOver={e => { e.preventDefault(); setDragging(true) }} onDragLeave={() => setDragging(false)}
-          onDrop={e => { e.preventDefault(); setDragging(false); const f = e.dataTransfer.files[0]; if (f) pickFile(f) }}
-          className={`flex cursor-pointer items-center gap-3 rounded-lg border border-dashed px-4 py-3 text-sm transition-colors focus-within:outline-2 focus-within:outline-ring ${dragging ? "border-primary bg-muted" : "hover:bg-muted/60"} ${file ? "border-primary" : ""}`}>
-          <input ref={fileInput} type="file" accept="image/jpeg,image/png" className="sr-only" onChange={e => e.target.files?.[0] && pickFile(e.target.files[0])} />
-          <ImagePlus className="size-5 shrink-0 text-foreground/60" />
-          <div>
-            <div className="font-medium">{file ? `Using ${file.name}` : "Or drop a photo of your own receipt"}</div>
-            <div className="text-xs text-foreground/60">JPG or PNG, up to 8 MB</div>
-          </div>
-        </label>
-        {preview && (
-          <button type="button" onClick={() => setZoom(true)} aria-label="Enlarge the chosen receipt" className="flex items-center gap-3 rounded-lg border bg-card p-2 text-left text-sm hover:border-foreground/30">
-            <img src={preview} alt="" className="h-16 w-12 rounded object-cover object-top" />
-            <div><div className="font-medium">{sample ? sample.title : "Your photo"}</div><div className="text-xs text-foreground/60">Tap to read it</div></div>
-          </button>
-        )}
-      </div>
+      <label
+        onDragOver={e => { e.preventDefault(); setDragging(true) }} onDragLeave={() => setDragging(false)}
+        onDrop={e => { e.preventDefault(); setDragging(false); const f = e.dataTransfer.files[0]; if (f) pickFile(f) }}
+        className={`mt-3 flex cursor-pointer items-center gap-3 rounded-lg border border-dashed px-4 py-3 text-sm transition-colors focus-within:outline-2 focus-within:outline-ring ${dragging ? "border-primary bg-muted" : "hover:bg-muted/60"} ${file ? "border-foreground" : ""}`}>
+        <input ref={fileInput} type="file" accept="image/jpeg,image/png" className="sr-only" onChange={e => e.target.files?.[0] && pickFile(e.target.files[0])} />
+        {file && preview ? <img src={preview} alt="" className="h-12 w-9 rounded object-cover object-top" /> : <ImagePlus className="size-5 shrink-0 text-foreground/60" />}
+        <div>
+          <div className="font-medium">{file ? file.name : "Or drop a photo of your own receipt"}</div>
+          <div className="text-xs text-foreground/60">JPG or PNG, up to 8 MB</div>
+        </div>
+      </label>
       {file && <p className="mt-2 rounded-md bg-amber-50 px-3 py-2 text-sm text-amber-900">This is a public demo. Your photo will be visible in the treasurer inbox for seven days, so cover card numbers and names first.</p>}
-      <Dialog open={zoom} onOpenChange={setZoom}>
-        <DialogContent className="max-h-[92vh] max-w-3xl overflow-auto p-2"><DialogTitle className="sr-only">Receipt photo, enlarged</DialogTitle>{preview && <img src={preview} alt="Receipt photo, enlarged" className="w-full" />}</DialogContent>
-      </Dialog>
 
       <Step n={2} title="What you're claiming" />
       <Card>
@@ -126,28 +109,7 @@ export default function Claim() {
           </div>
           <div className="grid gap-2">
             <Label htmlFor="who">Your name</Label>
-            <Input id="who" value={who} onChange={e => setWho(e.target.value)} />
-          </div>
-          <div className="sm:col-span-2">
-            <Collapsible open={itemsOpen} onOpenChange={setItemsOpen}>
-              <CollapsibleTrigger className="-mx-1 flex items-center gap-1 rounded px-1 py-1.5 text-sm font-medium text-foreground/70 hover:text-foreground">
-                <ChevronDown className={`size-4 transition-transform ${itemsOpen ? "rotate-180" : ""}`} />
-                {rows.length ? `Items (${rows.length})` : "Add items"} <span className="font-normal">· optional</span>
-              </CollapsibleTrigger>
-              <CollapsibleContent className="mt-3">
-                <div className="grid gap-2">
-                  {rows.map((r, i) => (
-                    <div key={i} className="grid grid-cols-[1fr_64px_96px_32px] items-center gap-2">
-                      <Input value={r.name} aria-label="Item" placeholder="Item" onChange={e => setRows(rs => rs.map((x, j) => j === i ? { ...x, name: e.target.value } : x))} />
-                      <Input value={r.qty} aria-label="Quantity" placeholder="Qty" inputMode="numeric" className="text-right" onChange={e => setRows(rs => rs.map((x, j) => j === i ? { ...x, qty: e.target.value } : x))} />
-                      <Input value={r.total} aria-label="Line total" placeholder="Total" inputMode="decimal" className="text-right" onChange={e => setRows(rs => rs.map((x, j) => j === i ? { ...x, total: e.target.value } : x))} />
-                      <Button variant="ghost" size="icon" aria-label="Remove item" onClick={() => setRows(rs => rs.filter((_, j) => j !== i))}><X className="size-4" /></Button>
-                    </div>
-                  ))}
-                  <div><Button variant="outline" size="sm" onClick={() => setRows(rs => [...rs, { name: "", qty: "1", total: "" }])}><Plus className="size-4" /> Add an item</Button></div>
-                </div>
-              </CollapsibleContent>
-            </Collapsible>
+            <Input id="who" value={who} onChange={e => setWho(e.target.value)} placeholder="Optional" />
           </div>
         </CardContent>
       </Card>

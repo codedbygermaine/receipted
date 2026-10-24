@@ -44,7 +44,6 @@ export default function Inbox() {
       <div className="flex flex-wrap items-end justify-between gap-3">
         <div>
           <h1 className="text-2xl font-semibold tracking-tight sm:text-3xl">Treasurer inbox</h1>
-          <p className="mt-1 text-foreground/70">Only claims the checker couldn't settle on its own land here. Everything else was answered already.</p>
           {data && <p className="mt-2 text-sm text-foreground/60">{pending.length ? summary : "Nothing waiting right now."}</p>}
         </div>
         <Button variant="outline" size="sm" onClick={load} disabled={loading}>{loading ? <Loader2 className="size-4 animate-spin" /> : <RefreshCw className="size-4" />} Refresh</Button>
@@ -63,7 +62,7 @@ export default function Inbox() {
               const g = groupIssues(p.verified_issues)
               return (
                 <button key={p.job_id} type="button" onClick={() => { setSel(p.job_id!); setMobileDetail(true) }} aria-pressed={sel === p.job_id}
-                  className={`min-w-0 rounded-lg border bg-card p-3 text-left transition-colors hover:border-foreground/30 ${sel === p.job_id ? "ring-2 ring-primary border-transparent" : ""}`}>
+                  className={`min-w-0 rounded-lg border p-3 text-left transition-colors ${sel === p.job_id ? "border-foreground/40 bg-muted/60" : "bg-card hover:bg-muted/40"}`}>
                   <div className="flex items-baseline justify-between gap-2"><span className="font-medium">{money(p.claimed_amount, p.currency)}</span><span className="shrink-0 text-xs text-foreground/60">{ago(claimTime(p.claim_id))}</span></div>
                   <div className="truncate text-sm text-foreground/70">{p.submitter} · {p.purpose || "no purpose given"}</div>
                   <div className="mt-1 truncate text-xs text-foreground/60">{g.length ? issueTitle(g[0].issue) + (g.length > 1 ? ` +${g.length - 1} more` : "") : "A line was hard to read"}</div>
