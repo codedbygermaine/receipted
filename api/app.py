@@ -129,14 +129,17 @@ def _result_payload(state: dict, claim_obj: dict) -> dict:
     }
 
 
-def run_check(image_bytes: bytes, suffix: str, claim_obj: dict, model: str) -> dict:
-    """The actual work, shared by the synchronous route and the background job."""
+def run_check(image_bytes: bytes, suffix: str, claim_obj: dict, model: str, tier: str = "full") -> dict:
+    """The actual work, shared by the synchronous route and the background job. The public demo (tier "demo")
+    never writes to or checks the duplicate-receipt registry: everyone tries the same sample receipts, and the
+    registry lives in /tmp on Lambda anyway, so it would fire or not depending on which container answered."""
     llm.DATA_DIR.mkdir(parents=True, exist_ok=True)
     with tempfile.NamedTemporaryFile(delete=False, suffix=suffix, dir=str(llm.DATA_DIR)) as tmp:
         tmp.write(image_bytes)
         path = tmp.name
     try:
-        state = run_claim(path, claim_obj, model=model, register=True, source="api")
+        real = tier == "full"
+        state = run_claim(path, claim_obj, model=model, register=real, check_duplicates=real, source="api" if real else "demo")
     finally:
         try:
             os.unlink(path)
@@ -183,14 +186,14 @@ async def check(image: UploadFile = File(...), claim: str = Form(...), model: st
     _count_usage(tier)
 
     if not ASYNC:
-        return run_check(data, suffix, claim_obj, model)
+        return run_check(data, suffix, claim_obj, model, tier)
 
     import boto3
     job_id = uuid.uuid4().hex
     s3 = boto3.client("s3")
     s3.put_object(Bucket=BUCKET, Key=f"jobs/{job_id}/input{suffix}", Body=data)
     s3.put_object(Bucket=BUCKET, Key=f"jobs/{job_id}/claim.json",
-                  Body=json.dumps({"claim": claim_obj, "model": model, "suffix": suffix}).encode())
+                  Body=json.dumps({"claim": claim_obj, "model": model, "suffix": suffix, "tier": tier}).encode())
     boto3.client("lambda").invoke(FunctionName=FUNCTION_NAME, InvocationType="Event",
                                   Payload=json.dumps({"receipted_job": job_id}).encode())
     return JSONResponse(status_code=202, content={"job_id": job_id, "status": "queued",
@@ -303,7 +306,7 @@ def run_job(job_id: str) -> None:
     meta = json.loads(s3.get_object(Bucket=BUCKET, Key=f"jobs/{job_id}/claim.json")["Body"].read())
     data = s3.get_object(Bucket=BUCKET, Key=f"jobs/{job_id}/input{meta['suffix']}")["Body"].read()
     try:
-        result = run_check(data, meta["suffix"], meta["claim"], meta["model"])
+        result = run_check(data, meta["suffix"], meta["claim"], meta["model"], meta.get("tier", "full"))
         result["image_key"] = f"jobs/{job_id}/input{meta['suffix']}"
         s3.put_object(Bucket=BUCKET, Key=f"jobs/{job_id}/result.json", Body=json.dumps(result).encode())
     except Exception as e:
