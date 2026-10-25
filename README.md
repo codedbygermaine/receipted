@@ -1,6 +1,6 @@
 # Receipted
 
-An agent that checks an expense claim against a receipt photo, a price list and a written policy, flags problems only when it can point at the receipt line and the rule, and writes the reply.
+An AI expense reviewer that shows its working. It checks an expense claim against a receipt photo, a price list and a written policy, flags a problem only when it can point at the receipt line and the rule, sends uncertain cases to a human approver, and writes the reply.
 
 **Try it:** https://codedbygermaine.github.io/receipted/ · **Case study:** [docs/case-study.md](docs/case-study.md) · **Stack:** Python, Claude API (Haiku 5.5 / Opus 5.5), LangGraph, Chroma, FastAPI on AWS Lambda, React + shadcn/ui, pytest, GitHub Actions
 

@@ -9,14 +9,14 @@ const STEPS = [
   ["Decides", "Approve, hold for an approver, or reject."],
   ["Writes the reply", "A short message to the claimant saying what happens next."],
 ]
-const RULES = [
-  "The claim must say what the money was for.",
-  "The amount claimed can't be more than the receipt total.",
-  "No alcohol or tobacco.",
-  "No personal items. Medicines and first-aid supplies are held until the business purpose is confirmed.",
-  "Meals over $40 a person are held for an approver.",
-  "Claims over $500 need two approvers.",
-  "A receipt can't be claimed twice.",
+const RULES: [string, string][] = [
+  ["C1", "The claim must say what the money was for."],
+  ["C4", "The amount claimed can't be more than the receipt total."],
+  ["C3", "No alcohol or tobacco."],
+  ["C6", "No personal items. Medicines and first-aid supplies are held until the business purpose is confirmed."],
+  ["C12", "Meals over SGD 40 a person are held for an approver."],
+  ["C7", "Claims over SGD 500 need two approvers."],
+  ["C9", "A receipt can't be claimed twice."],
 ]
 const NUMBERS = [["Planted errors caught", "48 of 50"], ["Clean claims wrongly flagged", "8 of 41"], ["Decision accuracy", "83%"], ["Receipt totals read correctly", "97%"], ["Fabricated digits when the total was hidden", "0 of 98"], ["Model cost per claim (USD)", "$0.0013"]]
 
@@ -33,7 +33,8 @@ export default function About() {
       </ol>
 
       <h2 className="mt-10 text-base font-semibold">Demo expense policy (SGD)</h2>
-      <ul className="mt-3 grid gap-1.5 text-sm text-foreground/80">{RULES.map(r => <li key={r}>{r}</li>)}</ul>
+      <ul className="mt-3 grid gap-1.5 text-sm text-foreground/80">{RULES.map(([id, r]) => <li key={id} className="flex gap-3"><span className="w-8 shrink-0 tabular-nums text-foreground/60">{id}</span><span>{r}</span></li>)}</ul>
+      <p className="mt-2 text-xs text-foreground/60">The numbers are the clauses a verdict cites. The full policy, with the rules the demo doesn't show, is in the repository.</p>
 
       <h2 className="mt-10 text-base font-semibold">How well it does</h2>
       <p className="mt-1 text-sm text-foreground/60">Tested on 100 real receipts with 100 claims, 50 of them with a deliberate mistake.</p>
