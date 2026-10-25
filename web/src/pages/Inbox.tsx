@@ -17,17 +17,23 @@ export default function Inbox() {
   const [params] = useSearchParams()
   const wanted = params.get("job")   // "Review this claim" on a verdict opens that claim here
 
+  const nav = useNavigate()
   async function load(keep?: string | null) {
     try {
       const d = await getInbox(); setData(d); setError(false)
       const want = keep ?? sel
-      setSel(want && d.pending.some(p => p.job_id === want) ? want : d.pending[0]?.job_id ?? null)
+      const found = !!want && d.pending.some(p => p.job_id === want)
+      setSel(found ? want : d.pending[0]?.job_id ?? null)
+      if (wanted && !found) nav("/inbox", { replace: true })   // the claim in the URL is no longer waiting
     } catch (e) { console.error(e); setError(true) }
   }
   useEffect(() => { load(wanted); if (wanted) setMobileOpen(true); const onFocus = () => load(); window.addEventListener("focus", onFocus); return () => window.removeEventListener("focus", onFocus) }, [])   // eslint-disable-line react-hooks/exhaustive-deps
 
   const pending = data?.pending ?? []
   const current = pending.find(p => p.job_id === sel) ?? null
+
+  /** A question changes the claim's status; keep the list in step without a reload. */
+  function updated(res: Result) { setData(d => d && { ...d, pending: d.pending.map(p => p.job_id === res.job_id ? res : p) }) }
 
   /** After a decision the row leaves the queue and the next claim opens, so the approver never hunts. */
   function settled(jobId: string, res: Result) {
@@ -83,7 +89,7 @@ export default function Inbox() {
         </div>
 
         <div className={`min-w-0 ${mobileOpen ? "" : "hidden lg:block"}`}>
-          {current ? <Claim key={current.job_id} r={current} onBack={() => setMobileOpen(false)} onSettled={settled} />
+          {current ? <Claim key={current.job_id} r={current} onBack={() => setMobileOpen(false)} onSettled={settled} onUpdated={updated} />
             : !data ? <p className="pt-2 text-sm text-foreground/60">Loading claims…</p> : null}
         </div>
       </div>
@@ -91,7 +97,7 @@ export default function Inbox() {
   )
 }
 
-function Claim({ r: initial, onBack, onSettled }: { r: Result; onBack: () => void; onSettled: (jobId: string, res: Result) => void }) {
+function Claim({ r: initial, onBack, onSettled, onUpdated }: { r: Result; onBack: () => void; onSettled: (jobId: string, res: Result) => void; onUpdated: (res: Result) => void }) {
   const nav = useNavigate()
   const [r, setR] = useState(initial)
   const [img, setImg] = useState<string | null>(null)
@@ -106,7 +112,7 @@ function Claim({ r: initial, onBack, onSettled }: { r: Result; onBack: () => voi
   async function sendQuestion() {
     if (!question.trim()) return
     setSending(true)
-    try { const res = await ask(r.job_id!, question.trim(), "Finance"); setR(res); setAsking(false); setQuestion(""); toast(`Sent. ${r.submitter} can answer from their claim page.`) }
+    try { const res = await ask(r.job_id!, question.trim(), "Finance"); setR(res); onUpdated(res); setAsking(false); setQuestion(""); toast(`Sent. ${r.submitter} can answer from their claim page.`) }
     catch (e) { console.error(e); toast("The question didn't send. Try again in a moment.") } finally { setSending(false) }
   }
 

@@ -85,7 +85,7 @@ export function Lightbox({ ref, src }: { ref: React.RefObject<HTMLDialogElement 
   return (
     <dialog ref={ref} onClick={e => { if (e.target === e.currentTarget) e.currentTarget.close() }}
       className="m-auto max-h-dvh max-w-[100vw] cursor-zoom-out bg-transparent p-4 backdrop:bg-black/60">
-      <button type="button" onClick={() => ref.current?.close()} aria-label="Close receipt" className="absolute right-6 top-6 grid size-9 place-items-center rounded-full bg-white/90 text-lg leading-none text-foreground shadow">×</button>
+      <button type="button" onClick={() => ref.current?.close()} aria-label="Close receipt" className="absolute right-6 top-6 z-10 grid size-9 place-items-center rounded-full bg-white/90 text-lg leading-none text-foreground shadow">×</button>
       {src && <img src={src} alt="Receipt photo, enlarged" className="enter max-h-[92dvh] max-w-full rounded-md bg-white" />}
     </dialog>
   )

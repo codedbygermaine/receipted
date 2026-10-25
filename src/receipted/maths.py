@@ -7,6 +7,7 @@ Tolerance: real receipts round to the nearest thousand rupiah and print tax to t
 allow max(1 unit, 0.5%) before calling a difference an error.
 """
 
+import re
 from rapidfuzz import fuzz
 
 TOL_ABS = 1
@@ -57,6 +58,10 @@ PERSONAL_ITEM_WORDS = (
     "moisturizer", "sunscreen", "eye drops", "contact lens", "vitamin", "supplement", "diapers", "baby wipes", "retainer",
     "consultation", "ultrasound", "x-ray", "dental", "clinic",
 )
+# Clothing (C6 lists it as personal). Whole-word matches only: "dress" must not catch "dressing".
+CLOTHING_WORDS = ("dress", "shirt", "t-shirt", "tee", "blouse", "jeans", "trousers", "pants", "shorts", "skirt", "jacket",
+                  "hoodie", "sweater", "cardigan", "coat", "shoes", "sneakers", "sandals", "heels", "socks", "cap", "hat")
+_CLOTHING_RE = re.compile(r"\b(" + "|".join(re.escape(w) for w in CLOTHING_WORDS) + r")\b")
 
 
 # Policy C7: a single claim above this needs two approvers, so the checker must hold it rather than approve it.
@@ -80,7 +85,7 @@ def check_personal_items(receipt: dict) -> list[dict]:
     issues = []
     for it in receipt["items"]:
         name = (it.get("name") or "").lower()
-        hits = [w for w in PERSONAL_ITEM_WORDS if w in name]
+        hits = [w for w in PERSONAL_ITEM_WORDS if w in name] + ([m.group(1) for m in [_CLOTHING_RE.search(name)] if m])
         if hits and (it.get("line_total") or 0) > 0:
             issues.append({**issue("possible_personal_item", "medium",
                                    f"'{it['name']}' looks like a personal-use item ({hits[0]}); policy C6 excludes these unless the business purpose is confirmed",

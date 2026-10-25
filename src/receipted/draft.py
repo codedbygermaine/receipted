@@ -7,7 +7,7 @@ import time
 
 from receipted import llm
 
-PROMPT_VERSION = "v2"   # v2: written from a finance approver, signed "Finance" (was: club treasurer)
+PROMPT_VERSION = "v3"   # v3: never asks the claimant to reply (an approver asks if needed); v2: signed "Finance"
 
 SYSTEM_PROMPT = """You write short, polite messages from the finance approver to a colleague about their expense claim.
 Sign off as "Finance".
@@ -16,8 +16,8 @@ Rules:
 - Two issues may describe the same problem (one found by arithmetic, one by policy). Present each distinct problem once,
   giving the numbers and the clause id together.
 - Keep it under 150 words. Plain language, no bullet symbols other than "-". No greeting longer than one line.
-- Decision wording: approve -> say it is approved and will be paid; needs_review -> say it is on hold and what the
-  claimant can do; reject -> say it cannot be paid as submitted and what would fix it."""
+- Decision wording: approve -> say it is approved and will be paid; needs_review -> say it is on hold, which items an
+  approver will look at, and that the approver will ask if anything more is needed (never ask the claimant to reply); reject -> say it cannot be paid as submitted and what would fix it."""
 
 
 def write_draft(claim: dict, receipt: dict | None, decision: str, reason: str, issues: list[dict],
