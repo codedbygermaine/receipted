@@ -3,11 +3,11 @@
   "split": "validation",
   "model": "claude-haiku-5-5",
   "n_claims": 100,
-  "decision_accuracy": 0.91,
+  "decision_accuracy": 0.9,
   "confusion_expected_to_predicted": {
-   "approve->approve": 35,
-   "approve->needs_review": 5,
-   "approve->reject": 3,
+   "approve->approve": 34,
+   "approve->needs_review": 7,
+   "approve->reject": 2,
    "needs_review->approve": 1,
    "needs_review->needs_review": 26,
    "reject->reject": 30
@@ -57,8 +57,8 @@
    },
    "above_500k": {
     "n": 2,
-    "caught": 1,
-    "recall": 0.5
+    "caught": 2,
+    "recall": 1.0
    },
    "packaging_over_5000": {
     "n": 2,
@@ -73,35 +73,42 @@
   },
   "false_alarms": {
    "n_clean_claims": 43,
-   "flagged_with_an_issue": 8,
+   "flagged_with_an_issue": 9,
    "held_for_readability_only": 1,
-   "false_alarm_rate_issues": 0.186,
-   "false_alarm_rate_any": 0.2093,
+   "false_alarm_rate_issues": 0.2093,
+   "false_alarm_rate_any": 0.2326,
    "false_alarm_issue_types": {
-    "duplicate_receipt": 1,
     "lines_vs_totals": 1,
     "claim_lines_vs_amount": 1,
     "claimed_item_not_on_receipt": 2,
-    "meal_people_not_stated": 3,
-    "price_above_list": 4,
+    "meal_above_threshold_no_headcount": 1,
+    "price_above_list": 5,
+    "possible_personal_item": 2,
     "unreadable_receipt_item": 1,
+    "meal_people_not_stated": 2,
     "claim_below_receipt": 1,
-    "meal_people_count_missing": 1
+    "meal_claim_needs_headcount": 1
    }
   },
   "verifier": {
-   "rule_issues_raised": 50,
-   "dropped": 4,
+   "rule_issues_raised": 60,
+   "dropped": 10,
    "drop_reasons": {
+    "price-list item 'combo 1' does not look like receipt item 'Sliders Set' (similarity 18)": 1,
+    "price-list item 'seaweed chicken' does not look like receipt item 'Chicken Vege Rice Bowl' (similarity 64)": 1,
+    "price-list item 'new beef spaghetti' does not look like receipt item 'BLACK PEPPER MEATBALL' (similarity 35)": 1,
+    "price-list item 'new beef spaghetti' does not look like receipt item 'QUARTO FORMANGGI PASTA' (similarity 36)": 1,
+    "price-list item 'lemon tea (l)' does not look like receipt item 'GREEN TEA WITH CRUMBLE' (similarity 61)": 1,
     "price-list item 'seaweed chicken' does not look like receipt item 'Gojek Chicken Chilli Sauce H' (similarity 64)": 1,
     "price-list item 'seaweed chicken' does not look like receipt item 'Gojek Chicken Soy Sauce F' (similarity 64)": 1,
+    "price-list item 'potato sausage bread' does not look like receipt item 'Gojek French Fries' (similarity 38)": 1,
     "price-list item 'plastic bag' does not look like receipt item 'PAPER BAG BESAR' (similarity 60)": 1,
     "cited clause/price item does not exist": 1
    }
   },
-  "mean_cost_usd_per_claim": 0.00246,
-  "total_cost_usd": 0.2456,
-  "mean_seconds_per_claim_uncached": 12.53,
+  "mean_cost_usd_per_claim": 0.00141,
+  "total_cost_usd": 0.1409,
+  "mean_seconds_per_claim_uncached": 5.33,
   "readability_counts": {
    "clear": 90,
    "partly unclear": 10
@@ -116,8 +123,8 @@
    "planted_detail": null,
    "natural_flags": [],
    "expected": "approve",
-   "predicted": "reject",
-   "decision_reason": "at least one high-severity issue with evidence",
+   "predicted": "approve",
+   "decision_reason": "no issues found and the receipt is clear",
    "submitter": "Member 000",
    "claimed_amount": 45500,
    "currency": "IDR",
@@ -125,29 +132,13 @@
    "readability": "clear",
    "extraction_error": null,
    "caught": {},
-   "verified_issues": [
-    {
-     "source": "maths",
-     "type": "duplicate_receipt",
-     "severity": "high",
-     "clause_id": "C9",
-     "price_item": null,
-     "receipt_line": "RECEIPT_TOTAL",
-     "message": "This receipt was already claimed as SAMPLE-001 (same receipt image already claimed); policy C9 forbids claiming it twice",
-     "evidence": {
-      "previous_claim_id": "SAMPLE-001",
-      "previous_decision": "approve",
-      "registered_at": "2026-10-23T07:26:07+00:00",
-      "reason": "same receipt image already claimed"
-     }
-    }
-   ],
+   "verified_issues": [],
    "n_rule_issues": 0,
    "n_dropped": 0,
    "dropped": [],
-   "draft": "Hello Member 000,\n\nYour claim VAL-000 for IDR 45,500 cannot be paid as submitted. The receipt for this claim was already claimed under SAMPLE-001, and policy C9 does not allow the same receipt to be claimed twice.\n\nTo resolve this, please check whether SAMPLE-001 already covers this expense. If it does, no further payment is needed for this receipt. If you believe this is a different expense, please send us a new receipt that is distinct from the one already claimed, and we will review it again.\n\nKind regards,\nClub Treasurer",
-   "cost_usd": 0.002001,
-   "seconds": 8.24,
+   "draft": "Hi Member 000,\n\nYour expense claim VAL-000 for IDR 45,500 has been approved and will be paid.\n\nThe claimed amount matches the receipt total, and no issues were found.\n\nFinance",
+   "cost_usd": 0.001075,
+   "seconds": 4.63,
    "cached": false
   },
   {
@@ -180,7 +171,7 @@
      "clause_id": null,
      "price_item": null,
      "receipt_line": null,
-     "message": "Claimed 46000 but the receipt total is 23000",
+     "message": "Claimed IDR 46,000, but the receipt total is IDR 23,000 (IDR 23,000 more)",
      "evidence": {
       "claimed": 46000,
       "receipt_total": 23000,
@@ -203,15 +194,26 @@
     },
     {
      "source": "rules",
-     "type": "claim_above_receipt_total",
+     "type": "claim_exceeds_receipt_policy",
      "severity": "high",
      "clause_id": "C4",
      "price_item": null,
      "receipt_line": "CLAIM_AMOUNT",
-     "message": "The claim is for IDR 46000 but the receipt total is IDR 23000. Under C4 a claim above the receipt total is rejected, so the claim should be reduced to IDR 23000 or less.",
+     "message": "The claimed IDR 46,000 is more than the IDR 23,000 receipt total, so under C4 the claim is rejected. Resubmit for no more than IDR 23,000.",
      "evidence": {
-      "votes": "2/3",
       "clause_text": "C4. Claimed amount must match the receipt: The amount claimed must equal the total printed on the receipt. A claim for more than the receipt total is rejected. A claim for less than the receipt total is acceptable (the claimant may choose not to claim some items)."
+     }
+    },
+    {
+     "source": "rules",
+     "type": "claimed_qty_exceeds_receipt_policy",
+     "severity": "medium",
+     "clause_id": "C9",
+     "price_item": null,
+     "receipt_line": "Kopi Susu Kolonel [blurred] 1 23.000",
+     "message": "The claim asks for 2 Kopi Susu Kolonel but the receipt shows 1, which C9 does not allow. Reduce the claimed quantity to 1.",
+     "evidence": {
+      "clause_text": "C9. Quantities: The quantity of any item claimed must not exceed the quantity shown on the receipt, and the same receipt may not be claimed twice."
      }
     },
     {
@@ -221,9 +223,8 @@
      "clause_id": null,
      "price_item": "es kopi susu",
      "receipt_line": "Kopi Susu Kolonel [blurred] 1 23.000",
-     "message": "The receipt shows IDR 23000 per unit, which is IDR 3000 above the agreed maximum of IDR 20000 for es kopi susu. The excess should be reviewed before reimbursement.",
+     "message": "The receipt shows IDR 23,000 for one drink, which is above the agreed maximum of IDR 20,000 for es kopi susu. Only IDR 20,000 is likely to be approved for this item.",
      "evidence": {
-      "votes": "2/3",
       "price_name_similarity": 86,
       "unit_price_paid": 23000.0,
       "agreed_max_unit_price": 20000.0,
@@ -231,12 +232,12 @@
      }
     }
    ],
-   "n_rule_issues": 2,
+   "n_rule_issues": 3,
    "n_dropped": 0,
    "dropped": [],
-   "draft": "Claim VAL-001 cannot be paid as submitted.\n\n- The claim is for IDR 46000, but the receipt total is IDR 23000. Under C4, a claim above the receipt total is rejected. Please reduce the claim to IDR 23000 or less.\n- You claimed 2 x Kopi Susu Kolonel, but the receipt shows 1. Please claim only the quantity on the receipt.\n- The receipt shows IDR 23000 per unit, which is IDR 3000 above the agreed maximum of IDR 20000 for es kopi susu. The excess will need review before any reimbursement.\n\nOnce the claim is corrected and resubmitted, we will look at it again.",
-   "cost_usd": 0.00277,
-   "seconds": 15.9,
+   "draft": "Hello,\n\nClaim VAL-001 for IDR 46,000 is rejected and cannot be paid as submitted.\n\n- The claimed amount is IDR 46,000, but the receipt total is IDR 23,000, which is IDR 23,000 more. Under C4, a claim for more than the receipt total is rejected. To fix this, resubmit for no more than IDR 23,000.\n- You claimed 2 x Kopi Susu Kolonel, but the receipt shows 1. Under C9, the claimed quantity must not exceed the receipt. Reduce the quantity to 1.\n- The receipt shows IDR 23,000 for one drink, which is above the agreed maximum of IDR 20,000 for es kopi susu. Only IDR 20,000 is likely to be approved for this item.\n\nOnce you resubmit with these corrections, we will review it again.\n\nFinance",
+   "cost_usd": 0.001745,
+   "seconds": 8.72,
    "cached": false
   },
   {
@@ -269,7 +270,7 @@
      "clause_id": null,
      "price_item": null,
      "receipt_line": null,
-     "message": "Claimed 60000 but the receipt total is 20000",
+     "message": "Claimed IDR 60,000, but the receipt total is IDR 20,000 (IDR 40,000 more)",
      "evidence": {
       "claimed": 60000,
       "receipt_total": 20000,
@@ -292,14 +293,13 @@
     },
     {
      "source": "rules",
-     "type": "claim_exceeds_receipt_total",
+     "type": "claim_exceeds_receipt",
      "severity": "high",
      "clause_id": "C4",
      "price_item": null,
      "receipt_line": "CLAIM_AMOUNT",
-     "message": "The claim is IDR 60,000 but the receipt total is IDR 20,000. Claims above the receipt total are rejected, so the claim should be reduced to IDR 20,000 or lower.",
+     "message": "The claim is for IDR 60,000 but the receipt total is IDR 20,000. A claim for more than the receipt total is rejected, so the claim should be reduced to IDR 20,000 or less.",
      "evidence": {
-      "votes": "3/3",
       "clause_text": "C4. Claimed amount must match the receipt: The amount claimed must equal the total printed on the receipt. A claim for more than the receipt total is rejected. A claim for less than the receipt total is acceptable (the claimant may choose not to claim some items)."
      }
     },
@@ -310,9 +310,8 @@
      "clause_id": "C9",
      "price_item": null,
      "receipt_line": "1 S-Ovaltine 20,000 20,000",
-     "message": "The claim lists 3 units of S-Ovaltine 50% but the receipt shows only 1. Quantities claimed must not exceed the receipt quantity.",
+     "message": "The claim asks for 3 units of S-Ovaltine but the receipt shows only 1. The claimed quantity must not exceed the receipt quantity.",
      "evidence": {
-      "votes": "2/3",
       "clause_text": "C9. Quantities: The quantity of any item claimed must not exceed the quantity shown on the receipt, and the same receipt may not be claimed twice."
      }
     }
@@ -320,9 +319,9 @@
    "n_rule_issues": 2,
    "n_dropped": 0,
    "dropped": [],
-   "draft": "Dear Member 002,\n\nYour claim VAL-002 cannot be paid as submitted, so it has been rejected.\n\n- You claimed IDR 60,000, but the receipt total is IDR 20,000, a difference of IDR 40,000. Under clause C4, a claim for more than the receipt total is rejected.\n- You claimed 3 units of S-Ovaltine 50%, but the receipt shows only 1 (IDR 20,000). Under clause C9, the quantity claimed must not exceed the quantity on the receipt.\n\nTo resubmit, please reduce the claim to IDR 20,000 or less and claim no more than the 1 unit shown on the receipt.\n\nKind regards,\nClub Treasurer",
-   "cost_usd": 0.002479,
-   "seconds": 12.71,
+   "draft": "Hello Member 002,\n\nYour claim VAL-002 for IDR 60,000 cannot be paid as submitted.\n\n- The claimed amount is IDR 60,000, but the receipt total is IDR 20,000, which is IDR 40,000 more. Under C4, a claim for more than the receipt total is rejected. To fix this, reduce the claim to IDR 20,000 or less.\n- You claimed 3 x S-Ovaltine 50%, but the receipt shows only 1. Under C9, the quantity claimed must not exceed the quantity on the receipt. To fix this, claim 1 unit or correct the receipt if it is wrong.\n\nPlease resubmit with these changes and we will review it again.\n\nFinance",
+   "cost_usd": 0.00132,
+   "seconds": 5.55,
    "cached": false
   },
   {
@@ -346,9 +345,9 @@
    "n_rule_issues": 0,
    "n_dropped": 0,
    "dropped": [],
-   "draft": "Hello Member 003,\n\nYour expense claim VAL-003 for IDR 28,000 has been approved and will be paid. The amount you claimed matches the receipt total, and we found no issues with the claim.\n\nThank you for submitting it.\n\nBest regards,\nClub Treasurer",
-   "cost_usd": 0.001486,
-   "seconds": 5.63,
+   "draft": "Hello Member 003,\n\nYour expense claim VAL-003 for IDR 28,000 has been approved and will be paid.\n\nFinance",
+   "cost_usd": 0.000848,
+   "seconds": 4.7,
    "cached": false
   },
   {
@@ -372,9 +371,9 @@
    "n_rule_issues": 0,
    "n_dropped": 0,
    "dropped": [],
-   "draft": "Hello Member 004,\n\nYour expense claim VAL-004 for IDR 41,000 has been approved and will be paid. The amount you claimed matches the receipt total, and we found no issues with the claim.\n\nThank you for submitting it.\n\nBest regards,\nClub Treasurer",
-   "cost_usd": 0.001786,
-   "seconds": 6.98,
+   "draft": "Hi Member 004,\n\nYour expense claim VAL-004 for IDR 41,000 has been approved and will be paid. The amount matches your receipt total of IDR 41,000, and we found no issues with the claim.\n\nThank you for submitting it.\n\nFinance",
+   "cost_usd": 0.001079,
+   "seconds": 2.05,
    "cached": false
   },
   {
@@ -409,7 +408,8 @@
      "receipt_line": "CLAIM_AMOUNT",
      "message": "No purpose is stated on the claim; policy C1 requires one",
      "evidence": {
-      "purpose": ""
+      "purpose": "",
+      "clause_text": "C1. Purpose of expense: Expenses are reimbursable only when incurred for an approved club activity or business purpose. The claim must state the purpose. Claims with no stated purpose are held for review."
      }
     },
     {
@@ -419,9 +419,8 @@
      "clause_id": "C10",
      "price_item": null,
      "receipt_line": "RECEIPT_TOTAL",
-     "message": "The receipt is marked partly unclear, its subtotal is missing, and a tax of 727 is printed that cannot be reconciled with the 8000 total. The claim should be held for manual review without guessing the missing values.",
+     "message": "The receipt is marked partly unclear and shows tax 727 with no subtotal or service figure, so the 8,000 total cannot be fully confirmed against the printed items. Hold the claim for manual review rather than assuming the total is correct.",
      "evidence": {
-      "votes": "3/3",
       "clause_text": "C10. Unreadable or damaged receipts: If the receipt is unreadable, torn, faded or partly missing so that items or totals cannot be confirmed, the claim is held for manual review. The checker must not guess missing values."
      }
     }
@@ -429,9 +428,9 @@
    "n_rule_issues": 1,
    "n_dropped": 0,
    "dropped": [],
-   "draft": "Dear Member 005,\n\nYour expense claim VAL-005 for 8000 IDR is on hold for manual review and has not been approved yet.\n\n- No purpose is stated on the claim. Policy C1 requires one, so please add a short description of the purpose.\n- The receipt is partly unclear. Its subtotal is missing, and a tax of 727 is printed that does not reconcile with the 8000 total. Under policy C10, we cannot confirm the items or totals from it, so please send a clearer or complete copy of the receipt.\n\nOnce you have added the purpose and provided a readable receipt, we will review the claim again. Thank you for your patience.\n\nKind regards,\nClub Treasurer",
-   "cost_usd": 0.002747,
-   "seconds": 14.56,
+   "draft": "Hello Member 005,\n\nClaim VAL-005 for IDR 8,000 is on hold and has not been approved yet.\n\n- No purpose is stated on the claim. Policy C1 requires a stated purpose, so please add the approved club activity or business purpose.\n- The receipt is marked partly unclear. It shows tax of 727 with no subtotal or service figure, so the 8,000 total cannot be fully confirmed against the printed items (policy C10). Please send a clearer or complete copy of the receipt.\n\nOnce the purpose is added and a readable receipt is provided, we will review the claim again.\n\nFinance",
+   "cost_usd": 0.001574,
+   "seconds": 6.46,
    "cached": false
   },
   {
@@ -463,7 +462,7 @@
      "clause_id": null,
      "price_item": null,
      "receipt_line": null,
-     "message": "Claimed 155000 but the receipt total is 123000",
+     "message": "Claimed IDR 155,000, but the receipt total is IDR 123,000 (IDR 32,000 more)",
      "evidence": {
       "claimed": 155000,
       "receipt_total": 123000,
@@ -472,14 +471,13 @@
     },
     {
      "source": "rules",
-     "type": "claim_exceeds_receipt",
+     "type": "claim_above_receipt_total",
      "severity": "high",
      "clause_id": "C4",
      "price_item": null,
      "receipt_line": "CLAIM_AMOUNT",
-     "message": "The claim asks for IDR 155,000 but the receipt total is IDR 123,000. Under C4 a claim above the receipt total is rejected, so the claim should be reduced to at most IDR 123,000 or rejected.",
+     "message": "The claim is IDR 155,000 but the receipt total is IDR 123,000. Under C4 a claim for more than the receipt total is rejected, so the claim should be reduced to IDR 123,000 or less.",
      "evidence": {
-      "votes": "3/3",
       "clause_text": "C4. Claimed amount must match the receipt: The amount claimed must equal the total printed on the receipt. A claim for more than the receipt total is rejected. A claim for less than the receipt total is acceptable (the claimant may choose not to claim some items)."
      }
     }
@@ -487,9 +485,9 @@
    "n_rule_issues": 1,
    "n_dropped": 0,
    "dropped": [],
-   "draft": "Dear Member 006,\n\nYour expense claim VAL-006 cannot be paid as submitted. You claimed IDR 155,000, but the receipt total is IDR 123,000, a difference of IDR 32,000. Under clause C4, a claim for more than the receipt total is rejected.\n\nTo have this claim paid, please resubmit it for an amount of no more than IDR 123,000. A claim for less than the receipt total is acceptable.\n\nKind regards,\nClub Treasurer",
-   "cost_usd": 0.003007,
-   "seconds": 17.49,
+   "draft": "Hello Member 006,\n\nYour claim VAL-006 cannot be paid as submitted. You claimed IDR 155,000, but the receipt total is IDR 123,000, which is IDR 32,000 less than the amount claimed. Under clause C4, a claim for more than the receipt total is rejected.\n\nTo fix this, please resubmit the claim for IDR 123,000 or less. A claim for less than the receipt total is acceptable.\n\nRegards,\nFinance",
+   "cost_usd": 0.001581,
+   "seconds": 6.37,
    "cached": false
   },
   {
@@ -521,7 +519,7 @@
      "clause_id": null,
      "price_item": null,
      "receipt_line": null,
-     "message": "Line items sum to 54091, but subtotal is 63636 and total is 59500",
+     "message": "The items as read add up to IDR 54,091, but the receipt shows a subtotal of IDR 63,636 and a total of IDR 59,500. A line may have been misread, so a person should check the receipt",
      "evidence": {
       "line_sum": 54091,
       "subtotal": 63636,
@@ -532,9 +530,9 @@
    "n_rule_issues": 0,
    "n_dropped": 0,
    "dropped": [],
-   "draft": "Hello Member 007,\n\nYour claim VAL-007 for IDR 59,500 is on hold for review. The line items on the receipt add up to IDR 54,091, but the receipt shows a subtotal of IDR 63,636 and a total of IDR 59,500. These figures do not agree with each other.\n\nPlease check the receipt and send us a clear copy, or a note explaining the difference. Once a treasurer has reviewed it, we will confirm the outcome and arrange payment if it is approved.\n\nKind regards,\nClub Treasurer",
-   "cost_usd": 0.002194,
-   "seconds": 9.74,
+   "draft": "Hello Member 007,\n\nYour claim VAL-007 for IDR 59,500 is on hold for a manual check.\n\nThe line items on the receipt add up to IDR 54,091, but the receipt shows a subtotal of IDR 63,636 and a total of IDR 59,500. These figures do not match, so one line may have been misread. Please check the receipt and send us a clearer copy or a note of the correct item amounts, and we will review it again.\n\nRegards,\nFinance",
+   "cost_usd": 0.001229,
+   "seconds": 4.89,
    "cached": false
   },
   {
@@ -566,7 +564,7 @@
      "clause_id": null,
      "price_item": null,
      "receipt_line": null,
-     "message": "Line items sum to 19500, but subtotal is 11700 and total is 11700",
+     "message": "The items as read add up to IDR 19,500, but the receipt shows a subtotal of IDR 11,700 and a total of IDR 11,700. A line may have been misread, so a person should check the receipt",
      "evidence": {
       "line_sum": 19500,
       "subtotal": 11700,
@@ -591,9 +589,9 @@
    "n_rule_issues": 0,
    "n_dropped": 0,
    "dropped": [],
-   "draft": "Dear Member 008,\n\nThank you for submitting claim VAL-008. It is on hold for a human review and cannot be paid yet.\n\nThe line items on the receipt add up to 19,500 IDR, but the receipt subtotal and total are both 11,700 IDR. The claim lines also add up to 19,500 IDR, while the claimed amount is 11,700 IDR. These figures need to match before the claim can be approved.\n\nTo help the review, please check the receipt and the claim lines and confirm the correct amount. If the claimed amount should be 19,500 IDR, or the receipt has a different total, please send a corrected claim or a clearer copy of the receipt.\n\nKind regards,\nClub Treasurer",
-   "cost_usd": 0.002163,
-   "seconds": 8.38,
+   "draft": "Hello Member 008,\n\nYour claim VAL-008 for IDR 11,700 is on hold while a person checks it.\n\n- The items on the receipt add up to IDR 19,500, but the receipt shows a subtotal and total of IDR 11,700. One line may have been misread, so the receipt needs to be checked.\n- Your claim lines also add up to IDR 19,500, while the claimed amount is IDR 11,700.\n\nTo move this forward, please check the receipt and claim lines and confirm the correct amount. If the receipt total of IDR 11,700 is right, update your claim lines to match it.\n\nRegards,\nFinance",
+   "cost_usd": 0.001236,
+   "seconds": 5.22,
    "cached": false
   },
   {
@@ -628,16 +626,17 @@
      "receipt_line": "CLAIM_AMOUNT",
      "message": "No purpose is stated on the claim; policy C1 requires one",
      "evidence": {
-      "purpose": ""
+      "purpose": "",
+      "clause_text": "C1. Purpose of expense: Expenses are reimbursable only when incurred for an approved club activity or business purpose. The claim must state the purpose. Claims with no stated purpose are held for review."
      }
     }
    ],
    "n_rule_issues": 0,
    "n_dropped": 0,
    "dropped": [],
-   "draft": "Dear Member 009,\n\nThank you for submitting claim VAL-009 for IDR 20,000. The receipt total matches the amount claimed.\n\nThe claim is on hold for review. No purpose is stated on the claim, and policy C1 requires one. Please reply with a short description of what the expense was for, and we will complete the review once we have it.\n\nKind regards,\nClub Treasurer",
-   "cost_usd": 0.00165,
-   "seconds": 6.25,
+   "draft": "Hello Member 009,\n\nClaim VAL-009 for IDR 20,000 is on hold. The claim does not state a purpose, and policy C1 requires one before an expense can be reimbursed.\n\nTo proceed, please reply with the club activity or business purpose for this expense. Once we have it, the claim will be reviewed again.\n\nThank you,\nFinance",
+   "cost_usd": 0.001001,
+   "seconds": 1.69,
    "cached": false
   },
   {
@@ -661,9 +660,9 @@
    "n_rule_issues": 0,
    "n_dropped": 0,
    "dropped": [],
-   "draft": "Hello Member 010,\n\nYour expense claim VAL-010 for IDR 60,000 has been approved and will be paid. The amount you claimed matches the receipt total of IDR 60,000, and we found no issues with the claim.\n\nThank you for submitting it.\n\nBest regards,\nClub Treasurer",
-   "cost_usd": 0.002013,
-   "seconds": 8.49,
+   "draft": "Hello Member 010,\n\nYour expense claim VAL-010 for IDR 60,000 has been approved and will be paid. The amount claimed matches the receipt total.\n\nThank you,\nFinance",
+   "cost_usd": 0.001182,
+   "seconds": 4.98,
    "cached": false
   },
   {
@@ -687,9 +686,9 @@
    "n_rule_issues": 0,
    "n_dropped": 0,
    "dropped": [],
-   "draft": "Dear Member 011,\n\nYour expense claim VAL-011 for IDR 89,100 has been approved and will be paid. The amount you claimed matches the receipt total.\n\nThank you for submitting your claim.\n\nKind regards,\nClub Treasurer",
-   "cost_usd": 0.002234,
-   "seconds": 7.25,
+   "draft": "Hi Member 011,\n\nYour expense claim VAL-011 for IDR 89,100 has been approved and will be paid. The amount claimed matches the receipt total, and no issues were found.\n\nKind regards,\nFinance",
+   "cost_usd": 0.001341,
+   "seconds": 1.56,
    "cached": false
   },
   {
@@ -713,9 +712,9 @@
    "n_rule_issues": 0,
    "n_dropped": 0,
    "dropped": [],
-   "draft": "Hello Member 012,\n\nYour expense claim VAL-012 for IDR 72,000 has been approved and will be paid. The amount claimed matches the receipt total, and no issues were found.\n\nThank you for submitting your claim.",
-   "cost_usd": 0.001779,
-   "seconds": 7.33,
+   "draft": "Hello Member 012,\n\nClaim VAL-012 for IDR 72,000 has been approved and will be paid. The claimed amount matches the receipt total.\n\nThank you,\nFinance",
+   "cost_usd": 0.001112,
+   "seconds": 3.67,
    "cached": false
   },
   {
@@ -739,9 +738,9 @@
    "n_rule_issues": 0,
    "n_dropped": 0,
    "dropped": [],
-   "draft": "Hello Member 013,\n\nYour expense claim VAL-013 for IDR 45,500 has been approved and will be paid. The amount matches your receipt total, and no issues were found.\n\nThank you for submitting your claim.\n\nBest regards,\nClub Treasurer",
-   "cost_usd": 0.002244,
-   "seconds": 13.12,
+   "draft": "Hello Member 013,\n\nYour expense claim VAL-013 for IDR 45,500 has been approved and will be paid.\n\nRegards,\nFinance",
+   "cost_usd": 0.001086,
+   "seconds": 1.38,
    "cached": false
   },
   {
@@ -765,9 +764,9 @@
    "n_rule_issues": 0,
    "n_dropped": 0,
    "dropped": [],
-   "draft": "Hello Member 014,\n\nYour expense claim VAL-014 for IDR 39,600 has been approved and will be paid. The amount claimed matches the receipt total exactly, and no issues were found.\n\nThank you for submitting your claim.\n\nKind regards,\nClub Treasurer",
-   "cost_usd": 0.001966,
-   "seconds": 9.29,
+   "draft": "Hello Member 014,\n\nYour expense claim VAL-014 for IDR 39,600 has been approved and will be paid. The amount you claimed matches the receipt total, and we found no issues with it.\n\nThank you for submitting it.\n\nFinance",
+   "cost_usd": 0.001092,
+   "seconds": 1.63,
    "cached": false
   },
   {
@@ -791,9 +790,9 @@
    "n_rule_issues": 0,
    "n_dropped": 0,
    "dropped": [],
-   "draft": "Hello Member 015,\n\nYour expense claim VAL-015 for IDR 59,400 has been approved and will be paid. The claimed amount matches the receipt total. Some parts of the receipt were hard to read, but every item and the total were legible, so no further action is needed.\n\nThank you,\nClub Treasurer",
-   "cost_usd": 0.00196,
-   "seconds": 6.5,
+   "draft": "Hello Member 015,\n\nYour expense claim VAL-015 for IDR 59,400 has been approved and will be paid. Your claimed amount matches the receipt total. Some parts of the receipt were hard to read, but every item and the total were legible, so no further action is needed.\n\nFinance",
+   "cost_usd": 0.001233,
+   "seconds": 3.61,
    "cached": false
   },
   {
@@ -826,7 +825,7 @@
      "clause_id": null,
      "price_item": null,
      "receipt_line": null,
-     "message": "Claimed 38000 but the receipt total is 20000",
+     "message": "Claimed IDR 38,000, but the receipt total is IDR 20,000 (IDR 18,000 more)",
      "evidence": {
       "claimed": 38000,
       "receipt_total": 20000,
@@ -868,22 +867,20 @@
      "clause_id": "C10",
      "price_item": null,
      "receipt_line": "1 [hidden] 20,000",
-     "message": "The receipt is partly unclear and the item name is hidden, so the claimed items cannot be confirmed against it. Hold the claim for manual review and do not guess the missing values.",
+     "message": "The receipt is partly unclear and the only line's item name is hidden, so the claimed items TT and NASI 2SAYUR TELR cannot be confirmed. Hold the claim for manual review and do not guess the missing values.",
      "evidence": {
-      "votes": "3/3",
       "clause_text": "C10. Unreadable or damaged receipts: If the receipt is unreadable, torn, faded or partly missing so that items or totals cannot be confirmed, the claim is held for manual review. The checker must not guess missing values."
      }
     },
     {
      "source": "rules",
-     "type": "claim_exceeds_receipt_rule",
+     "type": "claim_exceeds_receipt",
      "severity": "high",
      "clause_id": "C4",
      "price_item": null,
      "receipt_line": "CLAIM_AMOUNT",
-     "message": "The claim of IDR 38,000 is more than the IDR 20,000 receipt total, which C4 says is rejected. Reduce the claim to the receipt total or reject it.",
+     "message": "The claimed IDR 38,000 is more than the IDR 20,000 receipt total, so the claim must be rejected. Reduce the claim to no more than the printed receipt total.",
      "evidence": {
-      "votes": "2/3",
       "clause_text": "C4. Claimed amount must match the receipt: The amount claimed must equal the total printed on the receipt. A claim for more than the receipt total is rejected. A claim for less than the receipt total is acceptable (the claimant may choose not to claim some items)."
      }
     }
@@ -891,9 +888,9 @@
    "n_rule_issues": 2,
    "n_dropped": 0,
    "dropped": [],
-   "draft": "Dear Member 016,\n\nYour claim VAL-016 for IDR 38,000 cannot be paid as submitted.\n\n- The claimed amount is IDR 38,000, but the receipt total is IDR 20,000, a difference of IDR 18,000 (C4). A claim for more than the receipt total is rejected.\n- The items \"TT\" and \"NASI 2SAYUR TELR\" do not match any line on the receipt.\n- Part of the receipt is unclear, and the item name is hidden, so the claimed items cannot be confirmed (C10).\n\nTo resubmit, please reduce the claim to IDR 20,000 or less and send a clear, complete copy of the receipt showing all item names and totals. The claim will then be checked again.\n\nKind regards,\nClub Treasurer",
-   "cost_usd": 0.002797,
-   "seconds": 15.27,
+   "draft": "Subject: Expense claim VAL-016 - cannot be paid as submitted\n\nHello Member 016,\n\nYour claim VAL-016 cannot be paid as submitted. You claimed IDR 38,000, but the receipt total is IDR 20,000, which is IDR 18,000 less. Under clause C4, a claim for more than the receipt total is rejected.\n\nThe items \"TT\" and \"NASI 2SAYUR TELR\" are also not on the receipt. The receipt is partly unclear, and its only visible line is hidden, so these items cannot be confirmed. Under clause C10, unclear receipts are held for manual review.\n\nTo resubmit, please reduce the claimed amount to no more than IDR 20,000 and provide a clearer copy of the receipt showing all items and the total.\n\nRegards,\nFinance",
+   "cost_usd": 0.001673,
+   "seconds": 6.86,
    "cached": false
   },
   {
@@ -937,9 +934,9 @@
    "n_rule_issues": 0,
    "n_dropped": 0,
    "dropped": [],
-   "draft": "Hello Member 017,\n\nYour expense claim VAL-017 is on hold for review. The claim lines add up to 28000 IDR, but the claimed amount is 20000 IDR, so the two figures do not match.\n\nTo move this forward, please check the individual claim lines and the claimed amount, then resubmit with matching figures. If the 20000 IDR amount is correct, please update the line items so they total 20000 IDR. If the line items are correct, please update the claimed amount to 28000 IDR. The receipt total of 20000 IDR and the tax and service amount of 0 IDR are noted for your reference.\n\nThank you,\nClub Treasurer",
-   "cost_usd": 0.001815,
-   "seconds": 9.34,
+   "draft": "Hello Member 017,\n\nYour claim VAL-017 is on hold for review.\n\n- The claim lines add up to 28,000 IDR, but the claimed amount is 20,000 IDR.\n- The receipt total is 20,000 IDR, so the claim lines do not match the receipt or the amount you submitted.\n\nTo proceed, please check the claim lines and correct either the line amounts or the claimed total so they agree. Once updated, we will review the claim again.\n\nFinance",
+   "cost_usd": 0.000852,
+   "seconds": 1.59,
    "cached": false
   },
   {
@@ -971,7 +968,7 @@
      "clause_id": null,
      "price_item": null,
      "receipt_line": null,
-     "message": "Claimed 32000 but the receipt total is 25000",
+     "message": "Claimed IDR 32,000, but the receipt total is IDR 25,000 (IDR 7,000 more)",
      "evidence": {
       "claimed": 32000,
       "receipt_total": 25000,
@@ -980,27 +977,25 @@
     },
     {
      "source": "rules",
-     "type": "claim_above_receipt_total",
+     "type": "claim_exceeds_receipt_policy",
      "severity": "high",
      "clause_id": "C4",
      "price_item": null,
      "receipt_line": "CLAIM_AMOUNT",
-     "message": "The claim is for 32000 but the receipt total is 25000. Under C4 a claim for more than the receipt total is rejected, so the claim should be reduced to at most 25000 or the difference explained.",
+     "message": "The claim is IDR 32,000 but the receipt total is IDR 25,000. Under C4 a claim for more than the receipt total is rejected, so the claim should be corrected to IDR 25,000 or less.",
      "evidence": {
-      "votes": "3/3",
       "clause_text": "C4. Claimed amount must match the receipt: The amount claimed must equal the total printed on the receipt. A claim for more than the receipt total is rejected. A claim for less than the receipt total is acceptable (the claimant may choose not to claim some items)."
      }
     },
     {
      "source": "rules",
      "type": "price_above_list",
-     "severity": "low",
+     "severity": "medium",
      "clause_id": null,
      "price_item": "kaya bun",
      "receipt_line": "kaya bred / 1 / 15,000 / 15,000",
-     "message": "The kaya bred unit price of 15,000 is above the agreed maximum of 10,500 for kaya bun, if the two are the same item. The treasurer should confirm the match before approving the price.",
+     "message": "The receipt shows kaya bred at IDR 15,000, which is above the agreed maximum of IDR 10,500 for kaya bun in the price list. The excess of IDR 4,500 may not be reimbursable without review.",
      "evidence": {
-      "votes": "3/3",
       "price_name_similarity": 86,
       "unit_price_paid": 15000,
       "agreed_max_unit_price": 10500.0,
@@ -1011,9 +1006,9 @@
    "n_rule_issues": 2,
    "n_dropped": 0,
    "dropped": [],
-   "draft": "Dear Member 018,\n\nYour claim VAL-018 for IDR 32,000 cannot be paid as submitted. The receipt total is IDR 25,000, so the claim is IDR 7,000 higher than the receipt. Under clause C4, a claim for more than the receipt total is rejected. To proceed, please reduce the claim to IDR 25,000 or less, or send an explanation for the IDR 7,000 difference.\n\nWe also noticed that the kaya bred line on the receipt (1 x 15,000) is priced above the agreed maximum of 10,500 for kaya bun. Please confirm whether these are the same item. We will check this before any price is approved.\n\nKind regards,\nClub Treasurer",
-   "cost_usd": 0.002905,
-   "seconds": 19.19,
+   "draft": "Hello Member 018,\n\nClaim VAL-018 for IDR 32,000 cannot be paid as submitted.\n\n- The claim is IDR 7,000 more than the receipt total of IDR 25,000. Under C4, a claim for more than the receipt total is rejected. Please correct the claimed amount to IDR 25,000 or less and resubmit.\n- The receipt shows kaya bread at IDR 15,000, which is above the agreed maximum of IDR 10,500 for kaya bun in the price list. The excess of IDR 4,500 may not be reimbursable without review, so please note this when you resubmit.\n\nRegards,\nFinance",
+   "cost_usd": 0.001283,
+   "seconds": 6.52,
    "cached": false
   },
   {
@@ -1037,9 +1032,9 @@
    "n_rule_issues": 0,
    "n_dropped": 0,
    "dropped": [],
-   "draft": "Hello Member 019,\n\nYour expense claim VAL-019 for IDR 42,500 has been approved and will be paid. The amount you claimed matches the receipt total, and we found no issues with the claim.\n\nThank you for submitting it.\n\nKind regards,\nClub Treasurer",
-   "cost_usd": 0.002574,
-   "seconds": 14.72,
+   "draft": "Hello Member 019,\n\nYour expense claim VAL-019 for IDR 42,500 has been approved and will be paid. The amount claimed matches the receipt total, and no issues were found.\n\nRegards,\nFinance",
+   "cost_usd": 0.001153,
+   "seconds": 4.03,
    "cached": false
   },
   {
@@ -1063,9 +1058,9 @@
    "n_rule_issues": 0,
    "n_dropped": 0,
    "dropped": [],
-   "draft": "Hello Member 020,\n\nYour expense claim VAL-020 for IDR 16,500 has been approved and will be paid. The amount you claimed matches the receipt total, and no issues were found.\n\nThank you for submitting your claim.\n\nKind regards,\nClub Treasurer",
-   "cost_usd": 0.001898,
-   "seconds": 7.43,
+   "draft": "Hello Member 020,\n\nYour expense claim VAL-020 for IDR 16,500 has been approved and will be paid. The amount you claimed matches the receipt total.\n\nThank you,\nFinance",
+   "cost_usd": 0.001116,
+   "seconds": 4.64,
    "cached": false
   },
   {
@@ -1093,7 +1088,7 @@
      "clause_id": null,
      "price_item": null,
      "receipt_line": null,
-     "message": "Line items sum to 229089, but subtotal is None and total is 224908",
+     "message": "The items as read add up to IDR 229,089, but the receipt shows a total of IDR 224,908. A line may have been misread, so a person should check the receipt",
      "evidence": {
       "line_sum": 229089,
       "subtotal": null,
@@ -1130,14 +1125,13 @@
     },
     {
      "source": "rules",
-     "type": "meal_people_not_stated",
+     "type": "meal_above_threshold_no_headcount",
      "severity": "medium",
      "clause_id": "C12",
      "price_item": null,
      "receipt_line": "CLAIM_AMOUNT",
-     "message": "The claim is for food totalling IDR 224,908, above the IDR 150,000 meal threshold, but the number of people is not stated. Hold for review and ask the submitter to state the number of people and confirm the activity.",
+     "message": "The claim is for food totalling IDR 224,908, above the IDR 150,000 meal threshold, and no number of people is stated. Hold for review and ask the claimant for the headcount and confirmation that the items were for an approved activity.",
      "evidence": {
-      "votes": "3/3",
       "clause_text": "C12. Meals and hospitality: Meals are reimbursable when they are part of an approved activity. Meal claims above IDR 150,000 per person are held for review. The number of people must be stated for any meal claim above IDR 150,000 in total."
      }
     },
@@ -1148,9 +1142,8 @@
      "clause_id": null,
      "price_item": "lemon tea (l)",
      "receipt_line": "1 Mango Lemon Tea Rp29,090",
-     "message": "The line is IDR 29,090 for one item, above the agreed maximum of IDR 28,000 for lemon tea (l). Ask the venue to confirm the price or treat the excess IDR 1,090 as unsupported.",
+     "message": "The line is IDR 29,090 against an agreed maximum of IDR 28,000 for the closest price-list item, so it is IDR 1,090 over the agreed price.",
      "evidence": {
-      "votes": "3/3",
       "price_name_similarity": 82,
       "unit_price_paid": 29090.0,
       "agreed_max_unit_price": 28000.0,
@@ -1158,12 +1151,27 @@
      }
     }
    ],
-   "n_rule_issues": 2,
-   "n_dropped": 0,
-   "dropped": [],
-   "draft": "Hello Member 021,\n\nYour expense claim VAL-021 for IDR 224,908 cannot be paid as submitted.\n\n- The claimed items do not add up to the amount claimed. The claim lines total IDR 194,726, while the claimed amount is IDR 224,908. The receipt's discount of IDR 4,181 does not explain the gap.\n- The claim includes \"Discount BCA 15%\", but no matching line appears on the receipt.\n- The receipt line items total IDR 229,089, but the receipt total is IDR 224,908 and no subtotal is shown.\n- Food claims above IDR 150,000 must state the number of people (clause C12). Please state how many people the meal was for and confirm the activity it was part of.\n- One Mango Lemon Tea is charged at IDR 29,090, above the agreed maximum of IDR 28,000. Please ask the venue to confirm the price, or the excess of IDR 1,090 will be treated as unsupported.\n\nPlease correct the claim with these points and resubmit it. Thank you.\n\nTreasurer",
-   "cost_usd": 0.004174,
-   "seconds": 28.09,
+   "n_rule_issues": 4,
+   "n_dropped": 2,
+   "dropped": [
+    {
+     "type": "price_above_list",
+     "clause_id": null,
+     "price_item": "combo 1",
+     "receipt_line": "1 Sliders Set Rp113,636",
+     "why": "price-list item 'combo 1' does not look like receipt item 'Sliders Set' (similarity 18)"
+    },
+    {
+     "type": "price_above_list",
+     "clause_id": null,
+     "price_item": "seaweed chicken",
+     "receipt_line": "1 Chicken Vege Rice Bowl Rp86,363",
+     "why": "price-list item 'seaweed chicken' does not look like receipt item 'Chicken Vege Rice Bowl' (similarity 64)"
+    }
+   ],
+   "draft": "Hello Member 021,\n\nYour claim VAL-021 for IDR 224,908 cannot be paid as submitted, so it has been rejected.\n\n- Receipt mismatch: the items as read add up to IDR 229,089, but the receipt total is IDR 224,908. A line may have been misread, so please check the receipt.\n- Claim lines do not match: the claim lines sum to IDR 194,726, but the claimed amount is IDR 224,908. The receipt's discount of IDR 4,181 does not explain the gap.\n- Unmatched discount: \"Discount BCA 15%\" is claimed but no receipt line matches it.\n- Meal threshold (C12): the food claim is IDR 224,908, above the IDR 150,000 meal threshold, and no headcount is stated. Meal claims above IDR 150,000 in total must state the number of people.\n- Price above agreed rate: Mango Lemon Tea is IDR 29,090 against an agreed maximum of IDR 28,000, which is IDR 1,090 over.\n\nTo resubmit, please correct the claimed amount so it matches the receipt, remove or justify the discount line, state the number of people, and confirm the items were for an approved activity.\n\nRegards,\nFinance",
+   "cost_usd": 0.002148,
+   "seconds": 10.52,
    "cached": false
   },
   {
@@ -1187,9 +1195,9 @@
    "n_rule_issues": 0,
    "n_dropped": 0,
    "dropped": [],
-   "draft": "Hello Member 022,\n\nYour expense claim VAL-022 for IDR 308,000 has been approved and will be paid. The amount you claimed matches the receipt total exactly, and we found no issues with the submission.\n\nThank you for sending it in.\n\nBest regards,\nClub Treasurer",
-   "cost_usd": 0.002007,
-   "seconds": 9.52,
+   "draft": "Hi Member 022,\n\nClaim VAL-022 for IDR 308,000 has been approved and will be paid. The claimed amount matches the receipt total.\n\nThank you for submitting it.\n\nFinance",
+   "cost_usd": 0.001034,
+   "seconds": 4.1,
    "cached": false
   },
   {
@@ -1213,9 +1221,9 @@
    "n_rule_issues": 0,
    "n_dropped": 0,
    "dropped": [],
-   "draft": "Hello Member 023,\n\nYour expense claim VAL-023 for IDR 20,000 has been approved and will be paid. The amount you claimed matches the receipt total, and no issues were found.\n\nThank you for submitting your claim.",
-   "cost_usd": 0.002115,
-   "seconds": 10.86,
+   "draft": "Hi Member 023,\n\nClaim VAL-023 for IDR 20,000 has been approved and will be paid. The claimed amount matches the receipt total.\n\nThank you,\nFinance",
+   "cost_usd": 0.001145,
+   "seconds": 4.88,
    "cached": false
   },
   {
@@ -1239,9 +1247,9 @@
    "n_rule_issues": 0,
    "n_dropped": 0,
    "dropped": [],
-   "draft": "Hello Member 024,\n\nYour expense claim VAL-024 for IDR 80,500 has been approved and will be paid. The amount you claimed matches the receipt total, and no issues were found.\n\nThank you for submitting it.",
-   "cost_usd": 0.003002,
-   "seconds": 13.04,
+   "draft": "Hello Member 024,\n\nYour expense claim VAL-024 for IDR 80,500 has been approved and will be paid.\n\nFinance",
+   "cost_usd": 0.001586,
+   "seconds": 5.71,
    "cached": false
   },
   {
@@ -1274,7 +1282,7 @@
      "clause_id": null,
      "price_item": null,
      "receipt_line": null,
-     "message": "Claimed 229900 but the receipt total is 207900",
+     "message": "Claimed IDR 229,900, but the receipt total is IDR 207,900 (IDR 22,000 more)",
      "evidence": {
       "claimed": 229900,
       "receipt_total": 207900,
@@ -1299,9 +1307,9 @@
    "n_rule_issues": 0,
    "n_dropped": 0,
    "dropped": [],
-   "draft": "Dear Member 025,\n\nYour expense claim VAL-025 cannot be paid as submitted.\n\n- Claimed amount: IDR 229,900, but the receipt total is IDR 207,900. The difference is IDR 22,000.\n- \"A.MINERAL BOTOL\" is on your claim, but no matching line appears on the receipt. The closest receipt line is \"Siomay Kmbinasi\", which does not match.\n\nTo proceed, please resubmit the claim with the amount matching the receipt total, or provide a receipt that includes the mineral water item.\n\nKind regards,\nClub Treasurer",
-   "cost_usd": 0.003608,
-   "seconds": 18.08,
+   "draft": "Hello Member 025,\n\nYour claim VAL-025 cannot be paid as submitted.\n\n- Claimed amount is IDR 229,900, but the receipt total is IDR 207,900. The claim is IDR 22,000 higher than the receipt.\n- \"A.MINERAL BOTOL\" is claimed, but no line on the receipt matches it. The closest line is \"Siomay Kmbinasi\", which does not match.\n\nTo resolve this, please correct the claimed amount to match the receipt total, or send a receipt that includes the mineral water item. Once updated, we will review the claim again.\n\nFinance",
+   "cost_usd": 0.001712,
+   "seconds": 5.68,
    "cached": false
   },
   {
@@ -1339,7 +1347,7 @@
      "clause_id": null,
      "price_item": null,
      "receipt_line": null,
-     "message": "Claimed 47000 but the receipt total is 35000",
+     "message": "Claimed IDR 47,000, but the receipt total is IDR 35,000 (IDR 12,000 more)",
      "evidence": {
       "claimed": 47000,
       "receipt_total": 35000,
@@ -1362,14 +1370,25 @@
     },
     {
      "source": "rules",
+     "type": "claim_exceeds_receipt_policy",
+     "severity": "high",
+     "clause_id": "C4",
+     "price_item": null,
+     "receipt_line": "CLAIM_AMOUNT",
+     "message": "The claim of IDR 47,000 is more than the IDR 35,000 receipt total, so under C4 the claim is rejected. Reduce the claim to IDR 35,000 or less, excluding the unmatched OYONG 3 TELOR item.",
+     "evidence": {
+      "clause_text": "C4. Claimed amount must match the receipt: The amount claimed must equal the total printed on the receipt. A claim for more than the receipt total is rejected. A claim for less than the receipt total is acceptable (the claimant may choose not to claim some items)."
+     }
+    },
+    {
+     "source": "rules",
      "type": "price_above_list",
      "severity": "medium",
      "clause_id": null,
      "price_item": "ayam",
      "receipt_line": "AYAM / 1x 14.000 14.000",
-     "message": "The unit price of IDR 14,000 for AYAM is above the agreed maximum of IDR 11,000 on the price list. The treasurer should check whether the price was agreed or the excess should be disallowed.",
+     "message": "The receipt charges IDR 14,000 for AYAM, which is above the agreed maximum of IDR 11,000 on the price list. The excess of IDR 3,000 needs review before payment.",
      "evidence": {
-      "votes": "3/3",
       "price_name_similarity": 100,
       "unit_price_paid": 14000,
       "agreed_max_unit_price": 11000.0,
@@ -1377,12 +1396,12 @@
      }
     }
    ],
-   "n_rule_issues": 1,
+   "n_rule_issues": 2,
    "n_dropped": 0,
    "dropped": [],
-   "draft": "Dear Member 026,\n\nYour expense claim VAL-026 cannot be paid as submitted.\n\n- You claimed IDR 47,000, but the receipt total is IDR 35,000. The difference is IDR 12,000.\n- The item \"OYONG 3 TELOR\" is claimed, but no matching line appears on the receipt. The closest line is \"SAYUR\".\n- The receipt shows AYAM at IDR 14,000 per unit, which is above the agreed maximum of IDR 11,000 on the price list. Our treasurer will check whether this price was agreed or whether the excess should be disallowed.\n\nTo resolve this, please resubmit the claim for no more than IDR 35,000 and remove any item not on the receipt. If you have approval for the AYAM price, please send it with your resubmission.\n\nKind regards,\nClub Treasurer",
-   "cost_usd": 0.003489,
-   "seconds": 18.84,
+   "draft": "Subject: Claim VAL-026 - cannot be paid as submitted\n\nHello Member 026,\n\nClaim VAL-026 cannot be paid as submitted. The claimed amount is IDR 47,000, but the receipt total is IDR 35,000, which is IDR 12,000 more. Under clause C4, a claim for more than the receipt total is rejected.\n\n- The item \"OYONG 3 TELOR\" is claimed but does not appear on the receipt.\n- The receipt charges IDR 14,000 for AYAM, which is above the agreed maximum of IDR 11,000 on the price list (excess IDR 3,000). This needs review before payment.\n\nTo resubmit, please reduce the claim to IDR 35,000 or less and exclude OYONG 3 TELOR.\n\nRegards,\nFinance",
+   "cost_usd": 0.001858,
+   "seconds": 7.99,
    "cached": false
   },
   {
@@ -1406,9 +1425,9 @@
    "n_rule_issues": 0,
    "n_dropped": 0,
    "dropped": [],
-   "draft": "Hello Member 027,\n\nYour expense claim VAL-027 for IDR 17,999 has been approved and will be paid. The amount claimed matches the receipt total exactly, and no issues were found.\n\nThank you for submitting your claim.\n\nBest regards,\nClub Treasurer",
-   "cost_usd": 0.001622,
-   "seconds": 6.15,
+   "draft": "Hello Member 027,\n\nYour expense claim VAL-027 for IDR 17,999 has been approved and will be paid.\n\nFinance",
+   "cost_usd": 0.000957,
+   "seconds": 1.61,
    "cached": false
   },
   {
@@ -1452,9 +1471,9 @@
    "n_rule_issues": 0,
    "n_dropped": 0,
    "dropped": [],
-   "draft": "Hello Member 028,\n\nYour expense claim VAL-028 is on hold for review. The claim lines add up to 25000 IDR, but the claimed amount is 22000 IDR, so the two figures do not match. The receipt total is 22000 IDR and contains no tax or service charges.\n\nTo move this forward, please check the individual claim lines and send us a corrected claim with a total that matches the amount you want reimbursed. Once we have that, we will review it again.\n\nKind regards,\nClub Treasurer",
-   "cost_usd": 0.002266,
-   "seconds": 11.1,
+   "draft": "Hello Member 028,\n\nYour claim VAL-028 for IDR 22,000 is on hold for review.\n\n- The individual claim lines add up to IDR 25,000, but the total claimed is IDR 22,000. The receipt total is also IDR 22,000, with no tax or service charges.\n\nTo resolve this, please check the claim lines and correct either the line amounts or the claimed total so they match. Once updated, we will review the claim again.\n\nRegards,\nFinance",
+   "cost_usd": 0.001083,
+   "seconds": 4.56,
    "cached": false
   },
   {
@@ -1478,9 +1497,9 @@
    "n_rule_issues": 0,
    "n_dropped": 0,
    "dropped": [],
-   "draft": "Hello Member 029,\n\nYour expense claim VAL-029 for IDR 30,000 is on hold for review. The receipt total could not be read with enough confidence, so we need to check it before payment.\n\nPlease send a clearer copy or photo of the receipt, with the total clearly visible, and we will complete the review promptly.\n\nThank you for your patience.\n\nKind regards,\nClub Treasurer",
-   "cost_usd": 0.001946,
-   "seconds": 9.79,
+   "draft": "Hello Member 029,\n\nYour claim VAL-029 for IDR 30,000 is on hold. No policy issues were found, but the total on the receipt was read with low confidence, so we could not confirm the receipt total against the amount claimed.\n\nTo move this forward, please resubmit a clearer copy or photo of the receipt, with the total clearly visible. Once we can confirm the total, we will complete the review.\n\nThank you,\nFinance",
+   "cost_usd": 0.00107,
+   "seconds": 1.75,
    "cached": false
   },
   {
@@ -1515,16 +1534,17 @@
      "receipt_line": "CLAIM_AMOUNT",
      "message": "No purpose is stated on the claim; policy C1 requires one",
      "evidence": {
-      "purpose": ""
+      "purpose": "",
+      "clause_text": "C1. Purpose of expense: Expenses are reimbursable only when incurred for an approved club activity or business purpose. The claim must state the purpose. Claims with no stated purpose are held for review."
      }
     }
    ],
    "n_rule_issues": 0,
    "n_dropped": 0,
    "dropped": [],
-   "draft": "Hello Member 030,\n\nYour expense claim VAL-030 for IDR 21,000 is on hold for review. The receipt total matches the claimed amount, but no purpose is stated on the claim, and policy C1 requires one.\n\nTo move this forward, please add a short description of the purpose of the expense to the claim and resubmit it. Once it is updated, it will be reviewed again.\n\nKind regards,\nClub Treasurer",
-   "cost_usd": 0.002116,
-   "seconds": 11.27,
+   "draft": "Hello Member 030,\n\nClaim VAL-030 for IDR 21,000 is on hold. The receipt total matches the claimed amount, but no purpose is stated on the claim, and policy C1 requires one.\n\nTo move this forward, please add the purpose of the expense to the claim, stating the approved club activity or business purpose it was incurred for. Once the purpose is added, the claim will be reviewed again.\n\nRegards,\nFinance",
+   "cost_usd": 0.001157,
+   "seconds": 6.23,
    "cached": false
   },
   {
@@ -1535,8 +1555,8 @@
    "planted_detail": null,
    "natural_flags": [],
    "expected": "approve",
-   "predicted": "approve",
-   "decision_reason": "no issues found and the receipt is clear",
+   "predicted": "needs_review",
+   "decision_reason": "medium-severity issues need a human decision",
    "submitter": "Member 031",
    "claimed_amount": 24000,
    "currency": "IDR",
@@ -1544,13 +1564,29 @@
    "readability": "clear",
    "extraction_error": null,
    "caught": {},
-   "verified_issues": [],
-   "n_rule_issues": 0,
+   "verified_issues": [
+    {
+     "source": "rules",
+     "type": "price_above_list",
+     "severity": "medium",
+     "clause_id": null,
+     "price_item": "premium milk pan bread",
+     "receipt_line": "1 PREMIUM TOAST PAN BREAD 24,000",
+     "message": "The receipt line costs IDR 24,000 for 1 unit, which is above the agreed maximum of IDR 19,500 for premium milk pan bread. The excess of IDR 4,500 is likely not reimbursable unless the price is justified.",
+     "evidence": {
+      "price_name_similarity": 87,
+      "unit_price_paid": 24000.0,
+      "agreed_max_unit_price": 19500.0,
+      "price_list_item": "premium milk pan bread"
+     }
+    }
+   ],
+   "n_rule_issues": 1,
    "n_dropped": 0,
    "dropped": [],
-   "draft": "Hello Member 031,\n\nYour expense claim VAL-031 for IDR 24,000 has been approved and will be paid. The amount claimed matches the receipt total, and no issues were found.\n\nThank you for submitting your claim.\n\nBest regards,\nClub Treasurer",
-   "cost_usd": 0.001854,
-   "seconds": 10.15,
+   "draft": "Hello Member 031,\n\nClaim VAL-031 for IDR 24,000 is on hold pending review.\n\n- The receipt line \"1 PREMIUM TOAST PAN BREAD\" was charged IDR 24,000 for 1 unit.\n- The agreed maximum for premium milk pan bread is IDR 19,500, so the excess of IDR 4,500 is likely not reimbursable.\n\nTo release the claim, you can either send a justification for the higher price, or accept that the claim will be paid at IDR 19,500 with the IDR 4,500 excess removed.\n\nRegards,\nFinance",
+   "cost_usd": 0.001102,
+   "seconds": 1.83,
    "cached": false
   },
   {
@@ -1585,16 +1621,17 @@
      "receipt_line": "CLAIM_AMOUNT",
      "message": "No purpose is stated on the claim; policy C1 requires one",
      "evidence": {
-      "purpose": ""
+      "purpose": "",
+      "clause_text": "C1. Purpose of expense: Expenses are reimbursable only when incurred for an approved club activity or business purpose. The claim must state the purpose. Claims with no stated purpose are held for review."
      }
     }
    ],
    "n_rule_issues": 0,
    "n_dropped": 0,
    "dropped": [],
-   "draft": "Hello Member 032,\n\nYour expense claim VAL-032 for IDR 6,000 is on hold for review. No purpose is stated on the claim, and policy C1 requires one.\n\nTo proceed, please reply with the purpose of this expense, and the claim will be looked at again. Once the purpose is confirmed, a treasurer will make the final decision.\n\nThank you,\nClub Treasurer",
-   "cost_usd": 0.001655,
-   "seconds": 9.46,
+   "draft": "Hello Member 032,\n\nClaim VAL-032 for IDR 6,000 is on hold. It has not been approved or paid yet.\n\n- No purpose is stated on the claim. Policy C1 requires a stated purpose, and claims without one are held for review.\n\nTo release the claim, please reply with the club activity or business purpose for this expense. Once we have it, we will review the claim again.\n\nFinance",
+   "cost_usd": 0.000902,
+   "seconds": 2.17,
    "cached": false
   },
   {
@@ -1643,7 +1680,6 @@
      "receipt_line": "1 ICED HIBISCUS LYCHEE TEA 37,000",
      "message": "The iced hibiscus lychee tea was bought at IDR 37,000 against an agreed maximum of IDR 16,500 for lychee tea, so IDR 20,500 is above the agreed price and the claim is held for review. Only the agreed maximum is reimbursable unless the treasurer approves the difference.",
      "evidence": {
-      "votes": "3/3",
       "clause_text": "C5. Agreed price list: For items that appear on the agreed price list, the unit price paid must not exceed the agreed maximum unit price for that item. Any amount above the agreed maximum is not reimbursed and the claim is held for review.",
       "price_name_similarity": 100,
       "unit_price_paid": 37000.0,
@@ -1655,9 +1691,9 @@
    "n_rule_issues": 1,
    "n_dropped": 0,
    "dropped": [],
-   "draft": "Hello Member 033,\n\nYour expense claim VAL-033 for IDR 57,500 is on hold for review and cannot be paid yet.\n\nTwo points need attention:\n\n- The claim lines add up to IDR 68,500, but the claimed amount is IDR 57,500. Please check the lines and correct the total.\n- The iced hibiscus lychee tea was bought for IDR 37,000, but the agreed maximum for lychee tea is IDR 16,500 under clause C5. The IDR 20,500 difference is above the agreed price and is not reimbursed unless the treasurer approves it.\n\nTo move this forward, please send a corrected claim with matching line totals. If you think the extra cost should be approved, reply with the reason and the treasurer will decide.\n\nKind regards,\nClub Treasurer",
-   "cost_usd": 0.002942,
-   "seconds": 18.68,
+   "draft": "Hello Member 033,\n\nClaim VAL-033 for IDR 57,500 is on hold for review.\n\n- Claim lines add up to IDR 68,500, but the claimed amount is IDR 57,500. The difference is IDR 11,000. Please check the lines and correct the claimed amount.\n- The iced hibiscus lychee tea was bought at IDR 37,000, but the agreed maximum for lychee tea under clause C5 is IDR 16,500. The IDR 20,500 above the agreed price is not reimbursed unless the treasurer approves the difference. Only IDR 16,500 for this item can be paid as things stand.\n\nTo move this forward, please update the claim lines and the claimed amount, or send a note explaining why the higher price was necessary so the treasurer can review it.\n\nFinance",
+   "cost_usd": 0.001516,
+   "seconds": 2.33,
    "cached": false
   },
   {
@@ -1668,8 +1704,8 @@
    "planted_detail": null,
    "natural_flags": [],
    "expected": "approve",
-   "predicted": "approve",
-   "decision_reason": "no issues found and the receipt is clear",
+   "predicted": "needs_review",
+   "decision_reason": "medium-severity issues need a human decision",
    "submitter": "Member 034",
    "claimed_amount": 283338,
    "currency": "IDR",
@@ -1677,13 +1713,28 @@
    "readability": "clear",
    "extraction_error": null,
    "caught": {},
-   "verified_issues": [],
+   "verified_issues": [
+    {
+     "source": "maths",
+     "type": "possible_personal_item",
+     "severity": "medium",
+     "clause_id": "C6",
+     "price_item": null,
+     "receipt_line": "1 TRUFFLE CREAM 76,000",
+     "message": "'TRUFFLE CREAM' looks like a personal-use item (cream); policy C6 excludes these unless the business purpose is confirmed",
+     "evidence": {
+      "matched_word": "cream",
+      "line_total": 76000,
+      "clause_text": "C6. Personal and non-business items: Personal items are not reimbursable: toiletries, clothing, phone credit (pulsa), gift cards, games, lottery, medicines for personal use, and gifts for individuals. Such items are rejected. Items that may serve the activity (first-aid supplies, medicines for an event kit, cleaning products) are held for review until the club purpose is confirmed."
+     }
+    }
+   ],
    "n_rule_issues": 0,
    "n_dropped": 0,
    "dropped": [],
-   "draft": "Hello Member 034,\n\nYour expense claim VAL-034 for IDR 283,338 has been approved and will be paid. The amount you claimed matches the receipt total, and we found no issues with the claim.\n\nThank you for submitting it.\n\nKind regards,\nClub Treasurer",
-   "cost_usd": 0.002897,
-   "seconds": 16.11,
+   "draft": "Hi Member 034,\n\nClaim VAL-034 for IDR 283,338 is on hold, not yet approved.\n\n- Line \"1 TRUFFLE CREAM 76,000\" (IDR 76,000) may be a personal-use item under clause C6.\n\nTo release the claim, please confirm the club business purpose for this item, for example if it was part of an event kit or first-aid supplies. Reply with that explanation and we will complete the review.\n\nFinance",
+   "cost_usd": 0.001437,
+   "seconds": 6.82,
    "cached": false
   },
   {
@@ -1704,12 +1755,34 @@
    "extraction_error": null,
    "caught": {},
    "verified_issues": [],
-   "n_rule_issues": 0,
-   "n_dropped": 0,
-   "dropped": [],
-   "draft": "Hello Member 035,\n\nYour expense claim VAL-035 for IDR 304,326 has been approved and will be paid. The amount you claimed matches the receipt total, and no issues were found.\n\nThank you for submitting your claim.\n\nKind regards,\nClub Treasurer",
-   "cost_usd": 0.002724,
-   "seconds": 14.76,
+   "n_rule_issues": 3,
+   "n_dropped": 3,
+   "dropped": [
+    {
+     "type": "price_above_list",
+     "clause_id": null,
+     "price_item": "new beef spaghetti",
+     "receipt_line": "1 BLACK PEPPER MEATBALL 76,500",
+     "why": "price-list item 'new beef spaghetti' does not look like receipt item 'BLACK PEPPER MEATBALL' (similarity 35)"
+    },
+    {
+     "type": "price_above_list",
+     "clause_id": null,
+     "price_item": "new beef spaghetti",
+     "receipt_line": "1 QUARTO FORMANGGI PASTA 82,500",
+     "why": "price-list item 'new beef spaghetti' does not look like receipt item 'QUARTO FORMANGGI PASTA' (similarity 36)"
+    },
+    {
+     "type": "price_above_list",
+     "clause_id": null,
+     "price_item": "lemon tea (l)",
+     "receipt_line": "1 GREEN TEA WITH CRUMBLE 56,000",
+     "why": "price-list item 'lemon tea (l)' does not look like receipt item 'GREEN TEA WITH CRUMBLE' (similarity 61)"
+    }
+   ],
+   "draft": "Hello Member 035,\n\nYour expense claim VAL-035 for IDR 304,326 has been approved and will be paid. The claimed amount matches the receipt total.\n\nFinance",
+   "cost_usd": 0.001678,
+   "seconds": 8.0,
    "cached": false
   },
   {
@@ -1744,16 +1817,17 @@
      "receipt_line": "CLAIM_AMOUNT",
      "message": "No purpose is stated on the claim; policy C1 requires one",
      "evidence": {
-      "purpose": ""
+      "purpose": "",
+      "clause_text": "C1. Purpose of expense: Expenses are reimbursable only when incurred for an approved club activity or business purpose. The claim must state the purpose. Claims with no stated purpose are held for review."
      }
     }
    ],
    "n_rule_issues": 0,
    "n_dropped": 0,
    "dropped": [],
-   "draft": "Hello Member 036,\n\nYour expense claim VAL-036 for IDR 18,999 is on hold for review. No purpose is stated on the claim, and policy C1 requires one.\n\nTo move this forward, please reply with a short description of what the expense was for. Once we have it, the claim can be reviewed again.\n\nThank you,\nClub Treasurer",
-   "cost_usd": 0.002324,
-   "seconds": 9.11,
+   "draft": "Hello Member 036,\n\nClaim VAL-036 for IDR 18,999 is on hold. The receipt total matches the claimed amount, but no purpose is stated on the claim, and policy C1 requires one.\n\nTo move this forward, please add the purpose of the expense (an approved club activity or business purpose) to the claim. Once it is updated, we will review it again.\n\nRegards,\nFinance",
+   "cost_usd": 0.001348,
+   "seconds": 2.49,
    "cached": false
   },
   {
@@ -1788,16 +1862,17 @@
      "receipt_line": "CLAIM_AMOUNT",
      "message": "No purpose is stated on the claim; policy C1 requires one",
      "evidence": {
-      "purpose": ""
+      "purpose": "",
+      "clause_text": "C1. Purpose of expense: Expenses are reimbursable only when incurred for an approved club activity or business purpose. The claim must state the purpose. Claims with no stated purpose are held for review."
      }
     }
    ],
    "n_rule_issues": 0,
    "n_dropped": 0,
    "dropped": [],
-   "draft": "Dear Member 037,\n\nYour expense claim VAL-037 for IDR 70,000 is on hold for review. The receipt total matches the claimed amount, but no purpose is stated on the claim, and policy C1 requires one.\n\nTo proceed, please reply with a short description of what the expense was for. Once we have it, the claim will be reviewed again and paid if approved.\n\nKind regards,\nClub Treasurer",
-   "cost_usd": 0.00201,
-   "seconds": 8.21,
+   "draft": "Hello Member 037,\n\nClaim VAL-037 for IDR 70,000 is on hold. The claim does not state a purpose, and policy C1 requires one. Expenses are reimbursable only when incurred for an approved club activity or business purpose.\n\nTo release the claim, please reply with the purpose of the expense, including the club activity or business reason it was incurred for. Once we receive it, the claim will be reviewed again.\n\nFinance",
+   "cost_usd": 0.001245,
+   "seconds": 6.88,
    "cached": false
   },
   {
@@ -1841,7 +1916,6 @@
      "receipt_line": "1 X ... 020,000",
      "message": "The receipt line's item name is obscured by handwriting and the receipt is partly unclear, so the item cannot be confirmed. The claim should be held for manual review rather than matched to a price-list item.",
      "evidence": {
-      "votes": "3/3",
       "clause_text": "C10. Unreadable or damaged receipts: If the receipt is unreadable, torn, faded or partly missing so that items or totals cannot be confirmed, the claim is held for manual review. The checker must not guess missing values."
      }
     }
@@ -1849,9 +1923,9 @@
    "n_rule_issues": 1,
    "n_dropped": 0,
    "dropped": [],
-   "draft": "Subject: Your expense claim VAL-038\n\nHello Member 038,\n\nWe have reviewed your claim VAL-038 for IDR 20,000. It cannot be paid as submitted.\n\n- The item \"TT\" is claimed, but no line on the receipt matches it. The closest line is obscured by handwriting, so it cannot be confirmed.\n- The receipt line \"1 X ... 020,000\" is unreadable in its item name. Under clause C10, unreadable receipts are held for manual review, and we cannot guess missing values.\n\nTo resolve this, please send a clearer copy or photo of the receipt, ideally with the item names legible. If you have a typed or alternative receipt for the TT item, please include that too. Once we can confirm the item, we will review the claim again.\n\nKind regards,\nClub Treasurer",
-   "cost_usd": 0.002293,
-   "seconds": 12.95,
+   "draft": "Hello,\n\nClaim VAL-038 cannot be paid as submitted.\n\n- Item \"TT\" (IDR 20,000) is claimed, but no readable receipt line matches it. The only receipt line, \"1 X ... 020,000\", has an item name obscured by handwriting, so the item cannot be confirmed.\n- Under clause C10, a partly unclear receipt that prevents items from being confirmed is held for manual review, and missing values cannot be guessed.\n\nTo resubmit, please provide a clearer copy or the original receipt showing the item name for the IDR 20,000 line, so that TT can be matched.\n\nFinance",
+   "cost_usd": 0.001715,
+   "seconds": 5.19,
    "cached": false
   },
   {
@@ -1884,7 +1958,7 @@
      "clause_id": null,
      "price_item": null,
      "receipt_line": null,
-     "message": "Claimed 149900 but the receipt total is 97900",
+     "message": "Claimed IDR 149,900, but the receipt total is IDR 97,900 (IDR 52,000 more)",
      "evidence": {
       "claimed": 149900,
       "receipt_total": 97900,
@@ -1895,9 +1969,9 @@
    "n_rule_issues": 0,
    "n_dropped": 0,
    "dropped": [],
-   "draft": "Hello Member 039,\n\nThank you for submitting claim VAL-039. We cannot pay it as submitted. You claimed IDR 149,900, but the receipt total is IDR 97,900, a difference of IDR 52,000.\n\nTo proceed, please submit a corrected claim for IDR 97,900 that matches the receipt, or send a receipt that supports the full IDR 149,900.\n\nKind regards,\nClub Treasurer",
-   "cost_usd": 0.003601,
-   "seconds": 25.57,
+   "draft": "Hello Member 039,\n\nYour expense claim VAL-039 cannot be paid as submitted.\n\n- Claimed amount: IDR 149,900\n- Receipt total: IDR 97,900\n- Difference: IDR 52,000 more than the receipt\n\nThe claim exceeds the receipt total by IDR 52,000. To have it processed, please resubmit the claim for IDR 97,900 or lower, or send a corrected receipt that supports the amount you are claiming.\n\nRegards,\nFinance",
+   "cost_usd": 0.001553,
+   "seconds": 6.76,
    "cached": false
   },
   {
@@ -1927,13 +2001,12 @@
      "receipt_line": "CLAIM_AMOUNT",
      "message": "The claim is 379,500 IDR for food items, above the IDR 150,000 meal threshold, and no number of people is stated. The claim is held for review until the number of people is given.",
      "evidence": {
-      "votes": "3/3",
       "clause_text": "C12. Meals and hospitality: Meals are reimbursable when they are part of an approved activity. Meal claims above IDR 150,000 per person are held for review. The number of people must be stated for any meal claim above IDR 150,000 in total."
      }
     }
    ],
-   "n_rule_issues": 3,
-   "n_dropped": 2,
+   "n_rule_issues": 4,
+   "n_dropped": 3,
    "dropped": [
     {
      "type": "price_above_list",
@@ -1948,11 +2021,18 @@
      "price_item": "seaweed chicken",
      "receipt_line": "Gojek Chicken Soy Sauce F 1 180,000",
      "why": "price-list item 'seaweed chicken' does not look like receipt item 'Gojek Chicken Soy Sauce F' (similarity 64)"
+    },
+    {
+     "type": "price_above_list",
+     "clause_id": null,
+     "price_item": "potato sausage bread",
+     "receipt_line": "Gojek French Fries 1 70,000",
+     "why": "price-list item 'potato sausage bread' does not look like receipt item 'Gojek French Fries' (similarity 38)"
     }
    ],
-   "draft": "Dear Member 040,\n\nYour expense claim VAL-040 for IDR 379,500 is on hold for review. The food claim is above the IDR 150,000 meal threshold under clause C12, and the number of people was not stated.\n\nTo release the claim, please reply with the number of people who attended the meal. Once we have that, the claim will be reviewed again.\n\nKind regards,\nClub Treasurer",
-   "cost_usd": 0.003643,
-   "seconds": 21.52,
+   "draft": "Hello Member 040,\n\nClaim VAL-040 for IDR 379,500 is on hold. The receipt total matches the claimed amount, but the claim is for food items above the IDR 150,000 meal threshold under clause C12, and no number of people is stated.\n\nTo proceed, please reply with the number of people the meal covered. Once we have that, the claim will be reviewed again.\n\nRegards,\nFinance",
+   "cost_usd": 0.001857,
+   "seconds": 1.96,
    "cached": false
   },
   {
@@ -1974,9 +2054,37 @@
    "readability": "partly unclear",
    "extraction_error": null,
    "caught": {
-    "above_500k": false
+    "above_500k": true
    },
    "verified_issues": [
+    {
+     "source": "maths",
+     "type": "possible_personal_item",
+     "severity": "medium",
+     "clause_id": "C6",
+     "price_item": null,
+     "receipt_line": "CREAM TEOK PO KI 1 95,000",
+     "message": "'CREAM TEOK PO KI' looks like a personal-use item (cream); policy C6 excludes these unless the business purpose is confirmed",
+     "evidence": {
+      "matched_word": "cream",
+      "line_total": 95000,
+      "clause_text": "C6. Personal and non-business items: Personal items are not reimbursable: toiletries, clothing, phone credit (pulsa), gift cards, games, lottery, medicines for personal use, and gifts for individuals. Such items are rejected. Items that may serve the activity (first-aid supplies, medicines for an event kit, cleaning products) are held for review until the club purpose is confirmed."
+     }
+    },
+    {
+     "source": "maths",
+     "type": "two_approvers_required",
+     "severity": "medium",
+     "clause_id": "C7",
+     "price_item": null,
+     "receipt_line": null,
+     "message": "IDR 2,352,460 is above the IDR 500,000 two-approver threshold, so a second approver must sign off before payment",
+     "evidence": {
+      "amount": 2352460,
+      "threshold": 500000,
+      "clause_text": "C7. Two approvers above IDR 500,000: Any single claim above IDR 500,000 requires sign-off from two approvers before payment. The checker must mark such claims for review rather than approving them automatically."
+     }
+    },
     {
      "source": "rules",
      "type": "meal_per_person_above_limit",
@@ -1984,7 +2092,7 @@
      "clause_id": "C12",
      "price_item": null,
      "receipt_line": "CLAIM_AMOUNT",
-     "message": "The claim is IDR 2,352,460 for 6 people, about IDR 392,000 per person, which is above the IDR 150,000 per-person limit for meals. The claim is held for review.",
+     "message": "The claim of IDR 2,352,460 for 6 people is about IDR 392,077 per person, above the IDR 150,000 per-person limit, so the claim is held for review.",
      "evidence": {
       "votes": "3/3",
       "clause_text": "C12. Meals and hospitality: Meals are reimbursable when they are part of an approved activity. Meal claims above IDR 150,000 per person are held for review. The number of people must be stated for any meal claim above IDR 150,000 in total."
@@ -1995,26 +2103,9 @@
      "type": "price_above_list",
      "severity": "medium",
      "clause_id": "C5",
-     "price_item": "samgyopsal",
-     "receipt_line": "U SAM GYEOP 2 290,000",
-     "message": "Unit price is about IDR 145,000 (290,000 / 2), which exceeds the agreed maximum of IDR 107,000 for samgyopsal. The excess is not reimbursed and the claim is held for review.",
-     "evidence": {
-      "votes": "3/3",
-      "clause_text": "C5. Agreed price list: For items that appear on the agreed price list, the unit price paid must not exceed the agreed maximum unit price for that item. Any amount above the agreed maximum is not reimbursed and the claim is held for review.",
-      "price_name_similarity": 74,
-      "unit_price_paid": 145000.0,
-      "agreed_max_unit_price": 107000.0,
-      "price_list_item": "samgyopsal"
-     }
-    },
-    {
-     "source": "rules",
-     "type": "price_above_list",
-     "severity": "medium",
-     "clause_id": "C5",
      "price_item": "jap chae",
      "receipt_line": "SOGOGI JAPCHAE 1 150,000",
-     "message": "The price is IDR 150,000 for 1 unit, which exceeds the agreed maximum of IDR 116,000 for jap chae. The excess is not reimbursed and the claim is held for review.",
+     "message": "The receipt shows IDR 150,000 for one SOGOGI JAPCHAE, which is above the agreed maximum of IDR 116,000 for jap chae. The excess is not reimbursable and the claim is held for review.",
      "evidence": {
       "votes": "2/3",
       "clause_text": "C5. Agreed price list: For items that appear on the agreed price list, the unit price paid must not exceed the agreed maximum unit price for that item. Any amount above the agreed maximum is not reimbursed and the claim is held for review.",
@@ -2023,14 +2114,31 @@
       "agreed_max_unit_price": 116000.0,
       "price_list_item": "jap chae"
      }
+    },
+    {
+     "source": "rules",
+     "type": "price_above_list",
+     "severity": "medium",
+     "clause_id": "C5",
+     "price_item": "samgyopsal",
+     "receipt_line": "U SAM GYEOP 2 290,000",
+     "message": "The unit price is IDR 145,000 (290,000 / 2) against an agreed maximum of IDR 107,000 for samgyopsal, so the excess is not reimbursed and the claim is held for review.",
+     "evidence": {
+      "votes": "2/3",
+      "clause_text": "C5. Agreed price list: For items that appear on the agreed price list, the unit price paid must not exceed the agreed maximum unit price for that item. Any amount above the agreed maximum is not reimbursed and the claim is held for review.",
+      "price_name_similarity": 74,
+      "unit_price_paid": 145000.0,
+      "agreed_max_unit_price": 107000.0,
+      "price_list_item": "samgyopsal"
+     }
     }
    ],
    "n_rule_issues": 3,
    "n_dropped": 0,
    "dropped": [],
-   "draft": "Subject: Claim VAL-041 is on hold for review\n\nHello Member 041,\n\nYour claim VAL-041 for IDR 2,352,460 is on hold for review. Please check the points below. You can send a corrected receipt or a short explanation, and we will review it again.\n\n- Meals (C12): The claim is for 6 people, about IDR 392,000 per person. This is above the IDR 150,000 per-person limit for meals. Please state the number of people attending and confirm the meal was part of an approved activity.\n- Samgyopsal (C5): The unit price is about IDR 145,000 (IDR 290,000 for 2). The agreed maximum is IDR 107,000, so the excess of this item is not reimbursed.\n- Jap chae (C5): The price is IDR 150,000 for 1 unit. The agreed maximum is IDR 116,000, so the excess of this item is not reimbursed.\n\nKind regards,\nClub Treasurer",
-   "cost_usd": 0.005678,
-   "seconds": 29.8,
+   "draft": "Hello,\n\nClaim VAL-041 is on hold for review and cannot be paid yet.\n\n- Personal item (C6): \"CREAM TEOK PO KI\" at IDR 95,000 may be a personal-use item. Policy C6 excludes these unless the club purpose is confirmed.\n- Second approver (C7): The claim of IDR 2,352,460 is above the IDR 500,000 threshold, so a second approver must sign off before payment.\n- Meal limit (C12): IDR 2,352,460 for 6 people is about IDR 392,077 per person, above the IDR 150,000 per-person limit.\n- Jap chae price (C5): \"SOGOGI JAPCHAE\" was IDR 150,000 against an agreed maximum of IDR 116,000.\n- Samgyopsal price (C5): \"U SAM GYEOP\" was IDR 145,000 per unit (290,000 / 2) against an agreed maximum of IDR 107,000.\n\nPlease reply with the club purpose for the cream item and an explanation for the meal and price differences above. Once we have this, the claim can go to a second approver.\n\nFinance",
+   "cost_usd": 0.00624,
+   "seconds": 33.36,
    "cached": false
   },
   {
@@ -2065,16 +2173,17 @@
      "receipt_line": "CLAIM_AMOUNT",
      "message": "No purpose is stated on the claim; policy C1 requires one",
      "evidence": {
-      "purpose": ""
+      "purpose": "",
+      "clause_text": "C1. Purpose of expense: Expenses are reimbursable only when incurred for an approved club activity or business purpose. The claim must state the purpose. Claims with no stated purpose are held for review."
      }
     }
    ],
    "n_rule_issues": 0,
    "n_dropped": 0,
    "dropped": [],
-   "draft": "Hello Member 042,\n\nYour expense claim VAL-042 for IDR 53,000 is on hold for review. The claim does not state a purpose, which policy C1 requires.\n\nTo move it forward, please reply with a short description of what the expense was for. Once we have that, the claim will be reviewed again.\n\nThank you,\nClub Treasurer",
-   "cost_usd": 0.001971,
-   "seconds": 8.29,
+   "draft": "Hello Member 042,\n\nClaim VAL-042 for IDR 53,000 is on hold. The receipt total matches the claimed amount, but the claim does not state a purpose. Under policy C1, expenses must be incurred for an approved club activity or business purpose, and the claim must say what that purpose is.\n\nTo release the claim, please reply with the purpose of the expense, including the club activity or business reason it relates to. Once we have it, the claim will be reviewed again.\n\nFinance",
+   "cost_usd": 0.001085,
+   "seconds": 4.63,
    "cached": false
   },
   {
@@ -2119,28 +2228,25 @@
     },
     {
      "source": "rules",
-     "type": "bag_fee_over_limit",
+     "type": "bag_fee_above_cap",
      "severity": "medium",
      "clause_id": "C13",
-     "price_item": "plastic bag",
+     "price_item": null,
      "receipt_line": "PAPER BAG BESAR 1 [blurred] 6.000",
-     "message": "Bag fees are reimbursable only up to IDR 5,000 per receipt, so the IDR 6,000 charge exceeds the limit and the amount above IDR 5,000 will not be reimbursed.",
+     "message": "The bag charge of IDR 6,000 is above the IDR 5,000 per-receipt cap for bag and packaging fees, so the excess IDR 1,000 is not reimbursable.",
      "evidence": {
-      "votes": "2/3",
-      "clause_text": "C13. Packaging and bag fees: Plastic bag, packaging and takeaway charges are reimbursable up to a total of IDR 5,000 per receipt. Amounts above this are not reimbursed.",
-      "price_list_item": "plastic bag"
+      "clause_text": "C13. Packaging and bag fees: Plastic bag, packaging and takeaway charges are reimbursable up to a total of IDR 5,000 per receipt. Amounts above this are not reimbursed."
      }
     },
     {
      "source": "rules",
-     "type": "receipt_partly_unclear",
+     "type": "receipt_unclear_line_mismatch",
      "severity": "medium",
      "clause_id": "C10",
      "price_item": null,
      "receipt_line": "ROTI UNYIL 170 [blurred] 272.000",
-     "message": "The receipt is only partly readable and the unit price column is blurred on this line, and the claimed line total does not match the printed one. The claim should be held for manual review rather than guessed.",
+     "message": "The receipt is only partly readable and the ROTI UNYIL line is partly blurred, while the claim lists IDR 364,000 for this item against IDR 272,000 on the receipt. Hold the claim for manual review rather than guessing the correct value.",
      "evidence": {
-      "votes": "2/3",
       "clause_text": "C10. Unreadable or damaged receipts: If the receipt is unreadable, torn, faded or partly missing so that items or totals cannot be confirmed, the claim is held for manual review. The checker must not guess missing values."
      }
     }
@@ -2156,9 +2262,9 @@
      "why": "price-list item 'plastic bag' does not look like receipt item 'PAPER BAG BESAR' (similarity 60)"
     }
    ],
-   "draft": "Claim VAL-043 is on hold for manual review, so it has not been approved or paid yet.\n\n- The claim lines add up to IDR 370,000, but the claimed amount is IDR 278,000. Please check the total and correct it.\n- The paper bag line on the receipt (PAPER BAG BESAR 1, IDR 6,000) is over the limit. Under clause C13, bag and packaging fees are reimbursable only up to IDR 5,000 per receipt, so IDR 1,000 will not be reimbursed.\n- The receipt is partly unreadable. The unit price on the ROTI UNYIL 170 line (printed total IDR 272,000) is blurred and does not match the claimed line total. Under clause C10, we cannot guess missing values. Please send a clearer copy or photo of the receipt.\n\nOnce the total and the receipt are confirmed, we will review the claim again.",
-   "cost_usd": 0.004084,
-   "seconds": 27.83,
+   "draft": "Hello Member 043,\n\nClaim VAL-043 for IDR 278,000 is on hold for manual review.\n\n- The claim lines add up to IDR 370,000, but the claimed amount is IDR 278,000. The receipt shows no tax or service charges.\n- The bag charge of IDR 6,000 is above the IDR 5,000 per-receipt cap (C13), so the IDR 1,000 excess is not reimbursable.\n- The receipt is partly unreadable. The ROTI UNYIL line is blurred, and the claim lists IDR 364,000 for this item against IDR 272,000 on the receipt (C10).\n\nTo move this forward, please send a clearer copy of the full receipt and correct the claim lines so they match the amount you are claiming. We will review it again once we receive them.\n\nFinance",
+   "cost_usd": 0.002567,
+   "seconds": 17.39,
    "cached": false
   },
   {
@@ -2190,33 +2296,20 @@
      "clause_id": null,
      "price_item": null,
      "receipt_line": null,
-     "message": "Claimed 22999 but the receipt total is 17999",
+     "message": "Claimed IDR 22,999, but the receipt total is IDR 17,999 (IDR 5,000 more)",
      "evidence": {
       "claimed": 22999,
       "receipt_total": 17999,
       "difference": 5000
      }
-    },
-    {
-     "source": "rules",
-     "type": "claim_above_receipt_total",
-     "severity": "high",
-     "clause_id": "C4",
-     "price_item": null,
-     "receipt_line": "CLAIM_AMOUNT",
-     "message": "The claim of IDR 22,999 is above the receipt total of IDR 17,999, so under C4 it is rejected. Resubmit for no more than the receipt total.",
-     "evidence": {
-      "votes": "2/3",
-      "clause_text": "C4. Claimed amount must match the receipt: The amount claimed must equal the total printed on the receipt. A claim for more than the receipt total is rejected. A claim for less than the receipt total is acceptable (the claimant may choose not to claim some items)."
-     }
     }
    ],
-   "n_rule_issues": 1,
+   "n_rule_issues": 0,
    "n_dropped": 0,
    "dropped": [],
-   "draft": "Dear Member 044,\n\nYour claim VAL-044 cannot be paid as submitted. You claimed IDR 22,999, but the receipt total is IDR 17,999, a difference of IDR 5,000. Under clause C4, a claim for more than the receipt total is rejected.\n\nTo have this claim paid, please resubmit it for no more than IDR 17,999, the receipt total.\n\nKind regards,\nClub Treasurer",
-   "cost_usd": 0.002303,
-   "seconds": 13.03,
+   "draft": "Hello Member 044,\n\nClaim VAL-044 cannot be paid as submitted. You claimed IDR 22,999, but the receipt total is IDR 17,999, a difference of IDR 5,000.\n\nTo have this claim processed, please resubmit it with the amount matching the receipt, IDR 17,999, or send a corrected receipt that supports the higher amount.\n\nFinance",
+   "cost_usd": 0.001192,
+   "seconds": 5.12,
    "cached": false
   },
   {
@@ -2251,26 +2344,11 @@
      "clause_id": null,
      "price_item": null,
      "receipt_line": null,
-     "message": "Claimed 391760 but the receipt total is 287760",
+     "message": "Claimed IDR 391,760, but the receipt total is IDR 287,760 (IDR 104,000 more)",
      "evidence": {
       "claimed": 391760,
       "receipt_total": 287760,
       "difference": 104000
-     }
-    },
-    {
-     "source": "maths",
-     "type": "duplicate_receipt",
-     "severity": "high",
-     "clause_id": "C9",
-     "price_item": null,
-     "receipt_line": "RECEIPT_TOTAL",
-     "message": "This receipt was already claimed as SAMPLE-003 (same receipt image already claimed); policy C9 forbids claiming it twice",
-     "evidence": {
-      "previous_claim_id": "SAMPLE-003",
-      "previous_decision": "needs_review",
-      "registered_at": "2026-10-23T07:39:37+00:00",
-      "reason": "same receipt image already claimed"
      }
     },
     {
@@ -2280,9 +2358,8 @@
      "clause_id": "C5",
      "price_item": "hot tea",
      "receipt_line": "1 Hot Tea 25,000",
-     "message": "The Hot Tea line was paid at 25,000 against an agreed maximum of 13,500 for hot tea, so the 11,500 excess is not reimbursed and the claim is held for review.",
+     "message": "The Hot Tea line costs IDR 25,000 against an agreed maximum of IDR 13,500 for hot tea, so the IDR 11,500 excess is not reimbursed and the claim is held for review.",
      "evidence": {
-      "votes": "3/3",
       "clause_text": "C5. Agreed price list: For items that appear on the agreed price list, the unit price paid must not exceed the agreed maximum unit price for that item. Any amount above the agreed maximum is not reimbursed and the claim is held for review.",
       "price_name_similarity": 100,
       "unit_price_paid": 25000,
@@ -2297,9 +2374,8 @@
      "clause_id": "C12",
      "price_item": null,
      "receipt_line": "CLAIM_AMOUNT",
-     "message": "The claim is for food and drink above IDR 150,000 in total, but no number of people is stated; the treasurer should ask the claimant to state how many people the meal covered.",
+     "message": "The claim is IDR 391,760 and includes food items (AOP Seafood, Omurice Katsu Curry), which is above IDR 150,000 in total, but no number of people is stated. Ask the claimant for the headcount and confirm the meal is part of an approved workshop activity.",
      "evidence": {
-      "votes": "3/3",
       "clause_text": "C12. Meals and hospitality: Meals are reimbursable when they are part of an approved activity. Meal claims above IDR 150,000 per person are held for review. The number of people must be stated for any meal claim above IDR 150,000 in total."
      }
     }
@@ -2307,9 +2383,9 @@
    "n_rule_issues": 2,
    "n_dropped": 0,
    "dropped": [],
-   "draft": "Dear Member 045,\n\nClaim VAL-045 cannot be paid as submitted. Please review the following:\n\n- You claimed IDR 391,760, but the receipt total is IDR 287,760, a difference of IDR 104,000.\n- This receipt was already claimed as SAMPLE-003 and policy C9 does not allow it to be claimed twice. Please do not resubmit it.\n- The Hot Tea line was paid at IDR 25,000 against an agreed maximum of IDR 13,500 (clause C5). The IDR 11,500 excess is not reimbursed and the claim is held for review.\n- The food and drink total is above IDR 150,000, but no number of people is stated (clause C12). Please tell us how many people the meal covered.\n\nTo resubmit, correct the claimed amount to match the receipt, remove the duplicate receipt, and state the number of people for the meal. The treasurer will then review it again.\n\nKind regards,\nClub Treasurer",
-   "cost_usd": 0.003474,
-   "seconds": 20.64,
+   "draft": "Hello Member 045,\n\nClaim VAL-045 cannot be paid as submitted. You claimed IDR 391,760, but the receipt total is IDR 287,760, which is IDR 104,000 more than the receipt. To fix this, please resubmit the claim for the receipt amount of IDR 287,760 or provide a receipt that supports the full amount.\n\nAlso, the Hot Tea line on the receipt costs IDR 25,000, against an agreed maximum of IDR 13,500 for hot tea under clause C5. The IDR 11,500 excess is not reimbursed and the claim is held for review.\n\nThe meal claim is above IDR 150,000 in total, but no number of people is stated, as required by clause C12. Please provide the headcount and confirm that the meal was part of an approved workshop activity.\n\nRegards,\nFinance",
+   "cost_usd": 0.00174,
+   "seconds": 9.2,
    "cached": false
   },
   {
@@ -2342,7 +2418,7 @@
      "clause_id": null,
      "price_item": null,
      "receipt_line": null,
-     "message": "Claimed 44000 but the receipt total is 22000",
+     "message": "Claimed IDR 44,000, but the receipt total is IDR 22,000 (IDR 22,000 more)",
      "evidence": {
       "claimed": 44000,
       "receipt_total": 22000,
@@ -2367,9 +2443,9 @@
    "n_rule_issues": 0,
    "n_dropped": 0,
    "dropped": [],
-   "draft": "Hello Member 046,\n\nYour expense claim VAL-046 cannot be paid as submitted.\n\n- You claimed 44000 IDR, but the receipt total is 22000 IDR, a difference of 22000 IDR.\n- The item \"RAKUNI KM KEJU PCS/PCS\" is claimed but does not appear on the receipt. The closest receipt line is \"MARBLE CASTELA\".\n\nTo resubmit, please correct the claimed amount to match the receipt total, or provide a receipt that includes the claimed item.\n\nKind regards,\nClub Treasurer",
-   "cost_usd": 0.001624,
-   "seconds": 6.42,
+   "draft": "Hello Member 046,\n\nYour expense claim VAL-046 cannot be paid as submitted.\n\n- The claimed amount is IDR 44,000, but the receipt total is IDR 22,000, a difference of IDR 22,000.\n- The item \"RAKUNI KM KEJU PCS/PCS\" is claimed but does not appear on the receipt. The closest receipt line is \"MARBLE CASTELA\", which does not match.\n\nTo proceed, please resubmit the claim with an amount that matches the receipt total, and either remove the unmatched item or provide a receipt that shows it.\n\nRegards,\nFinance",
+   "cost_usd": 0.000951,
+   "seconds": 4.24,
    "cached": false
   },
   {
@@ -2401,7 +2477,7 @@
      "clause_id": null,
      "price_item": null,
      "receipt_line": null,
-     "message": "Claimed 54000 but the receipt total is 42000",
+     "message": "Claimed IDR 54,000, but the receipt total is IDR 42,000 (IDR 12,000 more)",
      "evidence": {
       "claimed": 54000,
       "receipt_total": 42000,
@@ -2412,9 +2488,9 @@
    "n_rule_issues": 0,
    "n_dropped": 0,
    "dropped": [],
-   "draft": "Hello Member 047,\n\nThank you for submitting claim VAL-047. We cannot pay this claim as submitted. You claimed IDR 54,000, but the receipt total is IDR 42,000, a difference of IDR 12,000.\n\nTo proceed, please resubmit the claim for IDR 42,000 to match the receipt, or send a corrected receipt if the higher amount is accurate.\n\nKind regards,\nClub Treasurer",
-   "cost_usd": 0.001954,
-   "seconds": 6.84,
+   "draft": "Hello Member 047,\n\nYour expense claim VAL-047 cannot be paid as submitted. You claimed IDR 54,000, but the receipt total is IDR 42,000, a difference of IDR 12,000.\n\nTo proceed, please resubmit the claim with the amount matching the receipt (IDR 42,000), or send a corrected receipt that supports the full IDR 54,000.\n\nRegards,\nFinance",
+   "cost_usd": 0.00123,
+   "seconds": 4.65,
    "cached": false
   },
   {
@@ -2458,9 +2534,9 @@
    "n_rule_issues": 0,
    "n_dropped": 0,
    "dropped": [],
-   "draft": "Hello Member 048,\n\nYour claim VAL-048 is on hold for review. The claim lines add up to 61,908 IDR, but the claimed amount is 61,500 IDR. The receipt's tax and service charges total 5,592 IDR, which does not explain the difference of 408 IDR.\n\nWhat you can do:\n- Check the claim lines against your receipt.\n- Correct the claimed amount or the line amounts so they match, then resubmit.\n\nWe will complete the review once we hear from you.\n\nThank you,\nClub Treasurer",
-   "cost_usd": 0.002382,
-   "seconds": 11.74,
+   "draft": "Hello Member 048,\n\nYour claim VAL-048 is on hold while a reviewer checks it.\n\n- Your claim lines add up to IDR 61,908, but the claimed amount is IDR 61,500, a difference of IDR 408.\n- The receipt's tax and service charges come to IDR 5,592, which does not explain this gap.\n\nTo release the claim, please check the claim lines against your receipt and resubmit with the correct amount, or reply with an explanation of the difference.\n\nFinance",
+   "cost_usd": 0.001382,
+   "seconds": 5.7,
    "cached": false
   },
   {
@@ -2488,7 +2564,7 @@
      "clause_id": null,
      "price_item": null,
      "receipt_line": null,
-     "message": "Claimed 74000, less than the receipt total 81400",
+     "message": "Claimed IDR 74,000, less than the receipt total of IDR 81,400",
      "evidence": {
       "claimed": 74000,
       "receipt_total": 81400
@@ -2498,9 +2574,9 @@
    "n_rule_issues": 0,
    "n_dropped": 0,
    "dropped": [],
-   "draft": "Dear Member 049,\n\nYour expense claim VAL-049 has been approved and will be paid.\n\nWe noted one point for your records:\n\n- The claimed amount is IDR 74,000, which is less than the receipt total of IDR 81,400. No clause applies to this difference.\n\nNo other issues were found, and the receipt is clear.\n\nKind regards,\nClub Treasurer",
-   "cost_usd": 0.00263,
-   "seconds": 11.92,
+   "draft": "Hello Member 049,\n\nYour expense claim VAL-049 has been approved and will be paid.\n\nOne note on the claim: you claimed IDR 74,000, which is less than the receipt total of IDR 81,400. No policy clause applies to this difference.\n\nFinance",
+   "cost_usd": 0.001508,
+   "seconds": 6.21,
    "cached": false
   },
   {
@@ -2524,9 +2600,9 @@
    "n_rule_issues": 0,
    "n_dropped": 0,
    "dropped": [],
-   "draft": "Hello Member 050,\n\nYour expense claim VAL-050 for IDR 26,000 has been approved and will be paid. The amount claimed matches the receipt total, and no issues were found.\n\nThank you for submitting your claim.\n\nKind regards,\nClub Treasurer",
-   "cost_usd": 0.001743,
-   "seconds": 9.74,
+   "draft": "Hello Member 050,\n\nYour expense claim VAL-050 for IDR 26,000 has been approved and will be paid.\n\nThe claimed amount matches the receipt total, and no issues were found.\n\nFinance",
+   "cost_usd": 0.000984,
+   "seconds": 1.49,
    "cached": false
   },
   {
@@ -2568,14 +2644,13 @@
     },
     {
      "source": "rules",
-     "type": "price_above_list",
+     "type": "agreed_price_exceeded",
      "severity": "medium",
      "clause_id": "C5",
      "price_item": "rice",
      "receipt_line": "1 Wagyu Rice Box 10.000",
-     "message": "The Wagyu Rice Box is priced at IDR 10,000 for qty 1, which is above the agreed maximum of IDR 7,500 for rice. The amount above the agreed maximum is not reimbursed and the claim is held for review.",
+     "message": "The Wagyu Rice Box costs IDR 10,000 per unit, which is above the agreed maximum of IDR 7,500 for 'rice' on the price list. The excess of IDR 2,500 is not reimbursable and the claim is held for review.",
      "evidence": {
-      "votes": "2/3",
       "clause_text": "C5. Agreed price list: For items that appear on the agreed price list, the unit price paid must not exceed the agreed maximum unit price for that item. Any amount above the agreed maximum is not reimbursed and the claim is held for review.",
       "price_name_similarity": 100,
       "unit_price_paid": 10000.0,
@@ -2587,9 +2662,9 @@
    "n_rule_issues": 1,
    "n_dropped": 0,
    "dropped": [],
-   "draft": "Subject: Claim VAL-051 is on hold for review\n\nDear Member 051,\n\nYour claim VAL-051 for IDR 57,200 is on hold and has not been paid yet. A treasurer will review it before any decision is made.\n\nThere are two points to check:\n\n- The claim lines add up to IDR 81,200, but the claimed amount is IDR 57,200. Please confirm the correct total.\n- The Wagyu Rice Box on your receipt (1 x IDR 10,000) is above the agreed maximum of IDR 7,500 for rice under clause C5. The amount above the agreed maximum, IDR 2,500, is not reimbursed.\n\nPlease reply with a corrected claim amount, or let us know if the claim lines or receipt are wrong, and we will look at it again.\n\nKind regards,\nClub Treasurer",
-   "cost_usd": 0.003849,
-   "seconds": 24.75,
+   "draft": "Subject: Claim VAL-051 is on hold\n\nHello Member 051,\n\nYour claim VAL-051 for IDR 57,200 is on hold and will not be paid until it is reviewed.\n\n- The claim lines add up to IDR 81,200, but the claimed amount is IDR 57,200. Please check the lines and confirm the correct total.\n- The Wagyu Rice Box (1 x IDR 10,000) is above the agreed maximum of IDR 7,500 for rice under clause C5. The excess of IDR 2,500 is not reimbursable.\n\nTo move this forward, please correct the claimed amount so it matches the claim lines, and confirm whether you accept reimbursement of IDR 7,500 for the rice box. We will complete the review once we hear from you.\n\nFinance",
+   "cost_usd": 0.0018,
+   "seconds": 8.61,
    "cached": false
   },
   {
@@ -2621,7 +2696,7 @@
      "clause_id": null,
      "price_item": null,
      "receipt_line": null,
-     "message": "Claimed 68000 but the receipt total is 56000",
+     "message": "Claimed IDR 68,000, but the receipt total is IDR 56,000 (IDR 12,000 more)",
      "evidence": {
       "claimed": 68000,
       "receipt_total": 56000,
@@ -2630,14 +2705,13 @@
     },
     {
      "source": "rules",
-     "type": "claim_exceeds_receipt",
+     "type": "claim_exceeds_receipt_policy",
      "severity": "high",
      "clause_id": "C4",
      "price_item": null,
      "receipt_line": "CLAIM_AMOUNT",
-     "message": "The claim is for IDR 68000 but the receipt total is IDR 56000. Under C4 a claim above the receipt total is rejected, so the claim should be reduced to IDR 56000 or less.",
+     "message": "The claim is IDR 68,000 but the receipt total is IDR 56,000, so the claim is for more than the receipt total and is rejected under C4. Reduce the claim to IDR 56,000 or less, or provide a receipt that supports the higher amount.",
      "evidence": {
-      "votes": "3/3",
       "clause_text": "C4. Claimed amount must match the receipt: The amount claimed must equal the total printed on the receipt. A claim for more than the receipt total is rejected. A claim for less than the receipt total is acceptable (the claimant may choose not to claim some items)."
      }
     }
@@ -2645,9 +2719,9 @@
    "n_rule_issues": 1,
    "n_dropped": 0,
    "dropped": [],
-   "draft": "Dear Member 052,\n\nThank you for submitting claim VAL-052. We cannot pay it as submitted.\n\nYou claimed IDR 68,000, but the receipt total is IDR 56,000, a difference of IDR 12,000. Under clause C4, a claim for more than the receipt total is rejected.\n\nTo have this claim paid, please resubmit it for IDR 56,000 or less, matching the receipt total.\n\nKind regards,\nClub Treasurer",
-   "cost_usd": 0.002748,
-   "seconds": 14.84,
+   "draft": "Hi Member 052,\n\nYour claim VAL-052 cannot be paid as submitted. You claimed IDR 68,000, but the receipt total is IDR 56,000, which is IDR 12,000 more than the receipt. Under clause C4, a claim for more than the receipt total is rejected.\n\nTo proceed, you can either reduce the claim to IDR 56,000 or less, or provide a receipt that supports the higher amount of IDR 68,000. Once we have one of these, we can look at the claim again.\n\nRegards,\nFinance",
+   "cost_usd": 0.0016,
+   "seconds": 6.71,
    "cached": false
   },
   {
@@ -2671,9 +2745,9 @@
    "n_rule_issues": 0,
    "n_dropped": 0,
    "dropped": [],
-   "draft": "Hello Member 053,\n\nYour expense claim VAL-053 for IDR 31,000 has been approved and will be paid. The amount you claimed matches the receipt total, and no issues were found.\n\nThank you for submitting it.",
-   "cost_usd": 0.002952,
-   "seconds": 17.03,
+   "draft": "Hi Member 053,\n\nClaim VAL-053 for IDR 31,000 has been approved and will be paid. The claimed amount matches the receipt total.\n\nThank you for submitting it.\n\nFinance",
+   "cost_usd": 0.001381,
+   "seconds": 5.44,
    "cached": false
   },
   {
@@ -2708,16 +2782,17 @@
      "receipt_line": "CLAIM_AMOUNT",
      "message": "No purpose is stated on the claim; policy C1 requires one",
      "evidence": {
-      "purpose": ""
+      "purpose": "",
+      "clause_text": "C1. Purpose of expense: Expenses are reimbursable only when incurred for an approved club activity or business purpose. The claim must state the purpose. Claims with no stated purpose are held for review."
      }
     }
    ],
    "n_rule_issues": 0,
    "n_dropped": 0,
    "dropped": [],
-   "draft": "Hello Member 054,\n\nYour expense claim VAL-054 for IDR 40,000 is on hold for review. The receipt total matches the claimed amount, but no purpose is stated on the claim, and policy C1 requires one.\n\nTo move this forward, please add a short description of what the expense was for and resubmit or reply with it. Once we have that, the claim can be looked at again.\n\nKind regards,\nClub Treasurer",
-   "cost_usd": 0.002093,
-   "seconds": 10.62,
+   "draft": "Hello Member 054,\n\nClaim VAL-054 for IDR 40,000 is on hold. The claimed amount matches the receipt total of IDR 40,000, but no purpose is stated on the claim. Policy C1 requires a stated purpose, as expenses are reimbursable only when incurred for an approved club activity or business purpose.\n\nTo release the claim, please resubmit it with a short description of the club activity or business purpose for this expense. Once the purpose is added, it will be reviewed again.\n\nFinance",
+   "cost_usd": 0.001256,
+   "seconds": 4.63,
    "cached": false
   },
   {
@@ -2750,7 +2825,7 @@
      "clause_id": null,
      "price_item": null,
      "receipt_line": null,
-     "message": "Line items sum to 120000, but subtotal is None and total is 60000",
+     "message": "The items as read add up to IDR 120,000, but the receipt shows a total of IDR 60,000. A line may have been misread, so a person should check the receipt",
      "evidence": {
       "line_sum": 120000,
       "subtotal": null,
@@ -2764,7 +2839,7 @@
      "clause_id": null,
      "price_item": null,
      "receipt_line": null,
-     "message": "Claimed 120000 but the receipt total is 60000",
+     "message": "Claimed IDR 120,000, but the receipt total is IDR 60,000 (IDR 60,000 more)",
      "evidence": {
       "claimed": 120000,
       "receipt_total": 60000,
@@ -2806,9 +2881,8 @@
      "clause_id": "C9",
      "price_item": null,
      "receipt_line": "Cha Keaw L... x2 60.000",
-     "message": "The claim lists 4 units of Cha Keaw L... but the receipt shows only 2, and the receipt's single purchase is claimed twice. Reimburse only the 2 units on the receipt, and do not pay the same receipt twice.",
+     "message": "The claim asks for 4 units of Cha Keaw L... (IDR 120,000), but the receipt shows only 2 units. Only the receipt quantity can be reimbursed, so the extra 2 units should be removed or supported by another receipt.",
      "evidence": {
-      "votes": "2/3",
       "clause_text": "C9. Quantities: The quantity of any item claimed must not exceed the quantity shown on the receipt, and the same receipt may not be claimed twice."
      }
     }
@@ -2816,9 +2890,9 @@
    "n_rule_issues": 1,
    "n_dropped": 0,
    "dropped": [],
-   "draft": "Subject: Claim VAL-055 cannot be paid as submitted\n\nDear Member 055,\n\nYour claim VAL-055 for IDR 120,000 cannot be paid as submitted. The receipt total is IDR 60,000, so the claim exceeds the receipt by IDR 60,000.\n\n- Quantity: you claimed 4 x Cha Keaw L..., but the receipt shows 2 (receipt line \"Cha Keaw L... x2 60.000\"). Under clause C9, the quantity claimed must not exceed the quantity on the receipt, and the same receipt may not be claimed twice.\n- Totals: the claim lines add up to IDR 180,000, which does not match the claimed amount of IDR 120,000.\n- Receipt: the line items sum to IDR 120,000, but the receipt total is IDR 60,000, with no subtotal shown.\n\nTo resubmit, please claim only the 2 units shown on the receipt, correct the claim total to match, and attach a receipt that matches the amount claimed.\n\nKind regards,\nClub Treasurer",
-   "cost_usd": 0.002767,
-   "seconds": 15.29,
+   "draft": "Hello Member 055,\n\nYour claim VAL-055 for IDR 120,000 cannot be paid as submitted. The receipt total is IDR 60,000, so the claim is IDR 60,000 higher than the receipt.\n\n- Quantity: you claimed 4 units of Cha Keaw L..., but the receipt shows 2 (receipt line: Cha Keaw L... x2 60.000). Under clause C9, the claimed quantity must not exceed the receipt quantity. Please remove the extra 2 units or provide another receipt covering them.\n- Line totals: the items as read add up to IDR 120,000, while the receipt shows IDR 60,000. A line may have been misread, so please check the receipt. Your claim lines also sum to IDR 180,000 against the claimed IDR 120,000, so please correct these figures.\n\nOnce you have corrected the claim to match the receipt, please resubmit it and we will review it again.\n\nFinance",
+   "cost_usd": 0.0017,
+   "seconds": 7.22,
    "cached": false
   },
   {
@@ -2842,9 +2916,9 @@
    "n_rule_issues": 0,
    "n_dropped": 0,
    "dropped": [],
-   "draft": "Hello Member 056,\n\nYour expense claim VAL-056 for IDR 20,000 has been approved and will be paid. The claimed amount matches the receipt total, and no issues were found.\n\nThank you for submitting it.\n\nKind regards,\nClub Treasurer",
-   "cost_usd": 0.00177,
-   "seconds": 9.84,
+   "draft": "Hello Member 056,\n\nYour expense claim VAL-056 for IDR 20,000 has been approved and will be paid. The amount claimed matches the receipt total.\n\nThank you,\nFinance",
+   "cost_usd": 0.00097,
+   "seconds": 1.24,
    "cached": false
   },
   {
@@ -2866,16 +2940,17 @@
    "caught": {},
    "verified_issues": [
     {
-     "source": "rules",
-     "type": "meal_people_not_stated",
+     "source": "maths",
+     "type": "possible_personal_item",
      "severity": "medium",
-     "clause_id": "C12",
+     "clause_id": "C6",
      "price_item": null,
-     "receipt_line": "CLAIM_AMOUNT",
-     "message": "The claim is for IDR 288,585, which is above the IDR 150,000 meal threshold, but no number of people is stated and the purpose 'Welfare pack items' does not show an approved activity. Hold for review and ask the claimant for the number of people and the approved activity.",
+     "receipt_line": "1 CREAMY MARINARA SALMON 85,500",
+     "message": "'CREAMY MARINARA SALMON' looks like a personal-use item (cream); policy C6 excludes these unless the business purpose is confirmed",
      "evidence": {
-      "votes": "3/3",
-      "clause_text": "C12. Meals and hospitality: Meals are reimbursable when they are part of an approved activity. Meal claims above IDR 150,000 per person are held for review. The number of people must be stated for any meal claim above IDR 150,000 in total."
+      "matched_word": "cream",
+      "line_total": 85500,
+      "clause_text": "C6. Personal and non-business items: Personal items are not reimbursable: toiletries, clothing, phone credit (pulsa), gift cards, games, lottery, medicines for personal use, and gifts for individuals. Such items are rejected. Items that may serve the activity (first-aid supplies, medicines for an event kit, cleaning products) are held for review until the club purpose is confirmed."
      }
     },
     {
@@ -2885,23 +2960,34 @@
      "clause_id": "C5",
      "price_item": "lychee tea",
      "receipt_line": "2 LYCHEE ICE TEA 77,000",
-     "message": "The line works out to 38,500 per unit, which is above the agreed maximum of 16,500 for lychee tea. The excess over the agreed maximum is not reimbursed and the claim is held for review.",
+     "message": "The unit price is 38,500 (77,000 / 2), which is above the agreed maximum of 16,500 for lychee tea. The claim is held for review and the excess is not reimbursable.",
      "evidence": {
-      "votes": "2/3",
       "clause_text": "C5. Agreed price list: For items that appear on the agreed price list, the unit price paid must not exceed the agreed maximum unit price for that item. Any amount above the agreed maximum is not reimbursed and the claim is held for review.",
       "price_name_similarity": 100,
       "unit_price_paid": 38500.0,
       "agreed_max_unit_price": 16500.0,
       "price_list_item": "lychee tea"
      }
+    },
+    {
+     "source": "rules",
+     "type": "meal_claim_needs_headcount",
+     "severity": "medium",
+     "clause_id": "C12",
+     "price_item": null,
+     "receipt_line": "CLAIM_AMOUNT",
+     "message": "The claimed amount of 288,585 exceeds IDR 150,000 in total for a meal-type claim, but no number of people is stated. The claim is held for review until the headcount and approved activity are confirmed.",
+     "evidence": {
+      "clause_text": "C12. Meals and hospitality: Meals are reimbursable when they are part of an approved activity. Meal claims above IDR 150,000 per person are held for review. The number of people must be stated for any meal claim above IDR 150,000 in total."
+     }
     }
    ],
    "n_rule_issues": 2,
    "n_dropped": 0,
    "dropped": [],
-   "draft": "Hello Member 057,\n\nYour claim VAL-057 for IDR 288,585 is on hold for review. It is not approved yet, and nothing will be paid until the review is complete.\n\n- Meals (C12): The claim is above the IDR 150,000 meal threshold, but no number of people is stated and the purpose \"Welfare pack items\" does not show an approved activity. Please send us the number of people and the approved activity.\n- Price list (C5): Your receipt shows 2 lychee ice teas for IDR 77,000, which is IDR 38,500 per unit. The agreed maximum for lychee tea is IDR 16,500 per unit. Any amount above the agreed maximum is not reimbursed, so the excess will not be paid.\n\nOnce we receive the details above, we will complete the review.\n\nKind regards,\nClub Treasurer",
-   "cost_usd": 0.003163,
-   "seconds": 16.92,
+   "draft": "Subject: Claim VAL-057 - on hold\n\nHello Member 057,\n\nYour claim VAL-057 for IDR 288,585 is on hold and cannot be paid yet. Three items need attention:\n\n- Creamy Marinara Salmon, IDR 85,500: the word \"cream\" suggests a personal item. Under clause C6, personal items are not reimbursable, but items that may serve the club activity are held until the club purpose is confirmed. Please confirm the business purpose.\n- Lychee Ice Tea, 2 x IDR 77,000 (IDR 38,500 each): the agreed maximum under clause C5 is IDR 16,500 per unit. Any amount above that is not reimbursable, so the claim is held for review.\n- Meal total, IDR 288,585: under clause C12, meal claims above IDR 150,000 must state the number of people. Please send the headcount and the approved activity.\n\nOnce you reply with the club purpose, the headcount and the activity, we will complete the review.\n\nRegards,\nFinance",
+   "cost_usd": 0.001658,
+   "seconds": 7.01,
    "cached": false
   },
   {
@@ -2936,16 +3022,17 @@
      "receipt_line": "CLAIM_AMOUNT",
      "message": "No purpose is stated on the claim; policy C1 requires one",
      "evidence": {
-      "purpose": ""
+      "purpose": "",
+      "clause_text": "C1. Purpose of expense: Expenses are reimbursable only when incurred for an approved club activity or business purpose. The claim must state the purpose. Claims with no stated purpose are held for review."
      }
     }
    ],
    "n_rule_issues": 0,
    "n_dropped": 0,
    "dropped": [],
-   "draft": "Hello Member 058,\n\nYour expense claim VAL-058 for IDR 25,000 is on hold for review. The claimed amount matches the receipt total of IDR 25,000.\n\nThe claim does not state a purpose, which policy C1 requires. To release it, please reply with the purpose of the expense, and we will review the claim again.",
-   "cost_usd": 0.001534,
-   "seconds": 4.91,
+   "draft": "Hello Member 058,\n\nClaim VAL-058 for IDR 25,000 is on hold. The receipt total matches the claimed amount, but the claim does not state a purpose. Policy C1 requires a purpose for every expense, and claims without one are held for review.\n\nTo release the claim, please reply with the purpose of the expense, specifying the approved club activity or business reason it was incurred for. Once we have that, we will review it again.\n\nFinance",
+   "cost_usd": 0.00091,
+   "seconds": 1.96,
    "cached": false
   },
   {
@@ -2971,38 +3058,39 @@
    },
    "verified_issues": [
     {
-     "source": "rules",
-     "type": "needs_two_approvers",
+     "source": "maths",
+     "type": "two_approvers_required",
      "severity": "medium",
      "clause_id": "C7",
      "price_item": null,
-     "receipt_line": "CLAIM_AMOUNT",
-     "message": "The claimed amount of IDR 664,329 is above IDR 500,000, so the claim needs sign-off from two approvers and must be held for review before payment.",
+     "receipt_line": null,
+     "message": "IDR 664,329 is above the IDR 500,000 two-approver threshold, so a second approver must sign off before payment",
      "evidence": {
-      "votes": "3/3",
+      "amount": 664329,
+      "threshold": 500000,
       "clause_text": "C7. Two approvers above IDR 500,000: Any single claim above IDR 500,000 requires sign-off from two approvers before payment. The checker must mark such claims for review rather than approving them automatically."
      }
     },
     {
      "source": "rules",
-     "type": "meal_people_not_stated",
+     "type": "meal_claim_missing_headcount",
      "severity": "medium",
      "clause_id": "C12",
      "price_item": null,
      "receipt_line": "CLAIM_AMOUNT",
-     "message": "The claim is a food purchase above IDR 150,000 in total, but no number of people is stated. The treasurer should ask the claimant for the attendee count and hold the claim until it is provided.",
+     "message": "The claim is for food items totalling IDR 664,329, above the IDR 150,000 meal threshold, but no number of people is stated. Treasurer should ask the submitter for the headcount so the per-person amount can be checked, and the claim is held for review.",
      "evidence": {
       "votes": "3/3",
       "clause_text": "C12. Meals and hospitality: Meals are reimbursable when they are part of an approved activity. Meal claims above IDR 150,000 per person are held for review. The number of people must be stated for any meal claim above IDR 150,000 in total."
      }
     }
    ],
-   "n_rule_issues": 2,
+   "n_rule_issues": 1,
    "n_dropped": 0,
    "dropped": [],
-   "draft": "Subject: Expense claim VAL-059 is on hold\n\nHello Member 059,\n\nYour claim VAL-059 for IDR 664,329 is on hold and has not been approved yet.\n\n- The amount is above IDR 500,000, so under clause C7 it needs sign-off from two approvers before payment. It has been referred for that review.\n- It is a food purchase above IDR 150,000 in total, but no number of people is stated. Under clause C12, the number of people must be stated for any meal claim above IDR 150,000 in total.\n\nTo move this forward, please reply with the number of people who attended the meal. Once we have that, the claim can go through the two-approver review.\n\nKind regards,\nTreasurer",
-   "cost_usd": 0.003956,
-   "seconds": 19.61,
+   "draft": "Hello Member 059,\n\nYour claim VAL-059 for IDR 664,329 is on hold and has not been approved yet.\n\n- Two approvers required (C7): The claim is above the IDR 500,000 threshold, so a second approver must sign off before payment.\n- Headcount missing (C12): The food items total IDR 664,329, above the IDR 150,000 meal threshold, but no number of people is stated. Please send us the number of people who attended so the per-person amount can be checked.\n\nOnce we have the headcount, the claim can continue through review and the second sign-off.\n\nRegards,\nFinance",
+   "cost_usd": 0.003701,
+   "seconds": 16.48,
    "cached": false
   },
   {
@@ -3026,9 +3114,9 @@
    "n_rule_issues": 0,
    "n_dropped": 0,
    "dropped": [],
-   "draft": "Hello Member 060,\n\nYour expense claim VAL-060 for IDR 180,000 has been approved and will be paid. The amount you claimed matches the receipt total of IDR 180,000, and we found no issues with the claim.\n\nThank you for submitting it.\n\nBest regards,\nClub Treasurer",
-   "cost_usd": 0.001816,
-   "seconds": 7.93,
+   "draft": "Hello Member 060,\n\nYour expense claim VAL-060 for IDR 180,000 has been approved and will be paid. The amount claimed matches the receipt total exactly, and no issues were found.\n\nThank you,\nFinance",
+   "cost_usd": 0.000922,
+   "seconds": 5.8,
    "cached": false
   },
   {
@@ -3052,9 +3140,9 @@
    "n_rule_issues": 0,
    "n_dropped": 0,
    "dropped": [],
-   "draft": "Hello Member 061,\n\nYour expense claim VAL-061 for IDR 8,250 has been approved and will be paid. The amount matches your receipt total of IDR 8,250, and no issues were found.\n\nThank you for submitting your claim.\n\nBest regards,\nClub Treasurer",
-   "cost_usd": 0.001947,
-   "seconds": 6.01,
+   "draft": "Hello Member 061,\n\nYour expense claim VAL-061 for IDR 8,250 has been approved and will be paid. The amount claimed matches the receipt total.\n\nRegards,\nFinance",
+   "cost_usd": 0.001203,
+   "seconds": 4.33,
    "cached": false
   },
   {
@@ -3078,9 +3166,9 @@
    "n_rule_issues": 0,
    "n_dropped": 0,
    "dropped": [],
-   "draft": "Hello Member 062,\n\nYour expense claim VAL-062 for IDR 62,000 has been approved and will be paid. The amount you claimed matches the receipt total of IDR 62,000, and no issues were found.\n\nThank you for submitting your claim.\n\nBest regards,\nClub Treasurer",
-   "cost_usd": 0.002522,
-   "seconds": 12.7,
+   "draft": "Hi Member 062,\n\nYour expense claim VAL-062 for IDR 62,000 has been approved and will be paid.\n\nThank you for submitting it.\n\nFinance",
+   "cost_usd": 0.001269,
+   "seconds": 1.42,
    "cached": false
   },
   {
@@ -3104,9 +3192,9 @@
    "n_rule_issues": 0,
    "n_dropped": 0,
    "dropped": [],
-   "draft": "Hello Member 063,\n\nYour expense claim VAL-063 for IDR 56,800 has been approved and will be paid. The amount you claimed matches the receipt total exactly, and no issues were found.\n\nThank you for submitting it.\n\nBest regards,\nClub Treasurer",
-   "cost_usd": 0.001919,
-   "seconds": 7.0,
+   "draft": "Hello Member 063,\n\nYour expense claim VAL-063 for IDR 56,800 has been approved and will be paid.\n\nFinance",
+   "cost_usd": 0.001151,
+   "seconds": 4.13,
    "cached": false
   },
   {
@@ -3130,9 +3218,9 @@
    "n_rule_issues": 0,
    "n_dropped": 0,
    "dropped": [],
-   "draft": "Hello Member 064,\n\nYour expense claim VAL-064 for IDR 20,000 has been approved and will be paid. The amount you claimed matches the receipt total, and no issues were found.\n\nThank you for submitting your claim.\n\nBest regards,\nClub Treasurer",
-   "cost_usd": 0.001677,
-   "seconds": 9.07,
+   "draft": "Hi Member 064,\n\nYour expense claim VAL-064 for IDR 20,000 has been approved and will be paid. The amount claimed matches the receipt total.\n\nThank you,\nFinance",
+   "cost_usd": 0.000917,
+   "seconds": 1.35,
    "cached": false
   },
   {
@@ -3156,9 +3244,9 @@
    "n_rule_issues": 0,
    "n_dropped": 0,
    "dropped": [],
-   "draft": "Hello Member 065,\n\nYour expense claim VAL-065 for IDR 54,600 has been approved and will be paid. The amount you claimed matches the receipt total.\n\nThank you for submitting it.\n\nBest regards,\nClub Treasurer",
-   "cost_usd": 0.001949,
-   "seconds": 6.86,
+   "draft": "Hi Member 065,\n\nYour expense claim VAL-065 for IDR 54,600 has been approved and will be paid.\n\nThank you for submitting a clear receipt that matches the claimed amount.\n\nFinance",
+   "cost_usd": 0.001234,
+   "seconds": 1.47,
    "cached": false
   },
   {
@@ -3190,7 +3278,7 @@
      "clause_id": null,
      "price_item": null,
      "receipt_line": null,
-     "message": "Claimed 12000 but the receipt total is 7000",
+     "message": "Claimed IDR 12,000, but the receipt total is IDR 7,000 (IDR 5,000 more)",
      "evidence": {
       "claimed": 12000,
       "receipt_total": 7000,
@@ -3204,9 +3292,8 @@
      "clause_id": "C4",
      "price_item": null,
      "receipt_line": "CLAIM_AMOUNT",
-     "message": "The claim is for IDR 12,000 but the receipt total is IDR 7,000. Under C4 a claim above the receipt total is rejected, so the claim should be corrected to IDR 7,000 or rejected.",
+     "message": "The claim is IDR 12,000 but the receipt total is IDR 7,000. Under C4 a claim above the receipt total is rejected, so the claim should be corrected to IDR 7,000 before payment.",
      "evidence": {
-      "votes": "2/3",
       "clause_text": "C4. Claimed amount must match the receipt: The amount claimed must equal the total printed on the receipt. A claim for more than the receipt total is rejected. A claim for less than the receipt total is acceptable (the claimant may choose not to claim some items)."
      }
     }
@@ -3214,9 +3301,9 @@
    "n_rule_issues": 1,
    "n_dropped": 0,
    "dropped": [],
-   "draft": "Dear Member 066,\n\nYour claim VAL-066 for IDR 12,000 cannot be paid as submitted. The receipt total is IDR 7,000, so the claim is IDR 5,000 higher than the receipt. Under clause C4, a claim for more than the receipt total is rejected.\n\nTo proceed, please resubmit the claim for IDR 7,000 or a lower amount that matches your receipt.\n\nKind regards,\nClub Treasurer",
-   "cost_usd": 0.001993,
-   "seconds": 11.17,
+   "draft": "Hello Member 066,\n\nYour claim VAL-066 cannot be paid as submitted. You claimed IDR 12,000, but the receipt total is IDR 7,000, which is IDR 5,000 more than the receipt. Under clause C4, a claim for more than the receipt total is rejected.\n\nTo proceed, please correct the claimed amount to IDR 7,000 and resubmit. Once corrected, the claim can be reviewed for payment.\n\nFinance",
+   "cost_usd": 0.001217,
+   "seconds": 7.37,
    "cached": false
   },
   {
@@ -3248,11 +3335,23 @@
      "clause_id": null,
      "price_item": null,
      "receipt_line": null,
-     "message": "Claimed 95000 but the receipt total is 76000",
+     "message": "Claimed IDR 95,000, but the receipt total is IDR 76,000 (IDR 19,000 more)",
      "evidence": {
       "claimed": 95000,
       "receipt_total": 76000,
       "difference": 19000
+     }
+    },
+    {
+     "source": "rules",
+     "type": "claim_exceeds_receipt_policy",
+     "severity": "high",
+     "clause_id": "C4",
+     "price_item": null,
+     "receipt_line": "CLAIM_AMOUNT",
+     "message": "The claim is IDR 95,000 but the receipt total is IDR 76,000. Under C4 a claim above the receipt total is rejected, so the claim should be reduced to IDR 76,000 or less before payment.",
+     "evidence": {
+      "clause_text": "C4. Claimed amount must match the receipt: The amount claimed must equal the total printed on the receipt. A claim for more than the receipt total is rejected. A claim for less than the receipt total is acceptable (the claimant may choose not to claim some items)."
      }
     },
     {
@@ -3262,9 +3361,8 @@
      "clause_id": null,
      "price_item": "paket happy hour",
      "receipt_line": "1 PAKET BER2 69,091",
-     "message": "The receipt line totals 69,091 for one unit, which is above the agreed maximum of 30,500 for 'paket happy hour'. The excess over the agreed maximum should be reviewed before reimbursement.",
+     "message": "The receipt line is IDR 69,091 for one unit, which is above the agreed maximum of IDR 30,500 for the matched price-list item 'paket happy hour'. The excess should be checked before reimbursement.",
      "evidence": {
-      "votes": "2/3",
       "price_name_similarity": 75,
       "unit_price_paid": 69091.0,
       "agreed_max_unit_price": 30500.0,
@@ -3272,12 +3370,12 @@
      }
     }
    ],
-   "n_rule_issues": 1,
+   "n_rule_issues": 2,
    "n_dropped": 0,
    "dropped": [],
-   "draft": "Dear Member 067,\n\nYour claim VAL-067 for IDR 95,000 cannot be paid as submitted. The receipt total is IDR 76,000, which is IDR 19,000 less than the amount claimed. Please resubmit the claim for IDR 76,000 or less, with a receipt that supports the amount.\n\nWe also noticed that the receipt line \"1 PAKET BER2 69,091\" is priced at IDR 69,091 for one unit, above the agreed maximum of IDR 30,500 for \"paket happy hour\" (clause not specified). The excess of IDR 38,591 over the agreed maximum should be reviewed before any reimbursement. If you can explain this item or provide a receipt showing the agreed price, please include it with your resubmission.\n\nKind regards,\nClub Treasurer",
-   "cost_usd": 0.002681,
-   "seconds": 14.74,
+   "draft": "Hello Member 067,\n\nClaim VAL-067 for IDR 95,000 cannot be paid as submitted. The receipt total is IDR 76,000, which is IDR 19,000 less than the amount claimed. Under C4, a claim above the receipt total is rejected. To proceed, please reduce the claim to IDR 76,000 or less and resubmit.\n\n- The receipt line \"1 PAKET BER2 69,091\" is IDR 69,091 for one unit, above the agreed maximum of IDR 30,500 for the matched price-list item \"paket happy hour\". The excess of IDR 38,591 should be checked before reimbursement, so please be prepared to explain it.\n\nRegards,\nFinance",
+   "cost_usd": 0.001556,
+   "seconds": 6.75,
    "cached": false
   },
   {
@@ -3310,7 +3408,7 @@
      "clause_id": null,
      "price_item": null,
      "receipt_line": null,
-     "message": "Claimed 52000 but the receipt total is 26000",
+     "message": "Claimed IDR 52,000, but the receipt total is IDR 26,000 (IDR 26,000 more)",
      "evidence": {
       "claimed": 52000,
       "receipt_total": 26000,
@@ -3338,32 +3436,18 @@
      "clause_id": "C4",
      "price_item": null,
      "receipt_line": "CLAIM_AMOUNT",
-     "message": "The claim is for IDR 52,000 but the receipt total is IDR 26,000. Under C4 a claim above the receipt total is rejected, so the claimed amount should be reduced to IDR 26,000 or less.",
+     "message": "The claim is IDR 52,000 but the receipt total is IDR 26,000. Under C4 a claim for more than the receipt total is rejected, so the claim should be reduced to IDR 26,000 or less.",
      "evidence": {
-      "votes": "2/3",
       "clause_text": "C4. Claimed amount must match the receipt: The amount claimed must equal the total printed on the receipt. A claim for more than the receipt total is rejected. A claim for less than the receipt total is acceptable (the claimant may choose not to claim some items)."
-     }
-    },
-    {
-     "source": "rules",
-     "type": "quantity_exceeds_receipt",
-     "severity": "high",
-     "clause_id": "C9",
-     "price_item": null,
-     "receipt_line": "2X [blurred] 13,000 / Honey Mandarin ·26,000",
-     "message": "The claim asks for 4 Honey Mandarin but the receipt shows 2. Under C9 the claimed quantity may not exceed the receipt quantity, so the claim should be limited to 2.",
-     "evidence": {
-      "votes": "2/3",
-      "clause_text": "C9. Quantities: The quantity of any item claimed must not exceed the quantity shown on the receipt, and the same receipt may not be claimed twice."
      }
     }
    ],
-   "n_rule_issues": 2,
+   "n_rule_issues": 1,
    "n_dropped": 0,
    "dropped": [],
-   "draft": "Subject: Your expense claim VAL-068 cannot be paid as submitted\n\nDear Member 068,\n\nClaim VAL-068 for IDR 52,000 cannot be paid as submitted. The receipt total is IDR 26,000, and under clause C4 a claim above the receipt total is rejected.\n\nThe claim also asks for 4 x Honey Mandarin, but the receipt shows 2. Under clause C9 the claimed quantity may not exceed the receipt quantity.\n\nTo fix this, please resubmit the claim for IDR 26,000 or less, and limit Honey Mandarin to 2.\n\nKind regards,\nClub Treasurer",
-   "cost_usd": 0.00239,
-   "seconds": 12.64,
+   "draft": "Hello Member 068,\n\nYour claim VAL-068 for IDR 52,000 cannot be paid as submitted.\n\n- The claimed amount is IDR 52,000, but the receipt total is IDR 26,000, which is IDR 26,000 more. Under clause C4, a claim for more than the receipt total is rejected.\n- You claimed 4 x Honey Mandarin, but the receipt shows 2.\n\nTo fix this, please resubmit the claim for IDR 26,000 or less, matching the receipt total and the quantity shown on it.\n\nFinance",
+   "cost_usd": 0.001249,
+   "seconds": 4.91,
    "cached": false
   },
   {
@@ -3396,7 +3480,7 @@
      "clause_id": null,
      "price_item": null,
      "receipt_line": null,
-     "message": "Claimed 196983 but the receipt total is 174983",
+     "message": "Claimed IDR 196,983, but the receipt total is IDR 174,983 (IDR 22,000 more)",
      "evidence": {
       "claimed": 196983,
       "receipt_total": 174983,
@@ -3424,9 +3508,8 @@
      "clause_id": "C12",
      "price_item": null,
      "receipt_line": "CLAIM_AMOUNT",
-     "message": "The claim is 196983 IDR, above the 150,000 IDR meal threshold, and consists of food items, but no number of people is stated. The claim is held for review until the treasurer knows how many people the meal was for. The stated purpose 'Supplies for workshop' also does not show that the meal was part of an approved activity.",
+     "message": "The claim is for food with a total of IDR 196,983, above IDR 150,000, but no number of people is stated. Ask the claimant for the number of people and confirm the meal was part of an approved activity, since the stated purpose is 'Supplies for workshop'.",
      "evidence": {
-      "votes": "3/3",
       "clause_text": "C12. Meals and hospitality: Meals are reimbursable when they are part of an approved activity. Meal claims above IDR 150,000 per person are held for review. The number of people must be stated for any meal claim above IDR 150,000 in total."
      }
     }
@@ -3434,9 +3517,9 @@
    "n_rule_issues": 1,
    "n_dropped": 0,
    "dropped": [],
-   "draft": "Hello Member 069,\n\nYour claim VAL-069 for IDR 196,983 cannot be paid as submitted.\n\n- The claimed amount is IDR 196,983, but the receipt total is IDR 174,983, a difference of IDR 22,000.\n- \"Apple Pie\" is claimed, but no matching line appears on the receipt.\n- Under clause C12, meal claims above IDR 150,000 in total must state the number of people. The claim also needs to show that the meal was part of an approved activity, since the stated purpose is \"Supplies for workshop.\"\n\nTo resubmit, please correct the claimed amount to match the receipt, remove any item not on the receipt, and add the number of people and the approved activity the meal was for.\n\nThank you,\nClub Treasurer",
-   "cost_usd": 0.00338,
-   "seconds": 18.88,
+   "draft": "Subject: Claim VAL-069 cannot be paid as submitted\n\nHello Member 069,\n\nClaim VAL-069 cannot be paid as submitted. We have found the following problems:\n\n- The claimed amount is IDR 196,983, but the receipt total is IDR 174,983. The difference is IDR 22,000.\n- \"Apple Pie\" is claimed, but no matching line appears on the receipt.\n- The claim is for food totalling IDR 196,983, which is above IDR 150,000 under clause C12, but no number of people is stated. Meals above this limit are held for review, and the claim must state the number of people. Please also confirm that the meal was part of an approved activity, as the stated purpose is \"Supplies for workshop\".\n\nTo resubmit, please correct the claimed amount to match the receipt, remove the Apple Pie item or provide a receipt that includes it, and add the number of people and confirmation of the approved activity.\n\nFinance",
+   "cost_usd": 0.001695,
+   "seconds": 6.73,
    "cached": false
   },
   {
@@ -3466,7 +3549,6 @@
      "receipt_line": "1 Ocha Hot 15,000",
      "message": "The receipt line Ocha Hot at 15,000 is above the agreed maximum of 12,000 for hot ocha on the price list. The excess of 3,000 should be confirmed or held for review.",
      "evidence": {
-      "votes": "3/3",
       "price_name_similarity": 100,
       "unit_price_paid": 15000.0,
       "agreed_max_unit_price": 12000.0,
@@ -3477,9 +3559,9 @@
    "n_rule_issues": 1,
    "n_dropped": 0,
    "dropped": [],
-   "draft": "Hello Member 070,\n\nYour expense claim VAL-070 for IDR 121,798 is on hold for review and has not been approved yet.\n\nThe receipt line \"Ocha Hot\" is priced at IDR 15,000, which is above the agreed maximum of IDR 12,000 for hot ocha on our price list. The excess of IDR 3,000 needs to be confirmed or held for review.\n\nTo help us release the claim, please reply with any explanation for the higher price, such as a different item or a price change, or let us know if you would like the IDR 3,000 difference treated separately. We will review your reply and update the claim.\n\nThank you,\nClub Treasurer",
-   "cost_usd": 0.002917,
-   "seconds": 16.69,
+   "draft": "Hello Member 070,\n\nYour expense claim VAL-070 for IDR 121,798 is on hold and has not been paid yet.\n\n- Ocha Hot on your receipt is listed at IDR 15,000, but the agreed maximum for hot ocha on the price list is IDR 12,000. The excess is IDR 3,000.\n\nTo release the claim, please either confirm the IDR 3,000 difference with a short explanation, or send a revised receipt or claim that reflects the agreed price of IDR 12,000 per hot ocha. We will review it once we hear back.\n\nRegards,\nFinance",
+   "cost_usd": 0.001578,
+   "seconds": 2.13,
    "cached": false
   },
   {
@@ -3522,9 +3604,9 @@
    "n_rule_issues": 0,
    "n_dropped": 0,
    "dropped": [],
-   "draft": "Hello Member 071,\n\nYour expense claim VAL-071 for IDR 20,000 is on hold for review. The claim lines add up to IDR 19,000, but the claimed amount is IDR 20,000, a difference of IDR 1,000. The receipt shows no tax or service charge that would account for this.\n\nPlease check the claim lines and the claimed amount, then correct whichever is wrong and resubmit, or reply with an explanation for the IDR 1,000 difference. A treasurer will review it once we hear from you.\n\nThank you,\nClub Treasurer",
-   "cost_usd": 0.002617,
-   "seconds": 13.76,
+   "draft": "Hello Member 071,\n\nYour claim VAL-071 for IDR 20,000 is on hold for a manual review.\n\n- The claim lines add up to IDR 19,000, but the claimed amount is IDR 20,000. The receipt total is IDR 20,000 and includes no tax or service charges.\n\nPlease check the line items and the claimed amount, then reply with a corrected claim or a short explanation of the IDR 1,000 difference. Once we have that, the claim will be reviewed again.\n\nRegards,\nFinance",
+   "cost_usd": 0.001466,
+   "seconds": 1.8,
    "cached": false
   },
   {
@@ -3568,9 +3650,9 @@
    "n_rule_issues": 0,
    "n_dropped": 0,
    "dropped": [],
-   "draft": "Dear Member 072,\n\nYour expense claim VAL-072 is on hold for a human decision. The claim lines add up to 47000 IDR, but the claimed amount is 36000 IDR. The receipt total is 36000 IDR.\n\nPlease check the individual claim lines against your receipt and confirm which amount is correct. If the claimed amount should be 47000 IDR, please update the claim so the lines and total match, and resubmit it. We will review it again once we hear from you.\n\nKind regards,\nClub Treasurer",
-   "cost_usd": 0.001856,
-   "seconds": 8.1,
+   "draft": "Hello Member 072,\n\nYour claim VAL-072 is on hold for review. The claim lines add up to IDR 47,000, but the claimed amount is IDR 36,000. The receipt total is IDR 36,000, and it shows no tax or service charges.\n\nPlease check the claim lines against your receipt and resubmit with the correct amount, or let us know which figure is right so we can complete the review.\n\nFinance",
+   "cost_usd": 0.000901,
+   "seconds": 3.98,
    "cached": false
   },
   {
@@ -3614,9 +3696,9 @@
    "n_rule_issues": 0,
    "n_dropped": 0,
    "dropped": [],
-   "draft": "Hello Member 073,\n\nYour expense claim VAL-073 is on hold while a treasurer reviews it. The individual claim lines add up to 27,000 IDR, but the total claimed is 20,000 IDR. The receipt total is 20,000 IDR, with no tax or service charges.\n\nTo move this forward, please check the line items and the claimed amount, then resubmit the claim with matching figures. If the 20,000 IDR total is correct, please correct the individual lines so they add up to it. If the lines are correct, please update the claimed amount to 27,000 IDR and attach a receipt that supports that figure.\n\nThank you,\nClub Treasurer",
-   "cost_usd": 0.001968,
-   "seconds": 8.86,
+   "draft": "Hello Member 073,\n\nYour claim VAL-073 is on hold for review. The claim lines add up to 27,000 IDR, but the claimed amount is 20,000 IDR. The receipt total is 20,000 IDR, with no tax or service charges.\n\nTo move this forward, please check the claim lines and the claimed amount, correct whichever is wrong, and resubmit. If the 20,000 IDR is correct, please update the line items so they total 20,000 IDR.\n\nRegards,\nFinance",
+   "cost_usd": 0.001024,
+   "seconds": 2.13,
    "cached": false
   },
   {
@@ -3640,9 +3722,9 @@
    "n_rule_issues": 0,
    "n_dropped": 0,
    "dropped": [],
-   "draft": "Hello Member 074,\n\nYour expense claim VAL-074 for IDR 20,000 has been approved and will be paid. The amount you claimed matches the receipt total, and no issues were found.\n\nThank you for submitting your claim.\n\nKind regards,\nClub Treasurer",
-   "cost_usd": 0.001463,
-   "seconds": 6.3,
+   "draft": "Hello Member 074,\n\nYour expense claim VAL-074 for IDR 20,000 has been approved and will be paid. The claimed amount matches the receipt total.\n\nThank you,\nFinance",
+   "cost_usd": 0.000798,
+   "seconds": 1.17,
    "cached": false
   },
   {
@@ -3681,14 +3763,26 @@
       "claimed": 66500,
       "receipt_tax_and_service": 6046
      }
+    },
+    {
+     "source": "rules",
+     "type": "claimed_item_exceeds_receipt",
+     "severity": "medium",
+     "clause_id": "C4",
+     "price_item": null,
+     "receipt_line": "1 CHARGE TA 909",
+     "message": "The claim lists CHARGE TA at 2909, but the receipt shows 909 for this line, so the claimed item is overstated by 2000. Confirm the correct amount with the submitter before paying.",
+     "evidence": {
+      "clause_text": "C4. Claimed amount must match the receipt: The amount claimed must equal the total printed on the receipt. A claim for more than the receipt total is rejected. A claim for less than the receipt total is acceptable (the claimant may choose not to claim some items)."
+     }
     }
    ],
-   "n_rule_issues": 0,
+   "n_rule_issues": 1,
    "n_dropped": 0,
    "dropped": [],
-   "draft": "Hello Member 075,\n\nYour expense claim VAL-075 for IDR 66,500 is on hold for a human review.\n\nThe claim lines add up to IDR 62,454, but the claimed amount is IDR 66,500. The receipt's tax and service charges come to IDR 6,046, which does not explain the difference of IDR 4,046.\n\nPlease check the claim lines and the claimed amount, then reply with a corrected amount or a short explanation of the difference. Once we have that, the claim can be reviewed again.\n\nKind regards,\nClub Treasurer",
-   "cost_usd": 0.003113,
-   "seconds": 15.33,
+   "draft": "Hello,\n\nYour claim VAL-075 is on hold and will not be paid until the following is resolved.\n\n- The claim lines add up to 62454, but the claimed amount is 66500. The receipt's tax and service (6046) do not explain the difference.\n- The claim lists CHARGE TA at 2909, but the receipt shows 909 for this line (\"1 CHARGE TA 909\"). The item is overstated by 2000, which does not meet clause C4 (the claimed amount must match the receipt).\n\nPlease confirm the correct amount for CHARGE TA and explain the gap between your claim lines and the claimed total. Once we have that, we can complete the review.\n\nFinance",
+   "cost_usd": 0.00228,
+   "seconds": 5.67,
    "cached": false
   },
   {
@@ -3712,9 +3806,9 @@
    "n_rule_issues": 0,
    "n_dropped": 0,
    "dropped": [],
-   "draft": "Dear Member 076,\n\nYour expense claim VAL-076 for IDR 99,000 has been approved and will be paid. The amount matches your receipt total, and no issues were found.\n\nThank you for submitting your claim.\n\nKind regards,\nClub Treasurer",
-   "cost_usd": 0.002075,
-   "seconds": 8.91,
+   "draft": "Hello Member 076,\n\nClaim VAL-076 for IDR 99,000 is approved and will be paid. The claimed amount matches the receipt total.\n\nThank you,\nFinance",
+   "cost_usd": 0.001228,
+   "seconds": 1.37,
    "cached": false
   },
   {
@@ -3738,9 +3832,9 @@
    "n_rule_issues": 0,
    "n_dropped": 0,
    "dropped": [],
-   "draft": "Hello Member 077,\n\nYour expense claim VAL-077 for IDR 58,000 has been approved and will be paid. The amount claimed matches the receipt total, and no issues were found.\n\nThank you for submitting your claim.\n\nBest regards,\nClub Treasurer",
-   "cost_usd": 0.001851,
-   "seconds": 7.68,
+   "draft": "Hello Member 077,\n\nGood news: claim VAL-077 for IDR 58,000 has been approved and will be paid.\n\nFinance",
+   "cost_usd": 0.001137,
+   "seconds": 1.13,
    "cached": false
   },
   {
@@ -3768,9 +3862,8 @@
      "clause_id": "C5",
      "price_item": "es teh tawar",
      "receipt_line": "1 Teh Tawar Dingin 11 000",
-     "message": "Teh Tawar Dingin was paid at IDR 11,000 per unit, above the agreed maximum of IDR 7,500 for 'es teh tawar'. The IDR 3,500 excess is not reimbursable and the claim is held for review.",
+     "message": "Teh Tawar Dingin (cold plain tea) is most closely matched to the 'es teh tawar' list row, with an agreed maximum of IDR 7,500 per unit, but the receipt shows IDR 11,000. The excess above the agreed maximum is held for review.",
      "evidence": {
-      "votes": "2/3",
       "clause_text": "C5. Agreed price list: For items that appear on the agreed price list, the unit price paid must not exceed the agreed maximum unit price for that item. Any amount above the agreed maximum is not reimbursed and the claim is held for review.",
       "price_name_similarity": 86,
       "unit_price_paid": 11000.0,
@@ -3780,14 +3873,13 @@
     },
     {
      "source": "rules",
-     "type": "meal_people_count_missing",
+     "type": "meal_people_not_stated",
      "severity": "medium",
      "clause_id": "C12",
      "price_item": null,
      "receipt_line": "CLAIM_AMOUNT",
-     "message": "The claim totals IDR 177,870, above the IDR 150,000 meal threshold, and the number of people is not stated. The claim is held for review until the headcount is provided so the per-person amount can be checked.",
+     "message": "The claim totals IDR 177,870 for food and drinks, which is above the IDR 150,000 meal threshold, but the number of people is not stated. The claim is held for review until the attendee count is provided.",
      "evidence": {
-      "votes": "2/3",
       "clause_text": "C12. Meals and hospitality: Meals are reimbursable when they are part of an approved activity. Meal claims above IDR 150,000 per person are held for review. The number of people must be stated for any meal claim above IDR 150,000 in total."
      }
     }
@@ -3795,9 +3887,9 @@
    "n_rule_issues": 2,
    "n_dropped": 0,
    "dropped": [],
-   "draft": "Dear Member 078,\n\nYour claim VAL-078 for IDR 177,870 is on hold for review and cannot be paid yet.\n\n- Teh Tawar Dingin was charged at IDR 11,000 per unit, above the agreed maximum of IDR 7,500 for \"es teh tawar\" (clause C5). The IDR 3,500 excess is not reimbursable.\n- The claim totals IDR 177,870, which is above the IDR 150,000 meal threshold, but the number of people is not stated (clause C12).\n\nTo progress your claim, please confirm the number of people who attended the meal so we can check the per-person amount. We will then complete the review.\n\nKind regards,\nClub Treasurer",
-   "cost_usd": 0.003458,
-   "seconds": 18.79,
+   "draft": "Hello Member 078,\n\nClaim VAL-078 for IDR 177,870 is on hold and cannot be paid yet. Please review the two points below and reply with the information requested so we can complete the decision.\n\n- Price above agreed maximum (clause C5): the Teh Tawar Dingin on your receipt (1 Teh Tawar Dingin, IDR 11,000) is above the agreed maximum of IDR 7,500 per unit for the \"es teh tawar\" item. The excess of IDR 3,500 per unit is not reimbursed and is held for review.\n- Attendee count missing (clause C12): the food and drinks total of IDR 177,870 is above the IDR 150,000 meal threshold, but the number of people is not stated. Please send the number of attendees so the claim can be assessed.\n\nOnce we receive the attendee count, we will review the claim again.\n\nFinance",
+   "cost_usd": 0.001866,
+   "seconds": 8.0,
    "cached": false
   },
   {
@@ -3841,9 +3933,9 @@
    "n_rule_issues": 0,
    "n_dropped": 0,
    "dropped": [],
-   "draft": "Hello Member 079,\n\nYour expense claim VAL-079 is on hold for a human review. The claim lines add up to 76,000 IDR, but the claimed amount is 72,000 IDR. The receipt total is 72,000 IDR, so the difference needs checking before we can pay it.\n\nPlease review the individual claim lines and send us a corrected total, or let us know which line amount is right. Once we have that, the claim can be reviewed again and paid if it is confirmed.\n\nKind regards,\nClub Treasurer",
-   "cost_usd": 0.00275,
-   "seconds": 11.52,
+   "draft": "Hello Member 079,\n\nYour expense claim VAL-079 is on hold for review. The claim lines add up to IDR 76,000, but the claimed amount is IDR 72,000. The receipt total is IDR 72,000, with no tax or service charge.\n\nPlease check the claim lines and confirm the correct amount to claim. If the lines are right, let us know which figure should apply, and we will review it again.\n\nFinance",
+   "cost_usd": 0.00168,
+   "seconds": 6.01,
    "cached": false
   },
   {
@@ -3875,7 +3967,7 @@
      "clause_id": null,
      "price_item": null,
      "receipt_line": null,
-     "message": "Claimed 30000 but the receipt total is 25000",
+     "message": "Claimed IDR 30,000, but the receipt total is IDR 25,000 (IDR 5,000 more)",
      "evidence": {
       "claimed": 30000,
       "receipt_total": 25000,
@@ -3886,9 +3978,9 @@
    "n_rule_issues": 0,
    "n_dropped": 0,
    "dropped": [],
-   "draft": "Hello Member 080,\n\nThank you for submitting claim VAL-080. We are unable to pay it as submitted. You claimed IDR 30,000, but the receipt total is IDR 25,000, a difference of IDR 5,000.\n\nTo have this claim processed, please resubmit it with the amount matching the receipt, IDR 25,000, or send a corrected receipt if the amount you claimed is right.\n\nKind regards,\nClub Treasurer",
-   "cost_usd": 0.001525,
-   "seconds": 5.84,
+   "draft": "Hello Member 080,\n\nYour expense claim VAL-080 cannot be paid as submitted.\n\n- Claimed amount: IDR 30,000, but the receipt total is IDR 25,000, a difference of IDR 5,000.\n\nTo have this claim paid, please correct the claimed amount so it matches the receipt total of IDR 25,000, or send a receipt that supports the higher amount, and resubmit.\n\nRegards,\nFinance",
+   "cost_usd": 0.000898,
+   "seconds": 3.38,
    "cached": false
   },
   {
@@ -3915,15 +4007,28 @@
    },
    "verified_issues": [
     {
+     "source": "maths",
+     "type": "possible_personal_item",
+     "severity": "medium",
+     "clause_id": "C6",
+     "price_item": null,
+     "receipt_line": "1 CREAMY CHK CLS FTC 42,727",
+     "message": "'CREAMY CHK CLS FTC' looks like a personal-use item (cream); policy C6 excludes these unless the business purpose is confirmed",
+     "evidence": {
+      "matched_word": "cream",
+      "line_total": 42727,
+      "clause_text": "C6. Personal and non-business items: Personal items are not reimbursable: toiletries, clothing, phone credit (pulsa), gift cards, games, lottery, medicines for personal use, and gifts for individuals. Such items are rejected. Items that may serve the activity (first-aid supplies, medicines for an event kit, cleaning products) are held for review until the club purpose is confirmed."
+     }
+    },
+    {
      "source": "rules",
      "type": "meal_above_per_person_limit",
      "severity": "medium",
      "clause_id": "C12",
      "price_item": null,
      "receipt_line": "CLAIM_AMOUNT",
-     "message": "The meal claim is IDR 276,000 for 1 person, which is above the IDR 150,000 per-person limit, so it is held for review. Confirm the dinner was part of an approved activity and whether the amount should be reduced.",
+     "message": "The claim is IDR 276,000 for 1 person, which is above the IDR 150,000 per-person meal limit, so it is held for review. Confirm the dinner was part of an approved activity or reduce the claim.",
      "evidence": {
-      "votes": "3/3",
       "clause_text": "C12. Meals and hospitality: Meals are reimbursable when they are part of an approved activity. Meal claims above IDR 150,000 per person are held for review. The number of people must be stated for any meal claim above IDR 150,000 in total."
      }
     }
@@ -3931,9 +4036,9 @@
    "n_rule_issues": 1,
    "n_dropped": 0,
    "dropped": [],
-   "draft": "Dear Member 081,\n\nYour claim VAL-081 for IDR 276,000 is on hold for review. The meal claim is IDR 276,000 for 1 person, which is above the IDR 150,000 per-person limit under clause C12.\n\nTo release the claim, please confirm that the dinner was part of an approved activity. Please also say whether the amount should be reduced to the limit. Once we have this, the claim will be reviewed again.\n\nKind regards,\nClub Treasurer",
-   "cost_usd": 0.00272,
-   "seconds": 12.27,
+   "draft": "Hello Member 081,\n\nClaim VAL-081 for IDR 276,000 is on hold and will not be paid until it is reviewed.\n\n- Receipt line \"1 CREAMY CHK CLS FTC 42,727\" (IDR 42,727) may be a personal-use item under clause C6. Personal items are not reimbursable, but items that serve the club activity are held until the club purpose is confirmed. Please confirm the business purpose of this item.\n- The claim is IDR 276,000 for 1 person, which is above the IDR 150,000 per-person meal limit under clause C12. Please confirm the dinner was part of an approved activity, or reduce the claim to IDR 150,000.\n\nOnce you reply with this information, we will complete the review.\n\nFinance",
+   "cost_usd": 0.0017,
+   "seconds": 6.76,
    "cached": false
   },
   {
@@ -3966,7 +4071,7 @@
      "clause_id": null,
      "price_item": null,
      "receipt_line": null,
-     "message": "Claimed 53000 but the receipt total is 35000",
+     "message": "Claimed IDR 53,000, but the receipt total is IDR 35,000 (IDR 18,000 more)",
      "evidence": {
       "claimed": 53000,
       "receipt_total": 35000,
@@ -3994,9 +4099,8 @@
      "clause_id": null,
      "price_item": "lychee tea",
      "receipt_line": "1 GREEN TEA LYCHEE 18.000",
-     "message": "The receipt price of IDR 18,000 is above the agreed maximum of IDR 16,500 for lychee tea on the price list. The difference of IDR 1,500 should be checked before approval.",
+     "message": "The receipt line works out to IDR 18,000 per unit, which is above the agreed maximum of IDR 16,500 for lychee tea. The excess of IDR 1,500 per unit should be queried with the submitter before reimbursement.",
      "evidence": {
-      "votes": "3/3",
       "price_name_similarity": 100,
       "unit_price_paid": 18000.0,
       "agreed_max_unit_price": 16500.0,
@@ -4007,9 +4111,9 @@
    "n_rule_issues": 1,
    "n_dropped": 0,
    "dropped": [],
-   "draft": "Dear Member 082,\n\nClaim VAL-082 cannot be paid as submitted.\n\n- Amount: you claimed IDR 53,000, but the receipt total is IDR 35,000, a difference of IDR 18,000.\n- Quantity: you claimed 2 x Green Tea Lychee, but the receipt shows 1.\n- Price: the receipt price of IDR 18,000 is above the agreed maximum of IDR 16,500 for lychee tea, a difference of IDR 1,500 that needs to be checked.\n\nTo resubmit, please claim no more than the receipt total of IDR 35,000 and the quantity shown on the receipt. If the receipt itself is wrong, please send a corrected one.\n\nThank you,\nClub Treasurer",
-   "cost_usd": 0.003449,
-   "seconds": 19.56,
+   "draft": "Hello Member 082,\n\nClaim VAL-082 cannot be paid as submitted. You claimed IDR 53,000, but the receipt total is IDR 35,000, which is IDR 18,000 less.\n\n- Quantity: you claimed 2 x GREEN TEA LYCHEE, but the receipt shows 1 (IDR 18,000).\n- Price: that line works out to IDR 18,000 per unit, which is above the agreed maximum of IDR 16,500 for lychee tea, an excess of IDR 1,500 per unit.\n\nTo fix this, please resubmit the claim for the amount on the receipt (IDR 35,000), or provide a receipt showing two units. We will also need to query the unit price with you before any reimbursement.\n\nFinance",
+   "cost_usd": 0.001607,
+   "seconds": 6.54,
    "cached": false
   },
   {
@@ -4042,7 +4146,7 @@
      "clause_id": null,
      "price_item": null,
      "receipt_line": null,
-     "message": "Claimed 29000 but the receipt total is 17000",
+     "message": "Claimed IDR 29,000, but the receipt total is IDR 17,000 (IDR 12,000 more)",
      "evidence": {
       "claimed": 29000,
       "receipt_total": 17000,
@@ -4067,9 +4171,9 @@
    "n_rule_issues": 0,
    "n_dropped": 0,
    "dropped": [],
-   "draft": "Dear Member 083,\n\nYour expense claim VAL-083 cannot be paid as submitted.\n\n- Claimed amount: IDR 29,000. The receipt total is IDR 17,000, a difference of IDR 12,000.\n- \"Roasted Chicken\" is claimed, but no line on the receipt matches it. The closest line is \"S-Milk tea 100%\".\n\nTo have this claim considered, please resubmit it with an amount that matches the receipt total and remove or correct the Roasted Chicken item so it matches a receipt line.\n\nKind regards,\nClub Treasurer",
-   "cost_usd": 0.002077,
-   "seconds": 13.17,
+   "draft": "Hello Member 083,\n\nYour expense claim VAL-083 cannot be paid as submitted.\n\n- The claimed amount is IDR 29,000, but the receipt total is IDR 17,000, a difference of IDR 12,000.\n- \"Roasted Chicken\" is claimed, but no matching line appears on the receipt. The closest receipt line is \"S-Milk tea 100%\".\n\nTo resubmit, please correct the claimed amount so it matches the receipt total, and make sure every claimed item appears on the receipt. If you believe the receipt is incomplete, please send the full receipt for review.\n\nRegards,\nFinance",
+   "cost_usd": 0.001121,
+   "seconds": 6.31,
    "cached": false
   },
   {
@@ -4105,7 +4209,7 @@
      "clause_id": null,
      "price_item": null,
      "receipt_line": null,
-     "message": "Claimed 76000 but the receipt total is 52000",
+     "message": "Claimed IDR 76,000, but the receipt total is IDR 52,000 (IDR 24,000 more)",
      "evidence": {
       "claimed": 76000,
       "receipt_total": 52000,
@@ -4142,14 +4246,13 @@
     },
     {
      "source": "rules",
-     "type": "claim_exceeds_receipt_policy",
+     "type": "claim_exceeds_receipt_total",
      "severity": "high",
      "clause_id": "C4",
      "price_item": null,
      "receipt_line": "CLAIM_AMOUNT",
-     "message": "The claimed amount of 76000 IDR is above the receipt total of 52000 IDR, so under C4 the claim is rejected. The claimant should resubmit for no more than the receipt total.",
+     "message": "The claimed amount of IDR 76,000 is more than the receipt total of IDR 52,000, and C4 says a claim above the receipt total is rejected. Reduce the claim to the receipt total or to the amount the receipt supports.",
      "evidence": {
-      "votes": "3/3",
       "clause_text": "C4. Claimed amount must match the receipt: The amount claimed must equal the total printed on the receipt. A claim for more than the receipt total is rejected. A claim for less than the receipt total is acceptable (the claimant may choose not to claim some items)."
      }
     }
@@ -4157,9 +4260,9 @@
    "n_rule_issues": 1,
    "n_dropped": 0,
    "dropped": [],
-   "draft": "Dear Member 084,\n\nYour claim VAL-084 cannot be paid as submitted.\n\n- You claimed 76000 IDR, but the receipt total is 52000 IDR, a difference of 24000 IDR. Under clause C4, a claim for more than the receipt total is rejected.\n- Your claim lines sum to 72000 IDR, not the 76000 IDR claimed.\n- You claimed 2 x HAZELNUT CHOCO MT (R), but the receipt shows only 1 (24,000 IDR).\n\nTo have this claim paid, please resubmit for no more than the receipt total of 52000 IDR, and make sure the quantities match the receipt.\n\nKind regards,\nClub Treasurer",
-   "cost_usd": 0.003202,
-   "seconds": 16.39,
+   "draft": "Hello Member 084,\n\nYour claim VAL-084 for IDR 76,000 cannot be paid as submitted.\n\n- Claimed IDR 76,000 is IDR 24,000 more than the receipt total of IDR 52,000. Clause C4 says a claim above the receipt total is rejected.\n- You claimed 2 x HAZELNUT CHOCO MT (R), but the receipt shows 1 x HAZELNUT CHOCO MT (R) at IDR 24,000.\n- Your claim lines sum to IDR 72,000, not the IDR 76,000 you claimed. The receipt shows no tax or service charge to account for the difference.\n\nTo fix this, please resubmit the claim for no more than IDR 52,000, with the quantity matching the receipt. Lowering the claim to IDR 52,000 or less is acceptable under C4.\n\nFinance",
+   "cost_usd": 0.001887,
+   "seconds": 8.29,
    "cached": false
   },
   {
@@ -4183,9 +4286,9 @@
    "n_rule_issues": 0,
    "n_dropped": 0,
    "dropped": [],
-   "draft": "Hello Member 085,\n\nYour expense claim VAL-085 for IDR 15,000 has been approved and will be paid. The claimed amount matches the receipt total exactly, and no issues were found.\n\nThank you for submitting it.\n\nBest regards,\nClub Treasurer",
-   "cost_usd": 0.001826,
-   "seconds": 9.39,
+   "draft": "Hello Member 085,\n\nYour expense claim VAL-085 for IDR 15,000 has been approved and will be paid.\n\nFinance",
+   "cost_usd": 0.001011,
+   "seconds": 4.6,
    "cached": false
   },
   {
@@ -4209,9 +4312,9 @@
    "n_rule_issues": 0,
    "n_dropped": 0,
    "dropped": [],
-   "draft": "Hello Member 086,\n\nYour expense claim VAL-086 for IDR 26,000 has been approved and will be paid. The amount claimed matches the receipt total, and no issues were found.\n\nThank you for submitting your claim.\n\nBest regards,\nClub Treasurer",
-   "cost_usd": 0.002076,
-   "seconds": 8.88,
+   "draft": "Hi Member 086,\n\nYour claim VAL-086 for IDR 26,000 has been approved and will be paid. The amount matches your receipt total of IDR 26,000.\n\nThank you for submitting it.\n\nFinance",
+   "cost_usd": 0.00114,
+   "seconds": 1.55,
    "cached": false
   },
   {
@@ -4235,9 +4338,9 @@
    "n_rule_issues": 0,
    "n_dropped": 0,
    "dropped": [],
-   "draft": "Hello Member 087,\n\nYour expense claim VAL-087 for IDR 29,000 has been approved and will be paid. The amount claimed matches the receipt total, and no issues were found.\n\nThank you for submitting your claim.\n\nKind regards,\nClub Treasurer",
-   "cost_usd": 0.001621,
-   "seconds": 5.49,
+   "draft": "Hello Member 087,\n\nClaim VAL-087 for IDR 29,000 has been approved and will be paid. The claimed amount matches the receipt total.\n\nThank you,\nFinance",
+   "cost_usd": 0.000963,
+   "seconds": 3.48,
    "cached": false
   },
   {
@@ -4270,7 +4373,7 @@
      "clause_id": null,
      "price_item": null,
      "receipt_line": null,
-     "message": "Claimed 188000 but the receipt total is 170000",
+     "message": "Claimed IDR 188,000, but the receipt total is IDR 170,000 (IDR 18,000 more)",
      "evidence": {
       "claimed": 188000,
       "receipt_total": 170000,
@@ -4303,9 +4406,9 @@
      "why": "cited clause/price item does not exist"
     }
    ],
-   "draft": "Dear Member 088,\n\nYour expense claim VAL-088 cannot be paid as submitted.\n\n- You claimed IDR 188,000, but the receipt total is IDR 170,000. The difference is IDR 18,000.\n- \"Ice Kopi\" is claimed, but no receipt line matches it. The closest line is \"PAKET BER4 UP3\".\n\nTo resolve this, please resubmit the claim with an amount matching the receipt total of IDR 170,000, and remove or correct the \"Ice Kopi\" item so that every claimed item appears on the receipt. If you believe \"Ice Kopi\" was purchased, please send a receipt that shows it.\n\nKind regards,\nClub Treasurer",
-   "cost_usd": 0.003151,
-   "seconds": 18.99,
+   "draft": "Hello Member 088,\n\nYour claim VAL-088 cannot be paid as submitted.\n\n- The claimed amount is IDR 188,000, but the receipt total is IDR 170,000, which is IDR 18,000 more than the receipt shows.\n- \"Ice Kopi\" is claimed, but no line on the receipt matches it. The closest line is \"PAKET BER4 UP3\".\n\nTo resubmit, please make the claimed amount match the receipt total of IDR 170,000 and make sure every claimed item appears on the receipt. If \"Ice Kopi\" was purchased, please provide a receipt that lists it.\n\nFinance",
+   "cost_usd": 0.001448,
+   "seconds": 6.31,
    "cached": false
   },
   {
@@ -4338,7 +4441,7 @@
      "clause_id": null,
      "price_item": null,
      "receipt_line": null,
-     "message": "Claimed 44000 but the receipt total is 29000",
+     "message": "Claimed IDR 44,000, but the receipt total is IDR 29,000 (IDR 15,000 more)",
      "evidence": {
       "claimed": 44000,
       "receipt_total": 29000,
@@ -4358,14 +4461,26 @@
       "closest": "6001-Plastic Bag Small",
       "match_score": 32.25806451612904
      }
+    },
+    {
+     "source": "rules",
+     "type": "takeaway_charge_over_cap",
+     "severity": "high",
+     "clause_id": "C13",
+     "price_item": null,
+     "receipt_line": "CLAIM_AMOUNT",
+     "message": "The claim includes a 'CHARGE TA' takeaway charge of IDR 15,000, but C13 caps packaging and takeaway charges at IDR 5,000 per receipt and does not reimburse the excess. The charge also does not appear on the receipt, so it should be removed or the claim reduced to at most IDR 5,000 for that charge.",
+     "evidence": {
+      "clause_text": "C13. Packaging and bag fees: Plastic bag, packaging and takeaway charges are reimbursable up to a total of IDR 5,000 per receipt. Amounts above this are not reimbursed."
+     }
     }
    ],
-   "n_rule_issues": 0,
+   "n_rule_issues": 1,
    "n_dropped": 0,
    "dropped": [],
-   "draft": "Dear Member 089,\n\nYour expense claim VAL-089 cannot be paid as submitted.\n\n- The claimed amount is 44000 IDR, but the receipt total is 29000 IDR, a difference of 15000 IDR.\n- The item \"CHARGE TA\" is claimed, but no matching line appears on the receipt. The closest line is \"6001-Plastic Bag Small\".\n\nTo resubmit, please correct the claimed amount so it matches the receipt, and either remove \"CHARGE TA\" or provide a receipt that shows it.\n\nKind regards,\nClub Treasurer",
-   "cost_usd": 0.00254,
-   "seconds": 12.27,
+   "draft": "Hello Member 089,\n\nClaim VAL-089 cannot be paid as submitted. You claimed IDR 44,000, but the receipt total is IDR 29,000, which is IDR 15,000 less than the claim.\n\n- Claimed item not on receipt: \"CHARGE TA\" is claimed, but no receipt line matches it.\n- Takeaway charge over cap: Clause C13 limits packaging and takeaway charges to IDR 5,000 per receipt, and amounts above this are not reimbursed. The IDR 15,000 \"CHARGE TA\" charge also does not appear on the receipt.\n\nTo fix this, remove the \"CHARGE TA\" charge or reduce it to no more than IDR 5,000, and make sure the total claimed does not exceed the receipt total of IDR 29,000. Then resubmit the claim.\n\nRegards,\nFinance",
+   "cost_usd": 0.001553,
+   "seconds": 7.17,
    "cached": false
   },
   {
@@ -4398,7 +4513,7 @@
      "clause_id": null,
      "price_item": null,
      "receipt_line": null,
-     "message": "Claimed 115000 but the receipt total is 70000",
+     "message": "Claimed IDR 115,000, but the receipt total is IDR 70,000 (IDR 45,000 more)",
      "evidence": {
       "claimed": 115000,
       "receipt_total": 70000,
@@ -4423,9 +4538,9 @@
    "n_rule_issues": 0,
    "n_dropped": 0,
    "dropped": [],
-   "draft": "Dear Member 090,\n\nYour expense claim VAL-090 cannot be paid as submitted.\n\n- You claimed IDR 115,000, but the receipt total is IDR 70,000, a difference of IDR 45,000.\n- The item \"Lumpia Udg K Th\" is claimed but does not match any line on the receipt. The closest line is \"REGULAR\".\n\nTo resolve this, please resubmit the claim with an amount that matches the receipt total of IDR 70,000, or provide a receipt that includes the \"Lumpia Udg K Th\" item.\n\nKind regards,\nClub Treasurer",
-   "cost_usd": 0.002109,
-   "seconds": 9.02,
+   "draft": "Hello Member 090,\n\nYour claim VAL-090 cannot be paid as submitted.\n\n- You claimed IDR 115,000, but the receipt total is IDR 70,000, which is IDR 45,000 less than claimed.\n- The item \"Lumpia Udg K Th\" is claimed but does not appear on the receipt. The closest receipt line is \"REGULAR\", which does not match.\n\nTo resolve this, please submit a corrected claim for no more than IDR 70,000 and remove the item that is not on the receipt, or provide a receipt that includes it.\n\nFinance",
+   "cost_usd": 0.001134,
+   "seconds": 5.87,
    "cached": false
   },
   {
@@ -4461,7 +4576,7 @@
      "clause_id": null,
      "price_item": null,
      "receipt_line": null,
-     "message": "Claimed 83091 but the receipt total is 44000",
+     "message": "Claimed IDR 83,091, but the receipt total is IDR 44,000 (IDR 39,091 more)",
      "evidence": {
       "claimed": 83091,
       "receipt_total": 44000,
@@ -4489,22 +4604,20 @@
      "clause_id": "C4",
      "price_item": null,
      "receipt_line": "CLAIM_AMOUNT",
-     "message": "The claimed amount of IDR 83,091 is more than the receipt total of IDR 44,000, so under C4 the claim is rejected. Reduce the claim to no more than the receipt total.",
+     "message": "The claimed IDR 83,091 exceeds the receipt total of IDR 44,000 by IDR 39,091, and C4 says such a claim is rejected. Resubmit for no more than the receipt total.",
      "evidence": {
-      "votes": "2/3",
       "clause_text": "C4. Claimed amount must match the receipt: The amount claimed must equal the total printed on the receipt. A claim for more than the receipt total is rejected. A claim for less than the receipt total is acceptable (the claimant may choose not to claim some items)."
      }
     },
     {
      "source": "rules",
      "type": "quantity_exceeds_receipt",
-     "severity": "low",
+     "severity": "medium",
      "clause_id": "C9",
      "price_item": null,
      "receipt_line": "K7 1217 39,091",
-     "message": "The claim lists K7 1217 with qty 2 (line total 78,182), but the receipt shows one K7 1217 line at 39,091 with no quantity printed. Confirm the quantity against the receipt before paying.",
+     "message": "The claim lists K7 1217 with qty 2, but the receipt shows this item once (the subtotal of 40,000 equals 39,091 plus 909). The second unit is not supported by the receipt and needs review.",
      "evidence": {
-      "votes": "3/3",
       "clause_text": "C9. Quantities: The quantity of any item claimed must not exceed the quantity shown on the receipt, and the same receipt may not be claimed twice."
      }
     }
@@ -4512,9 +4625,9 @@
    "n_rule_issues": 2,
    "n_dropped": 0,
    "dropped": [],
-   "draft": "Dear Member 091,\n\nYour claim VAL-091 for IDR 83,091 cannot be paid as submitted.\n\n- The receipt total is IDR 44,000, which is IDR 39,091 less than the amount claimed. Under clause C4, a claim for more than the receipt total is rejected. To fix this, reduce the claim to no more than IDR 44,000.\n- Your claim lines add up to IDR 78,182, but the claimed amount is IDR 83,091. The receipt's tax and service add only IDR 4,000, which does not explain the difference. Please correct the claimed amount.\n- Your claim lists K7 1217 with quantity 2 (IDR 78,182), but the receipt shows one K7 1217 line at IDR 39,091 with no quantity. Under clause C9, the quantity claimed must not exceed the receipt. Please confirm the quantity before resubmitting.\n\nKind regards,\nClub Treasurer",
-   "cost_usd": 0.003481,
-   "seconds": 23.55,
+   "draft": "Hello,\n\nYour claim VAL-091 for IDR 83,091 cannot be paid as submitted. The receipt total is IDR 44,000, and the claim is IDR 39,091 higher than that. Under clause C4, a claim for more than the receipt total is rejected.\n\n- Claimed amount: IDR 83,091 against a receipt total of IDR 44,000 (clause C4).\n- Claim lines sum to IDR 78,182, which does not explain the gap even after the IDR 4,000 tax and service on the receipt.\n- The item K7 1217 is claimed with quantity 2, but the receipt shows it once (clause C9).\n\nTo resubmit, please claim no more than IDR 44,000 and claim only the quantities shown on the receipt.\n\nRegards,\nFinance",
+   "cost_usd": 0.001752,
+   "seconds": 10.96,
    "cached": false
   },
   {
@@ -4547,7 +4660,7 @@
      "clause_id": null,
      "price_item": null,
      "receipt_line": null,
-     "message": "Claimed 43000 but the receipt total is 23000",
+     "message": "Claimed IDR 43,000, but the receipt total is IDR 23,000 (IDR 20,000 more)",
      "evidence": {
       "claimed": 43000,
       "receipt_total": 23000,
@@ -4572,9 +4685,9 @@
    "n_rule_issues": 0,
    "n_dropped": 0,
    "dropped": [],
-   "draft": "Subject: Expense claim VAL-092 cannot be paid as submitted\n\nHello Member 092,\n\nWe have reviewed claim VAL-092 and it cannot be paid as submitted.\n\n- You claimed IDR 43,000, but the receipt total is IDR 23,000, a difference of IDR 20,000.\n- You claimed 2 x KFC Winger HC, but the receipt shows only 1 KFC Winger HC (IDR 20,000).\n\nTo have this claim reconsidered, please submit a corrected claim for IDR 23,000 or less that matches the receipt, or send a receipt that shows the two items you are claiming.\n\nKind regards,\nClub Treasurer",
-   "cost_usd": 0.002219,
-   "seconds": 8.71,
+   "draft": "Hello Member 092,\n\nClaim VAL-092 cannot be paid as submitted.\n\n- You claimed IDR 43,000, but the receipt total is IDR 23,000, which is IDR 20,000 more than the receipt supports.\n- You claimed 2 x KFC Winger HC, but the receipt shows only 1 (KFC Winger HC, IDR 20,000).\n\nTo get this paid, please resubmit the claim with the amount matching the receipt total of IDR 23,000 and the quantity matching what is on the receipt. If you believe you have a second receipt for the other item, please attach it with the resubmission.\n\nFinance",
+   "cost_usd": 0.001325,
+   "seconds": 4.79,
    "cached": false
   },
   {
@@ -4607,7 +4720,7 @@
      "clause_id": null,
      "price_item": null,
      "receipt_line": null,
-     "message": "Claimed 310182 but the receipt total is 172000",
+     "message": "Claimed IDR 310,182, but the receipt total is IDR 172,000 (IDR 138,182 more)",
      "evidence": {
       "claimed": 310182,
       "receipt_total": 172000,
@@ -4627,14 +4740,29 @@
       "receipt_qty": 1,
       "receipt_item": "PAKET BER4"
      }
+    },
+    {
+     "source": "rules",
+     "type": "price_above_list",
+     "severity": "medium",
+     "clause_id": null,
+     "price_item": "paket happy hour",
+     "receipt_line": "1 PAKET BER4 138,182",
+     "message": "The PAKET BER4 line is IDR 138,182 for one unit, well above the agreed maximum of IDR 30,500 for 'paket happy hour'. Confirm the item match and whether the price exceeds the agreed list before reimbursing.",
+     "evidence": {
+      "price_name_similarity": 75,
+      "unit_price_paid": 138182.0,
+      "agreed_max_unit_price": 30500.0,
+      "price_list_item": "paket happy hour"
+     }
     }
    ],
-   "n_rule_issues": 0,
+   "n_rule_issues": 1,
    "n_dropped": 0,
    "dropped": [],
-   "draft": "Dear Member 093,\n\nYour claim VAL-093 for IDR 310,182 cannot be paid as submitted. The receipt total is IDR 172,000, which is IDR 138,182 less than the amount claimed.\n\nThe claim lists 2 x PAKET BER4, but the receipt shows only 1 x PAKET BER4 (IDR 138,182). To proceed, please submit a claim that matches the receipt, or send a corrected receipt showing two items if you bought two.\n\nKind regards,\nClub Treasurer",
-   "cost_usd": 0.003171,
-   "seconds": 16.92,
+   "draft": "Hello Member 093,\n\nClaim VAL-093 cannot be paid as submitted. You claimed IDR 310,182, but the receipt total is IDR 172,000, which is IDR 138,182 less than the amount claimed.\n\n- Quantity: you claimed 2 x 'PAKET BER4', but the receipt shows 1 x PAKET BER4 at IDR 138,182.\n- Price: the PAKET BER4 line is IDR 138,182 for one unit, above the agreed maximum of IDR 30,500 for 'paket happy hour'. We also need to confirm that PAKET BER4 is the same item as 'paket happy hour'.\n\nTo resubmit, please correct the claimed amount to match the receipt total and provide a receipt or explanation that supports the item and price.\n\nFinance",
+   "cost_usd": 0.00203,
+   "seconds": 8.39,
    "cached": false
   },
   {
@@ -4666,7 +4794,7 @@
      "clause_id": null,
      "price_item": null,
      "receipt_line": null,
-     "message": "Line items sum to 69000, but subtotal is 0 and total is 80100",
+     "message": "The items as read add up to IDR 69,000, but the receipt shows a subtotal of IDR 0 and a total of IDR 80,100. A line may have been misread, so a person should check the receipt",
      "evidence": {
       "line_sum": 69000,
       "subtotal": 0,
@@ -4680,7 +4808,7 @@
      "clause_id": null,
      "price_item": null,
      "receipt_line": null,
-     "message": "0 + tax 0 + service 7280 - discount 3795 = 3485, but total shows 80100",
+     "message": "subtotal IDR 0 plus service IDR 7,280 minus discount IDR 3,795 comes to IDR 3,485, but the receipt total shows IDR 80,100",
      "evidence": {
       "subtotal": 0,
       "tax": null,
@@ -4708,9 +4836,9 @@
    "n_rule_issues": 0,
    "n_dropped": 0,
    "dropped": [],
-   "draft": "Hello Member 094,\n\nYour expense claim VAL-094 for IDR 80,100 is on hold while we check it. Please review the points below.\n\n- The receipt totals do not agree. The line items add up to 69,000, the subtotal shows 0, and the total shows 80,100. Tax 0, service 7,280 and discount 3,795 give 3,485, not 80,100.\n- Your claim lines add up to 69,000, but the claimed amount is 80,100. The receipt's tax and service (3,485) do not explain the difference.\n\nTo release the claim, please send a corrected or complete receipt, or a short note explaining the difference between the lines and the amount claimed. We will review it again once we have that.\n\nKind regards,\nClub Treasurer",
-   "cost_usd": 0.002394,
-   "seconds": 12.86,
+   "draft": "Hello Member 094,\n\nClaim VAL-094 for IDR 80,100 is on hold while a person checks the receipt.\n\n- The items on the receipt add up to IDR 69,000, but the receipt shows a subtotal of IDR 0 and a total of IDR 80,100. A line may have been misread.\n- The subtotal of IDR 0 plus service of IDR 7,280 minus discount of IDR 3,795 comes to IDR 3,485, not the IDR 80,100 shown as the total.\n- The claim lines sum to IDR 69,000, but the claimed amount is IDR 80,100. The tax and service of IDR 3,485 do not explain the IDR 11,100 gap.\n\nTo help us resolve this, please send a clear copy or photo of the full receipt, and confirm the amount you expect to claim. We will review it once we have these.\n\nFinance",
+   "cost_usd": 0.001374,
+   "seconds": 5.43,
    "cached": false
   },
   {
@@ -4745,7 +4873,7 @@
      "clause_id": null,
      "price_item": null,
      "receipt_line": null,
-     "message": "Claimed 35000 but the receipt total is 30000",
+     "message": "Claimed IDR 35,000, but the receipt total is IDR 30,000 (IDR 5,000 more)",
      "evidence": {
       "claimed": 35000,
       "receipt_total": 30000,
@@ -4759,9 +4887,8 @@
      "clause_id": "C4",
      "price_item": null,
      "receipt_line": "CLAIM_AMOUNT",
-     "message": "The claim is for IDR 35,000 but the receipt total is IDR 30,000. Under C4 a claim for more than the receipt total is rejected, so the claim should be reduced to IDR 30,000 or less.",
+     "message": "The claim is for IDR 35,000 but the receipt total is IDR 30,000. Under C4 a claim for more than the receipt total is rejected, so the claim should be reduced to at most IDR 30,000.",
      "evidence": {
-      "votes": "3/3",
       "clause_text": "C4. Claimed amount must match the receipt: The amount claimed must equal the total printed on the receipt. A claim for more than the receipt total is rejected. A claim for less than the receipt total is acceptable (the claimant may choose not to claim some items)."
      }
     }
@@ -4769,9 +4896,9 @@
    "n_rule_issues": 1,
    "n_dropped": 0,
    "dropped": [],
-   "draft": "Dear Member 095,\n\nYour claim VAL-095 for IDR 35,000 cannot be paid as submitted. The receipt total is IDR 30,000, which is IDR 5,000 less than the amount claimed. Under clause C4, a claim for more than the receipt total is rejected.\n\nTo have this claim paid, please resubmit it for IDR 30,000 or less, matching the receipt total. A claim for less than the receipt total is also acceptable.\n\nKind regards,\nClub Treasurer",
-   "cost_usd": 0.002526,
-   "seconds": 13.22,
+   "draft": "Hello Member 095,\n\nYour claim VAL-095 cannot be paid as submitted. You claimed IDR 35,000, but the receipt total is IDR 30,000, which is IDR 5,000 more than the receipt. Under clause C4, a claim for more than the receipt total is rejected.\n\nTo fix this, please resubmit the claim for no more than IDR 30,000, the amount on your receipt.\n\nFinance",
+   "cost_usd": 0.001291,
+   "seconds": 6.12,
    "cached": false
   },
   {
@@ -4799,9 +4926,9 @@
    "n_rule_issues": 0,
    "n_dropped": 0,
    "dropped": [],
-   "draft": "Hello Member 096,\n\nYour expense claim VAL-096 for IDR 12,750 has been approved and will be paid. The claimed amount matches the receipt total.\n\nThank you for submitting your claim.\n\nBest regards,\nClub Treasurer",
-   "cost_usd": 0.001935,
-   "seconds": 6.91,
+   "draft": "Hello Member 096,\n\nClaim VAL-096 for IDR 12,750 has been approved and will be paid. The claimed amount matches the receipt total.\n\nThank you,\nFinance",
+   "cost_usd": 0.001193,
+   "seconds": 3.92,
    "cached": false
   },
   {
@@ -4825,9 +4952,9 @@
    "n_rule_issues": 0,
    "n_dropped": 0,
    "dropped": [],
-   "draft": "Hello Member 097,\n\nYour expense claim VAL-097 for IDR 25,000 has been approved and will be paid. The amount you claimed matches the receipt total of IDR 25,000, and we found no issues with the claim.\n\nThank you for submitting it.\n\nKind regards,\nClub Treasurer",
-   "cost_usd": 0.001402,
-   "seconds": 5.08,
+   "draft": "Hello Member 097,\n\nYour expense claim VAL-097 for IDR 25,000 has been approved and will be paid.\n\nYour claimed amount matches the receipt total, and no issues were found.\n\nFinance",
+   "cost_usd": 0.000835,
+   "seconds": 4.33,
    "cached": false
   },
   {
@@ -4860,7 +4987,7 @@
      "clause_id": null,
      "price_item": null,
      "receipt_line": null,
-     "message": "Claimed 108000 but the receipt total is 100000",
+     "message": "Claimed IDR 108,000, but the receipt total is IDR 100,000 (IDR 8,000 more)",
      "evidence": {
       "claimed": 108000,
       "receipt_total": 100000,
@@ -4888,9 +5015,8 @@
      "clause_id": "C4",
      "price_item": null,
      "receipt_line": "CLAIM_AMOUNT",
-     "message": "The claim of IDR 108,000 is more than the receipt total of IDR 100,000, so under C4 the claim is rejected for the excess. Resubmit at no more than IDR 100,000 or remove the unsupported PAJON item.",
+     "message": "The claim of IDR 108,000 is more than the IDR 100,000 receipt total, and C4 says such a claim is rejected. Reduce the claim to IDR 100,000 or less, or drop the PAJON item.",
      "evidence": {
-      "votes": "2/3",
       "clause_text": "C4. Claimed amount must match the receipt: The amount claimed must equal the total printed on the receipt. A claim for more than the receipt total is rejected. A claim for less than the receipt total is acceptable (the claimant may choose not to claim some items)."
      }
     }
@@ -4898,9 +5024,9 @@
    "n_rule_issues": 1,
    "n_dropped": 0,
    "dropped": [],
-   "draft": "Dear Member 098,\n\nYour claim VAL-098 cannot be paid as submitted.\n\n- You claimed IDR 108,000, but the receipt total is IDR 100,000, a difference of IDR 8,000. Under clause C4, a claim for more than the receipt total is rejected.\n- The item \"PAJON\" is claimed but does not appear on the receipt. The closest line is \"Hulk Topper Package.\"\n\nTo fix this, you can either resubmit the claim for no more than IDR 100,000, or remove the PAJON item and resubmit with a claim that matches the receipt. Please reply if you have questions.\n\nKind regards,\nClub Treasurer",
-   "cost_usd": 0.002339,
-   "seconds": 15.15,
+   "draft": "Hello,\n\nYour claim VAL-098 for IDR 108,000 cannot be paid as submitted. It is rejected.\n\n- The claimed amount is IDR 108,000, but the receipt total is IDR 100,000, which is IDR 8,000 more. Under clause C4, a claim for more than the receipt total is rejected.\n- \"PAJON\" is claimed, but no line on the receipt matches it. The closest line is \"Hulk Topper Package\".\n\nTo fix this, reduce the claim to IDR 100,000 or less, or remove the PAJON item, and resubmit.\n\nFinance",
+   "cost_usd": 0.001195,
+   "seconds": 6.26,
    "cached": false
   },
   {
@@ -4924,9 +5050,9 @@
    "n_rule_issues": 0,
    "n_dropped": 0,
    "dropped": [],
-   "draft": "Hello Member 099,\n\nYour expense claim VAL-099 for IDR 39,000 has been approved and will be paid. The amount you claimed matches the receipt total, and we found no issues with it.\n\nThank you for submitting it.\n\nBest regards,\nClub Treasurer",
-   "cost_usd": 0.002079,
-   "seconds": 9.51,
+   "draft": "Hello Member 099,\n\nYour expense claim VAL-099 for IDR 39,000 has been approved and will be paid.\n\nRegards,\nFinance",
+   "cost_usd": 0.00128,
+   "seconds": 5.28,
    "cached": false
   }
  ]

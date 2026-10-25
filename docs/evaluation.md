@@ -153,6 +153,19 @@ Twenty-four of my own receipts from 2025 and 2026: bakeries, cafés, Korean and 
 
 Two different weaknesses. Haiku lists every zero-price topping on the salad-bar receipts ("1.00 X Guacamole", no price) as an item, which drags its precision to 0.66 while it still reads 23 of 24 totals. Opus leaves the toppings out, but on the three pharmacy receipts, which print SUBTOTAL and a card line and no word TOTAL, it declines to name a total at all. Both read the currency, the GST and the service charge correctly every time. The arithmetic check fired on six receipts, all for the same reason: a percentage discount applied per line on clinic invoices (qty × unit cost ≠ the discounted line), which the extraction schema has no field for yet. Nothing was changed after seeing these results.
 
+### The two-approver rule moved into code (after the test run)
+
+Policy C7 (two approvers above IDR 500,000 / SGD 500) is a mandatory control, and on the test split the rule-check model raised it on 1 of 3 claims. It is now a deterministic check in `maths.check_claim`, with a unit test, so a claim above the threshold is always held for a second approver. Measured by re-running the 100 validation claims with the current code (`results/checks_validation_claude-haiku-5-5.json`, model calls cached):
+
+| validation, 100 claims | before | after |
+|---|---|---|
+| claims above the threshold caught | 1 / 2 | 2 / 2 |
+| planted errors caught | 49 / 50 | 49 / 50 |
+| decision accuracy | 91% | 90% |
+| clean claims flagged | 8 / 43 | 9 / 43 |
+
+Both above-threshold claims were already held for other reasons, so the rule changed no decision here; it changes the guarantee. The one-point moves in accuracy and false alarms are not from C7: the "before" file was the 3-vote run, and the differences come from the deterministic personal-items screen (one clean claim now held for a medicine) and one price-list flag from model variance. The test split was not re-run; its numbers above describe the code before this change.
+
 ### Regression gate
 
 `eval/compare.py` lines up two runs claim by claim, lists every decision that changed (FIXED / BROKE / moved), prints the headline metrics side by side and exits non-zero if recall or decision accuracy fell or false alarms rose. The run-1 vs run-2 table above comes from it. The two models read receipts equally well; Haiku costs 30× less. The human-scoring sheet for 10 drafts is in `results/human_scoring_sheet_test.md`; agreement with the judge is reported once it is filled in.
@@ -186,6 +199,6 @@ Done since the first test run: the name-similarity guard, space-insensitive matc
 
 1. **A reviewer pilot.** Time to a correct decision with and without the checker, unnecessary reviews, and the reasons for overrides. Benchmarks say the checks are right; only a pilot says they save anyone time.
 2. Route receipts Haiku marks "partly unclear" to Opus and measure the trade-off.
-3. Move the two-approver threshold (C7) into a deterministic check; the rule check raised it on only 1 of 3 claims.
+3. Done since this list was written: the two-approver threshold (C7) is now a deterministic check (see above).
 4. A per-line discount field in the extraction schema, so percentage discounts on invoices stop tripping the arithmetic check; and a rule for receipts that print only a subtotal and a payment line. Priced add-ons listed both inside a dish line and as their own line (seen on two Singapore restaurant receipts) double-count the same way.
 5. Date checking once a receipt source with dates is available.

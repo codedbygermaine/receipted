@@ -75,7 +75,9 @@ export function groupIssues(issues: Issue[]): IssueGroup[] {
   const out: IssueGroup[] = []
   const byLine = new Map<string, IssueGroup>()
   for (const i of issues) {
-    const key = normLine(i.receipt_line)
+    // Merge on the receipt line; issues about the whole claim (no line) merge on the clause they cite instead,
+    // so the code's "claimed more than the receipt" and the model's C4 finding are one card.
+    const key = normLine(i.receipt_line) || (i.clause_id ? `clause:${i.clause_id}` : "")
     if (!key) { out.push({ issue: i, also: [] }); continue }
     const g = byLine.get(key)
     if (!g) { const ng = { issue: i, also: [] }; byLine.set(key, ng); out.push(ng); continue }

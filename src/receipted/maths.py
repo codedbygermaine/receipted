@@ -167,11 +167,11 @@ def check_claim(claim: dict, receipt: dict) -> list[dict]:
     amount = claim.get("amount")
     if amount is not None and receipt_total is not None and not close(amount, receipt_total, tol):
         if amount > receipt_total:
-            issues.append(issue("claim_exceeds_receipt", "high",
-                                f"Claimed {_amt(amount, receipt)}, but the receipt total is {_amt(receipt_total, receipt)} "
-                                f"({_amt(amount - receipt_total, receipt)} more)",
+            issues.append({**issue("claim_exceeds_receipt", "high",
+                                   f"Claimed {_amt(amount, receipt)}, but the receipt total is {_amt(receipt_total, receipt)} "
+                                   f"({_amt(amount - receipt_total, receipt)} more)",
                                 {"claimed": amount, "receipt_total": receipt_total,
-                                 "difference": amount - receipt_total}))
+                                 "difference": amount - receipt_total}), "clause_id": "C4"})
         else:
             issues.append(issue("claim_below_receipt", "low",
                                 f"Claimed {_amt(amount, receipt)}, less than the receipt total of {_amt(receipt_total, receipt)}",
