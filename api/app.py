@@ -214,6 +214,7 @@ async def check(image: UploadFile = File(...), claim: str = Form(...), model: st
     if len(data) > 8_000_000:
         raise HTTPException(status_code=413, detail="image larger than 8 MB")
     _count_usage(tier)
+    email = (claim_obj.pop("email", "") or "").strip()   # never enters results, audit or the inbox
 
     if not ASYNC:
         return run_check(data, suffix, claim_obj, model, tier)
@@ -223,7 +224,7 @@ async def check(image: UploadFile = File(...), claim: str = Form(...), model: st
     s3 = boto3.client("s3")
     s3.put_object(Bucket=BUCKET, Key=f"jobs/{job_id}/input{suffix}", Body=data)
     s3.put_object(Bucket=BUCKET, Key=f"jobs/{job_id}/claim.json",
-                  Body=json.dumps({"claim": claim_obj, "model": model, "suffix": suffix, "tier": tier}).encode())
+                  Body=json.dumps({"claim": claim_obj, "model": model, "suffix": suffix, "tier": tier, "email": email}).encode())
     boto3.client("lambda").invoke(FunctionName=FUNCTION_NAME, InvocationType="Event",
                                   Payload=json.dumps({"receipted_job": job_id}).encode())
     return JSONResponse(status_code=202, content={"job_id": job_id, "status": "queued",
@@ -303,7 +304,19 @@ def ask_claimant(job_id: str, body: Question, x_api_token: str = Header(default=
     r.setdefault("thread", []).append({"role": "approver", "name": body.reviewer, "text": body.question.strip(),
                                        "at": dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds")})
     s3.put_object(Bucket=BUCKET, Key=f"jobs/{job_id}/result.json", Body=json.dumps(r).encode())
+    _notify(s3, job_id, f"A question about your claim {r['claim_id']}",
+            f"Hello {r.get('submitter', '')},\n\n{body.reviewer} has a question about your claim:\n\n{body.question.strip()}\n\nAnswer here: {claim_link(job_id)}\n\nRegards,\nFinance")
     return r
+
+
+def _notify(s3, job_id: str, subject: str, body: str) -> None:
+    """Email the claimant if they gave an address when submitting. The address lives only in the job metadata."""
+    try:
+        meta = json.loads(s3.get_object(Bucket=BUCKET, Key=f"jobs/{job_id}/claim.json")["Body"].read())
+    except Exception:  # noqa: BLE001
+        return
+    if meta.get("email"):
+        send_email(meta["email"], subject, body)
 
 
 @app.post("/jobs/{job_id}/answer")
@@ -395,6 +408,7 @@ def decide_job(job_id: str, body: Decision, x_api_token: str = Header(default=""
               "human": {"decision": body.decision, "note": body.note, "reviewer": body.reviewer,
                         "at": dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds")}})
     s3.put_object(Bucket=BUCKET, Key=f"jobs/{job_id}/result.json", Body=json.dumps(r).encode())
+    _notify(s3, job_id, f"Your claim {r['claim_id']}: {'approved' if body.decision == 'approve' else 'not approved'}", f"{draft}\n\nYour claim: {claim_link(job_id)}")
     return r
 
 
@@ -407,6 +421,10 @@ def run_job(job_id: str) -> None:
     try:
         result = run_check(data, meta["suffix"], meta["claim"], meta["model"], meta.get("tier", "full"))
         result["image_key"] = f"jobs/{job_id}/input{meta['suffix']}"
+        if meta.get("email"):
+            label = {"approve": "approved", "needs_review": "awaiting approval", "reject": "not approved"}[result["decision"]]
+            result["emailed"] = send_email(meta["email"], f"Your claim {result['claim_id']}: {label}",
+                                           f"{result['draft']}\n\nYour claim: {claim_link(job_id)}")
         s3.put_object(Bucket=BUCKET, Key=f"jobs/{job_id}/result.json", Body=json.dumps(result).encode())
     except Exception as e:
         s3.put_object(Bucket=BUCKET, Key=f"jobs/{job_id}/error.json",
