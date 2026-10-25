@@ -4,7 +4,7 @@ An AI expense reviewer that shows its working. It checks an expense claim agains
 
 **Try it:** https://codedbygermaine.github.io/receipted/ · **Case study:** [docs/case-study.md](docs/case-study.md) · **Stack:** Python, Claude API (Haiku 5.5 / Opus 5.5), LangGraph, Chroma, FastAPI on AWS Lambda, React + shadcn/ui (Streamlit for the first demo, kept in `app/`), pytest, GitHub Actions
 
-![Receipted demo](docs/demo_screenshot.jpg)
+![Receipted demo](docs/demo_claim_page.jpg)
 
 ## At a glance
 
