@@ -49,7 +49,7 @@ python3 -m venv .venv && .venv/bin/pip install -r requirements.txt && .venv/bin/
 cp .env.example .env                                  # put your ANTHROPIC_API_KEY in .env
 .venv/bin/python data/prepare.py                      # downloads CORD v2 (~2 GB)
 .venv/bin/python -m receipted.run --sample SAMPLE-002 # one claim, end to end
-.venv/bin/pytest                                      # 86 tests
+.venv/bin/pytest                                      # 87 tests
 ```
 
 To reproduce the evaluation, run the scripts in `eval/` in the order listed in [docs/evaluation.md](docs/evaluation.md); each prints a cost estimate first, and every model response is cached so re-runs are free. The web demo (`web/`), the HTTP API on AWS Lambda (`api/`) and the MCP server for Claude Desktop are described in [docs/integrations.md](docs/integrations.md).

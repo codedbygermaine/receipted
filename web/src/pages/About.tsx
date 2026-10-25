@@ -36,6 +36,7 @@ export default function About() {
 
       <h2 className="mt-10 text-base font-semibold">Reviewing a claim</h2>
       <p className="mt-2 text-sm text-foreground/70">Claims marked “Needs review” appear in the approvals inbox. The approver sees the receipt, the flagged items and the reasons for flagging them, then approves or rejects the claim, or asks the claimant a question.</p>
+      <p className="mt-2 text-sm text-foreground/70">If you give an email address with your claim, you are emailed when it has been checked, when a question is asked and when it is decided, each with a link back to the claim.</p>
 
       <h2 className="mt-10 text-base font-semibold">Rules used in this demo</h2>
       <ul className="mt-3 grid gap-1.5 text-sm text-foreground/80">{RULES.map(([id, r]) => <li key={id} className="flex gap-3"><span className="w-8 shrink-0 tabular-nums text-foreground/60">{id}</span><span>{r}</span></li>)}</ul>

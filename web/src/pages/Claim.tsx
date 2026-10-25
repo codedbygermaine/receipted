@@ -124,7 +124,7 @@ export default function Claim() {
           <Input ref={whoInput} id="who" value={who} onChange={e => setWho(e.target.value)} />
         </div>
         <div className="grid gap-2">
-          <Label htmlFor="email">Email <span className="font-normal text-foreground/60">(to hear back)</span></Label>
+          <Label htmlFor="email">Email <span className="font-normal text-foreground/60">(optional, to hear back)</span></Label>
           <Input id="email" type="email" inputMode="email" autoComplete="email" value={email} onChange={e => setEmail(e.target.value)} />
         </div>
         <div className="grid gap-2">

@@ -56,7 +56,8 @@ export default function Verdict() {
         Claimed {money(r.claimed_amount, r.currency)}{r.purpose ? ` for ${r.purpose}` : ""}.
       </p>
 
-      {r.emailed && !r.human && <p className="mt-2 text-sm text-foreground/60">Questions and the decision will be emailed to you.</p>}
+      {r.emailed === true && !r.human && <p className="mt-2 text-sm text-foreground/60">Questions and the decision will be emailed to you.</p>}
+      {r.emailed === false && <p className="mt-2 text-sm text-foreground/60">Email to that address isn’t possible yet, so keep this link to come back to your claim.</p>}
       {r.thread && r.thread.length > 0 && (
         <div className="mt-6 divide-y border-y text-sm">
           {r.thread.map((m, i) => <div key={i} className="py-2.5"><span className="text-foreground/60">{m.role === "approver" ? `${m.name} asks` : "You answered"}</span><div className="mt-0.5">{m.text}</div></div>)}
