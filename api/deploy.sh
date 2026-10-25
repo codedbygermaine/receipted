@@ -41,11 +41,12 @@ aws s3api put-bucket-lifecycle-configuration --bucket "$BUCKET" --lifecycle-conf
   '{"Rules":[{"ID":"expire-jobs","Status":"Enabled","Filter":{"Prefix":"jobs/"},"Expiration":{"Days":7}}]}'
 aws iam put-role-policy --role-name "$ROLE_NAME" --policy-name "$NAME-jobs" --policy-document "{
   \"Version\":\"2012-10-17\",\"Statement\":[
+   {\"Effect\":\"Allow\",\"Action\":[\"ses:SendEmail\",\"ses:SendRawEmail\"],\"Resource\":\"*\"},
    {\"Effect\":\"Allow\",\"Action\":[\"s3:GetObject\",\"s3:PutObject\"],\"Resource\":[\"arn:aws:s3:::$BUCKET/jobs/*\",\"arn:aws:s3:::$BUCKET/usage/*\"]},
    {\"Effect\":\"Allow\",\"Action\":\"s3:ListBucket\",\"Resource\":\"arn:aws:s3:::$BUCKET\"},
    {\"Effect\":\"Allow\",\"Action\":\"lambda:InvokeFunction\",\"Resource\":\"arn:aws:lambda:$REGION:$ACCOUNT:function:$NAME\"}]}"
 
-ENV="Variables={ANTHROPIC_API_KEY=$ANTHROPIC_API_KEY,RECEIPTED_API_TOKEN=$RECEIPTED_API_TOKEN,RECEIPTED_DATA_DIR=/tmp/receipted,RECEIPTED_CHROMA_EPHEMERAL=1,RECEIPTED_BAKED_HOME=/var/task/home,RECEIPTED_ASYNC=1,RECEIPTED_BUCKET=$BUCKET,RECEIPTED_DEMO_TOKEN=${RECEIPTED_DEMO_TOKEN:-},RECEIPTED_DEMO_DAILY_CAP=40}"
+ENV="Variables={ANTHROPIC_API_KEY=$ANTHROPIC_API_KEY,RECEIPTED_API_TOKEN=$RECEIPTED_API_TOKEN,RECEIPTED_DATA_DIR=/tmp/receipted,RECEIPTED_BAKED_HOME=/var/task/home,RECEIPTED_ASYNC=1,RECEIPTED_BUCKET=$BUCKET,RECEIPTED_DEMO_TOKEN=${RECEIPTED_DEMO_TOKEN:-},RECEIPTED_DEMO_DAILY_CAP=40,RECEIPTED_EMAIL_FROM=${RECEIPTED_EMAIL_FROM:-},RECEIPTED_WEB_URL=https://codedbygermaine.github.io/receipted/}"
 if aws lambda get-function --function-name "$NAME" --region "$REGION" >/dev/null 2>&1; then
   aws lambda update-function-code --function-name "$NAME" --image-uri "$REPO:latest" --region "$REGION" >/dev/null
   aws lambda wait function-updated --function-name "$NAME" --region "$REGION"

@@ -65,6 +65,27 @@ DAILY_CAP = int(os.environ.get("RECEIPTED_DAILY_CAP", "100"))
 DEMO_DAILY_CAP = int(os.environ.get("RECEIPTED_DEMO_DAILY_CAP", "40"))
 ASYNC = os.environ.get("RECEIPTED_ASYNC") == "1"
 BUCKET = os.environ.get("RECEIPTED_BUCKET", "")
+EMAIL_FROM = os.environ.get("RECEIPTED_EMAIL_FROM", "")        # SES-verified sender; empty disables email
+WEB_URL = os.environ.get("RECEIPTED_WEB_URL", "https://codedbygermaine.github.io/receipted/")
+
+
+def send_email(to: str, subject: str, body: str) -> bool:
+    """Transactional mail through SES. Never raises: a mail failure must not fail the claim. Returns success."""
+    if not (EMAIL_FROM and to):
+        return False
+    try:
+        import boto3
+        boto3.client("sesv2").send_email(
+            FromEmailAddress=f"Receipted <{EMAIL_FROM}>", Destination={"ToAddresses": [to]},
+            Content={"Simple": {"Subject": {"Data": subject}, "Body": {"Text": {"Data": body}}}})
+        return True
+    except Exception as e:  # noqa: BLE001
+        print(f"email to {to[:3]}… failed: {type(e).__name__}: {str(e)[:200]}")
+        return False
+
+
+def claim_link(job_id: str) -> str:
+    return f"{WEB_URL}#/claim/{job_id}"
 FUNCTION_NAME = os.environ.get("AWS_LAMBDA_FUNCTION_NAME", "")
 USAGE_FILE = llm.DATA_DIR / "api_usage.json"   # per container; the S3-backed count below is what the demo cap uses
 

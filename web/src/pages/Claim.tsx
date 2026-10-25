@@ -18,6 +18,7 @@ export default function Claim() {
   const [purpose, setPurpose] = useState("")
   const [amount, setAmount] = useState("")
   const [who, setWho] = useState("")
+  const [email, setEmail] = useState("")
   const [people, setPeople] = useState("")
   const [busy, setBusy] = useState(false)
   const [elapsed, setElapsed] = useState(0)
@@ -48,7 +49,7 @@ export default function Claim() {
     if (!(Number(amount) > 0)) { amountInput.current?.focus(); return }
     if (!who.trim()) { whoInput.current?.focus(); toast("Add your name so the reply can be addressed to you."); return }
     const claim: ClaimInput = {
-      submitter: who.trim(), purpose: people.trim() ? `${purpose.trim()}, ${people.trim()} people` : purpose.trim(), amount: Number(amount),
+      submitter: who.trim(), email: email.trim() || undefined, purpose: people.trim() ? `${purpose.trim()}, ${people.trim()} people` : purpose.trim(), amount: Number(amount),
       items: sample ? sample.claim.items : [],   // the sample claims carry their items so the quantity checks have something to check
     }
     setBusy(true); setElapsed(0)
@@ -121,6 +122,10 @@ export default function Claim() {
         <div className="grid gap-2">
           <Label htmlFor="who">Your name</Label>
           <Input ref={whoInput} id="who" value={who} onChange={e => setWho(e.target.value)} />
+        </div>
+        <div className="grid gap-2">
+          <Label htmlFor="email">Email <span className="font-normal text-foreground/60">(to hear back)</span></Label>
+          <Input id="email" type="email" inputMode="email" autoComplete="email" value={email} onChange={e => setEmail(e.target.value)} />
         </div>
         <div className="grid gap-2">
           <Label htmlFor="people">People <span className="font-normal text-foreground/60">(for meals)</span></Label>

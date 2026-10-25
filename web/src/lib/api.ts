@@ -8,6 +8,7 @@ export type Result = {
   decision: Decision; decision_reason: string; currency: string | null; receipt_total: number | null; readability: string | null
   items: Item[]; verified_issues: Issue[]; dropped_by_verifier: number; draft: string
   total_cost_usd: number; total_seconds: number; model: string
+  emailed?: boolean
   trace?: { node: string; seconds: number; cached: boolean | null }[]
   human?: { decision: Decision; note: string; reviewer: string; at?: string } | null
   thread?: { role: "approver" | "claimant"; name: string; text: string; at: string }[]
@@ -15,7 +16,7 @@ export type Result = {
 /** Whose turn it is on a held claim: the approver asked and the claimant hasn't answered yet. */
 export const waitingForClaimant = (r: Result) => !!r.thread?.length && r.thread[r.thread.length - 1].role === "approver"
 export const hasAnswer = (r: Result) => !!r.thread?.length && r.thread[r.thread.length - 1].role === "claimant"
-export type ClaimInput = { submitter: string; purpose: string; amount: number; items: { name: string; qty: number; line_total: number | null }[] }
+export type ClaimInput = { submitter: string; purpose: string; amount: number; items: { name: string; qty: number; line_total: number | null }[]; email?: string }
 
 declare global { interface Window { RECEIPTED_CONFIG?: { apiBase: string; demoToken: string } } }
 const cfg = () => window.RECEIPTED_CONFIG ?? { apiBase: "", demoToken: "" }

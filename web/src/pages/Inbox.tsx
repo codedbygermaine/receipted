@@ -99,8 +99,6 @@ function Claim({ r: initial, onBack, onSettled }: { r: Result; onBack: () => voi
   const [question, setQuestion] = useState("")
   const [sending, setSending] = useState(false)
   const [note, setNote] = useState("")
-  const [who, setWho] = useState("Demo approver")
-  const [editWho, setEditWho] = useState(false)
   const [busy, setBusy] = useState<"approve" | "reject" | null>(null)
   const [confirmReject, setConfirmReject] = useState(false)
   useEffect(() => { getJobImage(r.job_id!).then(setImg).catch(() => {}) }, [r.job_id])
@@ -108,14 +106,14 @@ function Claim({ r: initial, onBack, onSettled }: { r: Result; onBack: () => voi
   async function sendQuestion() {
     if (!question.trim()) return
     setSending(true)
-    try { const res = await ask(r.job_id!, question.trim(), who.trim() || "Demo approver"); setR(res); setAsking(false); setQuestion(""); toast(`Sent. ${r.submitter} can answer from their claim page.`) }
+    try { const res = await ask(r.job_id!, question.trim(), "Finance"); setR(res); setAsking(false); setQuestion(""); toast(`Sent. ${r.submitter} can answer from their claim page.`) }
     catch (e) { console.error(e); toast("The question didn't send. Try again in a moment.") } finally { setSending(false) }
   }
 
   async function go(decision: "approve" | "reject") {
     setBusy(decision)
     try {
-      const res = await decide(r.job_id!, decision, note.trim(), who.trim() || "Demo approver")
+      const res = await decide(r.job_id!, decision, note.trim(), "Finance")
       toast(decision === "approve" ? `Approved. ${r.submitter} gets the reply.` : `Rejected. ${r.submitter} gets the reply.`, { action: { label: "Read it", onClick: () => nav(`/claim/${r.job_id}`) } })
       onSettled(r.job_id!, res)
     } catch (e) { console.error(e); toast.error("That didn't save. Try again in a moment."); setBusy(null) }
@@ -131,7 +129,7 @@ function Claim({ r: initial, onBack, onSettled }: { r: Result; onBack: () => voi
 
       {r.thread && r.thread.length > 0 && (
         <div className="mt-6 divide-y border-y text-sm">
-          {r.thread.map((m, i) => <div key={i} className="py-2.5"><span className="text-foreground/60">{m.role === "approver" ? `${m.name} asked` : `${m.name} answered`}, {ago(new Date(m.at))}</span><div className="mt-0.5">{m.text}</div></div>)}
+          {r.thread.map((m, i) => <div key={i} className="py-2.5"><span className="text-foreground/60">{m.role === "approver" ? "Finance asked" : `${m.name} answered`}, {ago(new Date(m.at))}</span><div className="mt-0.5">{m.text}</div></div>)}
         </div>
       )}
 
@@ -154,10 +152,6 @@ function Claim({ r: initial, onBack, onSettled }: { r: Result; onBack: () => voi
             : <Button size="lg" variant="ghost" disabled={!!busy} onClick={() => setConfirmReject(true)}>Reject</Button>}
           {!waitingForClaimant(r) && <Button size="lg" variant="ghost" disabled={!!busy} onClick={() => setAsking(true)}>Ask the claimant</Button>}
           </>}
-          <span className="ml-auto text-sm text-foreground/60">
-            {editWho ? <Input autoFocus value={who} onChange={e => setWho(e.target.value)} onBlur={() => setEditWho(false)} onKeyDown={e => e.key === "Enter" && setEditWho(false)} aria-label="Signed by" className="h-8 w-36" />
-              : <>Signed by <button type="button" onClick={() => setEditWho(true)} className="-my-1 py-1 underline decoration-dotted underline-offset-2 hover:text-foreground">{who}</button></>}
-          </span>
         </div>
       </div>
     </article>
