@@ -1,0 +1,54 @@
+{
+ "receipt": {
+  "items": [
+   {
+    "name": "Bibimbap",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 13.9,
+    "raw_line": "1 Bibimbap 13.90",
+    "confidence": "high"
+   },
+   {
+    "name": "Beef",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 0,
+    "raw_line": "1 X Beef 0.00",
+    "confidence": "high"
+   },
+   {
+    "name": "Spicy Chicken Bulgogi",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 12.5,
+    "raw_line": "1 Spicy Chicken Bulgogi 12.50",
+    "confidence": "high"
+   },
+   {
+    "name": "With Rice",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 0,
+    "raw_line": "1 X With Rice 0.00",
+    "confidence": "high"
+   }
+  ],
+  "subtotal": 26.4,
+  "tax": 2.61,
+  "service": 2.64,
+  "discount": null,
+  "total": 31.65,
+  "total_confidence": "high",
+  "currency": "SGD",
+  "readability": "clear"
+ },
+ "model": "claude-haiku-5-5",
+ "prompt_version": "v3",
+ "input_tokens": 2452,
+ "output_tokens": 857,
+ "latency_s": 4.64,
+ "cost_usd": 0.000674,
+ "attempts": 1,
+ "cached": false
+}

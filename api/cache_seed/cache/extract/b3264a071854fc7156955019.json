@@ -1,0 +1,46 @@
+{
+ "receipt": {
+  "items": [
+   {
+    "name": "EGGS BENEDICT",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 28,
+    "raw_line": "1 EGGS BENEDICT 28.00",
+    "confidence": "high"
+   },
+   {
+    "name": "BRUSSELS SALAD",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 27,
+    "raw_line": "1 BRUSSELS SALAD 27.00",
+    "confidence": "high"
+   },
+   {
+    "name": "SYMMETRY BREAKFAST",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 30,
+    "raw_line": "1 SYMMETRY BREAKFAST 30.00",
+    "confidence": "high"
+   }
+  ],
+  "subtotal": 85,
+  "tax": 8.42,
+  "service": 8.5,
+  "discount": null,
+  "total": 101.9,
+  "total_confidence": "high",
+  "currency": "SGD",
+  "readability": "clear"
+ },
+ "model": "claude-haiku-5-5",
+ "prompt_version": "v3",
+ "input_tokens": 4440,
+ "output_tokens": 292,
+ "latency_s": 2.39,
+ "cost_usd": 0.00059,
+ "attempts": 1,
+ "cached": false
+}

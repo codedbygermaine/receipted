@@ -15,6 +15,7 @@ RUN pip install --no-cache-dir -r /tmp/requirements.txt
 COPY src ./src
 COPY fixtures ./fixtures
 COPY api/app.py ./api/app.py
+COPY api/cache_seed ./cache_seed
 
 # Build the policy index into the image: a persistent Chroma store at /var/task/chroma_db (copied to /tmp at
 # runtime, since Chroma writes to its store) and the embedding model it downloads into $HOME/.cache.

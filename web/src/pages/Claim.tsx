@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { ApiError, submitClaim, waitForJob, warmUp, type ClaimInput } from "@/lib/api"
 import { SAMPLES, sampleImage, sampleThumb, type Sample } from "@/lib/samples"
-import { rememberResult, rememberForm, takeForm } from "@/pages/Verdict"
+import { rememberResult } from "@/pages/Verdict"
 import { Lightbox } from "@/components/ClaimReview"
 
 export default function Claim() {
@@ -28,11 +28,7 @@ export default function Claim() {
   const whoInput = useRef<HTMLInputElement>(null)
   const lightbox = useRef<HTMLDialogElement>(null)
 
-  useEffect(() => {
-    warmUp()   // the server loads its model while the visitor fills in the form
-    const f = takeForm()   // "Edit claim" from a verdict brings the previous entries back
-    if (f) { setSample(f.sample); setFile(f.file); setPreview(f.preview); setPurpose(f.purpose); setAmount(f.amount); setWho(f.who); setPeople(f.people) }
-  }, [])
+  useEffect(() => { warmUp() }, [])   // the server loads its model while the visitor fills in the form
 
   function pickSample(s: Sample) {
     setSample(s); setFile(null); setPreview(sampleImage(s)); setHovered(null)
@@ -55,7 +51,6 @@ export default function Claim() {
       submitter: who.trim(), purpose: people.trim() ? `${purpose.trim()}, ${people.trim()} people` : purpose.trim(), amount: Number(amount),
       items: sample ? sample.claim.items : [],   // the sample claims carry their items so the quantity checks have something to check
     }
-    rememberForm({ sample, file, preview, purpose, amount, who, people })
     setBusy(true); setElapsed(0)
     const timer = setInterval(() => setElapsed(e => e + 1), 1000)
     try {

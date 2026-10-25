@@ -1,0 +1,86 @@
+{
+ "receipt": {
+  "items": [
+   {
+    "name": "Kinoko Pasta (v)",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 18,
+    "raw_line": "Kinoko Pasta (v) × 1 S$18.00",
+    "confidence": "high"
+   },
+   {
+    "name": "Tamago Sando (v)",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 13,
+    "raw_line": "Tamago Sando (v) × 1 S$13.00",
+    "confidence": "high"
+   },
+   {
+    "name": "Truffle & Eggs Sando",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 18,
+    "raw_line": "Truffle & Eggs Sando × 1 S$18.00",
+    "confidence": "high"
+   },
+   {
+    "name": "(S) CBS (v)",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 9,
+    "raw_line": "(S) CBS (v) × 1 S$9.00",
+    "confidence": "high"
+   },
+   {
+    "name": "Matcha Cloud",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 5.5,
+    "raw_line": "Matcha Cloud × 1 S$5.50",
+    "confidence": "high"
+   },
+   {
+    "name": "Matcha Cloud",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 6.5,
+    "raw_line": "Matcha Cloud × 1 S$6.50",
+    "confidence": "high"
+   },
+   {
+    "name": "Iced Strawberry Matcha Latte",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 8,
+    "raw_line": "Iced Strawberry Matcha Latte × 1 S$8.00",
+    "confidence": "high"
+   },
+   {
+    "name": "Cheesecake Cube - Original",
+    "qty": 1,
+    "unit_price": null,
+    "line_total": 10,
+    "raw_line": "Cheesecake Cube - Original × 1 S$10.00",
+    "confidence": "high"
+   }
+  ],
+  "subtotal": 88,
+  "tax": 7.92,
+  "service": 8.8,
+  "discount": null,
+  "total": 104.72,
+  "total_confidence": "high",
+  "currency": "SGD",
+  "readability": "clear"
+ },
+ "model": "claude-haiku-5-5",
+ "prompt_version": "v3",
+ "input_tokens": 3264,
+ "output_tokens": 1520,
+ "latency_s": 7.88,
+ "cost_usd": 0.001086,
+ "attempts": 1,
+ "cached": false
+}

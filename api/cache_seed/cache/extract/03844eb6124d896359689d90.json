@@ -1,0 +1,30 @@
+{
+ "receipt": {
+  "items": [
+   {
+    "name": "BOOK.ACTIVITY.A5 JOURNAL.GLITZ",
+    "qty": 1,
+    "unit_price": 18,
+    "line_total": 18,
+    "raw_line": "BOOK.ACTIVITY.A5 JOURNAL.GLITZ 1 $18.00",
+    "confidence": "high"
+   }
+  ],
+  "subtotal": null,
+  "tax": 1.49,
+  "service": null,
+  "discount": null,
+  "total": 18,
+  "total_confidence": "high",
+  "currency": "SGD",
+  "readability": "clear"
+ },
+ "model": "claude-haiku-5-5",
+ "prompt_version": "v3",
+ "input_tokens": 2424,
+ "output_tokens": 591,
+ "latency_s": 3.0,
+ "cost_usd": 0.000538,
+ "attempts": 1,
+ "cached": false
+}

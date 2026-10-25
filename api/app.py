@@ -12,6 +12,7 @@ Every /check needs the token in X-Api-Token, and a daily cap stops a public URL 
 
 import base64
 import datetime as dt
+import hashlib
 import json
 import os
 import shutil
@@ -48,6 +49,12 @@ if BAKED_HOME and os.environ.get("RECEIPTED_DATA_DIR"):
     if baked_db.exists() and not runtime_db.exists():
         shutil.copytree(baked_db, runtime_db)
     os.environ.setdefault("RECEIPTED_CHROMA_PATH", str(runtime_db))
+    # One checked reading of each sample receipt is baked into the image (api/cache_seed). Without it every
+    # container reads the samples afresh and two visitors can get two different extractions of the same photo.
+    seed = Path(BAKED_HOME).parent / "cache_seed" / "cache"
+    runtime_cache = Path(os.environ["RECEIPTED_DATA_DIR"]) / "cache"
+    if seed.exists() and not (runtime_cache / "extract").exists():
+        shutil.copytree(seed, runtime_cache, dirs_exist_ok=True)
 
 from receipted import llm                     # noqa: E402
 from receipted.graph import run_claim         # noqa: E402
@@ -145,7 +152,9 @@ def run_check(image_bytes: bytes, suffix: str, claim_obj: dict, model: str, tier
             os.unlink(path)
         except OSError:
             pass
-    return _result_payload(state, claim_obj)
+    payload = _result_payload(state, claim_obj)
+    payload["image_sha"] = hashlib.sha256(image_bytes).hexdigest()   # lets the inbox collapse repeats of one receipt
+    return payload
 
 
 def _parse_claim(claim: str) -> dict:
@@ -266,7 +275,15 @@ def inbox(x_api_token: str = Header(default="")):
         token = page.get("NextContinuationToken")
     pending.sort(key=lambda r: r["submitted_at"], reverse=True)
     decided.sort(key=lambda r: r["submitted_at"], reverse=True)
-    return {"pending": pending[:50], "decided": decided[:100]}
+    # Everyone tries the same six sample receipts, so the queue shows the newest claim per receipt image.
+    seen, unique = set(), []
+    for r in pending:
+        key = r.get("image_sha") or (r.get("receipt_total"), r.get("currency"), tuple(i.get("name") for i in r.get("items", [])[:3]))
+        if key in seen:
+            continue
+        seen.add(key)
+        unique.append(r)
+    return {"pending": unique[:50], "decided": decided[:100]}
 
 
 @app.post("/jobs/{job_id}/decide")

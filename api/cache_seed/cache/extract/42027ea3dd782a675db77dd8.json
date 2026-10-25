@@ -1,0 +1,30 @@
+{
+ "receipt": {
+  "items": [
+   {
+    "name": "Denim Round Neck Shift Mini Dress-417",
+    "qty": 1,
+    "unit_price": 59,
+    "line_total": 59,
+    "raw_line": "1x 31K500757-417-S Denim Round Neck Shift Mini Dress-417 59.00",
+    "confidence": "medium"
+   }
+  ],
+  "subtotal": null,
+  "tax": 4.87,
+  "service": null,
+  "discount": null,
+  "total": 59,
+  "total_confidence": "high",
+  "currency": "SGD",
+  "readability": "clear"
+ },
+ "model": "claude-haiku-5-5",
+ "prompt_version": "v3",
+ "input_tokens": 2312,
+ "output_tokens": 695,
+ "latency_s": 4.6,
+ "cost_usd": 0.000579,
+ "attempts": 1,
+ "cached": false
+}
