@@ -72,12 +72,12 @@ export default function Verdict() {
 
       <div className="mt-8"><ClaimReview r={r} image={img} muted={!!r.human} /></div>
 
-      <details className="mt-8 text-sm">
-        <summary className="cursor-pointer py-1 text-foreground/60 hover:text-foreground">Claim message</summary>
+      {!(final === "approve" && !r.human) && <details className="mt-8 text-sm">
+        <summary className="cursor-pointer py-1 text-foreground/60 hover:text-foreground">{r.emailed === true ? "The email you were sent" : "Message"}</summary>
         <div className="relative mt-2 whitespace-pre-wrap rounded-md bg-muted/50 p-4 pr-20 leading-relaxed text-foreground/80">{r.draft}
           <Button variant="ghost" size="sm" className="absolute right-2 top-2" onClick={() => { navigator.clipboard.writeText(r.draft); toast("Copied") }}>Copy</Button>
         </div>
-      </details>
+      </details>}
       {held && <p className="mt-6 text-sm"><Link to={`/inbox?job=${r.job_id ?? ""}`} className="text-foreground/70 underline underline-offset-2 hover:text-foreground">Review this claim as the approver</Link></p>}
     </div>
   )

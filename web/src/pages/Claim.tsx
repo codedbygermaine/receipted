@@ -128,7 +128,7 @@ export default function Claim() {
           <Input id="email" type="email" inputMode="email" autoComplete="email" value={email} onChange={e => setEmail(e.target.value)} />
         </div>
         <div className="grid gap-2">
-          <Label htmlFor="people">Attendees</Label>
+          <Label htmlFor="people">Number of attendees</Label>
           <Input id="people" inputMode="numeric" value={people} onChange={e => setPeople(e.target.value.replace(/\D/g, ""))} placeholder="For meals, how many" className="w-48" />
         </div>
       </div>
