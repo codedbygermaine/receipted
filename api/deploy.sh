@@ -46,7 +46,7 @@ aws iam put-role-policy --role-name "$ROLE_NAME" --policy-name "$NAME-jobs" --po
    {\"Effect\":\"Allow\",\"Action\":\"s3:ListBucket\",\"Resource\":\"arn:aws:s3:::$BUCKET\"},
    {\"Effect\":\"Allow\",\"Action\":\"lambda:InvokeFunction\",\"Resource\":\"arn:aws:lambda:$REGION:$ACCOUNT:function:$NAME\"}]}"
 
-ENV="Variables={ANTHROPIC_API_KEY=$ANTHROPIC_API_KEY,RECEIPTED_API_TOKEN=$RECEIPTED_API_TOKEN,RECEIPTED_DATA_DIR=/tmp/receipted,RECEIPTED_BAKED_HOME=/var/task/home,RECEIPTED_ASYNC=1,RECEIPTED_BUCKET=$BUCKET,RECEIPTED_DEMO_TOKEN=${RECEIPTED_DEMO_TOKEN:-},RECEIPTED_DEMO_DAILY_CAP=40,RECEIPTED_EMAIL_FROM=${RECEIPTED_EMAIL_FROM:-},RECEIPTED_WEB_URL=https://codedbygermaine.github.io/receipted/}"
+ENV="Variables={ANTHROPIC_API_KEY=$ANTHROPIC_API_KEY,RECEIPTED_API_TOKEN=$RECEIPTED_API_TOKEN,RECEIPTED_DATA_DIR=/tmp/receipted,RECEIPTED_BAKED_HOME=/var/task/home,RECEIPTED_ASYNC=1,RECEIPTED_BUCKET=$BUCKET,RECEIPTED_DEMO_TOKEN=${RECEIPTED_DEMO_TOKEN:-},RECEIPTED_DEMO_DAILY_CAP=150,RECEIPTED_EMAIL_FROM=${RECEIPTED_EMAIL_FROM:-},RECEIPTED_WEB_URL=https://codedbygermaine.github.io/receipted/}"
 if aws lambda get-function --function-name "$NAME" --region "$REGION" >/dev/null 2>&1; then
   aws lambda update-function-code --function-name "$NAME" --image-uri "$REPO:latest" --region "$REGION" >/dev/null
   aws lambda wait function-updated --function-name "$NAME" --region "$REGION"
