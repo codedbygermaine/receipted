@@ -9,8 +9,12 @@ export type Result = {
   items: Item[]; verified_issues: Issue[]; dropped_by_verifier: number; draft: string
   total_cost_usd: number; total_seconds: number; model: string
   trace?: { node: string; seconds: number; cached: boolean | null }[]
-  human?: { decision: Decision; note: string; reviewer: string } | null
+  human?: { decision: Decision; note: string; reviewer: string; at?: string } | null
+  thread?: { role: "approver" | "claimant"; name: string; text: string; at: string }[]
 }
+/** Whose turn it is on a held claim: the approver asked and the claimant hasn't answered yet. */
+export const waitingForClaimant = (r: Result) => !!r.thread?.length && r.thread[r.thread.length - 1].role === "approver"
+export const hasAnswer = (r: Result) => !!r.thread?.length && r.thread[r.thread.length - 1].role === "claimant"
 export type ClaimInput = { submitter: string; purpose: string; amount: number; items: { name: string; qty: number; line_total: number | null }[] }
 
 declare global { interface Window { RECEIPTED_CONFIG?: { apiBase: string; demoToken: string } } }
@@ -56,5 +60,9 @@ export async function waitForJob(jobId: string, onTick?: (secs: number) => void)
 export const getJob = (jobId: string) => call<Result>(`/jobs/${jobId}`).then(r => (r.status === 200 ? { ...r.body, job_id: jobId } : null))
 export const getJobImage = (jobId: string) => call<{ data_url: string }>(`/jobs/${jobId}/image`).then(r => r.body.data_url)
 export const getInbox = () => call<{ pending: Result[]; decided: Result[] }>("/inbox").then(r => r.body)
+export const ask = (jobId: string, question: string, reviewer: string) =>
+  call<Result>(`/jobs/${jobId}/ask`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ question, reviewer }) }).then(r => ({ ...r.body, job_id: jobId }))
+export const answer = (jobId: string, text: string) =>
+  call<Result>(`/jobs/${jobId}/answer`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ answer: text }) }).then(r => ({ ...r.body, job_id: jobId }))
 export const decide = (jobId: string, decision: "approve" | "reject", note: string, reviewer: string) =>
   call<Result>(`/jobs/${jobId}/decide`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ decision, note, reviewer }) }).then(r => r.body)

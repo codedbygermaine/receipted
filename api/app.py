@@ -249,6 +249,64 @@ class Decision(BaseModel):
     reviewer: str = "Finance"
 
 
+class Question(BaseModel):
+    question: str
+    reviewer: str = "Finance"
+
+
+class Answer(BaseModel):
+    answer: str
+
+
+def _load_result(s3, job_id: str) -> dict:
+    try:
+        return json.loads(s3.get_object(Bucket=BUCKET, Key=f"jobs/{job_id}/result.json")["Body"].read())
+    except s3.exceptions.NoSuchKey:
+        raise HTTPException(status_code=404, detail="unknown job")
+
+
+@app.post("/jobs/{job_id}/ask")
+def ask_claimant(job_id: str, body: Question, x_api_token: str = Header(default="")):
+    """The third action besides approve and reject: the approver sends the claimant a question and the claim
+    stays open. Messages are kept as a thread on the result; the last message's author says whose turn it is."""
+    _auth(x_api_token)
+    if not body.question.strip():
+        raise HTTPException(status_code=400, detail="the question is empty")
+    if not ASYNC:
+        raise HTTPException(status_code=404, detail="reviews exist only in async mode")
+    import boto3
+    s3 = boto3.client("s3")
+    r = _load_result(s3, job_id)
+    if r.get("human"):
+        raise HTTPException(status_code=409, detail="already decided")
+    r.setdefault("thread", []).append({"role": "approver", "name": body.reviewer, "text": body.question.strip(),
+                                       "at": dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds")})
+    s3.put_object(Bucket=BUCKET, Key=f"jobs/{job_id}/result.json", Body=json.dumps(r).encode())
+    return r
+
+
+@app.post("/jobs/{job_id}/answer")
+def answer_question(job_id: str, body: Answer, x_api_token: str = Header(default="")):
+    """The claimant answers the approver's question; the claim goes back to the approver's queue."""
+    _auth(x_api_token)
+    if not body.answer.strip():
+        raise HTTPException(status_code=400, detail="the answer is empty")
+    if not ASYNC:
+        raise HTTPException(status_code=404, detail="reviews exist only in async mode")
+    import boto3
+    s3 = boto3.client("s3")
+    r = _load_result(s3, job_id)
+    if r.get("human"):
+        raise HTTPException(status_code=409, detail="already decided")
+    thread = r.setdefault("thread", [])
+    if not thread or thread[-1]["role"] != "approver":
+        raise HTTPException(status_code=409, detail="there is no open question to answer")
+    thread.append({"role": "claimant", "name": r.get("submitter", "claimant"), "text": body.answer.strip(),
+                   "at": dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds")})
+    s3.put_object(Bucket=BUCKET, Key=f"jobs/{job_id}/result.json", Body=json.dumps(r).encode())
+    return r
+
+
 @app.get("/inbox")
 def inbox(x_api_token: str = Header(default="")):
     """Claims waiting for an approver: job results whose decision is needs_review and that nobody has decided."""
@@ -307,6 +365,9 @@ def decide_job(job_id: str, body: Decision, x_api_token: str = Header(default=""
              "currency": r.get("currency")}
     receipt = {"total": r.get("receipt_total"), "currency": r.get("currency")}
     reason = f"reviewed by {body.reviewer}: {body.note}" if body.note else f"reviewed by {body.reviewer}"
+    answers = [m["text"] for m in r.get("thread", []) if m.get("role") == "claimant"]
+    if answers:
+        reason += f". The claimant explained: {answers[-1]}"
     issues = [{**i, "source": "rules" if i.get("clause_id") else "maths"} for i in r["verified_issues"]]
     draft, _ = write_draft(claim, receipt, body.decision, reason, issues)
     r.update({"decision": body.decision, "decision_reason": reason, "draft": draft,

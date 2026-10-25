@@ -8,6 +8,8 @@ The web demo at https://codedbygermaine.github.io/receipted/ is a small React ap
 
 ## HTTP API on AWS Lambda
 
+Besides `POST /check` and `GET /jobs/{id}`, the approval flow uses `GET /inbox` (held claims, newest per receipt image), `GET /jobs/{id}/image`, `POST /jobs/{id}/ask` (the approver's question, kept as a thread on the claim), `POST /jobs/{id}/answer` (the claimant's reply, which puts the claim back in the queue) and `POST /jobs/{id}/decide` (approve or reject, which rewrites the reply and includes the claimant's answer).
+
 The same checker as a web endpoint, for anything that can send an HTTP request (a club's web form, a spreadsheet macro, another service). `api/app.py` is a FastAPI app; on AWS it runs as a Lambda container image behind API Gateway in the Singapore region, pay-per-request. Live at `https://72dxv5aw0m.execute-api.ap-southeast-1.amazonaws.com` (health check is open; checks need the token). Every call needs the token in `X-Api-Token`, and a daily cap stops a public URL from running up the bill.
 
 ```bash

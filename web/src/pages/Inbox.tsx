@@ -4,7 +4,7 @@ import { ArrowLeft, Loader2 } from "lucide-react"
 import { toast } from "sonner"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { decide, getInbox, getJobImage, type Result } from "@/lib/api"
+import { ask, decide, getInbox, getJobImage, hasAnswer, waitingForClaimant, type Result } from "@/lib/api"
 import { ago, claimTime, groupIssues, issueTitle, money } from "@/lib/format"
 import { ClaimReview } from "@/components/ClaimReview"
 
@@ -58,7 +58,7 @@ export default function Inbox() {
                     className={`block w-full border-l-2 px-3 py-3 text-left transition-colors ${on ? "border-foreground bg-muted" : "border-transparent hover:bg-muted/50"}`}>
                     <div className="flex items-baseline justify-between gap-3"><span className="font-medium tabular-nums">{money(p.claimed_amount, p.currency)}</span><span className="shrink-0 text-xs text-foreground/60">{ago(claimTime(p.claim_id))}</span></div>
                     <div className="mt-0.5 truncate text-sm text-foreground/70">{p.submitter}{p.purpose ? `, ${p.purpose}` : ""}</div>
-                    <div className="mt-0.5 truncate text-sm text-foreground/60">{g.length ? g.slice(0, 2).map(x => issueTitle(x.issue)).join(", ") + (g.length > 2 ? ` and ${g.length - 2} more` : "") : "A line was hard to read"}</div>
+                    <div className="mt-0.5 truncate text-sm text-foreground/60">{waitingForClaimant(p) ? "Waiting for the claimant" : hasAnswer(p) ? "Answered" : g.length ? g.slice(0, 2).map(x => issueTitle(x.issue)).join(", ") + (g.length > 2 ? ` and ${g.length - 2} more` : "") : "A line was hard to read"}</div>
                   </button>
                 )
               })}
@@ -91,15 +91,26 @@ export default function Inbox() {
   )
 }
 
-function Claim({ r, onBack, onSettled }: { r: Result; onBack: () => void; onSettled: (jobId: string, res: Result) => void }) {
+function Claim({ r: initial, onBack, onSettled }: { r: Result; onBack: () => void; onSettled: (jobId: string, res: Result) => void }) {
   const nav = useNavigate()
+  const [r, setR] = useState(initial)
   const [img, setImg] = useState<string | null>(null)
+  const [asking, setAsking] = useState(false)
+  const [question, setQuestion] = useState("")
+  const [sending, setSending] = useState(false)
   const [note, setNote] = useState("")
   const [who, setWho] = useState("Demo approver")
   const [editWho, setEditWho] = useState(false)
   const [busy, setBusy] = useState<"approve" | "reject" | null>(null)
   const [confirmReject, setConfirmReject] = useState(false)
   useEffect(() => { getJobImage(r.job_id!).then(setImg).catch(() => {}) }, [r.job_id])
+
+  async function sendQuestion() {
+    if (!question.trim()) return
+    setSending(true)
+    try { const res = await ask(r.job_id!, question.trim(), who.trim() || "Demo approver"); setR(res); setAsking(false); setQuestion(""); toast(`Sent. ${r.submitter} can answer from their claim page.`) }
+    catch (e) { console.error(e); toast("The question didn't send. Try again in a moment.") } finally { setSending(false) }
+  }
 
   async function go(decision: "approve" | "reject") {
     setBusy(decision)
@@ -118,6 +129,12 @@ function Claim({ r, onBack, onSettled }: { r: Result; onBack: () => void; onSett
 
       <div className="mt-6"><ClaimReview r={r} image={img} /></div>
 
+      {r.thread && r.thread.length > 0 && (
+        <div className="mt-6 divide-y border-y text-sm">
+          {r.thread.map((m, i) => <div key={i} className="py-2.5"><span className="text-foreground/60">{m.role === "approver" ? `${m.name} asked` : `${m.name} answered`}, {ago(new Date(m.at))}</span><div className="mt-0.5">{m.text}</div></div>)}
+        </div>
+      )}
+
       <details className="mt-6 text-sm">
         <summary className="cursor-pointer py-1 text-foreground/60 hover:text-foreground">The message {r.submitter} has received</summary>
         <div className="mt-2 whitespace-pre-wrap rounded-md bg-muted/50 p-4 leading-relaxed text-foreground/80">{r.draft}</div>
@@ -126,10 +143,17 @@ function Claim({ r, onBack, onSettled }: { r: Result; onBack: () => void; onSett
       <div className="mt-8 border-t pt-6">
         <Input value={note} onChange={e => setNote(e.target.value)} placeholder="Add a note for the reply" aria-label="Note for the reply" />
         <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-2">
+          {asking ? (
+            <span className="flex flex-1 items-center gap-2"><Input autoFocus value={question} onChange={e => setQuestion(e.target.value)} placeholder="What do you need to know?" aria-label="Question for the claimant" onKeyDown={e => e.key === "Enter" && sendQuestion()} />
+              <Button size="lg" disabled={sending || !question.trim()} onClick={sendQuestion}>{sending ? <Loader2 className="size-4 animate-spin motion-reduce:animate-none" /> : null} Send</Button>
+              <Button size="lg" variant="ghost" onClick={() => setAsking(false)}>Cancel</Button></span>
+          ) : <>
           <Button size="lg" disabled={!!busy} onClick={() => go("approve")}>{busy === "approve" ? <Loader2 className="size-4 animate-spin motion-reduce:animate-none" /> : null} Approve {money(r.claimed_amount, r.currency)}</Button>
           {confirmReject
             ? <span className="inline-flex items-center gap-2 text-sm"><span>Reject {r.submitter}'s claim?</span><Button size="sm" variant="destructive" disabled={!!busy} onClick={() => go("reject")}>{busy === "reject" ? <Loader2 className="size-4 animate-spin motion-reduce:animate-none" /> : null} Reject</Button><Button size="sm" variant="ghost" onClick={() => setConfirmReject(false)}>Cancel</Button></span>
             : <Button size="lg" variant="ghost" disabled={!!busy} onClick={() => setConfirmReject(true)}>Reject</Button>}
+          {!waitingForClaimant(r) && <Button size="lg" variant="ghost" disabled={!!busy} onClick={() => setAsking(true)}>Ask the claimant</Button>}
+          </>}
           <span className="ml-auto text-sm text-foreground/60">
             {editWho ? <Input autoFocus value={who} onChange={e => setWho(e.target.value)} onBlur={() => setEditWho(false)} onKeyDown={e => e.key === "Enter" && setEditWho(false)} aria-label="Signed by" className="h-8 w-36" />
               : <>Signed by <button type="button" onClick={() => setEditWho(true)} className="-my-1 py-1 underline decoration-dotted underline-offset-2 hover:text-foreground">{who}</button></>}

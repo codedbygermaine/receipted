@@ -3,7 +3,8 @@ import { Link, useParams } from "react-router-dom"
 import { ArrowLeft } from "lucide-react"
 import { toast } from "sonner"
 import { Button } from "@/components/ui/button"
-import { getJob, getJobImage, type Result } from "@/lib/api"
+import { Input } from "@/components/ui/input"
+import { answer, getJob, getJobImage, waitingForClaimant, type Result } from "@/lib/api"
 import { DECISION, money } from "@/lib/format"
 import { ClaimReview } from "@/components/ClaimReview"
 
@@ -21,6 +22,8 @@ export default function Verdict() {
   const [r, setR] = useState<Result | null>(handoff?.result ?? null)
   const [img, setImg] = useState<string | null>(handoff?.image ?? null)
   const [missing, setMissing] = useState(false)
+  const [reply, setReply] = useState("")
+  const [sending, setSending] = useState(false)
 
   useEffect(() => {
     if (handoff && (handoff.result.job_id === jobId || jobId === "latest")) { handoff = null; return }
@@ -28,6 +31,13 @@ export default function Verdict() {
     getJob(jobId).then(res => { if (res) setR(res); else setMissing(true) }).catch(() => setMissing(true))
     getJobImage(jobId).then(setImg).catch(() => {})
   }, [jobId])
+
+  async function send() {
+    if (!r || !reply.trim()) return
+    setSending(true)
+    try { setR(await answer(r.job_id!, reply.trim())); setReply(""); toast("Sent to the approver.") }
+    catch (e) { console.error(e); toast("That didn't send. Try again in a moment.") } finally { setSending(false) }
+  }
 
   if (missing) return <Empty />
   if (!r) return <div className="mx-auto max-w-3xl animate-pulse space-y-4"><div className="h-10 w-64 rounded bg-muted" /><div className="h-64 rounded bg-muted" /></div>
@@ -40,11 +50,23 @@ export default function Verdict() {
     <div className="enter mx-auto max-w-3xl">
       <Link to="/claim" className="mb-6 inline-flex items-center gap-1 py-1 text-sm text-foreground/60 hover:text-foreground"><ArrowLeft className="size-4" /> Check another</Link>
 
-      <h1 className={`text-3xl font-semibold tracking-tight ${WORD[d.tone]}`}>{d.label}</h1>
+      <h1 className={`text-3xl font-semibold tracking-tight ${WORD[d.tone]}`}>{waitingForClaimant(r) ? "A question for you" : d.label}</h1>
       <p className="mt-2 max-w-xl text-foreground/70">
         {r.human ? <>Decided by {r.human.reviewer}{r.human.note ? `: ${r.human.note.replace(/[.\s]+$/, "")}` : ""}. </> : null}
         Claimed {money(r.claimed_amount, r.currency)}{r.purpose ? ` for ${r.purpose}` : ""}.
       </p>
+
+      {r.thread && r.thread.length > 0 && (
+        <div className="mt-6 divide-y border-y text-sm">
+          {r.thread.map((m, i) => <div key={i} className="py-2.5"><span className="text-foreground/60">{m.role === "approver" ? `${m.name} asks` : "You answered"}</span><div className="mt-0.5">{m.text}</div></div>)}
+        </div>
+      )}
+      {waitingForClaimant(r) && !r.human && (
+        <div className="mt-4 flex flex-wrap items-center gap-3">
+          <Input value={reply} onChange={e => setReply(e.target.value)} placeholder="Your answer" aria-label="Your answer" className="flex-1" onKeyDown={e => e.key === "Enter" && send()} />
+          <Button disabled={sending || !reply.trim()} onClick={send}>Send answer</Button>
+        </div>
+      )}
 
       <div className="mt-8"><ClaimReview r={r} image={img} muted={!!r.human} /></div>
 
