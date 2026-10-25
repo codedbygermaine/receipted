@@ -70,14 +70,28 @@ WEB_URL = os.environ.get("RECEIPTED_WEB_URL", "https://codedbygermaine.github.io
 
 
 def send_email(to: str, subject: str, body: str) -> bool:
-    """Transactional mail through SES. Never raises: a mail failure must not fail the claim. Returns success."""
+    """Transactional mail through SES, as plain text plus a simple HTML copy with a footer saying what it is.
+    Never raises: a mail failure must not fail the claim. Returns success."""
     if not (EMAIL_FROM and to):
         return False
+    import html as _html
+    paragraphs = "".join(f"<p style=\"margin:0 0 12px\">{_html.escape(p).replace(chr(10), '<br>')}</p>" for p in body.split("\n\n") if p.strip())
+    html_body = (
+        "<!doctype html><html><body style=\"margin:0;padding:24px;background:#f6f6f4;font-family:-apple-system,Segoe UI,Helvetica,Arial,sans-serif;color:#15181d\">"
+        "<div style=\"max-width:560px;margin:0 auto;background:#fff;border:1px solid #e4e6e1;border-radius:10px;padding:24px\">"
+        "<div style=\"font-weight:700;font-size:15px;margin-bottom:16px\">Receipted</div>"
+        f"<div style=\"font-size:15px;line-height:1.55\">{paragraphs}</div>"
+        "</div>"
+        f"<p style=\"max-width:560px;margin:14px auto 0;font-size:12px;color:#6b7280;line-height:1.5\">You are receiving this because this address was entered on an expense claim at "
+        f"<a href=\"{WEB_URL}\" style=\"color:#6b7280\">{WEB_URL}</a>, a demo built by Germaine. Replies to this email are not read.</p>"
+        "</body></html>")
+    text_body = body + f"\n\n--\nYou are receiving this because this address was entered on an expense claim at {WEB_URL}, a demo built by Germaine."
     try:
         import boto3
         boto3.client("sesv2").send_email(
             FromEmailAddress=f"Receipted <{EMAIL_FROM}>", Destination={"ToAddresses": [to]},
-            Content={"Simple": {"Subject": {"Data": subject}, "Body": {"Text": {"Data": body}}}})
+            Content={"Simple": {"Subject": {"Data": subject},
+                                "Body": {"Text": {"Data": text_body}, "Html": {"Data": html_body}}}})
         return True
     except Exception as e:  # noqa: BLE001
         print(f"email to {to[:3]}… failed: {type(e).__name__}: {str(e)[:200]}")
