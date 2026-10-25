@@ -14,7 +14,7 @@ from receipted import llm
 PROMPT_VERSION = "v3"
 VOTES = 1              # default: one rule-check run
 VOTES_HIGH_STAKES = 3  # above the two-approver threshold the judgement step runs 3 times and keeps the majority
-HIGH_STAKES = {"IDR": 500_000, "SGD": 500}   # the policy C7 thresholds per currency set
+from receipted.maths import TWO_APPROVER_THRESHOLD as HIGH_STAKES   # the policy C7 thresholds per currency set
 
 
 def votes_for(amount, currency: str | None) -> int:

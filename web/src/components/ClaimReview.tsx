@@ -29,11 +29,11 @@ export function ClaimReview({ r, image, muted = false }: { r: Result; image: str
             {rows.map(({ g, item }, k) => <Flagged key={k} issue={g.issue} also={g.also} item={item} currency={r.currency} muted={muted} />)}
           </div>
         ) : (
-          <p className="mt-3 text-sm text-foreground/70">No rule broken. A line was hard to read.</p>
+          <p className="mt-3 text-sm text-foreground/70">No issues found.</p>
         )}
         {rest.length > 0 && (
           <details className="mt-3 text-sm">
-            <summary className="cursor-pointer py-1 text-foreground/60 hover:text-foreground">{rows.length ? "Other lines" : "Lines read"}</summary>
+            <summary className="cursor-pointer py-1 text-foreground/60 hover:text-foreground">{rows.length ? "Remaining receipt items" : "Receipt items"}</summary>
             <ul className="mt-1 divide-y">
               {rest.map((it, i) => <li key={i} className={`flex justify-between gap-4 py-1.5 ${(it.line_total ?? 0) < 0 ? "text-foreground/60" : "text-foreground/80"}`}><span className="min-w-0 break-words">{it.name}{it.confidence && it.confidence !== "high" ? <span className="ml-2 text-xs text-foreground/60">hard to read</span> : null}</span><span className="shrink-0 text-xs tabular-nums">{money(it.line_total, null)}</span></li>)}
             </ul>
@@ -58,7 +58,7 @@ function Flagged({ issue, also, item, currency, muted }: { issue: Issue; also: s
       {also.map((m, k) => <p key={k} className="mt-1 text-sm text-foreground/60">{tidyMessage(m, item?.name)}</p>)}
       {clause && (
         <div className="mt-1">
-          <button type="button" onClick={() => setOpen(o => !o)} className="-my-1 py-1 text-xs text-foreground/60 underline-offset-2 hover:text-foreground hover:underline">{open ? "Hide the rule" : `Rule ${issue.clause_id || ""}`.trim()}</button>
+          <button type="button" onClick={() => setOpen(o => !o)} className="-my-1 py-1 text-xs text-foreground/60 underline-offset-2 hover:text-foreground hover:underline">{open ? "Hide the rule" : `View rule ${issue.clause_id || ""}`.trim()}</button>
           {open && <p className="mt-1.5 text-sm leading-relaxed text-foreground/70">{clause}</p>}
         </div>
       )}
@@ -85,6 +85,7 @@ export function Lightbox({ ref, src }: { ref: React.RefObject<HTMLDialogElement 
   return (
     <dialog ref={ref} onClick={e => { if (e.target === e.currentTarget) e.currentTarget.close() }}
       className="m-auto max-h-dvh max-w-[100vw] cursor-zoom-out bg-transparent p-4 backdrop:bg-black/60">
+      <button type="button" onClick={() => ref.current?.close()} aria-label="Close receipt" className="absolute right-6 top-6 grid size-9 place-items-center rounded-full bg-white/90 text-lg leading-none text-foreground shadow">×</button>
       {src && <img src={src} alt="Receipt photo, enlarged" className="enter max-h-[92dvh] max-w-full rounded-md bg-white" />}
     </dialog>
   )

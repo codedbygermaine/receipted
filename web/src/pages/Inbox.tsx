@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { Link, useNavigate } from "react-router-dom"
+import { Link, useNavigate, useSearchParams } from "react-router-dom"
 import { ArrowLeft, Loader2 } from "lucide-react"
 import { toast } from "sonner"
 import { Button } from "@/components/ui/button"
@@ -14,6 +14,8 @@ export default function Inbox() {
   const [error, setError] = useState(false)
   const [sel, setSel] = useState<string | null>(null)
   const [mobileOpen, setMobileOpen] = useState(false)   // on small screens the claim replaces the list
+  const [params] = useSearchParams()
+  const wanted = params.get("job")   // "Review this claim" on a verdict opens that claim here
 
   async function load(keep?: string | null) {
     try {
@@ -22,7 +24,7 @@ export default function Inbox() {
       setSel(want && d.pending.some(p => p.job_id === want) ? want : d.pending[0]?.job_id ?? null)
     } catch (e) { console.error(e); setError(true) }
   }
-  useEffect(() => { load(); const onFocus = () => load(); window.addEventListener("focus", onFocus); return () => window.removeEventListener("focus", onFocus) }, [])   // eslint-disable-line react-hooks/exhaustive-deps
+  useEffect(() => { load(wanted); if (wanted) setMobileOpen(true); const onFocus = () => load(); window.addEventListener("focus", onFocus); return () => window.removeEventListener("focus", onFocus) }, [])   // eslint-disable-line react-hooks/exhaustive-deps
 
   const pending = data?.pending ?? []
   const current = pending.find(p => p.job_id === sel) ?? null
@@ -56,7 +58,7 @@ export default function Inbox() {
                     className={`block w-full border-l-2 px-3 py-3 text-left transition-colors ${on ? "border-foreground bg-muted" : "border-transparent hover:bg-muted/50"}`}>
                     <div className="flex items-baseline justify-between gap-3"><span className="font-medium tabular-nums">{money(p.claimed_amount, p.currency)}</span><span className="shrink-0 text-xs text-foreground/60">{ago(claimTime(p.claim_id))}</span></div>
                     <div className="mt-0.5 truncate text-sm text-foreground/70">{p.submitter}{p.purpose ? `, ${p.purpose}` : ""}</div>
-                    <div className="mt-0.5 truncate text-sm text-foreground/60">{g.length ? issueTitle(g[0].issue) + (g.length > 1 ? ` and ${g.length - 1} more` : "") : "A line was hard to read"}</div>
+                    <div className="mt-0.5 truncate text-sm text-foreground/60">{g.length ? g.slice(0, 2).map(x => issueTitle(x.issue)).join(", ") + (g.length > 2 ? ` and ${g.length - 2} more` : "") : "A line was hard to read"}</div>
                   </button>
                 )
               })}
@@ -82,7 +84,7 @@ export default function Inbox() {
 
         <div className={`min-w-0 ${mobileOpen ? "" : "hidden lg:block"}`}>
           {current ? <Claim key={current.job_id} r={current} onBack={() => setMobileOpen(false)} onSettled={settled} />
-            : data && pending.length === 0 ? null : <p className="pt-2 text-sm text-foreground/60">Select a claim.</p>}
+            : !data ? <p className="pt-2 text-sm text-foreground/60">Loading claims…</p> : null}
         </div>
       </div>
     </div>
@@ -93,7 +95,7 @@ function Claim({ r, onBack, onSettled }: { r: Result; onBack: () => void; onSett
   const nav = useNavigate()
   const [img, setImg] = useState<string | null>(null)
   const [note, setNote] = useState("")
-  const [who, setWho] = useState("Finance")
+  const [who, setWho] = useState("Demo approver")
   const [editWho, setEditWho] = useState(false)
   const [busy, setBusy] = useState<"approve" | "reject" | null>(null)
   const [confirmReject, setConfirmReject] = useState(false)
@@ -102,7 +104,7 @@ function Claim({ r, onBack, onSettled }: { r: Result; onBack: () => void; onSett
   async function go(decision: "approve" | "reject") {
     setBusy(decision)
     try {
-      const res = await decide(r.job_id!, decision, note.trim(), who.trim() || "Finance")
+      const res = await decide(r.job_id!, decision, note.trim(), who.trim() || "Demo approver")
       toast(decision === "approve" ? `Approved. ${r.submitter} gets the reply.` : `Rejected. ${r.submitter} gets the reply.`, { action: { label: "Read it", onClick: () => nav(`/claim/${r.job_id}`) } })
       onSettled(r.job_id!, res)
     } catch (e) { console.error(e); toast.error("That didn't save. Try again in a moment."); setBusy(null) }
@@ -124,7 +126,7 @@ function Claim({ r, onBack, onSettled }: { r: Result; onBack: () => void; onSett
       <div className="mt-8 border-t pt-6">
         <Input value={note} onChange={e => setNote(e.target.value)} placeholder="Add a note for the reply" aria-label="Note for the reply" />
         <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-2">
-          <Button size="lg" disabled={!!busy} onClick={() => go("approve")}>{busy === "approve" ? <Loader2 className="size-4 animate-spin motion-reduce:animate-none" /> : null} Approve</Button>
+          <Button size="lg" disabled={!!busy} onClick={() => go("approve")}>{busy === "approve" ? <Loader2 className="size-4 animate-spin motion-reduce:animate-none" /> : null} Approve {money(r.claimed_amount, r.currency)}</Button>
           {confirmReject
             ? <span className="inline-flex items-center gap-2 text-sm"><span>Reject {r.submitter}'s claim?</span><Button size="sm" variant="destructive" disabled={!!busy} onClick={() => go("reject")}>{busy === "reject" ? <Loader2 className="size-4 animate-spin motion-reduce:animate-none" /> : null} Reject</Button><Button size="sm" variant="ghost" onClick={() => setConfirmReject(false)}>Cancel</Button></span>
             : <Button size="lg" variant="ghost" disabled={!!busy} onClick={() => setConfirmReject(true)}>Reject</Button>}

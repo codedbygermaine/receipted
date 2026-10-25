@@ -3,9 +3,9 @@
 const STEPS = [
   ["Reads the receipt", "The photo becomes a list of items and prices."],
   ["Does the maths", "Do the items add up to the total? Does the claim match the receipt?"],
-  ["Looks up the rules", "Your expense policy and agreed supplier prices."],
-  ["Checks each line", "Is anything on the receipt against a rule? Every flag has to name the line and the rule."],
-  ["Double-checks", "A flag that doesn't match the receipt is thrown away."],
+  ["Looks up the rules", "The demo policy and its reference prices."],
+  ["Checks the claim", "Is anything on the receipt or in the claim against a rule? Every flag has to name the line and the rule."],
+  ["Double-checks", "Every flag's evidence and arithmetic are checked in code; unsupported flags are dropped."],
   ["Decides", "Approve, hold for an approver, or reject."],
   ["Writes the reply", "A short message to the claimant saying what happens next."],
 ]
@@ -18,13 +18,12 @@ const RULES = [
   "Claims over $500 need two approvers.",
   "A receipt can't be claimed twice.",
 ]
-const NUMBERS = [["Planted errors caught", "48 of 50"], ["Clean claims wrongly flagged", "8 of 41"], ["Decisions right", "83%"], ["Receipt totals read correctly", "97%"], ["Fabricated digits when the total was hidden", "0 of 98"], ["Cost per claim", "$0.0013"]]
+const NUMBERS = [["Planted errors caught", "48 of 50"], ["Clean claims wrongly flagged", "8 of 41"], ["Decision accuracy", "83%"], ["Receipt totals read correctly", "97%"], ["Fabricated digits when the total was hidden", "0 of 98"], ["Model cost per claim (USD)", "$0.0013"]]
 
 export default function About() {
   return (
     <div className="mx-auto max-w-2xl">
       <h1 className="text-2xl font-semibold tracking-tight sm:text-3xl">How it works</h1>
-      <p className="mt-3 text-lg text-foreground/70">Someone pays for something for work and claims the money back. Before it is paid, a person in finance checks the claim by hand. Receipted does the checking: you give it the receipt photo and the claim, and it tells you whether the claim can be paid and why.</p>
 
       <h2 className="mt-10 text-base font-semibold">What happens when you press Check</h2>
       <ol className="mt-4 grid gap-3">
@@ -33,7 +32,7 @@ export default function About() {
         ))}
       </ol>
 
-      <h2 className="mt-10 text-base font-semibold">The expense policy it checks against</h2>
+      <h2 className="mt-10 text-base font-semibold">Demo expense policy (SGD)</h2>
       <ul className="mt-3 grid gap-1.5 text-sm text-foreground/80">{RULES.map(r => <li key={r}>{r}</li>)}</ul>
 
       <h2 className="mt-10 text-base font-semibold">How well it does</h2>
@@ -41,7 +40,7 @@ export default function About() {
       <dl className="mt-3 divide-y border-y">
         {NUMBERS.map(([k, v]) => <div key={k} className="flex items-baseline justify-between py-2.5 text-sm"><dt>{k}</dt><dd className="font-medium tabular-nums">{v}</dd></div>)}
       </dl>
-      <p className="mt-4 text-sm text-foreground/60">Full evaluation: <a className="underline underline-offset-2 hover:text-foreground" href="https://github.com/codedbygermaine/receipted" target="_blank" rel="noopener">github.com/codedbygermaine/receipted</a></p>
+      <p className="mt-4 text-sm text-foreground/60">Full evaluation: <a className="underline underline-offset-2 hover:text-foreground" href="https://github.com/codedbygermaine/receipted/blob/main/docs/evaluation.md" target="_blank" rel="noopener">docs/evaluation.md</a></p>
     </div>
   )
 }

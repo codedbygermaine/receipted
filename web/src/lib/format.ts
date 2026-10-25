@@ -10,7 +10,7 @@ export function money(v: number | null | undefined, cur: string | null | undefin
 
 export const DECISION: Record<Decision, { label: string; tone: "ok" | "hold" | "no" }> = {
   approve: { label: "Approved", tone: "ok" },
-  needs_review: { label: "Needs an approver's decision", tone: "hold" },
+  needs_review: { label: "Awaiting approval", tone: "hold" },
   reject: { label: "Can't be paid as filed", tone: "no" },
 }
 
@@ -33,6 +33,15 @@ const TITLES: Record<string, string> = {
   possible_personal_item: "Looks like a personal item",
   duplicate_receipt: "This receipt was already claimed",
   low_confidence_lines: "A line was hard to read",
+  two_approvers_required: "Needs a second approver",
+  meal_per_person_above_limit: "Meal over the per-person limit",
+  meal_above_per_person_limit: "Meal over the per-person limit",
+  meal_above_40_per_person: "Meal over the per-person limit",
+  price_above_list: "Price above the agreed list",
+  personal_item_clothing: "Clothing is a personal item",
+  alcohol: "Alcohol isn't reimbursable",
+  unreadable_receipt_totals: "Totals were hard to read",
+  unreadable_receipt_line: "A line was hard to read",
 }
 export function issueTitle(i: Issue) {
   if (TITLES[i.type]) return TITLES[i.type]

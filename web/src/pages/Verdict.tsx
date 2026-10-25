@@ -12,6 +12,13 @@ import { ClaimReview } from "@/components/ClaimReview"
 let handoff: { result: Result; image: string } | null = null
 export function rememberResult(result: Result, image: string) { handoff = { result, image } }
 
+/* "Edit claim" on a verdict reopens the form with what was entered. Kept in memory for the session only. */
+export type SavedForm = { sample: import("@/lib/samples").Sample | null; file: File | null; preview: string | null; purpose: string; amount: string; who: string; people: string }
+let saved: SavedForm | null = null
+export function rememberForm(f: SavedForm) { saved = f }
+export function takeForm(): SavedForm | null { const f = saved; saved = null; return f }
+
+
 const WORD = { ok: "text-emerald-700", hold: "text-amber-700", no: "text-red-700" }
 
 export default function Verdict() {
@@ -36,7 +43,10 @@ export default function Verdict() {
 
   return (
     <div className="enter mx-auto max-w-3xl">
-      <Link to="/claim" className="mb-6 inline-flex items-center gap-1 py-1 text-sm text-foreground/60 hover:text-foreground"><ArrowLeft className="size-4" /> Check another</Link>
+      <div className="mb-6 flex items-center gap-4 text-sm">
+        <Link to="/claim" onClick={() => { saved = null }} className="inline-flex items-center gap-1 py-1 text-foreground/60 hover:text-foreground"><ArrowLeft className="size-4" /> Check another</Link>
+        {saved && <Link to="/claim" className="py-1 text-foreground/60 underline underline-offset-2 hover:text-foreground">Edit claim</Link>}
+      </div>
 
       <h1 className={`text-3xl font-semibold tracking-tight ${WORD[d.tone]}`}>{d.label}</h1>
       <p className="mt-2 max-w-xl text-foreground/70">
@@ -47,12 +57,12 @@ export default function Verdict() {
       <div className="mt-8"><ClaimReview r={r} image={img} muted={!!r.human} /></div>
 
       <details className="mt-8 text-sm">
-        <summary className="cursor-pointer py-1 text-foreground/60 hover:text-foreground">{held ? "The message you've been sent" : "Read the message"}</summary>
+        <summary className="cursor-pointer py-1 text-foreground/60 hover:text-foreground">Claim message</summary>
         <div className="relative mt-2 whitespace-pre-wrap rounded-md bg-muted/50 p-4 pr-20 leading-relaxed text-foreground/80">{r.draft}
           <Button variant="ghost" size="sm" className="absolute right-2 top-2" onClick={() => { navigator.clipboard.writeText(r.draft); toast("Copied") }}>Copy</Button>
         </div>
       </details>
-      {held && <p className="mt-6 text-sm"><Link to="/inbox" className="text-foreground/70 underline underline-offset-2 hover:text-foreground">Open the approvals inbox</Link></p>}
+      {held && <p className="mt-6 text-sm"><Link to={`/inbox?job=${r.job_id ?? ""}`} className="text-foreground/70 underline underline-offset-2 hover:text-foreground">Review this claim as the approver</Link></p>}
     </div>
   )
 }

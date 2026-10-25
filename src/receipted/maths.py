@@ -59,6 +59,12 @@ PERSONAL_ITEM_WORDS = (
 )
 
 
+# Policy C7: a single claim above this needs two approvers, so the checker must hold it rather than approve it.
+# Enforced in code because a mandatory control cannot depend on the model noticing it every time (it raised C7
+# on 1 of 3 test claims). The rule-check voting uses the same thresholds.
+TWO_APPROVER_THRESHOLD = {"IDR": 500_000, "SGD": 500}
+
+
 def _amt(v, receipt: dict | None = None) -> str:
     """An amount the way a person would read it: the receipt's currency, two decimals for cent currencies."""
     if v is None:
@@ -112,7 +118,8 @@ def check_receipt(receipt: dict) -> list[dict]:
         if targets and not any(close(ls, v, tol) for v in targets):
             shows = " and ".join(f"a {k} of {_amt(v, receipt)}" for k, v in (("subtotal", sub), ("total", total)) if v is not None)
             issues.append(issue("lines_vs_totals", "medium",
-                                f"The items add up to {_amt(ls, receipt)}, but the receipt shows {shows}",
+                                f"The items as read add up to {_amt(ls, receipt)}, but the receipt shows {shows}. "
+                                f"A line may have been misread, so a person should check the receipt",
                                 {"line_sum": ls, "subtotal": sub, "total": total}))
 
     issues += check_personal_items(receipt)
@@ -161,13 +168,24 @@ def check_claim(claim: dict, receipt: dict) -> list[dict]:
     if amount is not None and receipt_total is not None and not close(amount, receipt_total, tol):
         if amount > receipt_total:
             issues.append(issue("claim_exceeds_receipt", "high",
-                                f"Claimed {amount} but the receipt total is {receipt_total}",
+                                f"Claimed {_amt(amount, receipt)}, but the receipt total is {_amt(receipt_total, receipt)} "
+                                f"({_amt(amount - receipt_total, receipt)} more)",
                                 {"claimed": amount, "receipt_total": receipt_total,
                                  "difference": amount - receipt_total}))
         else:
             issues.append(issue("claim_below_receipt", "low",
-                                f"Claimed {amount}, less than the receipt total {receipt_total}",
+                                f"Claimed {_amt(amount, receipt)}, less than the receipt total of {_amt(receipt_total, receipt)}",
                                 {"claimed": amount, "receipt_total": receipt_total}))
+
+    # C7: above the two-approver threshold the claim is held for a second approver, whatever else is found.
+    cur = (receipt.get("currency") or "IDR").upper()
+    threshold = TWO_APPROVER_THRESHOLD.get(cur, TWO_APPROVER_THRESHOLD["IDR"])
+    if amount is not None and amount > threshold:
+        issues.append({**issue("two_approvers_required", "medium",
+                               f"{_amt(amount, receipt)} is above the {_amt(threshold, receipt)} two-approver threshold, "
+                               f"so a second approver must sign off before payment",
+                               {"amount": amount, "threshold": threshold}),
+                       "clause_id": "C7"})
 
     claim_items = claim.get("items") or []
 

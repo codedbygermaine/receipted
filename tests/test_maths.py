@@ -143,3 +143,16 @@ def test_personal_items_are_held_for_confirmation_under_c6():
     found = [i for i in check_receipt(r) if i["type"] == "possible_personal_item"]
     assert len(found) == 1 and found[0]["clause_id"] == "C6" and found[0]["severity"] == "medium"
     assert found[0]["receipt_line"] == "Plu# 10043 ACTAL TABLET 4.80"
+
+
+def test_two_approver_threshold_is_enforced_in_code():
+    """Policy C7: a claim above the threshold is held for a second approver, whatever else is found."""
+    from receipted.maths import check_claim
+    receipt = {"currency": "SGD", "items": [{"name": "Projector", "qty": 1, "line_total": 620.0}], "total": 620.0}
+    issues = check_claim({"purpose": "Projector for the launch", "amount": 620.0, "items": []}, receipt)
+    c7 = [i for i in issues if i["type"] == "two_approvers_required"]
+    assert len(c7) == 1 and c7[0]["clause_id"] == "C7" and c7[0]["severity"] == "medium"
+    assert "SGD 620.00" in c7[0]["message"] and "SGD 500.00" in c7[0]["message"]
+    # below the threshold nothing is raised
+    receipt["total"] = 120.0
+    assert not [i for i in check_claim({"purpose": "Cables", "amount": 120.0, "items": []}, receipt) if i["type"] == "two_approvers_required"]

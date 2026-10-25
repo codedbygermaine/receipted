@@ -39,7 +39,7 @@ flowchart LR
 - **Each job goes to the right tool.** The image model reads the messy photo. Plain Python does the arithmetic, because code is exact and models are not. Chroma finds the policy clauses and price rows that matter, for the receipt's currency.
 - **Every flag needs evidence.** The rule-check model may raise an issue only if it cites a clause and a receipt line. A verifier in plain Python drops any issue whose clause does not exist, whose line is not in the extraction, or whose price comparison does not hold when redone in code. Dropped issues are counted.
 - **It knows when to pass to a person.** Unreadable images go straight to review. Medium-severity findings are held for an approver; only high-severity findings with evidence produce a reject. A held claim pauses the LangGraph run at a checkpoint and resumes from the approver's decision.
-- **It is built like a production system.** Votes on the model's judgement for large claims, confidence calibrated on real documents, an audit record for every decision, reviewer corrections kept as labelled cases, card numbers masked in code, a regression gate in CI. Details and sources in [docs/production.md](docs/production.md).
+- **It borrows the practices of production systems.** Votes on the model's judgement for large claims, confidence calibrated on real documents, an audit record for every decision, reviewer corrections kept as labelled cases, card numbers masked in code, a regression gate in CI. Details and sources in [docs/production.md](docs/production.md).
 
 ## Run it
 

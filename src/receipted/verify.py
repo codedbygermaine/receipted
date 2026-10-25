@@ -53,6 +53,9 @@ def verify(issues: list[dict], receipt: dict, clauses: dict, price_list: dict) -
     kept, dropped = [], []
     for issue in issues:
         if issue["source"] != "rules":
+            cl = clauses.get(issue.get("clause_id") or "")
+            if cl is not None and "clause_text" not in (issue.get("evidence") or {}):
+                issue = {**issue, "evidence": {**(issue.get("evidence") or {}), "clause_text": f"{cl['id']}. {cl['title']}: {cl['text']}"}}
             kept.append(issue)
             continue
 
