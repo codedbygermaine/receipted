@@ -24,6 +24,12 @@ Receipted help a person who approves expenses make correct decisions faster, and
 | Override | A claim where the approver's decision differed from the tool's. The approver says why, in one sentence, recorded verbatim. |
 | Trust | After the session, three questions scored 1 to 5: Did you understand why each claim was held? Did the flags point at the right line? Would you use this for your own claims? |
 
+## Recording and writing up
+
+Fill `results/pilot_sheet.csv` during the sessions, one row per claim (the columns are explained at the top of
+`eval/pilot_summary.py`). Then run `.venv/bin/python eval/pilot_summary.py` and paste its output under a
+"Reviewer pilot" heading in `docs/evaluation.md`, with one paragraph on what the approvers said.
+
 ## What gets published
 
 In `docs/evaluation.md`, under a "Reviewer pilot" heading: minutes per correct decision with and without the
